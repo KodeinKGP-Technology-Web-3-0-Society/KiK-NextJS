@@ -12,12 +12,12 @@ function Navbar() {
 	}
 
 	return (
-		<div className={`sticky top-0 z-20 flex flex-wrap justify-between items-center px-4 md:px-8 bg-[rgba(1,1,27,0.6)] max-w-[99%] min-h-[5rem] ${isOpen ? 'flex-col h-screen bg-black w-full' : ''}`}>
+		<div className={`sticky top-0 z-20 flex flex-wrap justify-between items-center px-2 bg-[rgba(1,1,27,0.6)] max-w-[99%] min-h-[5rem] ${isOpen ? 'flex-col h-screen bg-black w-full' : ''}`}>
 			
 			<div className={`flex flex-row items-center ml-[1.5vw] min-w-[20vw] ${isOpen ? 'hidden' : 'block'} md:flex`}>
 				<div className="flex items-center gap-[5px] text-[1.2rem]">
 					<Image src={Logo} alt="KodeinKGP Logo" className="w-[60px] h-[60px] p-[5px]" />
-					<h4 className="text-white font-bold">KodeinKGP</h4>
+					<h4 className="text-white font-semibold">KodeinKGP</h4>
 				</div>
 			</div>
 
@@ -33,14 +33,14 @@ function Navbar() {
 
 			<div className={`min-w-[26vw] ml-auto ${isOpen ? 'flex justify-center items-center h-full w-full' : 'hidden'} md:block`}>
 
-				<div className={`flex ${isOpen ? 'flex-col' : 'flex-row'} items-center ${isOpen ? 'gap-4' : 'gap-[4rem]'}`}>
+				<div className={`flex font-[Arial] ${isOpen ? 'flex-col' : 'flex-row'} items-center ${isOpen ? 'gap-4' : 'gap-[4rem]'}`}>
 					
 					<div className={`flex ${isOpen ? 'flex-col gap-4 items-start' : 'flex-row -mr-[20px]'}`}>
 						
 						<li className='cursor-pointer list-none' onClick={() => { if (isOpen) toggleMenu() }}>
 							<span className="relative flex flex-col items-center group text-[1.2rem] mx-[25px]">
 								<Link
-									className="no-underline text-white transition-colors duration-300 font-medium pb-[15px] tracking-wide bg-gradient-to-br"
+									className="no-underline text-white transition-colors duration-300 pb-[15px] tracking-wide bg-gradient-to-br"
 									href="/"
 								>
 									Home
@@ -52,7 +52,7 @@ function Navbar() {
 						<li className='cursor-pointer list-none' onClick={() => { if (isOpen) toggleMenu() }}>
 							<span className="relative flex flex-col items-center group text-[1.2rem] mx-[25px]">
 								<Link
-									className="no-underline text-white transition-colors duration-300 font-medium pb-[15px] tracking-wide bg-gradient-to-br"
+									className="no-underline text-white transition-colors duration-300 pb-[15px] tracking-wide bg-gradient-to-br"
 									href="/pds"
 								>
 									PDS_Bank
@@ -64,7 +64,7 @@ function Navbar() {
 						<li className='cursor-pointer list-none' onClick={() => { if (isOpen) toggleMenu() }}>
 							<span className="relative flex flex-col items-center group text-[1.2rem] mx-[25px]">
 								<Link
-									className="no-underline text-white transition-colors duration-300 font-medium pb-[15px] tracking-wide bg-gradient-to-br"
+									className="no-underline text-white transition-colors duration-300 pb-[15px] tracking-wide bg-gradient-to-br"
 									href="/articles"
 								>
 									Articles
@@ -76,7 +76,7 @@ function Navbar() {
 						<li className='cursor-pointer list-none' onClick={() => { if (isOpen) toggleMenu() }}>
 							<span className="relative flex flex-col items-center group text-[1.2rem] mx-[25px]">
 								<Link
-									className="no-underline text-white transition-colors duration-300 font-medium pb-[15px] tracking-wide bg-gradient-to-br"
+									className="no-underline text-white transition-colors duration-300 pb-[15px] tracking-wide bg-gradient-to-br"
 									href="/teams"
 								>
 									Teams
@@ -88,7 +88,7 @@ function Navbar() {
 						<li className='cursor-pointer list-none' onClick={() => { if (isOpen) toggleMenu() }}>
 							<span className="relative flex flex-col items-center group text-[1.2rem] mx-[25px]">
 								<Link
-									className="no-underline text-white transition-colors duration-300 font-medium pb-[15px] tracking-wide bg-gradient-to-br"
+									className="no-underline text-white transition-colors duration-300 pb-[15px] tracking-wide bg-gradient-to-br"
 									href="/events"
 								>
 									Events
@@ -100,7 +100,7 @@ function Navbar() {
 						<li className='cursor-pointer list-none' onClick={() => { if (isOpen) toggleMenu() }}>
 							<span className="relative flex flex-col items-center group text-[1.2rem] mx-[25px]">
 								<Link
-									className="no-underline text-white transition-colors duration-300 font-medium pb-[15px] tracking-wide bg-gradient-to-br"
+									className="no-underline text-white transition-colors duration-300 pb-[15px] tracking-wide bg-gradient-to-br"
 									href="/regform"
 								>
 									Registration Form

@@ -2,20 +2,29 @@
 import React from 'react'
 import Image from 'next/image'
 import Logo from '../../../public/KIK_logo-removebg.png'
+import { Poppins } from 'next/font/google'
+import IonIcon from '../utils/ionicon'
+
+const poppins = Poppins({
+	subsets: ['latin'],
+	weight: ['400', '500', '600', '700'], 
+	variable: '--font-poppins',
+	display: 'swap',
+})
 
 export default function Footer() {
 	return (
 		<div
 			id="footer"
-			className="bg-transparent flex flex-wrap justify-between items-center text-left mt-8 text-white font-[Poppins] border border-[#01011b] border-t-[#3f3e45]"
+			className={`bg-transparent flex flex-wrap justify-between items-center text-left mt-8 text-white ${poppins.variable} border border-[#01011b] border-t-[#3f3e45]`}
 		>
-			<div className="p-4 my-4 mx-10 sm:mx-4" id="footerItem1">
-				<div className="flex items-center mb-2">
+			<div className="px-8 py-3 my-4 mx-10 sm:mx-4" id="footerItem1">
+				<div className="flex flex-col justify-center mb-2">
 					<Image src={Logo} alt="KiK Logo" id="KiKLogo" className="w-[50px]" />
-					<h2 className="mt-2 ml-2 text-lg font-semibold">KodeinKGP</h2>
+					<h2 className="mt-2 text-2xl font-extrabold">KodeinKGP</h2>
 				</div>
 				<div className="mt-4">
-					<p className="text-sm">
+					<p className="text-md">
 						Indian Institute of Technology Kharagpur,
 						<br />
 						West Bengal - 721302
@@ -23,19 +32,19 @@ export default function Footer() {
 				</div>
 				<div className="my-8 flex flex-wrap">
 					<a className="mr-4 my-2" target="_blank" href="https://www.facebook.com/kodeinkgp?mibextid=ZbWKwL" rel="noreferrer">
-						<ion-icon size="large" name="logo-facebook" className="text-white"></ion-icon>
+						<IonIcon size="large" name="logo-facebook" className="text-white"></IonIcon>
 					</a>
 					<a className="mr-4 my-2" target="_blank" href="https://www.instagram.com/kodeinkgp_iitkgp?igsh=cmhyMXM3YTA5YzZm" rel="noreferrer">
-						<ion-icon size="large" name="logo-instagram" className="text-white"></ion-icon>
+						<IonIcon size="large" name="logo-instagram" className="text-white"></IonIcon>
 					</a>
 					<a className="mr-4 my-2" target="_blank" href="https://www.linkedin.com/company/kodeinkgp/" rel="noreferrer">
-						<ion-icon size="large" name="logo-linkedin" className="text-white"></ion-icon>
+						<IonIcon size="large" name="logo-linkedin" className="text-white"></IonIcon>
 					</a>
 					<a className="mr-4 my-2" target="_blank" href="https://medium.com/@kodeinkgp" rel="noreferrer">
-						<ion-icon size="large" name="logo-medium" className="text-white"></ion-icon>
+						<IonIcon size="large" name="logo-medium" className="text-white"></IonIcon>
 					</a>
 					<a className="mr-4 my-2" target="_blank" href="https://chat.whatsapp.com/IFt69sSqZsu7FlRWl3EIbk" rel="noreferrer">
-						<ion-icon size="large" name="logo-whatsapp" className="text-white"></ion-icon>
+						<IonIcon size="large" name="logo-whatsapp" className="text-white"></IonIcon>
 					</a>
 				</div>
 			</div>

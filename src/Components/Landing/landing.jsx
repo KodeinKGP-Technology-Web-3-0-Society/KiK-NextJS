@@ -176,11 +176,11 @@ const Landing = () => {
 
 	return (
 		<div className="bg-[#01011b] flex flex-col h-full w-full overflow-hidden">
-			<div className="flex flex-col md:flex-row justify-between p-5 md:pl-10">
-				<div className="text-center md:text-left text-lg p-5 md:p-8 md:w-1/2">
-					<h1 className="text-white text-[40px] font-semibold text-left lg:text-[50px] xl:text-[65px]">
-						<div className="Welcome">Welcome to</div>
-						<span className="text-[50px] lg:text-[60px] xl:text-[80px] font-extrabold bg-gradient-to-br from-[#11E3FB] via-[#5BE6FF] to-[#B5F6FD] bg-clip-text text-transparent text-center">
+			<div className="flex flex-col md:flex-row justify-between p-3 md:pl-10">
+				<div className="text-center md:text-left text-lg p-3 md:p-8 md:w-1/2">
+					<h1 className="text-white font-semibold text-left font-[Arial]">
+						<div className='md:text-[65px] text-[50px]'>Welcome to</div>
+						<span className="md:text-[80px] text-[60px] font-extrabold bg-gradient-to-br from-[#11E3FB] via-[#5BE6FF] to-[#B5F6FD] bg-clip-text text-transparent text-center">
 							KodeinKGP
 						</span>
 					</h1>
@@ -205,20 +205,21 @@ const Landing = () => {
 					<Lottie animationData={main} className="" />
 				</div>
 			</div>
-			<div className="bottom-bar flex flex-col md:flex-row justify-between items-start text-left px-8 md:px-[60px] pb-[60px]">
-				<div className="text text-white text-2xl font-semibold">
-					260+ <span className="text-transparent bg-clip-text bg-gradient-to-br from-[#11e3fb] via-[#5be6ff] to-[#11e3fb] text-xl">PDS Problems</span>
+			<div className="bottom-bar flex flex-col md:flex-row justify-between items-start text-left px-8 md:px-[60px] pb-[60px] gap-8 md:gap-16">
+				<div className="text text-white text-3xl font-semibold">
+					260+ <span className="text-transparent bg-clip-text bg-gradient-to-br from-[#11e3fb] via-[#5be6ff] to-[#11e3fb] text-2xl">PDS Problems</span>
 				</div>
-				<div className="text text-white text-2xl font-semibold">
-					17+ <span className="text-transparent bg-clip-text bg-gradient-to-br from-[#11e3fb] via-[#5be6ff] to-[#11e3fb] text-xl">Articles</span>
+				<div className="text text-white text-3xl font-semibold">
+					17+ <span className="text-transparent bg-clip-text bg-gradient-to-br from-[#11e3fb] via-[#5be6ff] to-[#11e3fb] text-2xl">Articles</span>
 				</div>
-				<div className="text text-white text-2xl font-semibold">
-					15+ <span className="text-transparent bg-clip-text bg-gradient-to-br from-[#11e3fb] via-[#5be6ff] to-[#11e3fb] text-xl">Events</span>
+				<div className="text text-white text-3xl font-semibold">
+					15+ <span className="text-transparent bg-clip-text bg-gradient-to-br from-[#11e3fb] via-[#5be6ff] to-[#11e3fb] text-2xl">Events</span>
 				</div>
-				<div className="text text-white text-2xl font-semibold">
-					7000+ <span className="text-transparent bg-clip-text bg-gradient-to-br from-[#11e3fb] via-[#5be6ff] to-[#11e3fb] text-xl">Community Members</span>
+				<div className="text text-white text-3xl font-semibold">
+					7000+ <span className="text-transparent bg-clip-text bg-gradient-to-br from-[#11e3fb] via-[#5be6ff] to-[#11e3fb] text-2xl">Community Members</span>
 				</div>
 			</div>
+
 		</div>
 	)
 }

@@ -1,15 +1,5 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { library } from '@fortawesome/fontawesome-svg-core'
-import {
-  faFacebook,
-  faInstagram,
-  faLinkedin,
-  faGithub,
-} from '@fortawesome/free-brands-svg-icons'
-import { faEnvelope } from '@fortawesome/free-solid-svg-icons'
+import { Facebook, Instagram, Linkedin, Github, Mail } from 'lucide-react'
 import Head from '../../data/teams/Heads.json'
-
-library.add(faFacebook, faInstagram, faEnvelope, faLinkedin, faGithub)
 
 const Heads = () => {
   function eachHead(head) {
@@ -46,7 +36,7 @@ const Heads = () => {
                 rel="noreferrer"
                 className="text-[20px] text-[#3dc4d4] hover:text-[#4ff4fd] transition-colors block"
               >
-                <FontAwesomeIcon icon={['fab', 'facebook']} />
+                <Facebook size={20} />
               </a>
             )}
             {head.mailid && (
@@ -56,7 +46,7 @@ const Heads = () => {
                 rel="noreferrer"
                 className="text-[20px] text-[#3dc4d4] hover:text-[#4ff4fd] transition-colors block"
               >
-                <FontAwesomeIcon icon="envelope" />
+                <Mail size={20} />
               </a>
             )}
             {head.instagram && (
@@ -66,7 +56,7 @@ const Heads = () => {
                 rel="noreferrer"
                 className="text-[20px] text-[#3dc4d4] hover:text-[#4ff4fd] transition-colors block"
               >
-                <FontAwesomeIcon icon={['fab', 'instagram']} />
+                <Instagram size={20} />
               </a>
             )}
             {head.linkedin && (
@@ -76,7 +66,7 @@ const Heads = () => {
                 rel="noreferrer"
                 className="text-[20px] text-[#3dc4d4] hover:text-[#4ff4fd] transition-colors block"
               >
-                <FontAwesomeIcon icon={['fab', 'linkedin']} />
+                <Linkedin size={20} />
               </a>
             )}
             {head.github && (
@@ -86,7 +76,7 @@ const Heads = () => {
                 rel="noreferrer"
                 className="text-[20px] text-[#3dc4d4] hover:text-[#4ff4fd] transition-colors block"
               >
-                <FontAwesomeIcon icon={['fab', 'github']} />
+                <Github size={20} />
               </a>
             )}
           </div>
@@ -95,10 +85,6 @@ const Heads = () => {
           </h5>
         </div>
       </article>
-      
-
-
-
     )
   }
 
@@ -106,7 +92,6 @@ return (
   <div className="flex w-[95%] max-w-[1400px] flex-wrap items-center justify-around gap-8">
     {Head.map(eachHead)}
   </div>
-  
 )
 }
 

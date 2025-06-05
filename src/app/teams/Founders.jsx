@@ -1,14 +1,4 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { library } from '@fortawesome/fontawesome-svg-core'
-import {
-	faFacebook,
-	faInstagram,
-	faLinkedin,
-	faGithub,
-} from '@fortawesome/free-brands-svg-icons'
-import { faEnvelope } from '@fortawesome/free-solid-svg-icons'
-
-library.add(faFacebook, faInstagram, faEnvelope, faLinkedin, faGithub)
+import { Facebook, Mail, Instagram, Linkedin, Github } from 'lucide-react'
 
 const Founders = () => {
 	return (
@@ -40,7 +30,7 @@ const Founders = () => {
 							rel="noreferrer"
 							className="text-[20px] text-[#3dc4d4] hover:text-[#4ff4fd] transition-colors"
 						>
-							<FontAwesomeIcon icon={['fab', 'facebook']} />
+							<Facebook size={20} />
 						</a>
 						<a
 							href="mailto:surajgupta.3072@gmail.com"
@@ -48,7 +38,7 @@ const Founders = () => {
 							rel="noreferrer"
 							className="text-[20px] text-[#3dc4d4] hover:text-[#4ff4fd] transition-colors"
 						>
-							<FontAwesomeIcon icon="envelope" />
+							<Mail size={20} />
 						</a>
 						<a
 							href="#"
@@ -56,7 +46,7 @@ const Founders = () => {
 							rel="noreferrer"
 							className="text-[20px] text-[#3dc4d4] hover:text-[#4ff4fd] transition-colors"
 						>
-							<FontAwesomeIcon icon={['fab', 'instagram']} />
+							<Instagram size={20} />
 						</a>
 						<a
 							href="https://www.linkedin.com/in/suraj-gupta-457496201/"
@@ -64,7 +54,7 @@ const Founders = () => {
 							rel="noreferrer"
 							className="text-[20px] text-[#3dc4d4] hover:text-[#4ff4fd] transition-colors"
 						>
-							<FontAwesomeIcon icon={['fab', 'linkedin']} />
+							<Linkedin size={20} />
 						</a>
 						<a
 							href="https://github.com/surajgupta3072/"
@@ -72,7 +62,7 @@ const Founders = () => {
 							rel="noreferrer"
 							className="text-[20px] text-[#3dc4d4] hover:text-[#4ff4fd] transition-colors"
 						>
-							<FontAwesomeIcon icon={['fab', 'github']} />
+							<Github size={20} />
 						</a>
 					</div>
 
@@ -109,7 +99,7 @@ const Founders = () => {
 							rel="noreferrer"
 							className="text-[20px] text-[#3dc4d4] hover:text-[#4ff4fd] transition-colors"
 						>
-							<FontAwesomeIcon icon={['fab', 'facebook']} />
+							<Facebook size={20} />
 						</a>
 						<a
 							href="mailto:bhushantny1@gmail.com"
@@ -117,7 +107,7 @@ const Founders = () => {
 							rel="noreferrer"
 							className="text-[20px] text-[#3dc4d4] hover:text-[#4ff4fd] transition-colors"
 						>
-							<FontAwesomeIcon icon="envelope" />
+							<Mail size={20} />
 						</a>
 						<a
 							href="https://www.instagram.com/_.bhushan._/"
@@ -125,7 +115,7 @@ const Founders = () => {
 							rel="noreferrer"
 							className="text-[20px] text-[#3dc4d4] hover:text-[#4ff4fd] transition-colors"
 						>
-							<FontAwesomeIcon icon={['fab', 'instagram']} />
+							<Instagram size={20} />
 						</a>
 						<a
 							href="https://www.linkedin.com/in/bhushan-nakade-141971209/"
@@ -133,7 +123,7 @@ const Founders = () => {
 							rel="noreferrer"
 							className="text-[20px] text-[#3dc4d4] hover:text-[#4ff4fd] transition-colors"
 						>
-							<FontAwesomeIcon icon={['fab', 'linkedin']} />
+							<Linkedin size={20} />
 						</a>
 						<a
 							href="https://github.com/imshresth0810"
@@ -141,7 +131,7 @@ const Founders = () => {
 							rel="noreferrer"
 							className="text-[20px] text-[#3dc4d4] hover:text-[#4ff4fd] transition-colors"
 						>
-							<FontAwesomeIcon icon={['fab', 'github']} />
+							<Github size={20} />
 						</a>
 					</div>
 

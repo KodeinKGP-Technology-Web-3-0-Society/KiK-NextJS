@@ -1,15 +1,5 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { library } from '@fortawesome/fontawesome-svg-core'
-import {
-	faFacebook,
-	faInstagram,
-	faLinkedin,
-	faGithub,
-} from '@fortawesome/free-brands-svg-icons'
-import { faEnvelope } from '@fortawesome/free-solid-svg-icons'
+import { Facebook, Instagram, Linkedin, Github, Mail } from 'lucide-react'
 import Head from '../../data/teams/OldHeads.json'
-
-library.add(faFacebook, faInstagram, faEnvelope, faLinkedin, faGithub)
 
 const OldHeads = () => {
 	function eachHead(head) {
@@ -43,7 +33,7 @@ const OldHeads = () => {
 								rel="noreferrer"
 								className="text-[20px] text-[#3dc4d4] hover:text-[#4ff4fd] transition-colors"
 							>
-								<FontAwesomeIcon icon={['fab', 'facebook']} />
+								<Facebook size={20} />
 							</a>
 						)}
 						{head.mailid && (
@@ -53,7 +43,7 @@ const OldHeads = () => {
 								rel="noreferrer"
 								className="text-[20px] text-[#3dc4d4] hover:text-[#4ff4fd] transition-colors"
 							>
-								<FontAwesomeIcon icon="envelope" />
+								<Mail size={20} />
 							</a>
 						)}
 						{head.instagram && (
@@ -63,7 +53,7 @@ const OldHeads = () => {
 								rel="noreferrer"
 								className="text-[20px] text-[#3dc4d4] hover:text-[#4ff4fd] transition-colors"
 							>
-								<FontAwesomeIcon icon={['fab', 'instagram']} />
+								<Instagram size={20} />
 							</a>
 						)}
 						{head.linkedin && (
@@ -73,7 +63,7 @@ const OldHeads = () => {
 								rel="noreferrer"
 								className="text-[20px] text-[#3dc4d4] hover:text-[#4ff4fd] transition-colors"
 							>
-								<FontAwesomeIcon icon={['fab', 'linkedin']} />
+								<Linkedin size={20} />
 							</a>
 						)}
 						{head.github && (
@@ -83,7 +73,7 @@ const OldHeads = () => {
 								rel="noreferrer"
 								className="text-[20px] text-[#3dc4d4] hover:text-[#4ff4fd] transition-colors"
 							>
-								<FontAwesomeIcon icon={['fab', 'github']} />
+								<Github size={20} />
 							</a>
 						)}
 					</div>

@@ -1,0 +1,80 @@
+[
+	{
+		"title": "Adaptive AI: A Learning Model That Learns!",
+		"pubDate": "Dec 24,2024",
+		"link": "https://medium.com/@kodeinkgp/62c367dc0784",
+		"img": "/article/adaptiveAI.png"
+	},
+	{
+		"title": "Unveiling Blockchain's Layer-wise Architecture",
+		"pubDate": "Nov 28,2024",
+		"link": "https://medium.com/@kodeinkgp/618a73775bb6",
+		"img": "/article/blockchain_layers.jpg"
+	},
+	{
+		"title": "From Foundations to Gemini 1.5 Flash : A deep dive into the technical backbone and latest enhancements",
+		"pubDate": "Oct 7,2024",
+		"link": "https://medium.com/@kodeinkgp/38ce4d26e2e5",
+		"img": "/article/gemini.jpg"
+	},
+	{
+		"title": "Demystifying Consensus Mechanisms",
+		"pubDate": "Aug 26, 2024",
+		"link": "https://medium.com/@kodeinkgp/demystifying-consensus-mechanisms-c06555eced1f",
+		"img": "https://openledger.info/insights/wp-content/uploads/2019/01/consensus-blockchain-948x640.png"
+	},
+	{
+		"title": "Mastering Reinforcement Learning: A Guide for Students",
+		"pubDate": "Aug 7, 2024",
+		"link": "https://medium.com/@kodeinkgp/mastering-reinforcement-learning-a-guide-for-students-81387d19fe15",
+		"img": "https://miro.medium.com/v2/resize:fit:4918/1*Y0TDuXNyywjqqr5l5GkMQQ.png"
+	},
+	{
+		"title": "Unraveling Sora: OpenAI’s Quirky Genius",
+		"pubDate": "Mar 23, 2024",
+		"link": "https://medium.com/@kodeinkgp/unraveling-sora-openais-quirky-genius-b0af944a98d2",
+		"img": "https://assets.eweek.com/uploads/2024/04/ew_20240426-openai-sora-overview-696x447.png"
+	},
+	{
+		"title": "Exploring Machine Learning with Scikit-Learn: A Comprehensive Overview",
+		"pubDate": "Jan 22, 2024",
+		"link": "https://medium.com/@kodeinkgp/exploring-machine-learning-with-scikit-learn-a-comprehensive-overview-01d609f4db3b",
+		"img": "https://d3f1iyfxxz8i1e.cloudfront.net/courses/course_image_variant/da615a681b8d_w240.webp"
+	},
+	{
+		"title": "Deep Dive series: Article on Ensemble Learning",
+		"pubDate": "Jan 10, 2024",
+		"link": "https://medium.com/@kodeinkgp/deep-dive-series-article-on-ensemble-learning-b8d9ece9045c",
+		"img": "https://images.prismic.io/encord/4fda620b-ac6c-45dc-ba17-f0d68bc7888f_What+is+Ensemble+Learning_.png?auto=compress%2Cformat&fit=max"
+	},
+	{
+		"title": "Project Solidity: A Beginner’s Guide On Writing Your First Smart Contract Project",
+		"pubDate": "Dec 28, 2023",
+		"link": "https://coinsbench.com/project-solidity-a-beginners-guide-on-writing-your-first-smart-contract-project-750229be5a2a",
+		"img": "https://i0.wp.com/securitygrind.com/wp-content/uploads/2021/04/solidity-feat.jpg?fit=233%2C250&ssl=1"
+	},
+	{
+		"title": "Supervised Learning: A Comprehensive Guide",
+		"pubDate": "Dec 7, 2023",
+		"link": "https://medium.com/@kodeinkgp/supervised-learning-a-comprehensive-guide-7032b34d5097",
+		"img": "https://cdn.prod.website-files.com/5d7b77b063a9066d83e1209c/6158dd5a9eb8a3708b09ee09_3H_KVVErj5hhg3x-6GhSIV7bGYANnhCRyu8LIMmc1179ccxk0B2ZTohkg5o9F8sLioBfeAdVzIJ_H-gsy9jJd5kkLecm6kR6abq5PVA363yILJaF5C7ugbxH0Qye1wYm4aYK0NOR%3Ds0.png"
+	},
+	{
+		"title": "Welcome to Solidity: An Interactive Expedition into the World of Smart Contracts",
+		"pubDate": "Dec 4, 2023",
+		"link": "https://coinsbench.com/welcome-to-solidity-an-interactive-expedition-into-the-world-of-smart-contracts-8e219ea304a4",
+		"img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSpyQHN_xq7Mg-Z2cNZQAqX8oEUlgR12zTSkQ&s"
+	},
+	{
+		"title": "From Chaos to Clarity: Navigating Data Preprocessing & the Secrets..",
+		"pubDate": "Oct 17, 2023",
+		"link": "https://medium.com/@kodeinkgp/from-chaos-to-clarity-navigating-data-preprocessing-and-the-secrets-of-exploratory-data-analysis-41b452997d00",
+		"img": "https://miro.medium.com/v2/resize:fit:1400/format:webp/0*EAdEKK0tM6rsm-YZ"
+	},
+	{
+		"title": "PYTHON: A SERPENTINE JOURNEY INTO AI, ML, AND DL",
+		"pubDate": "Sept 4, 2023",
+		"link": "https://medium.com/@kodeinkgp/python-a-serpentine-journey-into-ai-ml-and-dl-6aa806c4572b",
+		"img": "https://miro.medium.com/v2/resize:fit:1400/format:webp/1*54Ae1vSharSEU_KftcbMkg.png"
+	}
+]

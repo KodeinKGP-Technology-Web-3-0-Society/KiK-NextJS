@@ -1,0 +1,67 @@
+[
+	{
+		"id": 1,
+		"heading": "National Science Week Hackathon",
+
+		"description": "This event aimed at creating a user-friendly website for IIT Kharagpur students, focusing on personalized course recommendations. It showcased the intersection of technology and education. ● KodeinKGP's 'National Science Week Hackathon' at IIT Kharagpur aimed to innovate student tools. ● The challenge was to create a user-friendly website recommending Breadth Courses. ● Recommendations were based on filters like CGPA goals, academic profiles, and course categories. ● Participants showcased creativity, technical skills, and collaboration. ● The website required an intuitive UI and ML algorithm integration for personalized course advice. ● The platform aimed to enhance students' academic decisions and overall experience. ● Mentorship from the KodeinKGP team advanced participants' skills in web development and AI/ML. ● The hackathon fostered a community-focused atmosphere promoting teamwork and knowledge sharing. ● Real-world application demonstrated AI/ML's impact on personalized education for students. ● The event highlighted interdisciplinary collaboration as essential for driving technological advancements.- Participants: IIT Kharagpur student community- Prizes: Prize pool of 18k INR- Objective: Develop a website for personalized course recommendations- Content: Intuitive user interface, ML algorithms for analyzing student data- Event Mode: Offline.",
+		"sponsor": "",
+		"image": "/EventsImages/nsw_hack.jpeg",
+		"sponsor_img": ""
+	},
+	{
+		"id": 2,
+		"heading": "INNOVATE4SWADESHI",
+
+		"description": "Hosted in association with Swadeshi Bytes, this hackathon featured a prize pool of 50k INR. Participants tackled AI-based challenges focused on improving SME operations, campus life, and content creation. ● The event encouraged tech enthusiasts to tackle significant business and individual issues. ● 'Innovate4Swadeshi' aimed to create innovative and practical solutions, reinforcing the commitment to tech community leadership. ● Problem statements challenged participants to push technological boundaries. ● The first challenge involved developing an AI solution for SMEs to manage purchases, including a dashboard and personal assistant. ● The second challenge required constructing an AI-based framework to predict and improve campus interactions at IIT Kharagpur. ● The third challenge focused on creating an AI system to generate personalized content, enhancing creativity and productivity. ● Participants demonstrated innovation, technical skills, and cooperation throughout the event. ● The hackathon included intense coding, mentorship from industry experts, networking, and knowledge sharing. ● The event highlighted KodeinKGP and Swadeshi Bytes' commitment to nurturing new tech leaders and fostering an energetic and innovative tech ecosystem. - Participants: Tech enthusiasts - Prizes: Prize pool of 50k INR - Challenges: AI solutions for SMEs, AI-based campus interaction platform, AI-generated content creation system - Event Mode: Online",
+		"sponsor": ["saneobserver"],
+		"image": "/EventsImages/Swadeshi_event.png",
+		"sponsor_img": ["/EventsImages/Sane.png"]
+	},
+	{
+		"id": 3,
+		"heading": "Hack-an-Intern",
+
+		"description": "Hack-an-Intern was a major event sponsored by Density, attracting over 300 participants. This tech festival showcased innovations in blockchain, AI, and other disruptive technologies. ● Focus areas: Blockchain, Artificial Intelligence, and other disruptive technologies. ● Intensive workshops conducted by industry veterans. ● Hands-on coding exercises for practical application of learning. ● Interaction with top professionals and companies. ● Opportunities for participants to collaborate, learn, and push technological boundaries. ● Series of challenging problems presented in the hackathon. ● Focus on problem-solving and out-of-the-box thinking. ● Reflection on the event's success and its testament to the commitment to learning and collaboration. - Participants: 300+ participants - Prizes: Prize pool of 2 lakhs INR - Networking: Opportunities with top professionals and companies - Event Mode: Offline",
+		"sponsor": ["Density"],
+		"image": "/EventsImages/density_hackathon.jpg",
+		"sponsor_img": ["/EventsImages/density.jpg"]
+	},
+	{
+		"id": 4,
+		"heading": "Blockchain Hackathon",
+
+		"description": "Sponsored by Nuvepro, this hackathon drew over 400 participants and featured 50 competing teams. It emphasized community building and innovation in blockchain technology. ● Participants engaged in serious coding sessions, workshops, and panel discussions with industry specialists. ● The event prepared participants with the latest blockchain technology trends, enhancing their awareness and skills. ● Interaction with top industry experts and future employers provided unparalleled learning and growth opportunities. ● The hackathon demonstrated a commitment to advancing blockchain technology and building a community of technology enthusiasts. ● The event's success highlighted the importance of platforms for sharing knowledge to improve the world. ● It boosted individual growth among participants and fostered advancement within the technology sector. ● The 'Blockchain Hackathon' exemplified how focused initiatives can combine innovation and community building. ● The event celebrated the collective spirit of technophiles and reinforced the ongoing revolution in the tech community. - Participants: 400+ participants, 50 teams - Prizes: Prize pool of 40k INR - Networking: Experience with top industry experts and future employers - Event Mode: Online",
+		"sponsor": ["Nuvepro"],
+		"image": "/EventsImages/blockchain_hackathon.jpg",
+		"sponsor_img": ["/EventsImages/nuvepro logo.jpg"]
+	},
+	{
+		"id": 5,
+		"heading": "Concordia",
+
+		"description": "Sponsored by Graviton and Concordium, Concordia had 60 teams competing for a record-smashing prize pool of over $100k. The event focused on complex problem-solving and innovation. ● The event was dynamic, showcasing groundbreaking ideas and the value of teamwork in the tech space. ● Workshops, keynote speeches, and panel discussions covered current trends and future directions in technology. ● 'Concordia' provided numerous networking opportunities with potential mentors, collaborators, and employers. ● The event demonstrated an unwavering commitment to empowering tech enthusiasts and fostering collaboration. ● 'Concordia' emphasized community and togetherness in achieving technological breakthroughs. ● Enthusiasm and successes from 'Concordia' will fuel future projects, strengthening bonds and increasing opportunities for learning and collaboration in technology. - Participants: 60 teams - Prizes: Prize pool of over $100k - Networking: Numerous opportunities for professional growth and mentorship. - Event Mode: Online",
+		"image": "/EventsImages/concordia.jpg",
+		"sponsor_img": [
+			"/EventsImages/concordium_logo.jpg",
+			"/EventsImages/graviton logo.jpg"
+		]
+	},
+	{
+		"id": 6,
+		"heading": "Web3.0 Summer Training Program",
+
+		"description": "In collaboration with Lumos, this program aimed to equip participants with full-stack development skills relevant to the Web 3.0 landscape. It featured hands-on projects and interactive workshops. ● The 'Web3.0 Summer Training Program' aimed to empower participants with full-stack development skills and insights into the Web 3.0 landscape. ● The course covered topics from JavaScript and React basics to blockchain fundamentals and decentralized applications. ● Participants learned innovative contract development and the latest Web 3.0 technologies. ● The program included hands-on projects, interactive workshops, and collaborative learning sessions. ● It emphasized practical knowledge and staying updated with technology-driven learning. ● The program aimed to equip new developers with tools and resources for success in the digital economy. ● Participants gained both theoretical knowledge and practical utility of Web 3.0. ● The program set new standards in technology education and built the next generation of technology leaders. - Participants: 600+ participants - Duration: Conducted over 4 weeks - Content: JavaScript and React basics, blockchain fundamentals, decentralized applications, and innovative contract development - Objective: Mastery over full-stack development and state-of-the-art Web 3.0 skills - Event Mode: Online",
+		"sponsor": ["Lumos"],
+		"image": "/EventsImages/Lumos_event.jpg",
+		"sponsor_img": ["/EventsImages/lumoslabs_logo.jpg"]
+	},
+	{
+		"id": 7,
+		"heading": "Web3 & Aptos Session",
+
+		"sponsor": ["Move Developers"],
+		"image": "/EventsImages/move event.jpg",
+		"sponsor_img": ["/EventsImages/move icon.jpg"],
+		"description": "Sponsored by Move Developers, this event catered to over 300 participants interested in Web3 and Aptos. It included in-depth presentations and workshops by industry professionals. ● The event demonstrated a commitment to keeping stakeholders at the cutting edge of technological innovation. ● The 'Web3 and Aptos Session' explored new technologies through in-depth presentations and active workshops. ● Leading industry professionals covered sought-after topics in Web3 and Aptos. ● Attendees gained powerful insights and practical knowledge for projects and professional development. ● The event aimed to bridge gaps between emerging technologies and aspiring tech enthusiasts. ● It created a platform for sharing knowledge and developing innovations to contribute to the dynamic tech ecosystem. ● Attendees left inspired and excited about the world of technology. ● New information on Web3 and Aptos technologies was presented to participants. ● The event included ample networking opportunities, fostering connections with like-minded individuals. ● Attendees bonded with collaborators and mentors, supporting their journey in technology. - Participants: 300+ participants - Content: Presentations and workshops on Web3 and Aptos technologies - Networking: Bonding with collaborators, mentors, and potential employers - Event Mode: Online"
+	}
+]

@@ -1,0 +1,112 @@
+[
+	{
+		"id": "1",
+		"name": "Aadish Jain ",
+		"image_url": "https://github.com/kodeinkgp/Photos/blob/main/aadish.jpg?raw=true",
+		"facebook": "",
+		"mailid": "mailto:aadishkjain101004@gmail.com",
+		"instagram": "",
+		"linkedin": "",
+		"github": "",
+		"role": "Executive Head"
+	},
+	{
+		"id": "2",
+		"name": "Akash Manna",
+		"image_url": "https://github.com/kodeinkgp/Photos/blob/main/akash.jpg?raw=true",
+		"facebook": "",
+		"mailid": "mailto:iamakashmanna@gmail.com",
+		"instagram": "",
+		"linkedin": "",
+		"github": "",
+		"role": "Executive Head"
+	},
+	{
+		"id": "3",
+		"name": "G.M.M. Prabhash ",
+		"image_url": "https://github.com/kodeinkgp/Photos/blob/main/prabhash.jpg?raw=true",
+		"facebook": "https://www.facebook.com/profile.php?id=100085033546062",
+		"mailid": "mailto:prabhashgolla2004@gmail.com",
+		"instagram": "https://www.instagram.com/prabhashgolla/",
+		"linkedin": "https://www.linkedin.com/in/golla-meghanandh-manvith-prabhash-b643b725a/",
+		"github": "https://github.com/prabhash-golla",
+		"role": "Tech Head"
+	},
+	{
+		"id": "4",
+		"name": "Adarsh Tadiparthi",
+		"image_url": "https://github.com/kodeinkgp/Photos/blob/main/adarsh.jpg?raw=true",
+		"facebook": "https://www.facebook.com/profile.php?id=100087676355082&mibextid=ZbWKwL",
+		"mailid": "mailto:adarshtadiparthi30@gmail.com",
+		"instagram": "https://instagram.com/adarsh_tadiparthi?utm_source=qr&igshid=MzNlNGNkZWQ4Mg%3D%3D",
+		"linkedin": "https://www.linkedin.com/in/adarsh-tadiparthi-1b9962268",
+		"github": "https://github.com/adarshtadiparthi",
+		"role": "Tech Head"
+	},
+	{
+		"id": "5",
+		"name": "Bhavesh Pabnani",
+		"image_url": "https://github.com/kodeinkgp/Photos/blob/main/bhavesh.jpg?raw=true",
+		"facebook": "https://www.facebook.com/profile.php?id=100087666813728",
+		"mailid": "mailto:bhaveshpabnani@gmail.com",
+		"instagram": "https://www.instagram.com/bhaveshpabnani/",
+		"linkedin": "https://www.linkedin.com/in/bhavesh-pabnani-97a033250/",
+		"github": "https://github.com/bhaveshpabnani",
+		"role": "AI and Metaverse Head"
+	},
+	{
+		"id": "6",
+		"name": "Parijat Sutradhar ",
+		"image_url": "https://github.com/kodeinkgp/Photos/blob/main/parijat.jpg?raw=true",
+		"facebook": "https://www.facebook.com/profile.php?id=100086213054547",
+		"mailid": "mailto:parijatsutradhar.slg04@gmail.com ",
+		"instagram": "https://www.instagram.com/parijat_sutradhar/",
+		"linkedin": "https://www.linkedin.com/in/parijat-sutradhar-9650b7202/",
+		"github": "https://github.com/ParijatSutradhar04",
+		"role": "AI and Metaverse Head"
+	},
+	{
+		"id": "7",
+		"name": "Swadhin Kumar biswal",
+		"image_url": "https://github.com/kodeinkgp/Photos/blob/main/swadin.jpg?raw=true",
+		"facebook": "",
+		"mailid": "mailto:biswalswadhin505@gmail.com",
+		"instagram": "",
+		"linkedin": "",
+		"github": "",
+		"role": "Blockchain Head"
+	},
+	{
+		"id": "8",
+		"name": "Ujjawal Agrawal",
+		"image_url": "https://github.com/kodeinkgp/Photos/blob/main/ujjawal.jpg?raw=true",
+		"facebook": "https://www.facebook.com/profile.php?id=100010598774189&mibextid=ZbWKwL",
+		"mailid": "mailto:ujjawal13agrawal@kgpian.iitkgp.ac.in",
+		"instagram": "https://instagram.com/ujjawal_agrawal_?utm_source=qr&igshid=MzNlNGNkZWQ4Mg%3D%3D",
+		"linkedin": "https://www.linkedin.com/in/ujjawal-agrawal-892278177",
+		"github": "https://github.com/ujjagr",
+		"role": "Blockchain Head"
+	},
+	{
+		"id": "9",
+		"name": "Shashi Bhushan",
+		"image_url": "https://github.com/kodeinkgp/Photos/blob/main/shashi%20bhushan.jpg?raw=true",
+		"facebook": "",
+		"mailid": "",
+		"instagram": "",
+		"linkedin": "",
+		"github": "",
+		"role": "Design Head"
+	},
+	{
+		"id": "10",
+		"name": "Shreyansh Agarwal ",
+		"image_url": "https://github.com/kodeinkgp/Photos/blob/main/Shreyansh.jpg?raw=true",
+		"facebook": "https://www.facebook.com/profile.php?id=100087340759849",
+		"mailid": "shreyanshua59@gmail.com",
+		"instagram": "https://www.instagram.com/shreyansh_474_/",
+		"linkedin": "https://www.linkedin.com/in/shreyansh-agrawal-858948251/",
+		"github": "",
+		"role": "Events Head"
+	}
+]

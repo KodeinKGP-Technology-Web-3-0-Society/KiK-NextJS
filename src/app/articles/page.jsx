@@ -1,7 +1,6 @@
 import React from 'react'
 import LottieWrapper from './LottieWrapper'
 import data from '../../data/articles/articles-list.json'
-import RibbonWrapper from './RibbonWrapper'
 
 
 const Articles = () => {
@@ -29,7 +28,7 @@ const Articles = () => {
         </div>
     ))
     return (
-        <div className="flex flex-col">
+        <div className="flex flex-col bg-[#01011b]">
             {/* article heading  */}
             <div className="flex mb-0 max-[1300px]:mb-20 flex-row max-[800px]:flex-col">
                 <div className="flex justify-between self-center flex-col w-[55vw] max-[800px]:w-[90vw] ">
@@ -37,17 +36,17 @@ const Articles = () => {
 					text-[4rem] sm:text-[6rem] lg:text-[7rem] xl:text-[8rem] 
 					leading-[100px] sm:leading-[120px] 
 					pl-0 md:pl-[3rem] 
-					flex self-center tracking-[0.1rem]
+					flex md:self-start self-center tracking-[0.1rem]
 					bg-gradient-to-r from-[#11e3fb] via-[#b5f6fd] to-[#5be6ff] 
 					text-transparent bg-clip-text [background-size:300%_auto] [background-position:0%_50%] animate-gradient-shift">
                         Articles
                     </div>
                     <div className="text-white self-start font-['Montserrat'] pl-24 mt-14 max-[800px]:pl-12 max-[500px]:pl-0 max-[500px]:mt-6 max-[500px]:text-center">
-                        <h2 className="font-light text-[2rem] mb-4 leading-tight max-[1300px]:text-[1.8rem] max-[550px]:text-[1.2rem]">Your Gateway to AI, Web Dev, and Blockchain</h2>
-                        <h3 className='font-thin text-2xl max-[1300px]:text-[1.2rem] max-[550px]:text-[1rem]'>
+                        <div className=" text-[2rem] mb-4 leading-tight max-[1300px]:text-[1.8rem] max-[550px]:text-[1.2rem]">Your Gateway to AI, Web Dev, and Blockchain</div>
+                        <p className='font-thin text-2xl max-[1300px]:text-[1.2rem] max-[550px]:text-[1rem]'>
                             Explore cutting-edge trends and insights shaping the future of
                             technology.
-                        </h3>
+                        </p>
                     </div>
                 </div>
                 <div className="w-[35vw] self-start max-[800px]:self-center max-[800px]:w-[50vw] max-[550px]:w-[70vw] ">
@@ -71,17 +70,7 @@ const Articles = () => {
                                 alt=""
                             />
 
-                            <RibbonWrapper
-                                side="left"
-                                type="corner"
-                                size="large"
-                                backgroundColor="green"
-                                color="white"
-                                fontFamily="Arial"
-                                withStripes={false}
-                            >
-                                <p className="font-bold">New</p>
-                            </RibbonWrapper>
+                            <div className="absolute top-4 w-10 -left-8 bg-green-700 text-white px-16 text-center flex justify-center py-2 text-xs font-bold rotate-[-45deg] shadow-md">New</div>
                             <div className="absolute top-[230px] text-[#11e3fb] font-semibold text-[17px] pl-2">
                                 {data[0].pubDate}
                             </div>

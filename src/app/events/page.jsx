@@ -3,7 +3,7 @@ import Image from "next/image";
 
 const page = () => {
   return (
-    <div>
+    <div className="min-h-screen bg-[#01011b]">
       <section className="hackathon_con"></section>
 
       <section>
@@ -35,12 +35,12 @@ const page = () => {
               }`}
             >
               {/* Event Image */}
-              <div className="relative max-h-[450px] w-[450%] max-lg:mx-auto max-lg:w-[88%]">
+              <div className="relative max-h-[450px] w-[350%] max-lg:mx-auto max-lg:w-[88%]">
                 <Image
                   src={eventx.image}
                   alt="event"
                   fill
-                  className="rounded-[8px] object-cover"
+                  className="rounded-[8px]"
                   sizes="(max-width: 1024px) 100vw, 400px"
                   priority={index < 2}
                 />

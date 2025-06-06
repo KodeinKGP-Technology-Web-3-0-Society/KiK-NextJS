@@ -24,63 +24,76 @@ export default function Teams() {
 	const cardRefs = useRef([])
 
 	useEffect(() => {
+		const isDesktop = typeof window !== 'undefined' && window.innerWidth > 768;
 
 		cardRefs.current.forEach((card, index) => {
-			const isDesktop = typeof window !== 'undefined' && window.innerWidth > 768;
+			if (!card) return;
 
 			if (isDesktop) {
-			let xOffset = index === 0 ? '-30vw' : index === 1 ? '0vw' : '30vw';
-			let angle = index === 0 ? -10 : index === 1 ? 0 : 10;
+				const rotationInit = index === 0 ? -10 : index === 1 ? 0 : 10;
+				card.style.transform = `translateX(0) rotate(${rotationInit}deg) scale(1)`;
 
-			gsap.timeline({
-				scrollTrigger: {
-				trigger: card,
-				start: '20% bottom',
-				end: 'center center',
-				scrub: true,
-				},
-			}).fromTo(card,
-				{ x: 0, rotation: angle, scale: 1 },
-				{ x: xOffset, rotation: 0, scale: 1.1 }
-			);
+				let xOffset = index === 0 ? '-30vw' : index === 1 ? '0vw' : '30vw';
+
+				gsap.timeline({
+					scrollTrigger: {
+					trigger: card,
+					start: '30% bottom',
+					end: 'center center',
+					scrub: true,
+					},
+				}).fromTo(card,
+					{ x: 0, rotation: rotationInit, scale: 1 },
+					{ x: xOffset, rotation: 0, scale: 1.1 }
+				);
 			} else {
-			gsap.timeline({
-				scrollTrigger: {
-				trigger: card,
-				start: 'top bottom',
-				end: 'top center',
-				scrub: true,
-				scroller: 'body',
-				immediateRender: true,
-				},
-			}).fromTo(card,
-				{ x: -300, opacity: 0 },
-				{ x: 0, opacity: 1, stagger: 0.2, ease: 'linear' }
-			);
+				card.style.transform = 'translateX(-300px)';
+				card.style.opacity = '0';
+
+				gsap.timeline({
+					scrollTrigger: {
+					trigger: card,
+					start: 'top bottom',
+					end: 'top center',
+					scrub: true,
+					scroller: 'body',
+					immediateRender: true,
+					},
+				}).fromTo(card,
+					{ x: -300, opacity: 0 },
+					{ x: 0, opacity: 1, stagger: 0.2, ease: 'linear' }
+				);
 			}
 		});
 
-		// Poster animation
-		gsap.timeline({
+		const poster = document.querySelector('.pds-page-poster-wrapper');
+		if (poster) {
+			poster.style.transform = 'translateX(-300px)';
+			poster.style.opacity = '0';
+
+			gsap.timeline({
 			scrollTrigger: {
-			trigger: '.pds-page-poster-wrapper',
-			start: 'center bottom',
-			end: 'center center',
-			scrub: 1,
-			scroller: 'body',
+				trigger: poster,
+				start: 'center bottom',
+				end: 'center center',
+				scrub: 1,
+				scroller: 'body',
 			},
-		}).fromTo('.pds-page-poster-wrapper',
-			{ x: -300, opacity: 0 },
-			{ x: 0, opacity: 1, duration: 0.5, stagger: 0.2 }
-		);
-	}, []);
+			}).fromTo(poster,
+				{ x: -300, opacity: 0 },
+				{ x: 0, opacity: 1, duration: 0.5, stagger: 0.2 }
+			);
+		}
+}, []);
+
 
 	return (
 		<div className={`relative ${montserrat.variable}`}>
 			<h2 id="recentHeader"
 				className="my-8 text-center text-[48px]  text-transparent bg-gradient-to-br from-[#11E3FB] via-[#5BE6FF] to-[#11E3FB] bg-clip-text [background-clip:text] [-webkit-background-clip:text] font-bold">Our Expertise</h2>
 
-			<div className="!mb-[20vw] md:relative md:h-[30vw] md:pb-[40vw] max-[768px]:relative max-[768px]:flex max-[768px]:flex-col max-[768px]:items-center max-[768px]:max-h-fit max-[768px]:mb-[5vh]">
+			<div 
+				className="!mb-[20vw] md:relative md:h-[30vw] md:pb-[40vw] max-[768px]:relative max-[768px]:flex max-[768px]:flex-col max-[768px]:items-center max-[768px]:max-h-fit max-[768px]:mb-[5vh]">
 				<div
 					className="p-0 bg-[rgba(54,54,54,0.4)] rounded-[2.5vw] h-[40vw] transition-all duration-[1000ms] ease-[cubic-bezier(0.63,0.15,0.03,1.12)] mt-5 max-[768px]:w-[70vw] max-[768px]:h-[130vw] max-[768px]:relative max-[768px]:left-0 max-[768px]:top-0 max-[768px]:translate-x-0 max-[768px]:translate-y-0 max-[768px]:!mb-[20px] md:w-[20vw] md:absolute md:top-[10%] md:left-[40%]  md:z-[2] md:translate-x-[-50%] md:translate-y-[-50%] md:rotate-[-7deg] md:transition md:delay-[50ms]"
 					ref={el => (cardRefs.current[1] = el)}

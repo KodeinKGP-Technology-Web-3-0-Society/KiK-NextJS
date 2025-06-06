@@ -28,14 +28,15 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
-    "@tailwindcss/postcss": "^4",
+    "@tailwindcss/postcss": "^4.1.8",
     "@types/node": "22.15.30",
     "@types/react": "19.1.6",
     "eslint": "^9",
     "eslint-config-next": "15.3.3",
     "eslint-config-prettier": "^10.1.5",
     "eslint-plugin-prettier": "^5.4.1",
+    "postcss": "^8.5.4",
     "prettier": "^3.5.3",
-    "tailwindcss": "^4"
+    "tailwindcss": "^4.1.8"
   }
 }

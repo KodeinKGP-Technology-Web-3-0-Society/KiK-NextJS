@@ -2,12 +2,6 @@ import Founders from "./Founders";
 import Heads from "./Heads.jsx";
 import OldHeads from "./OldHeads.jsx";
 
-export const metadata = {
-  title: "KodeinKGP",
-  description: "KodeinKGP Teams Page",
-  image: "/KIK_logo-removebg.png",
-};
-
 const Page = () => {
   return (
     <div className="font-montserrat min-h-screen bg-[#01011b] py-8 text-center text-white">

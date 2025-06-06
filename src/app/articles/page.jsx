@@ -1,102 +1,102 @@
-import React from 'react'
-import LottieWrapper from './LottieWrapper'
-import data from '../../data/articles/articles-list.json'
-import { Poppins, Montserrat } from 'next/font/google'
+import React from "react";
+import LottieWrapper from "./LottieWrapper";
+import data from "../../data/articles/articles-list.json";
+import { Poppins, Montserrat } from "next/font/google";
 
-const poppins = Poppins({ subsets: ['latin'], weight: '600' })
+const poppins = Poppins({ subsets: ["latin"], weight: "600" });
 const montserrat = Montserrat({
-  subsets: ['latin'],
-  weight: ['400'],
-  variable: '--font-montserrat',  
-  display: 'swap', 
-})
+  subsets: ["latin"],
+  weight: ["400"],
+  variable: "--font-montserrat",
+  display: "swap",
+});
 
 const Articles = () => {
-    const cards = data.map((info, index) => (
-        <div key={index} className="">
+  const cards = data.map((info, index) => (
+    <div key={index} className="">
+      <a
+        className="relative flex h-[140px] w-[min(31vw,550px)] overflow-hidden rounded-[2.5vw] border-4 border-transparent bg-[rgba(54,54,54,0.4)] transition duration-150 hover:border-[#3dc4d4] hover:bg-[#39394080] hover:shadow-[0_0_12px_#3dc4d4] max-[1300px]:w-[50vw] max-[800px]:block max-[800px]:h-[420px] max-[800px]:w-full max-[800px]:justify-center max-[550px]:h-[380px] max-[550px]:w-[17.5rem] max-[550px]:rounded-[5vw] xl:w-[min(31vw,550px)]"
+        href={info.link}
+        target="_blank"
+      >
+        <img
+          src={info.img}
+          alt=""
+          className="relative h-full w-[150px] self-center max-[800px]:h-[45%] max-[800px]:w-full max-[550px]:h-[50%]"
+        />
+        <div className="ml-[10px] flex w-[65%] flex-col justify-center gap-[10px] px-2">
+          <p className="absolute top-[15px] z-10 text-[13px] leading-[22px] font-semibold text-[#11e3fb] not-italic max-[1300px]:text-[15px] max-[800px]:top-[230px] max-[800px]:text-[17px] max-[550px]:top-[200px] max-[550px]:text-[13px]">
+            {info.pubDate}
+          </p>
+          <p className="absolute top-[40px] z-10 pr-[15px] font-['Montserrat'] text-[17px] leading-[28px] font-semibold text-white not-italic max-[800px]:top-[260px] max-[800px]:w-full max-[800px]:pr-[30px] max-[800px]:text-[22px] max-[800px]:leading-normal max-[550px]:top-[230px] max-[550px]:text-[19px]">
+            {info.title}
+          </p>
+        </div>
+      </a>
+    </div>
+  ));
+  return (
+    <div className="flex flex-col bg-[#01011b]">
+      {/* article heading  */}
+      <div className="mb-0 flex flex-row max-[1300px]:mb-20 max-[800px]:flex-col">
+        <div className="flex w-[55vw] flex-col justify-between self-center max-[800px]:w-[90vw]">
+          <div
+            className={`ml-[2.5vw] font-semibold ${poppins.className} animate-gradient-shift flex self-center bg-gradient-to-r from-[#11e3fb] via-[#b5f6fd] to-[#5be6ff] [background-size:300%_auto] bg-clip-text [background-position:0%_50%] pl-0 text-[4rem] leading-[100px] tracking-[0.1rem] text-transparent sm:text-[6rem] sm:leading-[120px] md:self-start md:pl-[3rem] lg:text-[7rem] xl:text-[8rem]`}
+          >
+            Articles
+          </div>
+          <div
+            className={`self-start text-white ${montserrat.className} mt-14 pl-24 font-light max-[800px]:pl-12 max-[500px]:mt-6 max-[500px]:pl-0 max-[500px]:text-center`}
+          >
+            <div className="mb-4 text-[2rem] leading-tight max-[1300px]:text-[1.8rem] max-[550px]:text-[1.2rem]">
+              Your Gateway to AI, Web Dev, and Blockchain
+            </div>
+            <p className="text-2xl font-thin max-[1300px]:text-[1.2rem] max-[550px]:text-[1rem]">
+              Explore cutting-edge trends and insights shaping the future of
+              technology.
+            </p>
+          </div>
+        </div>
+        <div className="w-[35vw] self-start max-[800px]:w-[50vw] max-[800px]:self-center max-[550px]:w-[70vw]">
+          <LottieWrapper />
+        </div>
+      </div>
+
+      {/* article card  */}
+      <div className="flex w-[95vw] justify-center gap-[2vw] self-center max-[800px]:flex-col max-[800px]:items-center max-[550px]:overflow-x-hidden">
+        {/* big card  */}
+        <div className="relative">
+          <div className="h-[475px] w-[25vw] max-w-[420px] min-w-[330px] rounded-[2.5vw] px-3 pt-0.5">
             <a
-                className=" flex w-[min(31vw,550px)] h-[140px] bg-[rgba(54,54,54,0.4)] relative rounded-[2.5vw] border-4 border-transparent overflow-hidden xl:w-[min(31vw,550px)] max-[1300px]:w-[50vw] max-[800px]:w-full max-[800px]:h-[420px] max-[800px]:block max-[800px]:justify-center  max-[550px]:w-[17.5rem] max-[550px]:h-[380px] max-[550px]:rounded-[5vw] hover:bg-[#39394080] hover:border-[#3dc4d4] hover:shadow-[0_0_12px_#3dc4d4] transition duration-150"
-                href={info.link}
-                target="_blank"
+              className="group relative block h-full w-full overflow-hidden rounded-[2.5vw] bg-[#39394080] transition-all duration-150 hover:border-4 hover:border-[#3dc4d4] hover:shadow-[0_0_12px_#3dc4d4]"
+              href={data[0].link}
+              target="_blank"
             >
-                <img
-                    src={info.img}
-                    alt=""
-                    className="w-[150px] h-full self-center relative max-[800px]:w-full max-[800px]:h-[45%]  max-[550px]:h-[50%]"
-                />
-                <div className="w-[65%] ml-[10px] flex flex-col justify-center gap-[10px] px-2">
-                    <p className="absolute top-[15px] text-[#11e3fb] text-[13px] leading-[22px] font-semibold not-italic z-10 max-[1300px]:text-[15px] max-[800px]:text-[17px] max-[800px]:top-[230px] max-[550px]:text-[13px] max-[550px]:top-[200px]">
-                        {info.pubDate}
-                    </p>
-                    <p className="absolute top-[40px] pr-[15px] text-white text-[17px] leading-[28px] font-['Montserrat'] not-italic z-10 max-[800px]:text-[22px] max-[800px]:leading-normal max-[800px]:w-full max-[800px]:top-[260px] max-[800px]:pr-[30px] max-[550px]:text-[19px] max-[550px]:top-[230px] font-semibold">
-                        {info.title}
-                    </p>
-                </div>
+              <img
+                className="relative h-[45%] w-full"
+                src={data[0].img}
+                alt=""
+              />
+
+              <div className="absolute top-4 -left-8 flex w-10 rotate-[-45deg] justify-center bg-green-700 px-16 py-2 text-center text-xs font-bold text-white shadow-md">
+                New
+              </div>
+              <div className="absolute top-[230px] pl-2 text-[17px] font-semibold text-[#11e3fb]">
+                {data[0].pubDate}
+              </div>
+              <p className="absolute top-[260px] ml-2 font-['Montserrat'] text-[22px] leading-normal font-semibold text-white">
+                {data[0].title}
+              </p>
             </a>
+          </div>
         </div>
-    ))
-    return (
-        <div className="flex flex-col bg-[#01011b]">
-            {/* article heading  */}
-            <div className="flex mb-0 max-[1300px]:mb-20 flex-row max-[800px]:flex-col">
-                <div className="flex justify-between self-center flex-col w-[55vw] max-[800px]:w-[90vw] ">
-                    <div className={`font-semibold ml-[2.5vw] ${poppins.className}
-					text-[4rem] sm:text-[6rem] lg:text-[7rem] xl:text-[8rem] 
-					leading-[100px] sm:leading-[120px] 
-					pl-0 md:pl-[3rem] 
-					flex md:self-start self-center tracking-[0.1rem]
-					bg-gradient-to-r from-[#11e3fb] via-[#b5f6fd] to-[#5be6ff] 
-					text-transparent bg-clip-text [background-size:300%_auto] [background-position:0%_50%] animate-gradient-shift`}>
-                        Articles
-                    </div>
-                    <div className={`text-white self-start ${montserrat.className} font-light pl-24 mt-14 max-[800px]:pl-12 max-[500px]:pl-0 max-[500px]:mt-6 max-[500px]:text-center`}>
-                        <div className=" text-[2rem] mb-4 leading-tight max-[1300px]:text-[1.8rem] max-[550px]:text-[1.2rem]">Your Gateway to AI, Web Dev, and Blockchain</div>
-                        <p className='font-thin text-2xl max-[1300px]:text-[1.2rem] max-[550px]:text-[1rem]'>
-                            Explore cutting-edge trends and insights shaping the future of
-                            technology.
-                        </p>
-                    </div>
-                </div>
-                <div className="w-[35vw] self-start max-[800px]:self-center max-[800px]:w-[50vw] max-[550px]:w-[70vw] ">
-                    <LottieWrapper />
-                </div>
-            </div>
-
-            {/* article card  */}
-            <div className="flex gap-[2vw] w-[95vw] self-center justify-center max-[800px]:items-center max-[800px]:flex-col max-[550px]:overflow-x-hidden">
-                {/* big card  */}
-                <div className="relative">
-                    <div className="min-w-[330px] max-w-[420px] w-[25vw] h-[475px]  rounded-[2.5vw] px-3 pt-0.5">
-                        <a
-                            className="block w-full h-full relative rounded-[2.5vw] group bg-[#39394080]  hover:border-4 hover:border-[#3dc4d4] hover:shadow-[0_0_12px_#3dc4d4] transition-all duration-150 overflow-hidden"
-                            href={data[0].link}
-                            target="_blank"
-                        >
-                            <img
-                                className="w-full h-[45%] relative"
-                                src={data[0].img}
-                                alt=""
-                            />
-
-                            <div className="absolute top-4 w-10 -left-8 bg-green-700 text-white px-16 text-center flex justify-center py-2 text-xs font-bold rotate-[-45deg] shadow-md">New</div>
-                            <div className="absolute top-[230px] text-[#11e3fb] font-semibold text-[17px] pl-2">
-                                {data[0].pubDate}
-                            </div>
-                            <p className="absolute top-[260px] ml-2 text-white font-['Montserrat'] text-[22px] leading-normal font-semibold">
-                                {data[0].title}
-                            </p>
-                        </a>
-                    </div>
-                </div>
-                {/* small card  */}
-                <div className="flex flex-wrap gap-[25px] w-[min(70vw,1250px)] max-h-[480px] overflow-y-auto rounded-[2.5vw] px-[1px] pt-[3px] pb-[6px] justify-center mb-[40px] max-[800px]:w-[21rem] max-[800px]:max-h-none max-[800px]:px-[12px] max-[800px]:pt-0 max-[800px]:pb-0 max-[550px]:w-[19rem] max-[550px]:pt-[10px]">
-                    {cards.slice(1)}
-                </div>
-
-            </div>
-
+        {/* small card  */}
+        <div className="mb-[40px] flex max-h-[480px] w-[min(70vw,1250px)] flex-wrap justify-center gap-[25px] overflow-y-auto rounded-[2.5vw] px-[1px] pt-[3px] pb-[6px] max-[800px]:max-h-none max-[800px]:w-[21rem] max-[800px]:px-[12px] max-[800px]:pt-0 max-[800px]:pb-0 max-[550px]:w-[19rem] max-[550px]:pt-[10px]">
+          {cards.slice(1)}
         </div>
-    )
-}
+      </div>
+    </div>
+  );
+};
 
 export default Articles;

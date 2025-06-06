@@ -1,179 +1,179 @@
 [
-	[
-		{
-			"id": "1",
-			"name": "Abhirup Pal",
-			"image_url": "https://user-images.githubusercontent.com/100255314/224533310-645ad2b9-e47c-45fc-9872-e97ddd87ee8a.jpg",
-			"facebook": "https://www.facebook.com/profile.php?id=100075401053606",
-			"mailid": "mailto:abhiruppal2804@gmail.com",
-			"instagram": "https://www.instagram.com/abhi_p_96/",
-			"linkedin": "https://www.linkedin.com/in/abhirup-pal-bab956224/",
-			"github": "https://github.com/Abhirup-pal"
-		},
-		{
-			"id": "2",
-			"name": "Rajarshi Mandal",
-			"image_url": "https://user-images.githubusercontent.com/100255314/224533565-2862fbf4-0d14-4d0a-bd0e-e9d43a4cce8e.jpg",
-			"facebook": "https://www.facebook.com/people/Rajarshi-Mandal/pfbid083ZKosXtSN9sbNwAhVKkLUD9gprTwzwqp1ibu78c2eTxyeQAKQrBJscVKNNdg7SZl/",
-			"mailid": "mailto:rajarshi.kodeinkgp@gmail.com",
-			"instagram": "https://www.instagram.com/rajarshi_aug/",
-			"linkedin": "https://www.linkedin.com/in/rajarshi-mandal-a423ab243/",
-			"github": "https://github.com/RajarshiKGP"
-		},
-		{
-			"id": "3",
-			"name": "Hemanth Sai Krishna",
-			"image_url": "https://user-images.githubusercontent.com/100255314/224534776-b535311c-5dc8-4460-ab2f-1014be79d279.jpg",
-			"facebook": "https://m.facebook.com/100064758920758/",
-			"mailid": "mailto:hemanthsaikrishna48@gmail.com ",
-			"instagram": "https://instagram.com/im_hemanth_2.0?igshid=ZDdkNTZiNTM=",
-			"linkedin": "https://www.linkedin.com/in/hemanth-sai-krishna-nali-b6910b232",
-			"github": "https://github.com/hemanth17sai"
-		},
-		{
-			"id": "4",
-			"name": "N Anushka",
-			"image_url": "https://user-images.githubusercontent.com/100255314/224533609-7b386ddf-054e-4331-b8ee-d12541c0421f.jpg",
-			"facebook": "https://www.facebook.com/profile.php?id=100074796925610&mibextid=ZbWKwL",
-			"mailid": "mailto:nanushka923@gmail.com",
-			"instagram": "https://instagram.com/anushka.nath?igshid=YzgyMTM2MGM=",
-			"linkedin": "https://www.linkedin.com/in/n-anushka-a25420226",
-			"github": "https://github.com/AnushkaNath7"
-		},
-		{
-			"id": "5",
-			"name": "Abdeali Rangwala",
-			"image_url": "https://user-images.githubusercontent.com/100255314/224533613-64fa5767-f27b-4e0c-9b7b-66683bc313e4.jpg",
-			"facebook": "https://www.facebook.com/profile.php?id=100005641816366",
-			"mailid": "mailto:abdealirangwala5@gmail.com",
-			"instagram": "https://www.instagram.com/rangwalaabdeali/",
-			"linkedin": "https://www.linkedin.com/in/abdeali-rangwala-42647522b/",
-			"github": "https://github.com/Abdeali-0203"
-		},
-		{
-			"id": "6",
-			"name": "Adarsha Mahapatra",
-			"image_url": "https://user-images.githubusercontent.com/100255314/224533688-6ccbff43-1b69-4cb3-bcbd-7ac1381d0d67.jpg",
-			"facebook": "https://www.facebook.com/profile.php?id=100077511677310",
-			"mailid": "mailto:adarshmahapatra2522@gmail.com",
-			"instagram": "https://www.instagram.com/adarsh__.mahapatra__/",
-			"linkedin": "https://www.linkedin.com/in/adarsha-mahapatra-5bab63228/",
-			"github": "https://github.com/Adarsh-51"
-		},
-		{
-			"id": "7",
-			"name": "Devesh Meena ",
-			"image_url": "https://user-images.githubusercontent.com/100255314/224533932-8d914b3f-d8f0-406b-9664-cdfc493f150a.jpg",
-			"facebook": "https://www.facebook.com/profile.php?id=100075438251697",
-			"mailid": "mailto:devesh9413264048@gmail.com",
-			"instagram": "https://www.instagram.com/deveshtamadi384/",
-			"linkedin": "https://www.linkedin.com/in/devesh-meena-73a2b4240/",
-			"github": "https://github.com/devesh405"
-		},
-		{
-			"id": "8",
-			"name": "Adrish Adhikari",
-			"image_url": "https://user-images.githubusercontent.com/100255314/224533953-2af36d64-5977-48da-979f-76cfac8f8484.jpeg",
-			"facebook": "https://www.facebook.com/adrish.adhikari.9",
-			"mailid": "mailto:adrishadhikari2003@gmail.com",
-			"instagram": "https://www.instagram.com/max_stark07/",
-			"linkedin": "https://www.linkedin.com/in/adrish-adhikari-b9a45b244?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3BUtBuIGodSMOfjNRA7IWzfg%3D%3D",
-			"github": "https://github.com/Max-Stark07"
-		},
-		{
-			"id": "9",
-			"name": "Soukhin Nayek",
-			"image_url": "https://user-images.githubusercontent.com/100255314/224534025-05469f4b-5518-462e-90b9-10f6cf214daa.jpg",
-			"facebook": "https://www.facebook.com/profile.php?id=100075679234601",
-			"mailid": "mailto:soukhinkgp2@gmail.com",
-			"instagram": "https://www.instagram.com/_soukhin/",
-			"linkedin": "https://www.linkedin.com/in/soukhin-nayek-96b68b249/",
-			"github": "https://github.com/Soukhin-Nayek"
-		},
+  [
+    {
+      "id": "1",
+      "name": "Abhirup Pal",
+      "image_url": "https://user-images.githubusercontent.com/100255314/224533310-645ad2b9-e47c-45fc-9872-e97ddd87ee8a.jpg",
+      "facebook": "https://www.facebook.com/profile.php?id=100075401053606",
+      "mailid": "mailto:abhiruppal2804@gmail.com",
+      "instagram": "https://www.instagram.com/abhi_p_96/",
+      "linkedin": "https://www.linkedin.com/in/abhirup-pal-bab956224/",
+      "github": "https://github.com/Abhirup-pal"
+    },
+    {
+      "id": "2",
+      "name": "Rajarshi Mandal",
+      "image_url": "https://user-images.githubusercontent.com/100255314/224533565-2862fbf4-0d14-4d0a-bd0e-e9d43a4cce8e.jpg",
+      "facebook": "https://www.facebook.com/people/Rajarshi-Mandal/pfbid083ZKosXtSN9sbNwAhVKkLUD9gprTwzwqp1ibu78c2eTxyeQAKQrBJscVKNNdg7SZl/",
+      "mailid": "mailto:rajarshi.kodeinkgp@gmail.com",
+      "instagram": "https://www.instagram.com/rajarshi_aug/",
+      "linkedin": "https://www.linkedin.com/in/rajarshi-mandal-a423ab243/",
+      "github": "https://github.com/RajarshiKGP"
+    },
+    {
+      "id": "3",
+      "name": "Hemanth Sai Krishna",
+      "image_url": "https://user-images.githubusercontent.com/100255314/224534776-b535311c-5dc8-4460-ab2f-1014be79d279.jpg",
+      "facebook": "https://m.facebook.com/100064758920758/",
+      "mailid": "mailto:hemanthsaikrishna48@gmail.com ",
+      "instagram": "https://instagram.com/im_hemanth_2.0?igshid=ZDdkNTZiNTM=",
+      "linkedin": "https://www.linkedin.com/in/hemanth-sai-krishna-nali-b6910b232",
+      "github": "https://github.com/hemanth17sai"
+    },
+    {
+      "id": "4",
+      "name": "N Anushka",
+      "image_url": "https://user-images.githubusercontent.com/100255314/224533609-7b386ddf-054e-4331-b8ee-d12541c0421f.jpg",
+      "facebook": "https://www.facebook.com/profile.php?id=100074796925610&mibextid=ZbWKwL",
+      "mailid": "mailto:nanushka923@gmail.com",
+      "instagram": "https://instagram.com/anushka.nath?igshid=YzgyMTM2MGM=",
+      "linkedin": "https://www.linkedin.com/in/n-anushka-a25420226",
+      "github": "https://github.com/AnushkaNath7"
+    },
+    {
+      "id": "5",
+      "name": "Abdeali Rangwala",
+      "image_url": "https://user-images.githubusercontent.com/100255314/224533613-64fa5767-f27b-4e0c-9b7b-66683bc313e4.jpg",
+      "facebook": "https://www.facebook.com/profile.php?id=100005641816366",
+      "mailid": "mailto:abdealirangwala5@gmail.com",
+      "instagram": "https://www.instagram.com/rangwalaabdeali/",
+      "linkedin": "https://www.linkedin.com/in/abdeali-rangwala-42647522b/",
+      "github": "https://github.com/Abdeali-0203"
+    },
+    {
+      "id": "6",
+      "name": "Adarsha Mahapatra",
+      "image_url": "https://user-images.githubusercontent.com/100255314/224533688-6ccbff43-1b69-4cb3-bcbd-7ac1381d0d67.jpg",
+      "facebook": "https://www.facebook.com/profile.php?id=100077511677310",
+      "mailid": "mailto:adarshmahapatra2522@gmail.com",
+      "instagram": "https://www.instagram.com/adarsh__.mahapatra__/",
+      "linkedin": "https://www.linkedin.com/in/adarsha-mahapatra-5bab63228/",
+      "github": "https://github.com/Adarsh-51"
+    },
+    {
+      "id": "7",
+      "name": "Devesh Meena ",
+      "image_url": "https://user-images.githubusercontent.com/100255314/224533932-8d914b3f-d8f0-406b-9664-cdfc493f150a.jpg",
+      "facebook": "https://www.facebook.com/profile.php?id=100075438251697",
+      "mailid": "mailto:devesh9413264048@gmail.com",
+      "instagram": "https://www.instagram.com/deveshtamadi384/",
+      "linkedin": "https://www.linkedin.com/in/devesh-meena-73a2b4240/",
+      "github": "https://github.com/devesh405"
+    },
+    {
+      "id": "8",
+      "name": "Adrish Adhikari",
+      "image_url": "https://user-images.githubusercontent.com/100255314/224533953-2af36d64-5977-48da-979f-76cfac8f8484.jpeg",
+      "facebook": "https://www.facebook.com/adrish.adhikari.9",
+      "mailid": "mailto:adrishadhikari2003@gmail.com",
+      "instagram": "https://www.instagram.com/max_stark07/",
+      "linkedin": "https://www.linkedin.com/in/adrish-adhikari-b9a45b244?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3BUtBuIGodSMOfjNRA7IWzfg%3D%3D",
+      "github": "https://github.com/Max-Stark07"
+    },
+    {
+      "id": "9",
+      "name": "Soukhin Nayek",
+      "image_url": "https://user-images.githubusercontent.com/100255314/224534025-05469f4b-5518-462e-90b9-10f6cf214daa.jpg",
+      "facebook": "https://www.facebook.com/profile.php?id=100075679234601",
+      "mailid": "mailto:soukhinkgp2@gmail.com",
+      "instagram": "https://www.instagram.com/_soukhin/",
+      "linkedin": "https://www.linkedin.com/in/soukhin-nayek-96b68b249/",
+      "github": "https://github.com/Soukhin-Nayek"
+    },
 
-		{
-			"id": "10",
-			"name": "Sumit Kumar Sharma",
-			"image_url": "https://user-images.githubusercontent.com/100255314/224534157-11ae3439-e8c2-40e0-9c3d-9a6be5d34a14.jpg",
-			"facebook": "https://m.facebook.com/100035109126896/",
-			"mailid": "mailto:sumitkumarsharma372@gmail.com",
-			"instagram": "https://www.instagram.com/__sumitsharma/",
-			"linkedin": "https://www.linkedin.com/in/sumit-sharma-b8a396227",
-			"github": "https://github.com/sumitsharma372"
-		},
-		{
-			"id": "11",
-			"name": "Kunal Agarwal",
-			"image_url": "https://user-images.githubusercontent.com/100255314/224534893-1e266b51-8ed3-43b2-a075-bec91bebe86f.jpg",
-			"facebook": "https://www.facebook.com/Kunal.TheEnigma",
-			"mailid": "mailto:kunal.soulrocker@gmail.com",
-			"instagram": "https://www.instagram.com/k.u.n.a.al/?hl=en",
-			"linkedin": "https://www.linkedin.com/in/kunal-agarwal-10b62b223/",
-			"github": "https://github.com/theenigmaticsoul"
-		},
+    {
+      "id": "10",
+      "name": "Sumit Kumar Sharma",
+      "image_url": "https://user-images.githubusercontent.com/100255314/224534157-11ae3439-e8c2-40e0-9c3d-9a6be5d34a14.jpg",
+      "facebook": "https://m.facebook.com/100035109126896/",
+      "mailid": "mailto:sumitkumarsharma372@gmail.com",
+      "instagram": "https://www.instagram.com/__sumitsharma/",
+      "linkedin": "https://www.linkedin.com/in/sumit-sharma-b8a396227",
+      "github": "https://github.com/sumitsharma372"
+    },
+    {
+      "id": "11",
+      "name": "Kunal Agarwal",
+      "image_url": "https://user-images.githubusercontent.com/100255314/224534893-1e266b51-8ed3-43b2-a075-bec91bebe86f.jpg",
+      "facebook": "https://www.facebook.com/Kunal.TheEnigma",
+      "mailid": "mailto:kunal.soulrocker@gmail.com",
+      "instagram": "https://www.instagram.com/k.u.n.a.al/?hl=en",
+      "linkedin": "https://www.linkedin.com/in/kunal-agarwal-10b62b223/",
+      "github": "https://github.com/theenigmaticsoul"
+    },
 
-		{
-			"id": "12",
-			"name": "Thummala Harika",
-			"image_url": "https://user-images.githubusercontent.com/100255314/224534187-bc42e167-59a0-4d24-bd74-d0d8a33dcdd8.jpg",
-			"facebook": "https://www.facebook.com/profile.php?id=100080876847590",
-			"mailid": "mailto:thummalaharika17@gmail.com",
-			"instagram": "https://www.instagram.com/harika_one7/",
-			"linkedin": "https://www.linkedin.com/in/harika-thummala-6097b923a/",
-			"github": "https://github.com/thummalaharika"
-		},
-		{
-			"id": "13",
-			"name": "Anik Dwivedi ",
-			"image_url": "https://user-images.githubusercontent.com/100255314/224534537-c7eddac4-37df-425e-a69c-2232d3f86129.jpg",
-			"facebook": "https://www.facebook.com/anik.dwivedi",
-			"mailid": "mailto:anikdwivedi805555@gmail.com",
-			"instagram": "https://instagram.com/anik_018_?igshid=YzgyMTM2MGM=",
-			"linkedin": "https://www.linkedin.com/in/anik-dwivedi-88069b22b",
-			"github": "https://github.com/rocky805555"
-		},
-		{
-			"id": "14",
-			"name": "Vineet Yadav ",
-			"image_url": "https://user-images.githubusercontent.com/100255314/224537837-0099e7ef-845c-44d8-b971-fc2329803b17.jpg",
-			"facebook": "https://www.facebook.com/profile.php?id=100015693550921",
-			"mailid": "mailto:Vineetyadav5568@gmail.com",
-			"instagram": "https://www.instagram.com/vineet_yadav4169/",
-			"linkedin": "https://www.linkedin.com/in/vineet-yadav-a60260228/",
-			"github": "https://github.com/yadav-VINEET"
-		},
-		{
-			"id": "15",
-			"name": "Priyanshu Ranjan",
-			"image_url": "https://user-images.githubusercontent.com/100255314/224537545-1522c331-1b61-4325-a992-6520775b6403.JPG",
-			"facebook": "https://www.facebook.com/prrockzed/",
-			"mailid": "mailto:prrockzed@pm.me",
-			"instagram": "https://www.instagram.com/prrockzed/",
-			"linkedin": "https://www.linkedin.com/in/prrockzed/",
-			"github": "https://github.com/prrockzed"
-		},
-		{
-			"id": "16",
-			"name": "Swapnik Varala ",
-			"image_url": "https://user-images.githubusercontent.com/100255314/224537557-8a7646db-4bf5-4984-8010-0e80ab075d95.jpg",
-			"facebook": "https://m.facebook.com/100073472325429/",
-			"mailid": "mailto:swapnikvarala@gmail.com",
-			"instagram": "https://instagram.com/swapnik_varala?igshid=ZDdkNTZiNTM=",
-			"linkedin": "https://www.linkedin.com/in/swapnik-varala",
-			"github": "https://github.com/swapnik-iitkgp"
-		},
-		{
-			"id": "17",
-			"name": "Divyansh Tripathi",
-			"image_url": "https://user-images.githubusercontent.com/100255314/226288088-b0383f17-2020-4f9b-8370-94a10f1a1098.jpg",
-			"facebook": "https://www.facebook.com/1912div/",
-			"mailid": "divyanshkktrip@gmail.com",
-			"instagram": "https://www.instagram.com/1912div/?hl=en",
-			"linkedin": "https://www.linkedin.com/in/divyansh-tripathi-b82544223/",
-			"github": "https://github.com/divkodes"
-		}
-	],
-	{
-		"content": "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eligendi repudiandae rem dolores perspiciatis consequatur possimus, nisi, quidem voluptas dolor cum vel error iure nam, architecto cumque minus voluptates odio! Voluptates voluptatibus veritatis voluptatum fugiat minus asperiores provident. Ab ullam asperiores, modi facere est, quod vero, nemo adipisci quam harum praesentium optio dolor exercitationem? Iste blanditiis officia voluptatibus facere eius unde cumque eum consequuntur vero recusandae. Deserunt rerum, pariatur tempora corporis, temporibus, dolorum minus provident officiis consequatur exercitationem voluptatibus. Nulla placeat, rem saepe nisi incidunt voluptas molestiae. Minima quis soluta aut dolor fuga, excepturi laborum inventore fugit itaque quae. Dolore, voluptatum!"
-	}
+    {
+      "id": "12",
+      "name": "Thummala Harika",
+      "image_url": "https://user-images.githubusercontent.com/100255314/224534187-bc42e167-59a0-4d24-bd74-d0d8a33dcdd8.jpg",
+      "facebook": "https://www.facebook.com/profile.php?id=100080876847590",
+      "mailid": "mailto:thummalaharika17@gmail.com",
+      "instagram": "https://www.instagram.com/harika_one7/",
+      "linkedin": "https://www.linkedin.com/in/harika-thummala-6097b923a/",
+      "github": "https://github.com/thummalaharika"
+    },
+    {
+      "id": "13",
+      "name": "Anik Dwivedi ",
+      "image_url": "https://user-images.githubusercontent.com/100255314/224534537-c7eddac4-37df-425e-a69c-2232d3f86129.jpg",
+      "facebook": "https://www.facebook.com/anik.dwivedi",
+      "mailid": "mailto:anikdwivedi805555@gmail.com",
+      "instagram": "https://instagram.com/anik_018_?igshid=YzgyMTM2MGM=",
+      "linkedin": "https://www.linkedin.com/in/anik-dwivedi-88069b22b",
+      "github": "https://github.com/rocky805555"
+    },
+    {
+      "id": "14",
+      "name": "Vineet Yadav ",
+      "image_url": "https://user-images.githubusercontent.com/100255314/224537837-0099e7ef-845c-44d8-b971-fc2329803b17.jpg",
+      "facebook": "https://www.facebook.com/profile.php?id=100015693550921",
+      "mailid": "mailto:Vineetyadav5568@gmail.com",
+      "instagram": "https://www.instagram.com/vineet_yadav4169/",
+      "linkedin": "https://www.linkedin.com/in/vineet-yadav-a60260228/",
+      "github": "https://github.com/yadav-VINEET"
+    },
+    {
+      "id": "15",
+      "name": "Priyanshu Ranjan",
+      "image_url": "https://user-images.githubusercontent.com/100255314/224537545-1522c331-1b61-4325-a992-6520775b6403.JPG",
+      "facebook": "https://www.facebook.com/prrockzed/",
+      "mailid": "mailto:prrockzed@pm.me",
+      "instagram": "https://www.instagram.com/prrockzed/",
+      "linkedin": "https://www.linkedin.com/in/prrockzed/",
+      "github": "https://github.com/prrockzed"
+    },
+    {
+      "id": "16",
+      "name": "Swapnik Varala ",
+      "image_url": "https://user-images.githubusercontent.com/100255314/224537557-8a7646db-4bf5-4984-8010-0e80ab075d95.jpg",
+      "facebook": "https://m.facebook.com/100073472325429/",
+      "mailid": "mailto:swapnikvarala@gmail.com",
+      "instagram": "https://instagram.com/swapnik_varala?igshid=ZDdkNTZiNTM=",
+      "linkedin": "https://www.linkedin.com/in/swapnik-varala",
+      "github": "https://github.com/swapnik-iitkgp"
+    },
+    {
+      "id": "17",
+      "name": "Divyansh Tripathi",
+      "image_url": "https://user-images.githubusercontent.com/100255314/226288088-b0383f17-2020-4f9b-8370-94a10f1a1098.jpg",
+      "facebook": "https://www.facebook.com/1912div/",
+      "mailid": "divyanshkktrip@gmail.com",
+      "instagram": "https://www.instagram.com/1912div/?hl=en",
+      "linkedin": "https://www.linkedin.com/in/divyansh-tripathi-b82544223/",
+      "github": "https://github.com/divkodes"
+    }
+  ],
+  {
+    "content": "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eligendi repudiandae rem dolores perspiciatis consequatur possimus, nisi, quidem voluptas dolor cum vel error iure nam, architecto cumque minus voluptates odio! Voluptates voluptatibus veritatis voluptatum fugiat minus asperiores provident. Ab ullam asperiores, modi facere est, quod vero, nemo adipisci quam harum praesentium optio dolor exercitationem? Iste blanditiis officia voluptatibus facere eius unde cumque eum consequuntur vero recusandae. Deserunt rerum, pariatur tempora corporis, temporibus, dolorum minus provident officiis consequatur exercitationem voluptatibus. Nulla placeat, rem saepe nisi incidunt voluptas molestiae. Minima quis soluta aut dolor fuga, excepturi laborum inventore fugit itaque quae. Dolore, voluptatum!"
+  }
 ]

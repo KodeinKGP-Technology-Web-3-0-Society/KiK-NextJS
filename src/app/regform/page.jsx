@@ -1,9 +1,7 @@
-import React from 'react'
+import React from "react";
 
 const RegForm = () => {
-  return (
-    <div>RegForm</div>
-  )
-}
+  return <div>RegForm</div>;
+};
 
-export default RegForm
+export default RegForm;

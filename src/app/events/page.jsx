@@ -12,7 +12,7 @@ const page = () => {
             {/* Event Container */}
             <h2
               className="text-[48px] ml-[5px] mb-6 mt-[32px] max-lg:text-[35px] max-lg:ml-4
-                         bg-clip-text font-poppins font-bold"
+                         bg-clip-text font-[Kanit] font-bold"
               style={{
                 marginBottom: index === 0 || index === 5 ? '3.5rem' : '0',
                 background: `radial-gradient(64.18% 64.18% at 71.16% 35.69%, 
@@ -45,7 +45,7 @@ const page = () => {
   />
 </div>
               <div className="event_content">
-                <h3 className="text-[30px] text-white mt-2 mb-4 font-kanit mx-0 max-lg:text-[25px]">
+                <h3 className="text-[30px] text-white mt-2 mb-4 font-[poppins] font-[500] mx-0 max-lg:text-[25px]">
                   {eventx.heading}
                 </h3>
 
@@ -58,24 +58,26 @@ const page = () => {
 
                 {Array.isArray(eventx.sponsor) && eventx.sponsor.length > 0 && (
                   <div className="flex gap-[20px] mt-4 items-center max-lg:pr-2">
-                    <div className="text-[20px] text-white font-poppins">
+                    <div className="text-[20px] text-white font-[poppins]">
                       <h5>Sponsored by:</h5>
                     </div>
                     <div className="flex flex-wrap gap-[10px]">
-                      {eventx.sponsor.map((sponsor, i) => (
-                        <div key={i} className="flex items-center gap-1">
-                          <div className="relative w-[35px] h-[35px]">
-                            <Image
-                              src={eventx.sponsor_img[i]}
-                              alt={sponsor}
-                              fill
-                              className="rounded-full object-cover"
-                              sizes="35px"
-                            />
-                          </div>
-                          <h4 className="my-0 text-white mx-[10px]">{sponsor}</h4>
-                        </div>
+    {eventx.sponsor.map((sponsor, i) => (
+      <div key={i} className="flex items-center gap-1">
+        <div className="relative w-[35px] h-[35px] rounded-full overflow-hidden">
+          <Image
+            src={eventx.sponsor_img[i]}
+            alt={sponsor}
+            fill
+            className="object-cover"
+            sizes="35px"
+            priority={i < 2} // load early for first 2
+          />
+        </div>
+        <h4 className="my-0 text-white mx-[10px]">{sponsor}</h4>
+      </div>
                       ))}
+
                     </div>
                   </div>
                 )}

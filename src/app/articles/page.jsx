@@ -1,7 +1,15 @@
 import React from 'react'
 import LottieWrapper from './LottieWrapper'
 import data from '../../data/articles/articles-list.json'
+import { Poppins, Montserrat } from 'next/font/google'
 
+const poppins = Poppins({ subsets: ['latin'], weight: '600' })
+const montserrat = Montserrat({
+  subsets: ['latin'],
+  weight: ['400'],
+  variable: '--font-montserrat',  
+  display: 'swap', 
+})
 
 const Articles = () => {
     const cards = data.map((info, index) => (
@@ -32,16 +40,16 @@ const Articles = () => {
             {/* article heading  */}
             <div className="flex mb-0 max-[1300px]:mb-20 flex-row max-[800px]:flex-col">
                 <div className="flex justify-between self-center flex-col w-[55vw] max-[800px]:w-[90vw] ">
-                    <div className="font-semibold ml-[2.5vw] font-['Arial]
+                    <div className={`font-semibold ml-[2.5vw] ${poppins.className}
 					text-[4rem] sm:text-[6rem] lg:text-[7rem] xl:text-[8rem] 
 					leading-[100px] sm:leading-[120px] 
 					pl-0 md:pl-[3rem] 
 					flex md:self-start self-center tracking-[0.1rem]
 					bg-gradient-to-r from-[#11e3fb] via-[#b5f6fd] to-[#5be6ff] 
-					text-transparent bg-clip-text [background-size:300%_auto] [background-position:0%_50%] animate-gradient-shift">
+					text-transparent bg-clip-text [background-size:300%_auto] [background-position:0%_50%] animate-gradient-shift`}>
                         Articles
                     </div>
-                    <div className="text-white self-start font-['Montserrat'] pl-24 mt-14 max-[800px]:pl-12 max-[500px]:pl-0 max-[500px]:mt-6 max-[500px]:text-center">
+                    <div className={`text-white self-start ${montserrat.className} font-light pl-24 mt-14 max-[800px]:pl-12 max-[500px]:pl-0 max-[500px]:mt-6 max-[500px]:text-center`}>
                         <div className=" text-[2rem] mb-4 leading-tight max-[1300px]:text-[1.8rem] max-[550px]:text-[1.2rem]">Your Gateway to AI, Web Dev, and Blockchain</div>
                         <p className='font-thin text-2xl max-[1300px]:text-[1.2rem] max-[550px]:text-[1rem]'>
                             Explore cutting-edge trends and insights shaping the future of

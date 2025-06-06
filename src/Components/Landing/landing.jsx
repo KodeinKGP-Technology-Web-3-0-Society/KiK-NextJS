@@ -179,8 +179,8 @@ const Landing = () => {
 			<div className="flex flex-col md:flex-row justify-between p-3 md:pl-10">
 				<div className="text-center md:text-left text-lg p-3 md:p-8 md:w-1/2">
 					<h1 className="text-white font-semibold text-left font-[Arial]">
-						<div className='md:text-[65px] text-[50px]'>Welcome to</div>
-						<span className="md:text-[80px] text-[60px] font-extrabold bg-gradient-to-br from-[#11E3FB] via-[#5BE6FF] to-[#B5F6FD] bg-clip-text text-transparent text-center">
+						<div className='md:text-[65px] text-[50px] mb-[-30px]'>Welcome to</div>
+						<span className="md:text-[80px] text-[60px] font-bold bg-gradient-to-br from-[#11E3FB] via-[#5BE6FF] to-[#B5F6FD] bg-clip-text text-transparent text-center">
 							KodeinKGP
 						</span>
 					</h1>
@@ -188,7 +188,7 @@ const Landing = () => {
 						“The Web as I envisaged it, we have not seen it yet. The future is
 						still so much bigger than the past”
 					</p>
-					<p className=" text-white font-poppins text-lg font-normal leading-loose text-left">
+					<p className=" text-white font-poppins text-sm font-normal leading-loose text-left">
 						A student-run society that aims to spread awareness and educate
 						students about the potential of Web 3.0 and future technologies. We
 						host workshops and hackathons to give students hands-on experience

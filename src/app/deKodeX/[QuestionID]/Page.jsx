@@ -1,6 +1,6 @@
 import React from "react";
 import data from "../../../data/deKodeX/event-que.json";
-
+import ReturnButton from "@/Components/utils/ReturnButton";
 async function page({ params }) {
   const QuestionID = await params.QuestionID;
   const questionData = data.find((q) => q.id === QuestionID);
@@ -43,36 +43,7 @@ async function page({ params }) {
             {QuestionID < 9 ? "0" : ""}
             {QuestionID} {questionData.title}
           </span>
-          <button
-            className="absolute right-0 items-center justify-center rounded-[8px] pl-2"
-            style={{
-              width: 75,
-              height: 27,
-              background:
-                "linear-gradient(180deg, #218ACB 0%, #0CC5DA 50%, #11E3FB 100%)",
-              border: "none",
-              cursor: "pointer",
-            }}
-            // Add your onClick handler here if needed
-          >
-            <span
-              style={{
-                fontFamily: "'Victor Mono', monospace",
-                fontWeight: 700,
-                fontSize: 11,
-                lineHeight: "17px",
-                color: "#01011B",
-                width: 58,
-                height: 17,
-                letterSpacing: 0,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              {"<<Return"}
-            </span>
-          </button>
+          <ReturnButton />
         </div>
         <div className="absolute top-[80px] h-[17px] w-[1437px] bg-gradient-to-b from-[rgba(255,255,255,0.2)] via-[#0CC5DA] to-[#01011B]"></div>
       </div>

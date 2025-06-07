@@ -1,0 +1,13 @@
+[
+  {
+    "id": "1",
+    "title": "Alternating String",
+    "description": "You are given a binary string (a string consisting only of '0' and '1') of length n. Your task is to make the string alternating by changing at most one character. A string is called alternating if no two adjacent characters are the same. For example, '0101', '1010', '0', and '1' are alternating, but '00', '0110', and '111' are not. Return the alternating string after making at most one change. If it's already alternating, return it as is.",
+    "sampleInput": "5\n01010",
+    "sampleInputSolution": "The input string '01010' is already alternating: no two adjacent characters are the same. So, the answer is the string itself.",
+    
+    "sampleOutput": "01010",
+    "testCase": "6\n000101",
+    "answer": "010101"
+  }
+]

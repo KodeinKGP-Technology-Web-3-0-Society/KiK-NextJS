@@ -12,7 +12,7 @@ export default function Layout() {
                 <ProblemArena/>
             </div>
 
-            <div className="hidden md:block w-[30%] bg-400 p-6 text-white">
+            <div className="hidden md:block w-[30%] bg-400 p-6 text-white mr-6 ml-[-3rem]">
                 <Leaderboard />
             </div>
         </div>

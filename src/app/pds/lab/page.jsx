@@ -119,13 +119,7 @@ export default function Lab() {
         LAB PROBLEMS
       </div>
 
-      <div className="!mb-4 flex w-full max-w-6xl flex-col justify-between px-7 sm:flex-row sm:items-center sm:px-0">
-        <button
-          className="rounded-t border-b border-cyan-300 bg-gray-800 px-10 py-2 font-semibold text-white transition-all hover:brightness-125 sm:w-[200px]"
-          onClick={openLoginBox}
-        >
-          {user ? "LogOut" : "Login to Save"}
-        </button>
+      <div className="!mb-4 flex w-full max-w-6xl flex-col justify-left px-7 sm:flex-row sm:items-center sm:px-0">
 
         <div className="relative mt-2 w-full sm:mt-0 sm:w-[200px]">
           <div

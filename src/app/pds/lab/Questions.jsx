@@ -35,8 +35,8 @@ export default function Questions({ topic, subTopic, viewMode }) {
   const questionsData = getQuestionsData();
 
   return (
-    <div className="w-full overflow-x-auto">
-      <table className="w-full">
+    <div className="w-full overflow-x-auto ">
+      <table className="w-full ">
         <tbody>
           {questionsData.map((qa, i) => {
             // Always find the original index to keep LabCard consistent

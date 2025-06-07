@@ -10,17 +10,26 @@
     "format": "prettier --write ."
   },
   "dependencies": {
+    "@fortawesome/fontawesome-free": "^6.4.2",
+    "@fortawesome/fontawesome-svg-core": "^6.4.2",
+    "@fortawesome/free-brands-svg-icons": "^6.4.2",
+    "@fortawesome/free-solid-svg-icons": "^6.4.2",
+    "@fortawesome/react-fontawesome": "^0.2.0",
     "gsap": "^3.13.0",
     "ionicons": "^8.0.9",
     "lottie-react": "^2.4.1",
+    "lucide-react": "^0.513.0",
     "next": "15.3.3",
     "prettier-plugin-tailwindcss": "^0.6.12",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "react-syntax-highlighter": "^15.6.1"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
     "@tailwindcss/postcss": "^4.1.8",
+    "@types/node": "22.15.30",
+    "@types/react": "19.1.6",
     "eslint": "^9",
     "eslint-config-next": "15.3.3",
     "eslint-config-prettier": "^10.1.5",

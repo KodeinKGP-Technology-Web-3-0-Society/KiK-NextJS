@@ -1,0 +1,24 @@
+[
+    {
+        "id": 1,
+        "title": "Unique Paths in a Grid",
+        "desc": "You are given an m x n grid. Your task is to count the number of unique paths from the top-left corner (1,1) to the bottom-right corner (m,n). You can only move either down or right at any point in time.\n\nPrint the number of unique paths modulo 10^9+7.",
+        "sampleInput": "3 3",
+        "sampleOutput": "6",
+        "testCase": [
+        {
+            "input": "2 2",
+            "output": "2"
+        },
+        {
+            "input": "4 4",
+            "output": "20"
+        },
+        {
+            "input": "5 7",
+            "output": "792"
+        }
+        ],
+        "answer": "Use combinatorics: The number of unique paths from (1,1) to (m,n) is C(m+n-2, m-1)."
+    }
+]

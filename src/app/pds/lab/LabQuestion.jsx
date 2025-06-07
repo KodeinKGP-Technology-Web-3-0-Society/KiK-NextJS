@@ -70,7 +70,7 @@ export default function LabQuestion() {
               className="cursor-pointer rounded-br-xl bg-[#3f3d3d] px-4 py-1 text-base text-white"
               onClick={handleCopy}
             >
-              {copy ? "✅ Copied!" : "📋 Copy Code"}
+              {copy ? "✅" : "📄"}
             </button>
           </div>
           <SyntaxHighlighter

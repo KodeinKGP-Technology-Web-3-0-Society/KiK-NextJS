@@ -56,19 +56,19 @@ export default function LabCard({ qna, topic, subTopic, ind }) {
 
   return (
     <tr className="border border-[#555] bg-[#050a24] shadow-md transition-transform duration-200">
-      <td className="cursor-pointer px-2 text-white" onClick={toggleCompleted}>
+      <td className="cursor-pointer pl-5 pr-2 text-white" onClick={toggleCompleted}>
         {isComp ? (
           <CheckSquare size={20} />
         ) : (
           <Square size={20} fill={"white"} />
         )}
       </td>
-      <td className="w-full py-2 pr-2 pl-3 text-left align-middle text-[1.2rem] whitespace-nowrap">
+      <td className="w-full py-3.5 pr-2 pl-3 text-left align-middle text-[1.2rem] whitespace-nowrap">
         <Link href={path} className="text-white no-underline" target="_blank">
           {displayText}
         </Link>
       </td>
-      <td className="cursor-pointer px-2 text-white" onClick={toggleFavourite}>
+      <td className="cursor-pointer px-5 text-white" onClick={toggleFavourite}>
         <Star
           size={24}
           color={isFav ? "yellow" : "white"}

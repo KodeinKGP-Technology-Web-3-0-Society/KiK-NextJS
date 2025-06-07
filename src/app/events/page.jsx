@@ -11,7 +11,7 @@ const page = () => {
           <div className="mx-auto flex w-[95%] flex-col" key={index}>
             {/* Event Container */}
             <h2
-              className="font-[kanit] mt-[32px] mb-6 ml-[5px] bg-clip-text text-[48px] font-bold max-lg:ml-4 max-lg:text-[35px]"
+              className="mt-[32px] mb-6 ml-[5px] bg-clip-text font-[kanit] text-[48px] font-bold max-lg:ml-4 max-lg:text-[35px]"
               style={{
                 marginBottom: index === 0 || index === 5 ? "3.5rem" : "0",
                 background: `radial-gradient(64.18% 64.18% at 71.16% 35.69%, 
@@ -46,7 +46,7 @@ const page = () => {
                 />
               </div>
               <div className="event_content">
-                <h3 className="font-[kanit] mx-0 mt-2 mb-4 text-[30px] text-white max-lg:text-[25px]">
+                <h3 className="mx-0 mt-2 mb-4 font-[kanit] text-[30px] text-white max-lg:text-[25px]">
                   {eventx.heading}
                 </h3>
 

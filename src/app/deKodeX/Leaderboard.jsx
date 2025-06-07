@@ -25,3 +25,5 @@ export default function Leaderboard() {
         </div>
     );
 }
+
+// https://api.dicebear.com/7.x/micah/svg?seed={username}

@@ -1,5 +1,5 @@
-import { db } from '@/backend/firebaseAdmin.js';
-import { NextResponse } from 'next/server';
+import { db } from "@/backend/firebaseAdmin.js";
+import { NextResponse } from "next/server";
 
 const questionIdToIndex = {
   q1: 0,
@@ -14,10 +14,11 @@ const questionIdToIndex = {
   q10: 9,
 };
 
-const baseScores = [1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000];
+const baseScores = [
+  1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000,
+];
 const PENALTY_PERCENTAGE = 0.0005; // 0.05% deduction per correct submission for future solvers
 const WRONG_PENALTY = 10; // 0.5% penalty for wrong submissions
-
 
 export async function POST(request, { params }) {
   try {
@@ -28,65 +29,75 @@ export async function POST(request, { params }) {
     const { answer, email } = body;
     // console.log("email:", email, "answer:", answer);
 
-    const questDoc = await db.collection('questions').doc(id).get();
+    const questDoc = await db.collection("questions").doc(id).get();
     if (!questDoc.exists) {
-      return NextResponse.json({ error: 'Question not found' }, { status: 404 });
+      return NextResponse.json(
+        { error: "Question not found" },
+        { status: 404 }
+      );
     }
 
     const questionData = questDoc.data();
     const questionDate = questionData.date;
     const localToday = new Date();
-    const today = localToday.getFullYear() + '-' +
-      String(localToday.getMonth() + 1).padStart(2, '0') + '-' +
-      String(localToday.getDate()).padStart(2, '0');
+    const today =
+      localToday.getFullYear() +
+      "-" +
+      String(localToday.getMonth() + 1).padStart(2, "0") +
+      "-" +
+      String(localToday.getDate()).padStart(2, "0");
 
     if (questionDate > today) {
-      return NextResponse.json({ error: 'Question is not yet available to submit' }, { status: 403 });
+      return NextResponse.json(
+        { error: "Question is not yet available to submit" },
+        { status: 403 }
+      );
     }
 
     if (!email) {
-      return new Response(JSON.stringify({ error: 'User ID required' }), {
+      return new Response(JSON.stringify({ error: "User ID required" }), {
         status: 400,
-        headers: { 'Content-Type': 'application/json' },
+        headers: { "Content-Type": "application/json" },
       });
     }
 
     if (!answer) {
-      return new Response(JSON.stringify({ error: 'Answer is required' }), {
+      return new Response(JSON.stringify({ error: "Answer is required" }), {
         status: 400,
-        headers: { 'Content-Type': 'application/json' },
+        headers: { "Content-Type": "application/json" },
       });
     }
 
     const qIndex = questionIdToIndex[id];
     if (qIndex === undefined) {
-      return new Response(JSON.stringify({ error: 'Invalid question ID' }), {
+      return new Response(JSON.stringify({ error: "Invalid question ID" }), {
         status: 400,
-        headers: { 'Content-Type': 'application/json' },
+        headers: { "Content-Type": "application/json" },
       });
     }
 
-    const questionDoc = await db.collection('testcases').doc(id).get();
+    const questionDoc = await db.collection("testcases").doc(id).get();
 
     if (!questionDoc.exists) {
-      return new Response(JSON.stringify({ error: 'Question not found' }), {
+      return new Response(JSON.stringify({ error: "Question not found" }), {
         status: 404,
-        headers: { 'Content-Type': 'application/json' },
+        headers: { "Content-Type": "application/json" },
       });
     }
 
     const { correctAnswer } = questionDoc.data();
-    const isCorrect = answer.toString().trim() === correctAnswer.toString().trim();
+    const isCorrect =
+      answer.toString().trim() === correctAnswer.toString().trim();
 
-    const userQuerySnapshot = await db.collection('users').where('email', '==', email).get();
+    const userQuerySnapshot = await db
+      .collection("users")
+      .where("email", "==", email)
+      .get();
     if (userQuerySnapshot.empty) {
-      return new Response(
-        JSON.stringify({ error: 'User not found' }),
-        {
-          status: 404,
-          headers: { 'Content-Type': 'application/json' },
-        }
-      );
+      return new Response(JSON.stringify({ error: "User not found" }), {
+        status: 404,
+        headers: { "Content-Type": "application/json" },
+      });
     }
 
     const userDoc = userQuerySnapshot.docs[0];
@@ -96,21 +107,23 @@ export async function POST(request, { params }) {
 
     if (submissions[qIndex] > 0) {
       return new Response(
-        JSON.stringify({ error: 'Question already submitted Correctly' }),
+        JSON.stringify({ error: "Question already submitted Correctly" }),
         {
           status: 400,
-          headers: { 'Content-Type': 'application/json' },
+          headers: { "Content-Type": "application/json" },
         }
       );
     }
 
-
     if (isCorrect) {
-      const questionRef = db.collection('questions').doc(id);
+      const questionRef = db.collection("questions").doc(id);
       const questionSnap = await questionRef.get();
       const questionScore = questionSnap.data().score;
 
-      submissions[qIndex] = Math.max(questionScore - Math.abs(submissions[qIndex]), 0);// avoid making it negative
+      submissions[qIndex] = Math.max(
+        questionScore - Math.abs(submissions[qIndex]),
+        0
+      ); // avoid making it negative
 
       //upadting question score on each submission
 
@@ -139,17 +152,14 @@ export async function POST(request, { params }) {
       }),
       {
         status: 200,
-        headers: { 'Content-Type': 'application/json' },
+        headers: { "Content-Type": "application/json" },
       }
     );
   } catch (error) {
-    console.error('Error in /submit/[id]:', error);
-    return new Response(
-      JSON.stringify({ error: 'Internal server error' }),
-      {
-        status: 500,
-        headers: { 'Content-Type': 'application/json' },
-      }
-    );
+    console.error("Error in /submit/[id]:", error);
+    return new Response(JSON.stringify({ error: "Internal server error" }), {
+      status: 500,
+      headers: { "Content-Type": "application/json" },
+    });
   }
 }

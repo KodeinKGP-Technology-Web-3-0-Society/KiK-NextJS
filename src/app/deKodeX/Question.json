@@ -1,12 +1,57 @@
 [
-  { "id": "01", "title": "Red-Nosed Reports", "points": "<100>", "is_revealed": true },
-  { "id": "02", "title": "Hystorian Hysteria", "points": "<120>", "is_revealed": true },
-  { "id": "03", "title": "Mull It Over", "points": "<150>", "is_revealed": true },
-  { "id": "04", "title": "Ceres Search", "points": "<175>", "is_revealed": true },
-  { "id": "05", "title": "Print Queue", "points": "<200>", "is_revealed": false },
-  { "id": "06", "title": "Guard Gallivant", "points": "<225>", "is_revealed": false },
-  { "id": "07", "title": "Bridge Repair", "points": "<250>", "is_revealed": false },
-  { "id": "08", "title": "Resonant Collinearity", "points": "<275>", "is_revealed": false },
-  { "id": "09", "title": "Disk Fragmenter", "points": "<300>", "is_revealed": false },
+  {
+    "id": "01",
+    "title": "Red-Nosed Reports",
+    "points": "<100>",
+    "is_revealed": true
+  },
+  {
+    "id": "02",
+    "title": "Hystorian Hysteria",
+    "points": "<120>",
+    "is_revealed": true
+  },
+  {
+    "id": "03",
+    "title": "Mull It Over",
+    "points": "<150>",
+    "is_revealed": true
+  },
+  {
+    "id": "04",
+    "title": "Ceres Search",
+    "points": "<175>",
+    "is_revealed": true
+  },
+  {
+    "id": "05",
+    "title": "Print Queue",
+    "points": "<200>",
+    "is_revealed": false
+  },
+  {
+    "id": "06",
+    "title": "Guard Gallivant",
+    "points": "<225>",
+    "is_revealed": false
+  },
+  {
+    "id": "07",
+    "title": "Bridge Repair",
+    "points": "<250>",
+    "is_revealed": false
+  },
+  {
+    "id": "08",
+    "title": "Resonant Collinearity",
+    "points": "<275>",
+    "is_revealed": false
+  },
+  {
+    "id": "09",
+    "title": "Disk Fragmenter",
+    "points": "<300>",
+    "is_revealed": false
+  },
   { "id": "10", "title": "Hoof It", "points": "<325>", "is_revealed": false }
 ]

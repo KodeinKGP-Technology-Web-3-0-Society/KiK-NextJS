@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { useAuth } from "@/contexts/authContext";
 import { useRouter } from 'next/navigation';
-import { doc, setDoc, getDoc } from 'firebase/firestore';
+import { doc, setDoc, getDoc, updateDoc } from 'firebase/firestore';
 import { auth, db } from "@/backend/firebase";
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth';
 import Message from "@/Components/utils/message";
@@ -87,7 +87,7 @@ const Auth = () => {
             await setDoc(doc(db, 'users', uid), {
                 username,
                 email,
-                submissions: [],
+                submissions: initSubmissions,
                 emailVerified: user.emailVerified,
             });
 
@@ -168,10 +168,25 @@ const Auth = () => {
     const { loggedIn, user } = useAuth();
 
     useEffect(() => {
+        async function updateUserStatus() {
+            const uid = user.uid;         
+            const userDocRef = doc(db, 'users', uid);
+            try {
+                await updateDoc(userDocRef, {
+                    emailVerified: true
+                });
+                console.log("emailVerified status updated successfully!");
+            } catch (error) {
+                console.error("Error updating emailVerified status:", error);
+            }
+        }
+
         if (user && user.emailVerified) {
             setMsg("Email verified. Redirecting...");
             setShowMsg(true);
             setMsgType("success");
+            updateUserStatus();
+
             router.push('/');
         } else if (user && !user.emailVerified) {
             setMsg("Please verify your email to continue. A verification link has been sent to your inbox. You may need to refresh after verifying.");

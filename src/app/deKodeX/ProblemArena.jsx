@@ -44,7 +44,7 @@ const ProblemArena = () => {
     </div>
   );
   return (
-    <div className="relative rounded-[4px] overflow-hidden before:absolute before:inset-0 before:rounded-[4px] before:border-[3px] before:border-transparent before:[border-image-source:linear-gradient(108.74deg,rgba(33,138,203,0.6)_0%,rgba(255,255,255,0.54)_36.46%,rgba(255,255,255,0.3)_73.96%,rgba(17,227,251,0.6)_100%)] before:[border-image-slice:1] before:content-[''] before:pointer-events-none shadow-[0_0_50px_-25px_rgba(0,0,0,0.5)] backdrop-blur-[100px] bg-[linear-gradient(108.74deg,rgba(255,255,255,0.24)_0%,rgba(255,255,255,0.06)_100%)] max-w-4xl mx-auto">
+    <div className="relative before:rounded-[4px] overflow-hidden before:absolute before:inset-0 before:rounded-[4px] before:border-[3px] before:border-transparent before:[border-image-source:linear-gradient(108.74deg,rgba(33,138,203,0.6)_0%,rgba(255,255,255,0.54)_36.46%,rgba(255,255,255,0.3)_73.96%,rgba(17,227,251,0.6)_100%)] before:[border-image-slice:1] before:content-[''] before:pointer-events-none shadow-[0_0_50px_-25px_rgba(0,0,0,0.5)] backdrop-blur-[100px] bg-[linear-gradient(108.74deg,rgba(255,255,255,0.24)_0%,rgba(255,255,255,0.06)_100%)] max-w-4xl mx-auto">
       <div className="relative z-10 p-6 rounded">
         {/* Header */}
         <div className="mb-6">

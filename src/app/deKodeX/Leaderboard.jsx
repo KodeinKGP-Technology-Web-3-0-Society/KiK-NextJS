@@ -4,7 +4,7 @@ import leaderboard from "./leaderboard.json";
 export default function Leaderboard() {
     return (
         <div 
-            className="h-[146.8vh] flex min-h-screen flex-col border-2 rounded-[1rem] border-[rgb(91,230,255)] bg-gray-800 backdrop-blur-[100px]"
+            className="h-[146.8vh] flex rounded-[4px] min-h-screen flex-col before:absolute before:inset-0 before:rounded-[4px] before:border-[3px] before:border-transparent before:[border-image-source:linear-gradient(108.74deg,rgba(33,138,203,0.6)_0%,rgba(255,255,255,0.54)_36.46%,rgba(255,255,255,0.3)_73.96%,rgba(17,227,251,0.6)_100%)] before:[border-image-slice:1] before:content-[''] before:pointer-events-none shadow-[0_0_50px_-25px_rgba(0,0,0,0.5)] backdrop-blur-[100px] bg-[linear-gradient(108.74deg,rgba(255,255,255,0.24)_0%,rgba(255,255,255,0.06)_100%)]"
         >
             <div className="flex w-full flex-col items-center justify-center p-3">
                 <h2 className="text-[2rem] font-bold mb-4"
@@ -68,7 +68,7 @@ export default function Leaderboard() {
             </div>
             <ul className="space-y-1">
                 {leaderboard.slice(3,10).map((user) => (
-                <li key={user.rank} className="flex items-center space-x-4 px-4 ml-2 bg-gradient-to-r from-[rgba(17,227,251,0.3)] to-[rgba(255,255,255,0.06)] hover:bg-[#0CC5DA] hover:bg-clip-border hover:text-#01011B group transition-colors duration-300">
+                <li key={user.rank} className="flex items-center space-x-4 px-4 ml-5 bg-gradient-to-r from-[rgba(17,227,251,0.3)] to-[rgba(255,255,255,0.06)] hover:bg-[#0CC5DA] hover:bg-clip-border hover:text-#01011B group transition-colors duration-300">
                     <span className="text-lg w-6 text-right font-bold group-hover:text-black">{user.rank}.</span>
                     <img
                         src={`https://robohash.org/${encodeURIComponent(user.name)}?set=set4`}

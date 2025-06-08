@@ -10,9 +10,9 @@ async function page({ params }) {
 
   return (
     <div
-      className="font-victor-mono relative mx-auto mt-[70px] mr-[39px] ml-[39px] flex flex-col overflow-hidden rounded-[16px] border-[3px] shadow-[0_0_50px_-25px_rgba(0,0,0,0.5)]"
+      className="relative mx-auto mt-[70px] mr-[39px] ml-[39px] flex flex-col overflow-hidden rounded-tl-[16px] rounded-tr-[16px] border-[3px] font-mono shadow-[0_0_50px_-25px_rgba(0,0,0,0.5)]"
       style={{
-        borderImage:
+        border:
           "linear-gradient(108.74deg, rgba(33,138,203,0.6) 0%, rgba(255,255,255,0.54) 36.46%, rgba(255,255,255,0.3) 73.96%, rgba(17,227,251,0.6) 100%) 1",
         backdropFilter: "blur(100px)",
       }}
@@ -65,7 +65,7 @@ async function page({ params }) {
           {questionData.sampleInputSolution}
         </p>
         <h3 className="text-[24px] text-[#00FF00]">Sample Output</h3>
-        <div className="po relative h-fit w-fit p-4 shadow-[10px_10px_20px_0px_#218ACB33,_-10px_-10px_20px_0px_#11E3FB33]">
+        <div className="po w-fill relative h-fit p-4 shadow-[10px_10px_20px_0px_#218ACB33,_-10px_-10px_20px_0px_#11E3FB33]">
           <pre>{questionData.sampleOutput}</pre>
           <button className="absolute right-0 bottom-0 hover:cursor-pointer">
             <img src="/Copy.png" alt="Copy" width={20} height={20} />

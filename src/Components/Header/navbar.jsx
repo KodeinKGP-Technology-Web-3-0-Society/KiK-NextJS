@@ -3,7 +3,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import Logo from "../../../public/KIK_logo-removebg.png";
-import SignOutButton from "../utils/signOut";
 import { useAuth } from "@/contexts/authContext";
 
 function Navbar() {

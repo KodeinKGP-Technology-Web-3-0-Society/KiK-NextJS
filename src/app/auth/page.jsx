@@ -1,260 +1,131 @@
-'use client'
+"use client";
 import React, { useEffect, useState } from "react";
 import { useAuth } from "@/contexts/authContext";
-import { useRouter } from 'next/navigation';
-import { doc, setDoc, getDoc, updateDoc } from 'firebase/firestore';
-import { auth, db } from "@/backend/firebase";
-import { signInWithEmailAndPassword, createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth';
+import { useRouter } from "next/navigation";
+import { doc, updateDoc } from "firebase/firestore";
+import { db } from "@/backend/firebase";
 import Message from "@/Components/utils/message";
+import SignIn from "@/Components/Auth/signIn";
+import SignUp from "@/Components/Auth/signUp";
 
 const Auth = () => {
+  const [doSignUp, setDoSignUp] = useState(false);
+  const [showMsg, setShowMsg] = useState(false);
+  const [msgType, setMsgType] = useState("info");
+  const [msg, setMsg] = useState("");
 
-    const [username, setUsername] = useState("");
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [cnfPassword, setCnfPassword] = useState("");
+  function toggleSignUp(value) {
+    setDoSignUp(value);
+  }
 
-    const [doSignUp, setDoSignUp] = useState(false);
+  const router = useRouter();
+  const { loggedIn, user } = useAuth();
 
-    // for displaying messages instead of alerts
-    const [showMsg, setShowMsg] = useState(false);
-    const [msgType, setMsgType] = useState("info");
-    const [msg, setMsg] = useState("");
-
-    function toggleSignUp(value) {
-        setUsername("");
-        setEmail("");
-        setPassword("");
-        setCnfPassword("");
-        setDoSignUp(value);
+  useEffect(() => {
+    async function updateUserStatus() {
+      const uid = user.uid;
+      const userDocRef = doc(db, "users", uid);
+      try {
+        await updateDoc(userDocRef, {
+          emailVerified: true,
+        });
+        console.log("emailVerified status updated successfully!");
+      } catch (error) {
+        console.error("Error updating emailVerified status:", error);
+      }
     }
 
-    function checkMail(email) {
-        // domain - '@kgpian.iitkgp.ac.in'
-        const regex = /^[a-zA-Z0-9._%+-]+@kgpian\.iitkgp\.ac\.in$/;
-        return regex.test(email);
+    if (user && user.emailVerified) {
+      setMsg("Email verified. Redirecting...");
+      setShowMsg(true);
+      setMsgType("success");
+      updateUserStatus();
+      router.push("/");
+    } else if (user && !user.emailVerified) {
+      setMsg(
+        "Please verify your email to continue. A verification link has been sent to your inbox. You may need to refresh after verifying."
+      );
+      setShowMsg(true);
+      setMsgType("warning");
     }
+    console.log("User :", user);
+  }, [loggedIn, user, router]);
 
-    const handleRegister = async (e) => {
-        e.preventDefault();
+  return (
+    <div className="min-h-screen bg-[#0b0f1a] px-4 sm:px-6 md:px-8">
+      {showMsg && (
+        <Message type={msgType} message={msg} setShowMsg={setShowMsg} />
+      )}
 
-        if (password !== cnfPassword) {
-            setMsg("Passwords do not match.");
-            setMsgType("error");
-            setShowMsg(true);
-            return;
-        }
-        if (username.length < 3 || username.length > 20) {
-            setMsg('Username must be between 3 and 20 characters.');
-            setMsgType("error");
-            setShowMsg(true);
-            return;
-        }
-        if (password.length < 6) {
-            setMsg('Password must be at least 6 characters long.');
-            setMsgType("error");
-            setShowMsg(true);
-            return;
-        }
+      <div className="flex flex-wrap justify-center gap-4 pt-6 sm:pt-8">
+        <button
+          className={`w-full cursor-pointer rounded-full border-2 px-6 py-2 text-center text-sm font-medium transition-all duration-300 sm:w-auto ${
+            doSignUp
+              ? "border-cyan-400 bg-cyan-500 text-white shadow-[0_0_10px_#0ff]"
+              : "border-cyan-400 bg-transparent text-cyan-300 hover:bg-cyan-700 hover:text-white"
+          }`}
+          onClick={() => toggleSignUp(true)}
+        >
+          Sign up
+        </button>
 
-        if (!checkMail(email)) {
-            setMsg('Please enter a KGP email address only.');
-            setMsgType("error");
-            setShowMsg(true);
-            return;
-        }
+        <button
+          className={`w-full cursor-pointer rounded-full border-2 px-6 py-2 text-center text-sm font-medium transition-all duration-300 sm:w-auto ${
+            !doSignUp
+              ? "border-cyan-400 bg-cyan-500 text-white shadow-[0_0_10px_#0ff]"
+              : "border-cyan-400 bg-transparent text-cyan-300 hover:bg-cyan-700 hover:text-white"
+          }`}
+          onClick={() => toggleSignUp(false)}
+        >
+          Sign in
+        </button>
+      </div>
 
-        try{
-            const usernameDoc = await getDoc(doc(db, 'usernames', username));
-            if (usernameDoc.exists()) {
-                setMsg('Username already taken');
-                setMsgType("error");
-                setShowMsg(true);
-                return;
-            }
+      <div className="flex items-center justify-center py-10 font-sans text-white sm:py-16">
+        <div className="w-full max-w-sm space-y-6 rounded-3xl bg-gradient-to-b from-[#1c2241] to-[#0a0f2c] px-6 py-10 text-center shadow-lg transition-all duration-300 hover:shadow-[0_0_25px_#00ffff66] sm:max-w-md sm:px-8">
+          <h2 className="text-2xl font-bold tracking-wide text-cyan-300 sm:text-3xl">
+            {doSignUp ? "Sign Up " : "Sign In "}
+          </h2>
 
-            const userCred = await createUserWithEmailAndPassword(auth, email, password);
-            const user = userCred.user;
-            const uid = userCred.user.uid;
-            let initSubmissions = [];
-            for (let i = 0; i < 10; i++) {
-                initSubmissions.push(0);
-            }
-
-            await sendEmailVerification(user); // email verification link
-
-            await setDoc(doc(db, 'usernames', username), { uid, email }); // username to uid mapping for login
-            await setDoc(doc(db, 'users', uid), {
-                username,
-                email,
-                submissions: initSubmissions,
-                emailVerified: user.emailVerified,
-            });
-
-            setMsg("Registration successful! Please check your email to verify your account.");
-            setShowMsg(true);
-            setMsgType("success");
-            setUsername("");
-            setEmail("");
-            setPassword("");
-            setCnfPassword("");
-            setDoSignUp(false);
-
-        } catch (err) {
-            console.error("Registration error:", err);
-            let errorMessage = "Registration failed. Please try again.";
-            if (err.code === 'auth/email-already-in-use') {
-                errorMessage = "This email is already in use. Please sign in or use a different email.";
-            } else if (err.code === 'auth/weak-password') {
-                errorMessage = "Password is too weak. Please choose a stronger password.";
-            } else if (err.code === 'auth/invalid-email') {
-                errorMessage = "Invalid email address.";
-            } else if (err.code === 'auth/operation-not-allowed') {
-                errorMessage = "Email/password accounts are not enabled. Please enable them in Firebase Console.";
-            } else if (err.code === 'permission-denied') { // Specific Firestore permission error
-                errorMessage = "Permission denied. Check your Firestore Security Rules.";
-            }
-            setMsg(`Registration error: ${errorMessage}`);
-            setMsgType("error");
-            setShowMsg(true);
-        }
-    }
-
-    const handleLogin = async (e) => {
-        e.preventDefault();
-        let identifierEmail = email;
-
-        // resolving when username provided
-        if (!email.includes('@')) {
-            try {
-                const usernameDoc = await getDoc(doc(db, 'usernames', email));
-                if (!usernameDoc.exists()) {
-                    setMsg('Username not found');
-                    setMsgType("error");
-                    setShowMsg(true);
-                    return;
-                }
-                identifierEmail = usernameDoc.data().email;
-            } catch (err) {
-                setMsg('Failed to fetch username');
-                setMsgType("error");
-                setShowMsg(true);
-                return;
-            }
-        }
-
-        try{
-            await signInWithEmailAndPassword(auth, identifierEmail, password);
-            setMsg("Login successful!");
-            setShowMsg(true);
-            setMsgType("success");
-        } catch (err) {
-            console.error("Login error:", err);
-            // Provide more user-friendly error messages based on Firebase error codes
-            let errorMessage = "Login failed. Please check your credentials.";
-            if (err.code === 'auth/invalid-credential' || err.code === 'auth/user-not-found' || err.code === 'auth/wrong-password') {
-                errorMessage = "Invalid email/username or password.";
-            } else if (err.code === 'auth/invalid-email') {
-                errorMessage = "Invalid email address format.";
-            }
-            setMsg(`Login error: ${errorMessage}`);
-            setMsgType("error");    
-            setShowMsg(true);
-        }
-
-    }
-
-    const router = useRouter();
-    const { loggedIn, user } = useAuth();
-
-    useEffect(() => {
-        async function updateUserStatus() {
-            const uid = user.uid;         
-            const userDocRef = doc(db, 'users', uid);
-            try {
-                await updateDoc(userDocRef, {
-                    emailVerified: true
-                });
-                console.log("emailVerified status updated successfully!");
-            } catch (error) {
-                console.error("Error updating emailVerified status:", error);
-            }
-        }
-
-        if (user && user.emailVerified) {
-            setMsg("Email verified. Redirecting...");
-            setShowMsg(true);
-            setMsgType("success");
-            updateUserStatus();
-
-            router.push('/');
-        } else if (user && !user.emailVerified) {
-            setMsg("Please verify your email to continue. A verification link has been sent to your inbox. You may need to refresh after verifying.");
-            setShowMsg(true);
-            setMsgType("warning");
-        }
-        console.log("User :", user);
-    }, [loggedIn, user, router]); 
-
-    return (
-        <div>
-            {
-                showMsg && 
-                <Message 
-                    type={msgType} 
-                    message={msg} 
-                    setShowMsg={setShowMsg} 
-                />
-            }
-
-            <div>
-                <button className="cursor-pointer border-2 bg-blue-200 text-blue-600 mx-8"
-                    onClick={() => toggleSignUp(true)}
-                >Sign up</button>
-                <button className="cursor-pointer border-2 bg-blue-200 text-blue-600 mx-8" 
-                onClick={() => toggleSignUp(false)}
-                >Sign in</button>
-            </div>
-
-            {
-                doSignUp ? 
-                <>
-                    <form
-                        onSubmit={handleRegister}
-                        className="flex flex-col items-center justify-center">
-                        <h1>Sign up</h1>
-                        <input 
-                            value={username} 
-                            onChange={(e) => setUsername(e.target.value)}
-                            type="text" 
-                            placeholder="Username" />
-                        <input 
-                            value={email} 
-                            onChange={(e) => setEmail(e.target.value)} type="email" placeholder="Email" />
-                        <input value={password} onChange={(e) => setPassword(e.target.value)} type="password" placeholder="password" />
-                        <input value={cnfPassword} onChange={(e) => setCnfPassword(e.target.value)} type="password" placeholder="confirm password" />
-                        <button>Register</button>
-                    </form>
-
-                    <span>Already Registered? <a onClick={() => toggleSignUp(false)} className="cursor-pointer underline">Sign In from here!</a></span>
-                </>
-                :
-                <>
-                    <form
-                        onSubmit={handleLogin}
-                        className="flex flex-col items-center justify-center">
-                        <h1>Sign in</h1>
-                        <input value={email} onChange={(e) => setEmail(e.target.value)} type='text' placeholder="Username or Email" />
-                        <input value={password} onChange={(e) => setPassword(e.target.value)} type="password" placeholder="password" />
-                        <button>Login</button>
-                    </form>
-
-                    <span>Don't have an account? <a onClick={() => toggleSignUp(true)} className="cursor-pointer underline">Create from here!</a></span>
-                </>
-            }
-
+          {doSignUp ? (
+            <>
+              <SignUp
+                setMsg={setMsg}
+                setShowMsg={setShowMsg}
+                setMsgType={setMsgType}
+              />
+              <span className="block text-sm text-gray-300">
+                Already Registered?
+                <a
+                  onClick={() => toggleSignUp(false)}
+                  className="ml-1 cursor-pointer font-medium text-cyan-400 transition-all hover:underline"
+                >
+                  Sign In from here!
+                </a>
+              </span>
+            </>
+          ) : (
+            <>
+              <SignIn
+                setMsg={setMsg}
+                setShowMsg={setShowMsg}
+                setMsgType={setMsgType}
+              />
+              <span className="block text-sm text-gray-300">
+                Don't have an account?
+                <a
+                  onClick={() => toggleSignUp(true)}
+                  className="ml-1 cursor-pointer font-medium text-cyan-400 transition-all hover:underline"
+                >
+                  Create from here!
+                </a>
+              </span>
+            </>
+          )}
         </div>
-    )
+      </div>
+    </div>
+  );
 };
 
 export default Auth;

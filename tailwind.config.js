@@ -19,6 +19,7 @@ export default {
       fontFamily: {
         kanit: ["Kanit", "sans-serif"],
         poppins: ["Poppins", "sans-serif"],
+        "victor-mono": ["Victor Mono", "monospace"],
       },
     },
   },

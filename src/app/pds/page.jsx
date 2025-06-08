@@ -18,8 +18,8 @@ export default function LabTheory() {
         className="flex w-full flex-col items-center justify-center p-5"
       >
         {/* Question Image */}
-        <div className="quesimg mb-4 hidden h-[300px] w-[90%] lg:block">
-          <div className="qimg mx-auto h-full w-[500px] overflow-hidden rounded-lg shadow-[rgba(0,0,0,0.15)_1.95px_1.95px_2.6px]">
+        <div className="quesimg mb-4 aspect-square w-full sm:w-[90%] md:aspect-auto md:h-[300px]">
+          <div className="qimg mx-auto h-full w-full max-w-[500px] overflow-hidden rounded-lg shadow-[rgba(0,0,0,0.15)_1.95px_1.95px_2.6px]">
             <Image
               src={QuestionImg}
               alt="Question mark"

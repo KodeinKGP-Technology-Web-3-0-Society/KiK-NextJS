@@ -15,7 +15,8 @@
     "@fortawesome/free-brands-svg-icons": "^6.4.2",
     "@fortawesome/free-solid-svg-icons": "^6.4.2",
     "@fortawesome/react-fontawesome": "^0.2.0",
-    "lucide-react": "^0.513.0",
+    "firebase": "^11.9.0",
+    "firebase-admin": "^13.4.0",
     "gsap": "^3.13.0",
     "ionicons": "^8.0.9",
     "lottie-react": "^2.4.1",
@@ -24,7 +25,8 @@
     "prettier-plugin-tailwindcss": "^0.6.12",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "react-syntax-highlighter": "^15.6.1"
+    "react-syntax-highlighter": "^15.6.1",
+    "tailwind-scrollbar": "^4.0.2"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
@@ -37,6 +39,7 @@
     "eslint-plugin-prettier": "^5.4.1",
     "postcss": "^8.5.4",
     "prettier": "^3.5.3",
+    "tailwind-scrollbar": "^4.0.2",
     "tailwindcss": "^4.1.8"
   }
 }

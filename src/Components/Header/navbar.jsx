@@ -3,6 +3,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import Logo from "../../../public/KIK_logo-removebg.png";
+import SignOutButton from "../utils/signOut";
+import { useAuth } from "@/contexts/authContext";
 
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -10,6 +12,8 @@ function Navbar() {
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
+
+  const { loggedIn } = useAuth();
 
   return (
     <div
@@ -65,6 +69,23 @@ function Navbar() {
                   href="/"
                 >
                   Home
+                </Link>
+                <span className="absolute bottom-3 left-0 h-[2px] w-full origin-left scale-x-0 bg-[#11e3fb] transition-transform duration-300 group-hover:scale-x-100"></span>
+              </span>
+            </li>
+
+            <li
+              className="cursor-pointer list-none"
+              onClick={() => {
+                if (isOpen) toggleMenu();
+              }}
+            >
+              <span className="group relative mx-[25px] flex flex-col items-center text-[1.2rem]">
+                <Link
+                  className="bg-gradient-to-br pb-[15px] tracking-wide text-white no-underline transition-colors duration-300"
+                  href="/deKodeX"
+                >
+                  deKodeX
                 </Link>
                 <span className="absolute bottom-3 left-0 h-[2px] w-full origin-left scale-x-0 bg-[#11e3fb] transition-transform duration-300 group-hover:scale-x-100"></span>
               </span>
@@ -138,7 +159,7 @@ function Navbar() {
               </span>
             </li>
 
-            <li
+            {/* <li
               className="cursor-pointer list-none"
               onClick={() => {
                 if (isOpen) toggleMenu();
@@ -153,7 +174,9 @@ function Navbar() {
                 </Link>
                 <span className="absolute bottom-3 left-0 h-[2px] w-full origin-left scale-x-0 bg-[#11e3fb] transition-transform duration-300 group-hover:scale-x-100"></span>
               </span>
-            </li>
+
+              {loggedIn && <SignOutButton />}
+            </li> */}
           </div>
         </div>
       </div>

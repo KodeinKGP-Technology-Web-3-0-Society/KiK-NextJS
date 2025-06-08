@@ -56,7 +56,7 @@ export default function ReturnButton() {
           letterSpacing: 0,
         }}
       >
-        <a href="/deKodeX">{isMobile ? `<<` : `<< Return`}</a>
+        <a href="/dekodeX">{isMobile ? `<<` : `<< Return`}</a>
       </span>
     </button>
   );

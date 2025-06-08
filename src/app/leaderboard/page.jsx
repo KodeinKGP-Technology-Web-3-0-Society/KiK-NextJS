@@ -3,9 +3,8 @@ import leaderboard from "./leaderboard.json";
 
 export default function Leaderboard() {
     return (
-        <div 
-            className="h-[146.8vh] flex min-h-screen flex-col border-2 rounded-[1rem] border-[rgb(91,230,255)] bg-[linear-gradient(108.74deg,rgba(255,255,255,0.24)_0%,rgba(255,255,255,0.06)_100%)] backdrop-blur-[100px]"
-        >
+        <div className="flex min-h-screen flex-col bg-gray-800 backdrop-blur-[100px]"
+>
             <div className="flex w-full flex-col items-center justify-center p-3">
                 <h2 className="text-[2rem] font-bold mb-4"
                     style={{
@@ -54,7 +53,7 @@ export default function Leaderboard() {
                     <div className="flex flex-col items-center bg-gradient-to-b from-[rgba(17,227,251,0.9)] to-[rgba(255,255,255,0.2)] rounded-tr-xl w-[100px] h-[140px] justify-end py-4 shadow-md">
                         <div className="relative w-16 h-16 mb-2">
                             <img
-                                src={`https://api.dicebear.com/7.x/bottts/svg?seed=${leaderboard[1].name}`}
+                                src={`https://api.dicebear.com/7.x/bottts/svg?seed=${leaderboard[2].name}`}
                                 alt={leaderboard[1].name}
                                 className="rounded-full w-full h-full border-4 border-[#B87333]"
                             />
@@ -67,7 +66,7 @@ export default function Leaderboard() {
 
             </div>
             <ul className="space-y-1">
-                {leaderboard.slice(3,10).map((user) => (
+                {leaderboard.slice(3,15).map((user) => (
                 <li key={user.rank} className="flex items-center space-x-4 px-4 ml-2 bg-gradient-to-r from-[rgba(17,227,251,0.3)] to-[rgba(255,255,255,0.06)] hover:bg-[#0CC5DA] hover:bg-clip-border hover:text-#01011B group transition-colors duration-300">
                     <span className="text-lg w-6 text-right font-bold group-hover:text-black">{user.rank}.</span>
                     <img

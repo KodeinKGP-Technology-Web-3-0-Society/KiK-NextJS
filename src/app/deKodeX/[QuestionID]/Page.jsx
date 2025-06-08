@@ -1,5 +1,5 @@
 import React from "react";
-import data from "../../../data/deKodeX/event-que.json";
+import data from "../../../data/dekodeX/event-que.json";
 import ReturnButton from "@/Components/utils/ReturnButton";
 import CopyButton from "@/Components/utils/CopyButton";
 import SubmitButton from "@/Components/utils/SubmitButton";

@@ -61,11 +61,11 @@ async function page({ params }) {
         <h3 className="font-[victor-mono] text-[24px] text-[#00FF00]">
           Sample Input
         </h3>
-        <div className="flex w-fit max-w-[30%] flex-row shadow-[10px_10px_20px_0px_#218ACB33,_-10px_-10px_20px_0px_#11E3FB33]">
-          <div className="po relative flex h-fit w-fit min-w-[160px] flex-row items-center justify-center overflow-auto p-2 font-[victor-mono]">
+        <div className="relative flex w-fit flex-row py-4 shadow-[10px_10px_20px_0px_#218ACB33,_-10px_-10px_20px_0px_#11E3FB33]">
+          <div className="po custom-scrollbar relative flex h-fit max-h-[300px] w-fit max-w-[300px] min-w-[160px] flex-row items-center justify-center overflow-auto font-[victor-mono]">
             <pre>{questionData.sampleInput}</pre>
           </div>
-          <div className="po relative flex min-h-[100%] min-w-[20px] items-center">
+          <div className="flex min-h-[100%] min-w-[20px] items-center">
             <CopyButton text={questionData.sampleInput} />
           </div>
         </div>
@@ -75,8 +75,8 @@ async function page({ params }) {
         <h3 className="font-[victor-mono] text-[24px] text-[#00FF00]">
           Sample Output
         </h3>
-        <div className="flex w-fit max-w-[30%] flex-row shadow-[10px_10px_20px_0px_#218ACB33,_-10px_-10px_20px_0px_#11E3FB33]">
-          <div className="po relative flex h-fit w-fit min-w-[160px] flex-row items-center justify-start overflow-auto p-4 font-[victor-mono]">
+        <div className="relative flex w-fit flex-row px-4 py-6 shadow-[10px_10px_20px_0px_#218ACB33,_-10px_-10px_20px_0px_#11E3FB33]">
+          <div className="po custom-scrollbar relative flex h-fit max-h-[300px] w-fit max-w-[300px] min-w-[160px] flex-row items-center justify-start overflow-auto font-[victor-mono]">
             <pre>{questionData.sampleOutput}</pre>
           </div>
           <div className="po relative flex min-h-[100%] min-w-[20px] items-center">

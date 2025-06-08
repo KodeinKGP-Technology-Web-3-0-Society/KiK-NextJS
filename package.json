@@ -36,6 +36,7 @@
     "eslint-plugin-prettier": "^5.4.1",
     "postcss": "^8.5.4",
     "prettier": "^3.5.3",
+    "tailwind-scrollbar": "^4.0.2",
     "tailwindcss": "^4.1.8"
   }
 }

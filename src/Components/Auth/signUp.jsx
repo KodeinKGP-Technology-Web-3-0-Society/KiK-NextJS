@@ -6,6 +6,7 @@ import {
 } from "firebase/auth";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { Eye, EyeOff } from "lucide-react";
+import { toast } from "react-toastify";
 
 const SignUp = ({ setMsg, setMsgType, setShowMsg }) => {
   const [username, setUsername] = useState("");
@@ -25,39 +26,29 @@ const SignUp = ({ setMsg, setMsgType, setShowMsg }) => {
     e.preventDefault();
 
     if (password !== cnfPassword) {
-      setMsg("Passwords do not match.");
-      setMsgType("error");
-      setShowMsg(true);
+      toast.error("Passwords do not match.");
       return;
     }
 
     if (username.length < 3 || username.length > 20) {
-      setMsg("Username must be between 3 and 20 characters.");
-      setMsgType("error");
-      setShowMsg(true);
+      toast.error("Username must be between 3 and 20 characters.");
       return;
     }
 
     if (password.length < 6) {
-      setMsg("Password must be at least 6 characters long.");
-      setMsgType("error");
-      setShowMsg(true);
+      toast.error("Password must be at least 6 characters long.");
       return;
     }
 
     if (!checkMail(email)) {
-      setMsg("Please enter a KGP email address only.");
-      setMsgType("error");
-      setShowMsg(true);
+      toast.error("Please enter a KGP email address only.");
       return;
     }
 
     try {
       const usernameDoc = await getDoc(doc(db, "usernames", username));
       if (usernameDoc.exists()) {
-        setMsg("Username already taken.");
-        setMsgType("error");
-        setShowMsg(true);
+        toast.error("Username already taken.");
         return;
       }
 
@@ -81,12 +72,9 @@ const SignUp = ({ setMsg, setMsgType, setShowMsg }) => {
         emailVerified: user.emailVerified,
       });
 
-      setMsg(
+      toast.success(
         "Registration successful! Please check your email to verify your account."
       );
-      setShowMsg(true);
-      setMsgType("success");
-
       setUsername("");
       setEmail("");
       setPassword("");
@@ -110,9 +98,7 @@ const SignUp = ({ setMsg, setMsgType, setShowMsg }) => {
           "Permission denied. Check your Firestore Security Rules.";
       }
 
-      setMsg(`Registration error: ${errorMessage}`);
-      setMsgType("error");
-      setShowMsg(true);
+      toast.error(`Registration error: ${errorMessage}`);
     }
   };
 

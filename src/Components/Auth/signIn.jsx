@@ -3,8 +3,9 @@ import { auth, db } from "@/backend/firebase";
 import { getDoc, doc } from "firebase/firestore";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { Eye, EyeOff } from "lucide-react";
+import { toast } from "react-toastify";
 
-const SignIn = ({ setMsg, setMsgType, setShowMsg }) => {
+const SignIn = () => {
   const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -18,25 +19,19 @@ const SignIn = ({ setMsg, setMsgType, setShowMsg }) => {
       try {
         const usernameDoc = await getDoc(doc(db, "usernames", identifier));
         if (!usernameDoc.exists()) {
-          setMsg("Username not found");
-          setMsgType("error");
-          setShowMsg(true);
+          toast.error("Username not found");
           return;
         }
         identifierEmail = usernameDoc.data().email;
       } catch (err) {
-        setMsg("Failed to fetch username");
-        setMsgType("error");
-        setShowMsg(true);
+        toast.error("Failed to fetch username");
         return;
       }
     }
 
     try {
       await signInWithEmailAndPassword(auth, identifierEmail, password);
-      setMsg("Login successful!");
-      setShowMsg(true);
-      setMsgType("success");
+      toast.success("Login successful!");
     } catch (err) {
       console.log("Login error:", err);
       // Provide more user-friendly error messages based on Firebase error codes
@@ -50,9 +45,7 @@ const SignIn = ({ setMsg, setMsgType, setShowMsg }) => {
       } else if (err.code === "auth/invalid-email") {
         errorMessage = "Invalid email address format.";
       }
-      setMsg(`Login error: ${errorMessage}`);
-      setMsgType("error");
-      setShowMsg(true);
+      toast.error(`Login error: ${errorMessage}`);
     }
   };
 

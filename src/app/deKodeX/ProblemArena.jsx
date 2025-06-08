@@ -137,7 +137,7 @@ const ProblemArena = () => {
                 <div className="flex items-center space-x-4">
                   <Lock className="text-cyan-400 w-5 h-5" />
                   <span className="text-cyan-400 font-bold text-lg w-8">{problem.id < 10 ? '0' : ''}{problem.id}</span>
-                  <span className="bg-[linear-gradient(187.84deg,#218ACB_9.42%,#0CC5DA_69.83%,#11E3FB_130.23%)] font-medium text-lg blur-sm opacity-60 ">
+                  <span className="bg-[linear-gradient(187.84deg,#218ACB_9.42%,#0CC5DA_69.83%,#11E3FB_130.23%)] font-medium text-lg blur-sm opacity-60 bg-clip-text text-transparent"> 
                     {problem.title}
                   </span>
                 </div>

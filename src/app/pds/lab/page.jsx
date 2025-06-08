@@ -119,8 +119,7 @@ export default function Lab() {
         LAB PROBLEMS
       </div>
 
-      <div className="!mb-4 flex w-full max-w-6xl flex-col justify-left px-7 sm:flex-row sm:items-center sm:px-0">
-
+      <div className="justify-left !mb-4 flex w-full max-w-6xl flex-col px-7 sm:flex-row sm:items-center sm:px-0">
         <div className="relative mt-2 w-full sm:mt-0 sm:w-[200px]">
           <div
             className="flex cursor-pointer justify-between rounded-t border-b border-cyan-300 bg-gray-900 px-4 py-2 font-semibold text-white"

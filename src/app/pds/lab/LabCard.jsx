@@ -56,7 +56,10 @@ export default function LabCard({ qna, topic, subTopic, ind }) {
 
   return (
     <tr className="border border-[#555] bg-[#050a24] shadow-md transition-transform duration-200">
-      <td className="cursor-pointer pl-5 pr-2 text-white" onClick={toggleCompleted}>
+      <td
+        className="cursor-pointer pr-2 pl-5 text-white"
+        onClick={toggleCompleted}
+      >
         {isComp ? (
           <CheckSquare size={20} />
         ) : (

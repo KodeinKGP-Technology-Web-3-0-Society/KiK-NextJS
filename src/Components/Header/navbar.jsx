@@ -83,7 +83,7 @@ function Navbar() {
               <span className="group relative mx-[25px] flex flex-col items-center text-[1.2rem]">
                 <Link
                   className="bg-gradient-to-br pb-[15px] tracking-wide text-white no-underline transition-colors duration-300"
-                  href="/deKodeX"
+                  href="/dekodeX"
                 >
                   deKodeX
                 </Link>

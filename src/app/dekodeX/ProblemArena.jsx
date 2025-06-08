@@ -153,7 +153,7 @@ const ProblemArena = () => {
               >
                 <div
                   className="flex items-center space-x-4"
-                  onClick={() => router.push(`/deKodeX/${problem.id}`)}
+                  onClick={() => router.push(`/dekodeX/${problem.id}`)}
                 >
                   <span className="w-8 text-lg font-bold text-[#11E3FB]">
                     {problem.id < 10 ? "0" : ""}

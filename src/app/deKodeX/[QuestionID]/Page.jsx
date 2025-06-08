@@ -51,7 +51,7 @@ async function page({ params }) {
         </div>
         <div className="absolute top-[80px] h-[17px] w-[1437px] bg-gradient-to-b from-[rgba(255,255,255,0.2)] via-[#0CC5DA] to-[#01011B]"></div>
       </div>
-      <div className="mb-[100px] flex flex-col gap-4 p-8">
+      <div className="mb-[100px] flex flex-col gap-6 p-8">
         <span className="absolute top-[117px] left-[9px] flex h-[20px] w-[22px] items-center justify-center font-[victor-mono] text-[18px] leading-[100%] tracking-[0%] text-[#00FF00]">
           $$
         </span>
@@ -61,9 +61,13 @@ async function page({ params }) {
         <h3 className="font-[victor-mono] text-[24px] text-[#00FF00]">
           Sample Input
         </h3>
-        <div className="po relative h-fit w-fit p-4 font-[victor-mono] shadow-[10px_10px_20px_0px_#218ACB33,_-10px_-10px_20px_0px_#11E3FB33]">
-          <pre className="">{questionData.sampleInput}</pre>
-          <CopyButton text={questionData.sampleInput} />
+        <div className="flex w-fit max-w-[30%] flex-row shadow-[10px_10px_20px_0px_#218ACB33,_-10px_-10px_20px_0px_#11E3FB33]">
+          <div className="po relative flex h-fit w-fit min-w-[160px] flex-row items-center justify-center overflow-auto p-2 font-[victor-mono]">
+            <pre>{questionData.sampleInput}</pre>
+          </div>
+          <div className="po relative flex min-h-[100%] min-w-[20px] items-center">
+            <CopyButton text={questionData.sampleInput} />
+          </div>
         </div>
         <p className="font-[victor-mono] text-[18px]">
           {questionData.sampleInputSolution}
@@ -71,14 +75,22 @@ async function page({ params }) {
         <h3 className="font-[victor-mono] text-[24px] text-[#00FF00]">
           Sample Output
         </h3>
-        <div className="po w-fill relative h-fit p-4 font-[victor-mono] shadow-[10px_10px_20px_0px_#218ACB33,_-10px_-10px_20px_0px_#11E3FB33]">
-          <pre>{questionData.sampleOutput}</pre>
-          <CopyButton text={questionData.sampleOutput} />
+        <div className="flex w-fit max-w-[30%] flex-row shadow-[10px_10px_20px_0px_#218ACB33,_-10px_-10px_20px_0px_#11E3FB33]">
+          <div className="po relative flex h-fit w-fit min-w-[160px] flex-row items-center justify-start overflow-auto p-4 font-[victor-mono]">
+            <pre>{questionData.sampleOutput}</pre>
+          </div>
+          <div className="po relative flex min-h-[100%] min-w-[20px] items-center">
+            <CopyButton text={questionData.sampleOutput} />
+          </div>
         </div>
-        <div className="po relative h-fit w-fit p-4 shadow-[10px_10px_20px_0px_#218ACB33,_-10px_-10px_20px_0px_#11E3FB33]">
+
+        <h3 className="font-[victor-mono] text-[24px]">
+          <p>{questionData.question}</p>
+        </h3>
+        <div className="po relative flex h-fit w-fit min-w-[160px] flex-row items-center justify-center p-5 shadow-[10px_10px_20px_0px_#218ACB33,_-10px_-10px_20px_0px_#11E3FB33]">
           <pre className="font-[victor-mono]">{questionData.testCase}</pre>
-          <CopyButton text={questionData.testCase} />
         </div>
+
         <h3 className="font-[victor-mono] text-[24px] text-[#00FF00]">
           Answer
         </h3>

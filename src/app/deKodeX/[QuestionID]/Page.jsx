@@ -1,6 +1,8 @@
 import React from "react";
 import data from "../../../data/deKodeX/event-que.json";
 import ReturnButton from "@/Components/utils/ReturnButton";
+import CopyButton from "@/Components/utils/CopyButton";
+import SubmitButton from "@/Components/utils/SubmitButton";
 async function page({ params }) {
   const QuestionID = await params.QuestionID;
   const questionData = data.find((q) => q.id === QuestionID);
@@ -10,11 +12,13 @@ async function page({ params }) {
 
   return (
     <div
-      className="relative mx-auto mt-[70px] mr-[39px] ml-[39px] flex flex-col overflow-hidden rounded-tl-[16px] rounded-tr-[16px] border-[3px] font-mono shadow-[0_0_50px_-25px_rgba(0,0,0,0.5)]"
+      className="relative mx-auto mt-[70px] mr-[39px] ml-[39px] flex flex-col overflow-hidden rounded-tl-[18px] rounded-tr-[18px] font-[poppins]"
       style={{
-        border:
-          "linear-gradient(108.74deg, rgba(33,138,203,0.6) 0%, rgba(255,255,255,0.54) 36.46%, rgba(255,255,255,0.3) 73.96%, rgba(17,227,251,0.6) 100%) 1",
-        backdropFilter: "blur(100px)",
+        border: "3px solid transparent",
+        backgroundImage:
+          "linear-gradient(#01011B, #01011B), linear-gradient(108.74deg, rgba(33,138,203,0.6) 0%, rgba(255,255,255,0.54) 36.46%, rgba(255,255,255,0.3) 73.96%, rgba(17,227,251,0.6) 100%)",
+        backgroundOrigin: "border-box",
+        backgroundClip: "padding-box, border-box",
       }}
     >
       <div
@@ -27,7 +31,7 @@ async function page({ params }) {
       >
         <div className="absolute right-6 bottom-5 left-6 flex">
           <span
-            className="font-victor-mono text-[20px] leading-[36px] font-bold"
+            className="font-[poppins] text-[20px] leading-[36px] font-bold"
             style={{
               background:
                 "linear-gradient(92.46deg, #218ACB 3.64%, #11E3FB 20.06%, #218ACB 31.73%, #11E3FB 47.81%)",
@@ -48,40 +52,40 @@ async function page({ params }) {
         <div className="absolute top-[80px] h-[17px] w-[1437px] bg-gradient-to-b from-[rgba(255,255,255,0.2)] via-[#0CC5DA] to-[#01011B]"></div>
       </div>
       <div className="mb-[100px] flex flex-col gap-4 p-8">
-        <span className="font-victor-mono absolute top-[117px] left-[9px] flex h-[20px] w-[22px] items-center justify-center text-[18px] leading-[100%] tracking-[0%] text-[#00FF00]">
+        <span className="absolute top-[117px] left-[9px] flex h-[20px] w-[22px] items-center justify-center font-[victor-mono] text-[18px] leading-[100%] tracking-[0%] text-[#00FF00]">
           $$
         </span>
         <p className="left-[34px] pt-1 font-[victor-mono] text-[18px] leading-tight tracking-[0%] text-white decoration-solid decoration-[0%] underline-offset-[0%]">
           {questionData.description}
         </p>
-        <h3 className="text-[24px] text-[#00FF00]">Sample Input</h3>
-        <div className="po relative h-fit w-fit p-4 shadow-[10px_10px_20px_0px_#218ACB33,_-10px_-10px_20px_0px_#11E3FB33]">
-          <pre>{questionData.sampleInput}</pre>
-          <button className="absolute right-0 bottom-0 hover:cursor-pointer">
-            <img src="/Copy.png" alt="Copy" width={20} height={20} />
-          </button>
+        <h3 className="font-[victor-mono] text-[24px] text-[#00FF00]">
+          Sample Input
+        </h3>
+        <div className="po relative h-fit w-fit p-4 font-[victor-mono] shadow-[10px_10px_20px_0px_#218ACB33,_-10px_-10px_20px_0px_#11E3FB33]">
+          <pre className="">{questionData.sampleInput}</pre>
+          <CopyButton text={questionData.sampleInput} />
         </div>
         <p className="font-[victor-mono] text-[18px]">
           {questionData.sampleInputSolution}
         </p>
-        <h3 className="text-[24px] text-[#00FF00]">Sample Output</h3>
-        <div className="po w-fill relative h-fit p-4 shadow-[10px_10px_20px_0px_#218ACB33,_-10px_-10px_20px_0px_#11E3FB33]">
+        <h3 className="font-[victor-mono] text-[24px] text-[#00FF00]">
+          Sample Output
+        </h3>
+        <div className="po w-fill relative h-fit p-4 font-[victor-mono] shadow-[10px_10px_20px_0px_#218ACB33,_-10px_-10px_20px_0px_#11E3FB33]">
           <pre>{questionData.sampleOutput}</pre>
-          <button className="absolute right-0 bottom-0 hover:cursor-pointer">
-            <img src="/Copy.png" alt="Copy" width={20} height={20} />
-          </button>
+          <CopyButton text={questionData.sampleOutput} />
         </div>
         <div className="po relative h-fit w-fit p-4 shadow-[10px_10px_20px_0px_#218ACB33,_-10px_-10px_20px_0px_#11E3FB33]">
-          <pre>{questionData.testCase}</pre>
-          <button className="absolute right-0 bottom-0 hover:cursor-pointer">
-            <img src="/Copy.png" alt="Copy" width={20} height={20} />
-          </button>
+          <pre className="font-[victor-mono]">{questionData.testCase}</pre>
+          <CopyButton text={questionData.testCase} />
         </div>
-        <h3 className="text-[24px] text-[#00FF00]">Answer</h3>
+        <h3 className="font-[victor-mono] text-[24px] text-[#00FF00]">
+          Answer
+        </h3>
         <div className="flex flex-row items-center gap-2">
           <input
             placeholder="Enter your answer here"
-            className="w-[500px] rounded-[16px] bg-transparent p-4"
+            className="w-[500px] rounded-[16px] bg-transparent p-2 text-white focus:bg-transparent focus:outline-none"
             style={{
               border: "2px solid transparent",
               backgroundImage:
@@ -90,11 +94,7 @@ async function page({ params }) {
               backgroundClip: "padding-box, border-box",
             }}
           />
-          <div className="flex h-fit w-fit flex-row">
-            <button className="h-[80%] rounded-[32px] bg-[linear-gradient(180deg,_#218ACB_0%,_#0CC5DA_50%,_#11E3FB_100%)] p-2 text-[#01011B] hover:cursor-pointer">
-              Submit
-            </button>
-          </div>
+          <SubmitButton />
         </div>
         <div className="absolute bottom-2 left-8 h-fit w-fit bg-[linear-gradient(236.43deg,_#218ACB_18.56%,_#0CC5DA_59.05%,_#11E3FB_79.29%)] bg-clip-text text-3xl font-bold text-transparent">
           {"</>"}

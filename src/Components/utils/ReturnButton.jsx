@@ -4,13 +4,6 @@ import { useState, useEffect } from "react";
 export default function ReturnButton() {
   const [clicked, setClicked] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setClicked(false);
-    }, 300); // Reset clicked state after 300 milliseconds
-
-    return () => clearTimeout(timer); // Cleanup the timer on unmount
-  }, [clicked]); // whenever clicked changes, reset the timer
 
   useEffect(() => {
     const handleResize = () => {
@@ -30,13 +23,26 @@ export default function ReturnButton() {
   return (
     <button
       onClick={() => setClicked(true)}
-      className={`absolute right-0 items-center justify-center rounded-[8px] pl-2 ${isMobile ? "h-[27px] w-[40px]" : "h-[27px] w-[75px]"}`}
+      className={`absolute right-0 items-center justify-center rounded-[8px] pl-2 transition-all duration-200 ease-in-out ${isMobile ? "h-[27px] w-[40px]" : "h-[27px] w-[75px]"} hover:cursor-pointer`}
       style={{
-        background: clicked
-          ? "linear-gradient(180deg, #155a7a 0%, #0a7a8c 50%, #0e7a8c 100%)"
-          : "linear-gradient(180deg, #218ACB 0%, #0CC5DA 50%, #11E3FB 100%)",
+        background:
+          "linear-gradient(180deg, #218ACB 0%, #0CC5DA 50%, #11E3FB 100%)",
         border: "none",
-        cursor: "pointer",
+        backgroundSize: "100% 200%",
+      }}
+      onMouseEnter={(e) => {
+        e.currentTarget.style.backgroundPosition = "0 100%";
+        e.currentTarget.style.transform = "scale(1.05)";
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.backgroundPosition = "0 0";
+        e.currentTarget.style.transform = "scale(1)";
+      }}
+      onMouseDown={(e) => {
+        e.currentTarget.style.transform = "scale(0.95)";
+      }}
+      onMouseUp={(e) => {
+        e.currentTarget.style.transform = "scale(1.05)";
       }}
     >
       <span

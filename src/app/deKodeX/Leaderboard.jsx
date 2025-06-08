@@ -67,7 +67,7 @@ export default function Leaderboard() {
 
             </div>
             <ul className="space-y-1">
-                {leaderboard.slice(3,10).map((user) => (
+                {leaderboard.slice(3,15).map((user) => (
                 <li key={user.rank} className="flex items-center space-x-4 px-4 ml-5 bg-gradient-to-r from-[rgba(17,227,251,0.3)] to-[rgba(255,255,255,0.06)] hover:bg-[#0CC5DA] hover:bg-clip-border hover:text-#01011B group transition-colors duration-300">
                     <span className="text-lg w-6 text-right font-bold group-hover:text-black">{user.rank}.</span>
                     <img
@@ -80,6 +80,19 @@ export default function Leaderboard() {
                 </li>
                 ))}
             </ul>
+            <div class="flex justify-center items-center space-x-2 mt-4">
+                <button class="px-3 py-1 before:absolute before:inset-0  before:border-[3px] before:border-transparent before:[border-image-source:linear-gradient(108.74deg,rgba(33,138,203,0.6)_0%,rgba(255,255,255,0.54)_36.46%,rgba(255,255,255,0.3)_73.96%,rgba(17,227,251,0.6)_100%)] before:[border-image-slice:1] before:content-[''] before:pointer-events-none shadow-[0_0_50px_-25px_rgba(0,0,0,0.5)] backdrop-blur-[100px] bg-[linear-gradient(108.74deg,rgba(255,255,255,0.24)_0%,rgba(255,255,255,0.06)_100%)] hover:bg-gray-300">&lt;</button>
+
+                <button class="px-3 py-1 before:absolute before:inset-0 before:border-[3px] before:border-transparent before:[border-image-source:linear-gradient(108.74deg,rgba(33,138,203,0.6)_0%,rgba(255,255,255,0.54)_36.46%,rgba(255,255,255,0.3)_73.96%,rgba(17,227,251,0.6)_100%)] before:[border-image-slice:1] before:content-[''] before:pointer-events-none shadow-[0_0_50px_-25px_rgba(0,0,0,0.5)] backdrop-blur-[100px] bg-[linear-gradient(108.74deg,rgba(255,255,255,0.24)_0%,rgba(255,255,255,0.06)_100%)] text-white">1</button>
+                <button class="px-3 py-1 before:absolute before:inset-0 before:border-[3px] before:border-transparent before:[border-image-source:linear-gradient(108.74deg,rgba(33,138,203,0.6)_0%,rgba(255,255,255,0.54)_36.46%,rgba(255,255,255,0.3)_73.96%,rgba(17,227,251,0.6)_100%)] before:[border-image-slice:1] before:content-[''] before:pointer-events-none shadow-[0_0_50px_-25px_rgba(0,0,0,0.5)] backdrop-blur-[100px] bg-[linear-gradient(108.74deg,rgba(255,255,255,0.24)_0%,rgba(255,255,255,0.06)_100%)] hover:bg-gray-300">2</button>
+                <button class="px-3 py-1 before:absolute before:inset-0 before:border-[3px] before:border-transparent before:[border-image-source:linear-gradient(108.74deg,rgba(33,138,203,0.6)_0%,rgba(255,255,255,0.54)_36.46%,rgba(255,255,255,0.3)_73.96%,rgba(17,227,251,0.6)_100%)] before:[border-image-slice:1] before:content-[''] before:pointer-events-none shadow-[0_0_50px_-25px_rgba(0,0,0,0.5)] backdrop-blur-[100px] bg-[linear-gradient(108.74deg,rgba(255,255,255,0.24)_0%,rgba(255,255,255,0.06)_100%)] hover:bg-gray-300">3</button>
+
+                <span class="px-2">...</span>
+
+                <button class="px-3 py-1 before:absolute before:inset-0 before:border-[3px] before:border-transparent before:[border-image-source:linear-gradient(108.74deg,rgba(33,138,203,0.6)_0%,rgba(255,255,255,0.54)_36.46%,rgba(255,255,255,0.3)_73.96%,rgba(17,227,251,0.6)_100%)] before:[border-image-slice:1] before:content-[''] before:pointer-events-none shadow-[0_0_50px_-25px_rgba(0,0,0,0.5)] backdrop-blur-[100px] bg-[linear-gradient(108.74deg,rgba(255,255,255,0.24)_0%,rgba(255,255,255,0.06)_100%)] hover:bg-gray-300">10</button>
+
+                <button class="px-3 py-1 before:absolute before:inset-0 before:border-[3px] before:border-transparent before:[border-image-source:linear-gradient(108.74deg,rgba(33,138,203,0.6)_0%,rgba(255,255,255,0.54)_36.46%,rgba(255,255,255,0.3)_73.96%,rgba(17,227,251,0.6)_100%)] before:[border-image-slice:1] before:content-[''] before:pointer-events-none shadow-[0_0_50px_-25px_rgba(0,0,0,0.5)] backdrop-blur-[100px] bg-[linear-gradient(108.74deg,rgba(255,255,255,0.24)_0%,rgba(255,255,255,0.06)_100%)] hover:bg-gray-300">&gt;</button>
+            </div>
         </div>
     );
 }

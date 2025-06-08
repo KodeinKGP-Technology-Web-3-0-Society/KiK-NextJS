@@ -4,6 +4,7 @@ import problemsData from './Question';
 import { useRouter } from 'next/navigation';
 import { NotepadText } from 'lucide-react';
 import { createPortal } from 'react-dom';
+import Link from "next/link";
 
 const ProblemArena = () => {
   const openProblems = problemsData.filter(p => p.is_revealed);
@@ -55,10 +56,17 @@ const ProblemArena = () => {
               WebkitTextFillColor: "transparent",
               width: 240,
             }}>Problem Arena</h1>
-            <button className=" px-4 py-1.5 bg-gray-900 hover:bg-gray-800 text-white font-medium rounded-lg border border-gray-700 transition-all duration-300 shadow-lg hover:shadow-xl focus:outline-none focus:ring-1 focus:ring-blue-400 focus:ring-opacity-50 flex gap-1 items-center cursor-pointer" onClick={() => setIsOpen(!isOpen)}>
-              <NotepadText size={18} />
-              Rules
-            </button>
+            <div className="flex items-center gap-1 sm:gap-2">
+              <button className="px-2 py-1 sm:px-4 sm:py-1.5 text-xs sm:text-base bg-gray-900 hover:bg-gray-800 text-white font-medium rounded-lg border border-gray-700 transition-all duration-300 shadow-lg hover:shadow-xl focus:outline-none focus:ring-1 focus:ring-blue-400 focus:ring-opacity-50 flex gap-1 items-center cursor-pointer" onClick={() => setIsOpen(!isOpen)}>
+                <NotepadText size={16} className="sm:w-5 sm:h-5 w-4 h-4" />
+                <span className="hidden xl:inline">Rules</span>
+              </button>
+              <Link href="/leaderboard" className="xl:hidden">
+                <button className="px-2 py-1 sm:px-4 sm:py-1.5 text-xs sm:text-base bg-[rgb(17,227,251)] hover:bg-[rgb(15,204,226)] text-[#01011b] font-medium rounded-lg border border-[rgb(17,227,251)] transition-all duration-300 shadow-lg hover:shadow-xl focus:outline-none focus:ring-1 focus:ring-blue-400 focus:ring-opacity-50 flex gap-1 items-center cursor-pointer">
+                  <i className="fa-duotone fa-solid fa-trophy text-xl" style={{ "--fa-primary-color": "#01011b", "--fa-primary-opacity": "1", "--fa-secondary-color": "#01011b", "--fa-secondary-opacity": "0.7" }}></i>
+                </button>
+              </Link>
+            </div>
             {mounted && isOpen && createPortal(modalContent, document.body)}
           </div>
 

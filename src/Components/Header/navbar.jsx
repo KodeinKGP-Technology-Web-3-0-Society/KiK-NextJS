@@ -16,7 +16,7 @@ function Navbar() {
       className={`sticky top-0 z-20 flex min-h-[5rem] max-w-[99%] flex-wrap items-center justify-between bg-[rgba(1,1,27,0.6)] px-2 ${isOpen ? "h-screen w-full flex-col bg-black" : ""}`}
     >
       <div
-        className={`ml-[1.5vw] flex min-w-[20vw] flex-row items-center ${isOpen ? "hidden" : "block"} md:flex`}
+        className={`ml-[1.5vw] flex min-w-[20vw] flex-row items-center ${isOpen ? "hidden" : "block"} xl:flex`}
       >
         <div className="flex items-center gap-[5px] text-[1.2rem]">
           <Image
@@ -30,7 +30,7 @@ function Navbar() {
 
       <button
         id="hambutton"
-        className={`flex h-[25px] w-[50px] cursor-pointer flex-col justify-between border-none bg-none md:hidden ${isOpen ? "fixed top-[15px] left-[82vw]" : ""}`}
+        className={`flex h-[25px] w-[50px] cursor-pointer flex-col justify-between border-none bg-none xl:hidden ${isOpen ? "fixed top-[15px] left-[82vw]" : ""}`}
         onClick={toggleMenu}
       >
         <div
@@ -45,7 +45,7 @@ function Navbar() {
       </button>
 
       <div
-        className={`ml-auto min-w-[26vw] ${isOpen ? "flex h-full w-full items-center justify-center" : "hidden"} md:block`}
+        className={`ml-auto min-w-[26vw] ${isOpen ? "flex h-full w-full items-center justify-center" : "hidden"} xl:block`}
       >
         <div
           className={`flex font-[Arial] ${isOpen ? "flex-col" : "flex-row"} items-center ${isOpen ? "gap-4" : "gap-[4rem]"}`}

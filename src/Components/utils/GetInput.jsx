@@ -5,7 +5,7 @@ function GetInput(testCase) {
   const openTestCaseTab = (testCase) => {
     const newWindow = window.open("", "_blank");
     if (newWindow) {
-      newWindow.document.write(JSON.stringify(testCase.testcase, null, 2));
+      newWindow.document.write(testCase.testcase);
       newWindow.document.title = "Test Case";
     }
   };

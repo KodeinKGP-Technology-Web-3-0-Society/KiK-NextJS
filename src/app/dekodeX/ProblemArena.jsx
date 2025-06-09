@@ -12,22 +12,22 @@ const LoadingSkeleton = () => {
       {Array.from({ length: 5 }, (_, index) => (
         <div
           key={index}
-          className="group flex cursor-pointer items-center justify-between rounded bg-[linear-gradient(90.27deg,rgba(255,255,255,0.24)_0%,rgba(115,115,115,0.12)_100%)] p-4 transition-colors duration-200"
+          className="group flex cursor-pointer items-center justify-between rounded bg-[linear-gradient(90.27deg,rgba(255,255,255,0.24)_0%,rgba(115,115,115,0.12)_100%)] p-3 sm:p-4 transition-colors duration-200"
         >
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-2 sm:space-x-4">
             {/* Question number skeleton */}
-            <div className="w-8">
-              <div className="h-6 w-6 animate-pulse rounded bg-gradient-to-r from-gray-600 to-gray-500"></div>
+            <div className="w-6 sm:w-8">
+              <div className="h-5 w-5 sm:h-6 sm:w-6 animate-pulse rounded bg-gradient-to-r from-gray-600 to-gray-500"></div>
             </div>
 
             {/* Title skeleton */}
             <div className="space-y-2">
-              <div className="h-5 w-32 animate-pulse rounded bg-gradient-to-r from-gray-600 to-gray-500 sm:w-64"></div>
+              <div className="h-4 w-24 sm:h-5 sm:w-32 md:w-48 lg:w-64 animate-pulse rounded bg-gradient-to-r from-gray-600 to-gray-500"></div>
             </div>
           </div>
 
           {/* Score skeleton */}
-          <div className="h-6 w-7 animate-pulse rounded bg-gradient-to-r from-gray-600 to-gray-500 sm:w-12"></div>
+          <div className="h-5 w-6 sm:h-6 sm:w-7 md:w-12 animate-pulse rounded bg-gradient-to-r from-gray-600 to-gray-500"></div>
         </div>
       ))}
     </div>
@@ -88,20 +88,20 @@ const ProblemArena = () => {
 
   // Modal JSX
   const modalContent = (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
-      <div className="relative w-[90%] max-w-md rounded-2xl bg-white p-6 text-black shadow-2xl dark:bg-[#111827] dark:text-white">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm px-4">
+      <div className="relative w-full max-w-md rounded-2xl bg-white p-4 sm:p-6 text-black shadow-2xl dark:bg-[#111827] dark:text-white">
         {/* Close Button */}
         <button
           onClick={() => setIsOpen(false)}
-          className="absolute top-3 right-3 cursor-pointer rounded-full p-1 text-gray-400 transition hover:text-white"
+          className="absolute top-2 right-2 sm:top-3 sm:right-3 cursor-pointer rounded-full p-1 text-gray-400 transition hover:text-white"
         >
           ✕
         </button>
 
         {/* Modal Content */}
-        <h2 className="mb-2 text-xl font-bold">Rules</h2>
+        <h2 className="mb-2 text-lg sm:text-xl font-bold">Rules</h2>
         <div className="mb-4 h-0.5 bg-[linear-gradient(90deg,rgba(33,138,203,0.8)_0%,rgba(17,227,251,0.8)_50%,rgba(33,138,203,0.8)_75%,rgba(17,227,251,0.8)_100%)]"></div>
-        <p className="text-sm text-white">
+        <p className="text-xs sm:text-sm text-white">
           User with KGP email ID allow to Submit. <br />
           Wrong answers incur -10 penalty
           <br />
@@ -116,19 +116,19 @@ const ProblemArena = () => {
   );
 
   return (
-    <div className="relative mx-auto max-w-4xl overflow-hidden rounded-[4px] bg-[linear-gradient(108.74deg,rgba(255,255,255,0.24)_0%,rgba(255,255,255,0.06)_100%)] shadow-[0_0_50px_-25px_rgba(0,0,0,0.5)] backdrop-blur-[100px] before:pointer-events-none before:absolute before:inset-0 before:rounded-[4px] before:border-[3px] before:border-transparent before:content-[''] before:[border-image-slice:1] before:[border-image-source:linear-gradient(108.74deg,rgba(33,138,203,0.6)_0%,rgba(255,255,255,0.54)_36.46%,rgba(255,255,255,0.3)_73.96%,rgba(17,227,251,0.6)_100%)]">
-      <div className="relative z-10 rounded p-6">
+    <div className="relative mx-2 sm:mx-auto max-w-none sm:max-w-4xl overflow-hidden rounded-[4px] bg-[linear-gradient(108.74deg,rgba(255,255,255,0.24)_0%,rgba(255,255,255,0.06)_100%)] shadow-[0_0_50px_-25px_rgba(0,0,0,0.5)] backdrop-blur-[100px] before:pointer-events-none before:absolute before:inset-0 before:rounded-[4px] before:border-[3px] before:border-transparent before:content-[''] before:[border-image-slice:1] before:[border-image-source:linear-gradient(108.74deg,rgba(33,138,203,0.6)_0%,rgba(255,255,255,0.54)_36.46%,rgba(255,255,255,0.3)_73.96%,rgba(17,227,251,0.6)_100%)]">
+      <div className="relative z-10 rounded p-4 sm:p-6">
         {/* Header */}
-        <div className="mb-6">
+        <div className="mb-4 sm:mb-6">
           <div className="mb-3 flex items-center justify-between">
             <h1
-              className="text-3xl font-bold"
+              className="text-xl sm:text-2xl lg:text-3xl font-bold"
               style={{
                 background:
                   "linear-gradient(92.46deg, #218ACB 0%, #11E3FB 33.33%, #218ACB 66.67%, #11E3FB 100%)",
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
-                width: 240,
+                width: "auto",
               }}
             >
               Problem Arena
@@ -140,15 +140,15 @@ const ProblemArena = () => {
               >
                 <NotepadText
                   size={16}
-                  className="h-5 w-5"
+                  className="h-4 w-4 sm:h-5 sm:w-5"
                   color="rgb(17,227,251)"
                 />
-                <span className="hidden xl:inline">Rules</span>
+                <span className="hidden sm:inline xl:inline">Rules</span>
               </button>
               <Link href="/leaderboard" className="xl:hidden">
                 <button className="focus:ring-opacity-50 flex cursor-pointer items-center gap-1 rounded-lg border border-[rgb(17,227,251)] bg-[rgb(17,227,251)] px-2 py-1 text-xs font-medium text-[#01011b] shadow-lg transition-all duration-300 hover:bg-[rgb(15,204,226)] hover:shadow-xl focus:ring-1 focus:ring-blue-400 focus:outline-none sm:px-4 sm:py-1.5 sm:text-base">
                   <i
-                    className="fa-duotone fa-solid fa-trophy text-xl"
+                    className="fa-duotone fa-solid fa-trophy text-base sm:text-xl"
                     style={{
                       "--fa-primary-color": "#01011b",
                       "--fa-primary-opacity": "1",
@@ -162,31 +162,31 @@ const ProblemArena = () => {
             {mounted && isOpen && createPortal(modalContent, document.body)}
           </div>
 
-          <div className="mb-6 h-0.5 bg-[linear-gradient(90deg,rgba(33,138,203,0.8)_0%,rgba(17,227,251,0.8)_50%,rgba(33,138,203,0.8)_75%,rgba(17,227,251,0.8)_100%)]"></div>
+          <div className="mb-4 sm:mb-6 h-0.5 bg-[linear-gradient(90deg,rgba(33,138,203,0.8)_0%,rgba(17,227,251,0.8)_50%,rgba(33,138,203,0.8)_75%,rgba(17,227,251,0.8)_100%)]"></div>
 
-          <div className="mb-4 space-y-2">
-            <p>
+          <div className="mb-3 sm:mb-4 space-y-2">
+            <p className="text-sm sm:text-base">
               One new problem drops every day — solve it anytime during the
               event.
             </p>
-            <p>
+            <p className="text-sm sm:text-base">
               Submit your answer right on the problem page. You'll see sample
               I/O, a submission box, and your past attempts in the Submissions
               tab.
             </p>
           </div>
 
-          <div className="mb-4 space-y-1">
+          <div className="mb-3 sm:mb-4 space-y-1">
             <div className="flex items-start">
-              <span className="mr-2">•</span>
-              <span>
+              <span className="mr-2 text-sm sm:text-base">•</span>
+              <span className="text-sm sm:text-base">
                 Points are awarded based on correctness and speed — faster,
                 accurate submissions earn more.
               </span>
             </div>
             <div className="flex items-start">
-              <span className="mr-2">•</span>
-              <span>
+              <span className="mr-2 text-sm sm:text-base">•</span>
+              <span className="text-sm sm:text-base">
                 The Leaderboard updates live, showing your rank and top
                 performers.
               </span>
@@ -194,27 +194,27 @@ const ProblemArena = () => {
           </div>
 
           <div className="mb-2">
-            <span className="font-semibold">
+            <span className="font-semibold text-sm sm:text-base">
               This is a solo competition — no collaboration or code sharing.
             </span>
           </div>
-          <div className="font-semibold">
+          <div className="font-semibold text-sm sm:text-base">
             Stay sharp, code fast, and climb the ranks!
           </div>
 
-          <div className="my-6 h-0.5 bg-[linear-gradient(90deg,rgba(33,138,203,0.8)_0%,rgba(17,227,251,0.8)_50%,rgba(33,138,203,0.8)_75%,rgba(17,227,251,0.8)_100%)]"></div>
+          <div className="my-4 sm:my-6 h-0.5 bg-[linear-gradient(90deg,rgba(33,138,203,0.8)_0%,rgba(17,227,251,0.8)_50%,rgba(33,138,203,0.8)_75%,rgba(17,227,251,0.8)_100%)]"></div>
         </div>
 
         {/* Open Problems Section */}
-        <div className="mb-8">
+        <div className="mb-6 sm:mb-8">
           <h2
-            className="mb-4 bg-[linear-gradient(to_right,_#218ACB_0%,_#11E3FB_33%,_#218ACB_66%,_#11E3FB_100%)] bg-clip-text text-2xl font-bold text-transparent"
+            className="mb-3 sm:mb-4 bg-[linear-gradient(to_right,_#218ACB_0%,_#11E3FB_33%,_#218ACB_66%,_#11E3FB_100%)] bg-clip-text text-xl sm:text-2xl font-bold text-transparent"
             style={{
               background:
                 "linear-gradient(92.46deg, #218ACB 0%, #11E3FB 33.33%, #218ACB 66.67%, #11E3FB 100%)",
               WebkitBackgroundClip: "text",
               WebkitTextFillColor: "transparent",
-              width: 70,
+              width: "auto",
             }}
           >
             Open
@@ -226,27 +226,27 @@ const ProblemArena = () => {
               unlockedProblems.map((problem) => (
                 <div
                   key={problem.questionId}
-                  className="group flex cursor-pointer items-center justify-between rounded bg-[linear-gradient(90.27deg,rgba(255,255,255,0.24)_0%,rgba(115,115,115,0.12)_100%)] p-4 transition-colors duration-200 hover:bg-gray-700"
+                  className="group flex cursor-pointer items-center justify-between rounded bg-[linear-gradient(90.27deg,rgba(255,255,255,0.24)_0%,rgba(115,115,115,0.12)_100%)] p-3 sm:p-4 transition-colors duration-200 hover:bg-gray-700"
                 >
                   <div
-                    className="flex items-center space-x-4"
+                    className="flex items-center space-x-2 sm:space-x-4 flex-1 min-w-0"
                     onClick={() =>
                       router.push(`/dekodeX/${problem.questionId}`)
                     }
                   >
-                    <span className="w-8 text-lg font-bold text-[#11E3FB]">
+                    <span className="w-6 sm:w-8 text-base sm:text-lg font-bold text-[#11E3FB] flex-shrink-0">
                       {parseInt(problem.questionId.replace(/^q/, "")) < 10
                         ? "0"
                         : ""}
                       {problem.questionId.replace(/^q/, "")}
                     </span>
-                    <Link href={`/dekodeX/${problem.questionId}`}>
-                      <span className="bg-[linear-gradient(187.84deg,#218ACB_9.42%,#0CC5DA_69.83%,#11E3FB_130.23%)] bg-clip-text text-lg font-medium text-transparent transition-colors group-hover:text-cyan-400">
+                    <Link href={`/dekodeX/${problem.questionId}`} className="min-w-0 flex-1">
+                      <span className="bg-[linear-gradient(187.84deg,#218ACB_9.42%,#0CC5DA_69.83%,#11E3FB_130.23%)] bg-clip-text text-base sm:text-lg font-medium text-transparent transition-colors group-hover:text-cyan-400 block truncate">
                         {problem.title}
                       </span>
                     </Link>
                   </div>
-                  <span className="text-lg font-bold text-[#218ACB]">
+                  <span className="text-base sm:text-lg font-bold text-[#218ACB] ml-2 flex-shrink-0">
                     {problem.score}
                   </span>
                 </div>
@@ -257,7 +257,7 @@ const ProblemArena = () => {
 
         {/* Yet to Reveal Section */}
         <div>
-          <h2 className="mb-4 w-[180px] bg-[linear-gradient(to_right,_#218ACB_0%,_#11E3FB_33%,_#218ACB_66%,_#11E3FB_100%)] bg-clip-text text-2xl font-bold text-transparent">
+          <h2 className="mb-3 sm:mb-4 bg-[linear-gradient(to_right,_#218ACB_0%,_#11E3FB_33%,_#218ACB_66%,_#11E3FB_100%)] bg-clip-text text-xl sm:text-2xl font-bold text-transparent">
             Yet to Reveal
           </h2>
           <div className="space-y-2">
@@ -269,19 +269,19 @@ const ProblemArena = () => {
               lockedProblems.map((problem) => (
                 <div
                   key={problem.id}
-                  className="group flex cursor-not-allowed items-center justify-between rounded bg-[linear-gradient(90.27deg,rgba(255,255,255,0.24)_0%,rgba(115,115,115,0.12)_100%)] p-4 transition-colors duration-200"
+                  className="group flex cursor-not-allowed items-center justify-between rounded bg-[linear-gradient(90.27deg,rgba(255,255,255,0.24)_0%,rgba(115,115,115,0.12)_100%)] p-3 sm:p-4 transition-colors duration-200"
                 >
-                  <div className="flex items-center space-x-4">
-                    <Lock className="h-5 w-5 text-cyan-400" />
-                    <span className="w-8 text-lg font-bold text-cyan-400">
+                  <div className="flex items-center space-x-2 sm:space-x-4 flex-1 min-w-0">
+                    <Lock className="h-4 w-4 sm:h-5 sm:w-5 text-cyan-400 flex-shrink-0" />
+                    <span className="w-6 sm:w-8 text-base sm:text-lg font-bold text-cyan-400 flex-shrink-0">
                       {parseInt(problem.id.replace(/^q/, "")) < 10 ? "0" : ""}
                       {problem.id.replace(/^q/, "")}
                     </span>
-                    <span className="bg-[linear-gradient(187.84deg,#218ACB_9.42%,#0CC5DA_69.83%,#11E3FB_130.23%)] bg-clip-text text-lg font-medium text-transparent opacity-60 blur-sm">
+                    <span className="bg-[linear-gradient(187.84deg,#218ACB_9.42%,#0CC5DA_69.83%,#11E3FB_130.23%)] bg-clip-text text-base sm:text-lg font-medium text-transparent opacity-60 blur-sm block truncate min-w-0">
                       {problem.title}
                     </span>
                   </div>
-                  <span className="text-lg font-bold text-[#218ACB] blur-sm">
+                  <span className="text-base sm:text-lg font-bold text-[#218ACB] blur-sm ml-2 flex-shrink-0">
                     {problem.points}
                   </span>
                 </div>

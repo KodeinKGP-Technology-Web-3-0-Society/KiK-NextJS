@@ -84,10 +84,10 @@ const ProblemArena = () => {
             </h1>
             <div className="flex items-center gap-1 sm:gap-2">
               <button
-                className="focus:ring-opacity-50 flex cursor-pointer items-center gap-1 rounded-lg border border-gray-700 bg-gray-900 px-2 py-1 text-xs font-medium text-white shadow-lg transition-all duration-300 hover:bg-gray-800 hover:shadow-xl focus:ring-1 focus:ring-blue-400 focus:outline-none sm:px-4 sm:py-1.5 sm:text-base"
+                className="focus:ring-opacity-50 flex cursor-pointer items-center gap-1 rounded-lg border border-gray-700 bg-gray-900 px-2 py-1.5 text-xs font-medium text-white shadow-lg transition-all duration-300 hover:bg-gray-800 hover:shadow-xl focus:ring-1 focus:ring-blue-400 focus:outline-none sm:px-4 sm:py-1.5 sm:text-base"
                 onClick={() => setIsOpen(!isOpen)}
               >
-                <NotepadText size={16} className="h-4 w-4 sm:h-5 sm:w-5" />
+                <NotepadText size={16} className="h-5 w-5" color="rgb(17,227,251)"/>
                 <span className="hidden xl:inline">Rules</span>
               </button>
               <Link href="/leaderboard" className="xl:hidden">

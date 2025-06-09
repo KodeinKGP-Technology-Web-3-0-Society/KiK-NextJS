@@ -35,7 +35,7 @@ const SignIn = () => {
     try {
       await signInWithEmailAndPassword(auth, identifierEmail, password);
       toast.success("Login successful!");
-      router.push("/dekodeX")
+      router.push("/dekodeX");
     } catch (err) {
       console.log("Login error:", err);
       // Provide more user-friendly error messages based on Firebase error codes

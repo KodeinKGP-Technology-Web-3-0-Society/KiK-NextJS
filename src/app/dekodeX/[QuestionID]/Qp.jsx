@@ -1,5 +1,7 @@
 "use client";
 
+
+import {useAuth} from '@/contexts/authContext';
 import React from "react";
 import data from "../../../data/dekodeX/event-que.json";
 import ReturnButton from "@/Components/utils/ReturnButton";
@@ -8,12 +10,15 @@ import SubmitButton from "@/Components/utils/SubmitButton";
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import GetInput from "@/Components/utils/GetInput";
+import DekodeXLoading from "@/Components/dekodeX_Loader/Loader";
 
 function Qp() {
   const params = useParams();
   const { QuestionID } = params;
   const [questionData, setQuestionData] = useState(null);
-
+  const {user, loggedIn} = useAuth();
+  const[answer, setAnswer] = useState("");
+  
   useEffect(() => {
     fetch(`/dekodeX/api/question/${QuestionID}`)
       .then((res) => {
@@ -32,7 +37,7 @@ function Qp() {
   }, [QuestionID]);
 
   if (!questionData) {
-    return <div>Loading...</div>;
+    return <div><DekodeXLoading /></div>;
   }
 
   return (
@@ -128,6 +133,8 @@ function Qp() {
               backgroundOrigin: "border-box",
               backgroundClip: "padding-box, border-box",
             }}
+            value={answer}
+            onChange={(e) => setAnswer(e.target.value)}
           />
           <SubmitButton />
         </div>

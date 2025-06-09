@@ -17,17 +17,17 @@ const LoadingSkeleton = () => {
           <div className="flex items-center space-x-4">
             {/* Question number skeleton */}
             <div className="w-8">
-              <div className="h-6 w-6 bg-gradient-to-r from-gray-600 to-gray-500 rounded animate-pulse"></div>
+              <div className="h-6 w-6 animate-pulse rounded bg-gradient-to-r from-gray-600 to-gray-500"></div>
             </div>
-            
+
             {/* Title skeleton */}
             <div className="space-y-2">
-              <div className="h-5 bg-gradient-to-r from-gray-600 to-gray-500 rounded animate-pulse w-32 sm:w-64"></div>
+              <div className="h-5 w-32 animate-pulse rounded bg-gradient-to-r from-gray-600 to-gray-500 sm:w-64"></div>
             </div>
           </div>
-          
+
           {/* Score skeleton */}
-          <div className="h-6 w-7 sm:w-12 bg-gradient-to-r from-gray-600 to-gray-500 rounded animate-pulse"></div>
+          <div className="h-6 w-7 animate-pulse rounded bg-gradient-to-r from-gray-600 to-gray-500 sm:w-12"></div>
         </div>
       ))}
     </div>
@@ -91,7 +91,7 @@ const ProblemArena = () => {
       </div>
     </div>
   );
-  
+
   return (
     <div className="relative mx-auto max-w-4xl overflow-hidden rounded-[4px] bg-[linear-gradient(108.74deg,rgba(255,255,255,0.24)_0%,rgba(255,255,255,0.06)_100%)] shadow-[0_0_50px_-25px_rgba(0,0,0,0.5)] backdrop-blur-[100px] before:pointer-events-none before:absolute before:inset-0 before:rounded-[4px] before:border-[3px] before:border-transparent before:content-[''] before:[border-image-slice:1] before:[border-image-source:linear-gradient(108.74deg,rgba(33,138,203,0.6)_0%,rgba(255,255,255,0.54)_36.46%,rgba(255,255,255,0.3)_73.96%,rgba(17,227,251,0.6)_100%)]">
       <div className="relative z-10 rounded p-6">
@@ -115,7 +115,11 @@ const ProblemArena = () => {
                 className="focus:ring-opacity-50 flex cursor-pointer items-center gap-1 rounded-lg border border-gray-700 bg-gray-900 px-2 py-1.5 text-xs font-medium text-white shadow-lg transition-all duration-300 hover:bg-gray-800 hover:shadow-xl focus:ring-1 focus:ring-blue-400 focus:outline-none sm:px-4 sm:py-1.5 sm:text-base"
                 onClick={() => setIsOpen(!isOpen)}
               >
-                <NotepadText size={16} className="h-5 w-5" color="rgb(17,227,251)"/>
+                <NotepadText
+                  size={16}
+                  className="h-5 w-5"
+                  color="rgb(17,227,251)"
+                />
                 <span className="hidden xl:inline">Rules</span>
               </button>
               <Link href="/leaderboard" className="xl:hidden">
@@ -194,7 +198,7 @@ const ProblemArena = () => {
           </h2>
           <div className="space-y-2">
             {loading ? (
-                <LoadingSkeleton />
+              <LoadingSkeleton />
             ) : (
               unlockedProblems.map((problem) => (
                 <div
@@ -203,10 +207,14 @@ const ProblemArena = () => {
                 >
                   <div
                     className="flex items-center space-x-4"
-                    onClick={() => router.push(`/dekodeX/${problem.questionId}`)}
+                    onClick={() =>
+                      router.push(`/dekodeX/${problem.questionId}`)
+                    }
                   >
                     <span className="w-8 text-lg font-bold text-[#11E3FB]">
-                      {parseInt(problem.questionId.replace(/^q/, "")) < 10 ? "0" : ""}
+                      {parseInt(problem.questionId.replace(/^q/, "")) < 10
+                        ? "0"
+                        : ""}
                       {problem.questionId.replace(/^q/, "")}
                     </span>
                     <Link href={`/dekodeX/${problem.questionId}`}>
@@ -232,7 +240,7 @@ const ProblemArena = () => {
           <div className="space-y-2">
             {loading ? (
               <div className="">
-                <LoadingSkeleton/>
+                <LoadingSkeleton />
               </div>
             ) : (
               lockedProblems.map((problem) => (

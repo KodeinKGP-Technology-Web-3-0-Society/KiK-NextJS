@@ -33,9 +33,16 @@ const SignIn = () => {
     }
 
     try {
-      await signInWithEmailAndPassword(auth, identifierEmail, password);
+      const userCredential = await signInWithEmailAndPassword(auth, identifierEmail, password);
+      const user = userCredential.user;
+
+      if (!user.emailVerified) {
+        toast.error("Please verify your email before logging in.");
+        return;
+      }
+
       toast.success("Login successful!");
-      router.push("/dekodeX")
+      router.push("/dekodeX");
     } catch (err) {
       console.log("Login error:", err);
       // Provide more user-friendly error messages based on Firebase error codes

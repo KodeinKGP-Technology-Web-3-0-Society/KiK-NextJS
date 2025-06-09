@@ -6,6 +6,33 @@ import { NotepadText } from "lucide-react";
 import { createPortal } from "react-dom";
 import Link from "next/link";
 
+const LoadingSkeleton = () => {
+  return (
+    <div className="space-y-2">
+      {Array.from({ length: 5 }, (_, index) => (
+        <div
+          key={index}
+          className="group flex cursor-pointer items-center justify-between rounded bg-[linear-gradient(90.27deg,rgba(255,255,255,0.24)_0%,rgba(115,115,115,0.12)_100%)] p-4 transition-colors duration-200"
+        >
+          <div className="flex items-center space-x-4">
+            {/* Question number skeleton */}
+            <div className="w-8">
+              <div className="h-6 w-6 bg-gradient-to-r from-gray-600 to-gray-500 rounded animate-pulse"></div>
+            </div>
+            
+            {/* Title skeleton */}
+            <div className="space-y-2">
+              <div className="h-5 bg-gradient-to-r from-gray-600 to-gray-500 rounded animate-pulse w-32 sm:w-64"></div>
+            </div>
+          </div>
+          
+          {/* Score skeleton */}
+          <div className="h-6 w-7 sm:w-12 bg-gradient-to-r from-gray-600 to-gray-500 rounded animate-pulse"></div>
+        </div>
+      ))}
+    </div>
+  );
+};
 const ProblemArena = () => {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
@@ -64,6 +91,7 @@ const ProblemArena = () => {
       </div>
     </div>
   );
+  
   return (
     <div className="relative mx-auto max-w-4xl overflow-hidden rounded-[4px] bg-[linear-gradient(108.74deg,rgba(255,255,255,0.24)_0%,rgba(255,255,255,0.06)_100%)] shadow-[0_0_50px_-25px_rgba(0,0,0,0.5)] backdrop-blur-[100px] before:pointer-events-none before:absolute before:inset-0 before:rounded-[4px] before:border-[3px] before:border-transparent before:content-[''] before:[border-image-slice:1] before:[border-image-source:linear-gradient(108.74deg,rgba(33,138,203,0.6)_0%,rgba(255,255,255,0.54)_36.46%,rgba(255,255,255,0.3)_73.96%,rgba(17,227,251,0.6)_100%)]">
       <div className="relative z-10 rounded p-6">
@@ -165,10 +193,8 @@ const ProblemArena = () => {
             Open
           </h2>
           <div className="space-y-2">
-            {loading && unlockedProblems.length === 0 ? (
-              <div className="flex  justify-center items-center">
-                <div className="w-12 h-12 border-4 border-white border-t-cyan-500 rounded-full animate-spin"></div>
-              </div>
+            {loading ? (
+                <LoadingSkeleton />
             ) : (
               unlockedProblems.map((problem) => (
                 <div
@@ -204,9 +230,9 @@ const ProblemArena = () => {
             Yet to Reveal
           </h2>
           <div className="space-y-2">
-            {loading && lockedProblems.length === 0 ? (
-              <div className="flex  justify-center items-center my-2.5">
-                <div className="w-12 h-12 border-4 border-white border-t-cyan-500 rounded-full animate-spin"></div>
+            {loading ? (
+              <div className="">
+                <LoadingSkeleton/>
               </div>
             ) : (
               lockedProblems.map((problem) => (

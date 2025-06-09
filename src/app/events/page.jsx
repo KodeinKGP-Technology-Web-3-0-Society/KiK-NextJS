@@ -954,7 +954,7 @@ const page = () => {
             </h2>
 
             {/* Timeline Container */}
-            <div className="relative flex justify-center">
+            <div className="relative flex justify-center max-lg:mx-[15vw]">
               {/* Enhanced Timeline Line with glow effect */}
               <div className="absolute left-1/2 transform -translate-x-1/2 w-[6px] bg-gradient-to-b from-[#87CEEB] via-[#5ce1e6] to-[#33bbcf] h-full z-0 rounded-full shadow-lg shadow-[#87CEEB]/50 animate-pulse"></div>
 

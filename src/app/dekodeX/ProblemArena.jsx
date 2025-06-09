@@ -1,21 +1,90 @@
 import React, { useEffect, useState } from "react";
 import { Lock } from "lucide-react";
-import problemsData from "./Question";
+import problemsData from "./questionTitles";
 import { useRouter } from "next/navigation";
 import { NotepadText } from "lucide-react";
 import { createPortal } from "react-dom";
 import Link from "next/link";
 
+const LoadingSkeleton = () => {
+  return (
+    <div className="space-y-2">
+      {Array.from({ length: 5 }, (_, index) => (
+        <div
+          key={index}
+          className="group flex cursor-pointer items-center justify-between rounded bg-[linear-gradient(90.27deg,rgba(255,255,255,0.24)_0%,rgba(115,115,115,0.12)_100%)] p-4 transition-colors duration-200"
+        >
+          <div className="flex items-center space-x-4">
+            {/* Question number skeleton */}
+            <div className="w-8">
+              <div className="h-6 w-6 animate-pulse rounded bg-gradient-to-r from-gray-600 to-gray-500"></div>
+            </div>
+
+            {/* Title skeleton */}
+            <div className="space-y-2">
+              <div className="h-5 w-32 animate-pulse rounded bg-gradient-to-r from-gray-600 to-gray-500 sm:w-64"></div>
+            </div>
+          </div>
+
+          {/* Score skeleton */}
+          <div className="h-6 w-7 animate-pulse rounded bg-gradient-to-r from-gray-600 to-gray-500 sm:w-12"></div>
+        </div>
+      ))}
+    </div>
+  );
+};
 const ProblemArena = () => {
-  const openProblems = problemsData.filter((p) => p.is_revealed);
-  const lockedProblems = problemsData.filter((p) => !p.is_revealed);
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
-
+  const [loading, setLoading] = useState(true);
+  const [unlockedProblems, setUnlockedProblems] = useState([]);
+  const [lockedProblems, setLockedProblems] = useState([]);
   useEffect(() => {
     setMounted(true);
   }, []);
+  useEffect(() => {
+    let intervalId;
+
+    async function fetchQuestions() {
+      setLoading(true);
+      try {
+        const realRes = await fetch("/dekodeX/api/questionTitles");
+        const realData = await realRes.json();
+        const realQuestions = realData.questions || [];
+        const locked = problemsData.slice(realQuestions.length, 10);
+        setUnlockedProblems(realQuestions);
+        setLockedProblems(locked);
+      } catch (err) {
+        console.error("Failed to fetch questions:", err);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    function shouldStartPolling() {
+      const now = new Date();
+      return now.getHours() === 23 && now.getMinutes() === 59 && now.getSeconds() >= 50;
+    }
+
+    // Start immediate fetch once
+    fetchQuestions();
+
+    intervalId = setInterval(() => {
+      const now = new Date();
+
+      if (shouldStartPolling()) {
+        fetchQuestions();
+      }
+
+      // After 12:01 AM stop polling completely
+      if (now.getHours() === 0 && now.getMinutes() === 0 && now.getSeconds()<= 10) {
+        clearInterval(intervalId);
+      }
+    }, 1000);
+
+    return () => clearInterval(intervalId);
+  }, [unlockedProblems.length,lockedProblems.length]);
 
   // Modal JSX
   const modalContent = (
@@ -45,6 +114,7 @@ const ProblemArena = () => {
       </div>
     </div>
   );
+
   return (
     <div className="relative mx-auto max-w-4xl overflow-hidden rounded-[4px] bg-[linear-gradient(108.74deg,rgba(255,255,255,0.24)_0%,rgba(255,255,255,0.06)_100%)] shadow-[0_0_50px_-25px_rgba(0,0,0,0.5)] backdrop-blur-[100px] before:pointer-events-none before:absolute before:inset-0 before:rounded-[4px] before:border-[3px] before:border-transparent before:content-[''] before:[border-image-slice:1] before:[border-image-source:linear-gradient(108.74deg,rgba(33,138,203,0.6)_0%,rgba(255,255,255,0.54)_36.46%,rgba(255,255,255,0.3)_73.96%,rgba(17,227,251,0.6)_100%)]">
       <div className="relative z-10 rounded p-6">
@@ -65,10 +135,14 @@ const ProblemArena = () => {
             </h1>
             <div className="flex items-center gap-1 sm:gap-2">
               <button
-                className="focus:ring-opacity-50 flex cursor-pointer items-center gap-1 rounded-lg border border-gray-700 bg-gray-900 px-2 py-1 text-xs font-medium text-white shadow-lg transition-all duration-300 hover:bg-gray-800 hover:shadow-xl focus:ring-1 focus:ring-blue-400 focus:outline-none sm:px-4 sm:py-1.5 sm:text-base"
+                className="focus:ring-opacity-50 flex cursor-pointer items-center gap-1 rounded-lg border border-gray-700 bg-gray-900 px-2 py-1.5 text-xs font-medium text-white shadow-lg transition-all duration-300 hover:bg-gray-800 hover:shadow-xl focus:ring-1 focus:ring-blue-400 focus:outline-none sm:px-4 sm:py-1.5 sm:text-base"
                 onClick={() => setIsOpen(!isOpen)}
               >
-                <NotepadText size={16} className="h-4 w-4 sm:h-5 sm:w-5" />
+                <NotepadText
+                  size={16}
+                  className="h-5 w-5"
+                  color="rgb(17,227,251)"
+                />
                 <span className="hidden xl:inline">Rules</span>
               </button>
               <Link href="/leaderboard" className="xl:hidden">
@@ -146,30 +220,38 @@ const ProblemArena = () => {
             Open
           </h2>
           <div className="space-y-2">
-            {openProblems.map((problem) => (
-              <div
-                key={problem.id}
-                className="group flex cursor-pointer items-center justify-between rounded bg-[linear-gradient(90.27deg,rgba(255,255,255,0.24)_0%,rgba(115,115,115,0.12)_100%)] p-4 transition-colors duration-200 hover:bg-gray-700"
-              >
+            {loading ? (
+              <LoadingSkeleton />
+            ) : (
+              unlockedProblems.map((problem) => (
                 <div
-                  className="flex items-center space-x-4"
-                  onClick={() => router.push(`/dekodeX/${problem.id}`)}
+                  key={problem.questionId}
+                  className="group flex cursor-pointer items-center justify-between rounded bg-[linear-gradient(90.27deg,rgba(255,255,255,0.24)_0%,rgba(115,115,115,0.12)_100%)] p-4 transition-colors duration-200 hover:bg-gray-700"
                 >
-                  <span className="w-8 text-lg font-bold text-[#11E3FB]">
-                    {problem.id < 10 ? "0" : ""}
-                    {problem.id}
-                  </span>
-                  <Link href={`/dekodeX/${problem.id}`}>
-                    <span className="bg-[linear-gradient(187.84deg,#218ACB_9.42%,#0CC5DA_69.83%,#11E3FB_130.23%)] bg-clip-text text-lg font-medium text-transparent transition-colors group-hover:text-cyan-400">
-                      {problem.title}
+                  <div
+                    className="flex items-center space-x-4"
+                    onClick={() =>
+                      router.push(`/dekodeX/${problem.questionId}`)
+                    }
+                  >
+                    <span className="w-8 text-lg font-bold text-[#11E3FB]">
+                      {parseInt(problem.questionId.replace(/^q/, "")) < 10
+                        ? "0"
+                        : ""}
+                      {problem.questionId.replace(/^q/, "")}
                     </span>
-                  </Link>
+                    <Link href={`/dekodeX/${problem.questionId}`}>
+                      <span className="bg-[linear-gradient(187.84deg,#218ACB_9.42%,#0CC5DA_69.83%,#11E3FB_130.23%)] bg-clip-text text-lg font-medium text-transparent transition-colors group-hover:text-cyan-400">
+                        {problem.title}
+                      </span>
+                    </Link>
+                  </div>
+                  <span className="text-lg font-bold text-[#218ACB]">
+                    {problem.score}
+                  </span>
                 </div>
-                <span className="text-lg font-bold text-[#218ACB]">
-                  {problem.points}
-                </span>
-              </div>
-            ))}
+              ))
+            )}
           </div>
         </div>
 
@@ -179,26 +261,32 @@ const ProblemArena = () => {
             Yet to Reveal
           </h2>
           <div className="space-y-2">
-            {lockedProblems.map((problem) => (
-              <div
-                key={problem.id}
-                className="group flex cursor-not-allowed items-center justify-between rounded bg-[linear-gradient(90.27deg,rgba(255,255,255,0.24)_0%,rgba(115,115,115,0.12)_100%)] p-4 transition-colors duration-200"
-              >
-                <div className="flex items-center space-x-4">
-                  <Lock className="h-5 w-5 text-cyan-400" />
-                  <span className="w-8 text-lg font-bold text-cyan-400">
-                    {problem.id < 10 ? "0" : ""}
-                    {problem.id}
-                  </span>
-                  <span className="bg-[linear-gradient(187.84deg,#218ACB_9.42%,#0CC5DA_69.83%,#11E3FB_130.23%)] bg-clip-text text-lg font-medium text-transparent opacity-60 blur-sm">
-                    {problem.title}
+            {loading ? (
+              <div className="">
+                <LoadingSkeleton />
+              </div>
+            ) : (
+              lockedProblems.map((problem) => (
+                <div
+                  key={problem.id}
+                  className="group flex cursor-not-allowed items-center justify-between rounded bg-[linear-gradient(90.27deg,rgba(255,255,255,0.24)_0%,rgba(115,115,115,0.12)_100%)] p-4 transition-colors duration-200"
+                >
+                  <div className="flex items-center space-x-4">
+                    <Lock className="h-5 w-5 text-cyan-400" />
+                    <span className="w-8 text-lg font-bold text-cyan-400">
+                      {parseInt(problem.id.replace(/^q/, "")) < 10 ? "0" : ""}
+                      {problem.id.replace(/^q/, "")}
+                    </span>
+                    <span className="bg-[linear-gradient(187.84deg,#218ACB_9.42%,#0CC5DA_69.83%,#11E3FB_130.23%)] bg-clip-text text-lg font-medium text-transparent opacity-60 blur-sm">
+                      {problem.title}
+                    </span>
+                  </div>
+                  <span className="text-lg font-bold text-[#218ACB] blur-sm">
+                    {problem.points}
                   </span>
                 </div>
-                <span className="text-lg font-bold text-[#218ACB] blur-sm">
-                  {problem.points}
-                </span>
-              </div>
-            ))}
+              ))
+            )}
           </div>
         </div>
       </div>

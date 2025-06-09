@@ -32,7 +32,7 @@ function Qp() {
   }, [QuestionID]);
 
   if (!questionData) {
-    return <div>Loading..</div>;
+    return <div>Loading...</div>;
   }
 
   return (

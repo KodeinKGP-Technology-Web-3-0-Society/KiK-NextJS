@@ -14,7 +14,7 @@ export async function GET() {
     const snapshot = await db
       .collection("questions")
       .where("date", "<=", today)
-      .orderBy("date", "desc")
+      .orderBy("date", "asc")
       .get();
 
     if (snapshot.empty) {

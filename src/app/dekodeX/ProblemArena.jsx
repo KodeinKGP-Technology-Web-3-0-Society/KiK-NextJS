@@ -1,20 +1,39 @@
 import React, { useEffect, useState } from "react";
 import { Lock } from "lucide-react";
-import problemsData from "./Question";
+import problemsData from "./questionTitles";
 import { useRouter } from "next/navigation";
 import { NotepadText } from "lucide-react";
 import { createPortal } from "react-dom";
 import Link from "next/link";
 
 const ProblemArena = () => {
-  const openProblems = problemsData.filter((p) => p.is_revealed);
-  const lockedProblems = problemsData.filter((p) => !p.is_revealed);
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
+  const [loading, setLoading] = useState(true);
+  const [unlockedProblems, setUnlockedProblems] = useState([]);
+  const [lockedProblems, setLockedProblems] = useState([]);
+ useEffect(() => {
     setMounted(true);
+  }, []);
+  useEffect(() => {
+    async function fetchQuestions() {
+      setLoading(true);
+      try {
+        const realRes = await fetch("/dekodeX/api/questionTitles");
+        const realData = await realRes.json();
+        const realQuestions = realData.questions || [];
+        const locked = problemsData.slice(realQuestions.length, 10);
+        setUnlockedProblems(realQuestions);
+        setLockedProblems(locked);
+      } catch (err) {
+        console.error("Failed to fetch questions:", err);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchQuestions();
   }, []);
 
   // Modal JSX
@@ -48,6 +67,7 @@ const ProblemArena = () => {
   return (
     <div className="relative mx-auto max-w-4xl overflow-hidden rounded-[4px] bg-[linear-gradient(108.74deg,rgba(255,255,255,0.24)_0%,rgba(255,255,255,0.06)_100%)] shadow-[0_0_50px_-25px_rgba(0,0,0,0.5)] backdrop-blur-[100px] before:pointer-events-none before:absolute before:inset-0 before:rounded-[4px] before:border-[3px] before:border-transparent before:content-[''] before:[border-image-slice:1] before:[border-image-source:linear-gradient(108.74deg,rgba(33,138,203,0.6)_0%,rgba(255,255,255,0.54)_36.46%,rgba(255,255,255,0.3)_73.96%,rgba(17,227,251,0.6)_100%)]">
       <div className="relative z-10 rounded p-6">
+        
         {/* Header */}
         <div className="mb-6">
           <div className="mb-3 flex items-center justify-between">
@@ -146,27 +166,27 @@ const ProblemArena = () => {
             Open
           </h2>
           <div className="space-y-2">
-            {openProblems.map((problem) => (
+            {unlockedProblems.map((problem) => (
               <div
-                key={problem.id}
+                key={problem.questionId}
                 className="group flex cursor-pointer items-center justify-between rounded bg-[linear-gradient(90.27deg,rgba(255,255,255,0.24)_0%,rgba(115,115,115,0.12)_100%)] p-4 transition-colors duration-200 hover:bg-gray-700"
               >
                 <div
                   className="flex items-center space-x-4"
-                  onClick={() => router.push(`/dekodeX/${problem.id}`)}
+                  onClick={() => router.push(`/dekodeX/${problem.questionId}`)}
                 >
                   <span className="w-8 text-lg font-bold text-[#11E3FB]">
-                    {problem.id < 10 ? "0" : ""}
-                    {problem.id}
+                    {parseInt(problem.questionId.replace(/^q/, "")) < 10 ? "0" : ""}
+                    {problem.questionId.replace(/^q/, "")}
                   </span>
-                  <Link href={`/dekodeX/${problem.id}`}>
+                  <Link href={`/dekodeX/${problem.questionId}`}>
                     <span className="bg-[linear-gradient(187.84deg,#218ACB_9.42%,#0CC5DA_69.83%,#11E3FB_130.23%)] bg-clip-text text-lg font-medium text-transparent transition-colors group-hover:text-cyan-400">
                       {problem.title}
                     </span>
                   </Link>
                 </div>
                 <span className="text-lg font-bold text-[#218ACB]">
-                  {problem.points}
+                  {problem.score}
                 </span>
               </div>
             ))}
@@ -187,8 +207,8 @@ const ProblemArena = () => {
                 <div className="flex items-center space-x-4">
                   <Lock className="h-5 w-5 text-cyan-400" />
                   <span className="w-8 text-lg font-bold text-cyan-400">
-                    {problem.id < 10 ? "0" : ""}
-                    {problem.id}
+                    {parseInt(problem.id.replace(/^q/, "")) < 10 ? "0" : ""}
+                    {problem.id.replace(/^q/, "")}
                   </span>
                   <span className="bg-[linear-gradient(187.84deg,#218ACB_9.42%,#0CC5DA_69.83%,#11E3FB_130.23%)] bg-clip-text text-lg font-medium text-transparent opacity-60 blur-sm">
                     {problem.title}

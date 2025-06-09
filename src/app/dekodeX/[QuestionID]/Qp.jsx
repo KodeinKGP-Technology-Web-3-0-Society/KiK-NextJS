@@ -1,7 +1,6 @@
 "use client";
 
-
-import {useAuth} from '@/contexts/authContext';
+import { useAuth } from "@/contexts/authContext";
 import React from "react";
 import data from "../../../data/dekodeX/event-que.json";
 import ReturnButton from "@/Components/utils/ReturnButton";
@@ -16,9 +15,9 @@ function Qp() {
   const params = useParams();
   const { QuestionID } = params;
   const [questionData, setQuestionData] = useState(null);
-  const {user, loggedIn} = useAuth();
-  const[answer, setAnswer] = useState("");
-  
+  const { user, loggedIn } = useAuth();
+  const [answer, setAnswer] = useState("");
+
   useEffect(() => {
     fetch(`/dekodeX/api/question/${QuestionID}`)
       .then((res) => {
@@ -37,7 +36,11 @@ function Qp() {
   }, [QuestionID]);
 
   if (!questionData) {
-    return <div><DekodeXLoading /></div>;
+    return (
+      <div>
+        <DekodeXLoading />
+      </div>
+    );
   }
 
   return (
@@ -136,7 +139,11 @@ function Qp() {
             value={answer}
             onChange={(e) => setAnswer(e.target.value)}
           />
-          <SubmitButton />
+          <SubmitButton
+            email={user?.email}
+            answer={answer}
+            QuestionID={QuestionID}
+          />
         </div>
         <div className="absolute bottom-2 left-8 h-fit w-fit bg-[linear-gradient(236.43deg,_#218ACB_18.56%,_#0CC5DA_59.05%,_#11E3FB_79.29%)] bg-clip-text text-3xl font-bold text-transparent">
           {"</>"}

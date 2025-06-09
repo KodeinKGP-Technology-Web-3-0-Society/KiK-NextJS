@@ -1,14 +1,17 @@
+"use client";
 import { useState } from "react";
 import { auth, db } from "@/backend/firebase";
 import { getDoc, doc } from "firebase/firestore";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { Eye, EyeOff } from "lucide-react";
 import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
 
 const SignIn = () => {
   const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const router = useRouter();
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -32,6 +35,7 @@ const SignIn = () => {
     try {
       await signInWithEmailAndPassword(auth, identifierEmail, password);
       toast.success("Login successful!");
+      router.push("/dekodeX")
     } catch (err) {
       console.log("Login error:", err);
       // Provide more user-friendly error messages based on Firebase error codes

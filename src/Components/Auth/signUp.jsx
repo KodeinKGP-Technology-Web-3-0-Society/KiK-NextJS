@@ -103,7 +103,7 @@ const SignUp = ({ setMsg, setMsgType, setShowMsg }) => {
   };
 
   return (
-    <form onSubmit={handleRegister} className="space-y-5">
+    <form onSubmit={handleRegister} className="space-y-4">
       <input
         value={username}
         onChange={(e) => setUsername(e.target.value)}

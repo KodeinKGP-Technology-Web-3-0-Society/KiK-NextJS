@@ -101,6 +101,15 @@ function Qp() {
           Sample Output
         </h3>
 
+        <div className="relative flex w-fit flex-row px-4 py-6 shadow-[10px_10px_20px_0px_#218ACB33,_-10px_-10px_20px_0px_#11E3FB33]">
+          <div className="po custom-scrollbar relative flex h-fit max-h-[300px] w-fit max-w-[250px] min-w-[160px] flex-row items-center justify-start overflow-auto font-[victor-mono]">
+            <pre>{questionData.sampleOutput}</pre>
+          </div>
+          <div className="flex min-h-[100%] min-w-[20px] items-center">
+            <CopyButton text={questionData.sampleOutput} />
+          </div>
+        </div>
+
         <div className="flex flex-row items-center gap-2">
           <GetInput testcase={questionData.testcases} />
         </div>

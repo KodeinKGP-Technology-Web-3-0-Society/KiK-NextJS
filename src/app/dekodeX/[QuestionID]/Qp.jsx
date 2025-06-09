@@ -139,11 +139,7 @@ function Qp() {
             value={answer}
             onChange={(e) => setAnswer(e.target.value)}
           />
-          <SubmitButton
-            email={user?.email}
-            answer={answer}
-            QuestionID={QuestionID}
-          />
+          <SubmitButton email={user?.email} answer={answer} id={QuestionID} />
         </div>
         <div className="absolute bottom-2 left-8 h-fit w-fit bg-[linear-gradient(236.43deg,_#218ACB_18.56%,_#0CC5DA_59.05%,_#11E3FB_79.29%)] bg-clip-text text-3xl font-bold text-transparent">
           {"</>"}

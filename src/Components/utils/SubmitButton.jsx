@@ -2,21 +2,23 @@
 import React from "react";
 import { useState } from "react";
 import Loader from "./loader";
-function SubmitButton({ email, answer, QuestionID }) {
+import { toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
+function SubmitButton({ email, answer, id }) {
   const [loading, setLoading] = useState(false);
   const handleSubmit = async () => {
     if (!email) {
-      alert("Kindly Login to submit your answer");
+      toast.error("Kindly Login to submit your answer");
       return;
     }
     if (!answer) {
-      alert("Please provide an answer before submitting.");
+      toast.error("Please provide an answer before submitting.");
       return;
     }
 
     setLoading(true);
     try {
-      const res = await fetch(`/api/submit/${QuestionID}`, {
+      const res = await fetch(`/dekodeX/api/submit/${id}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -26,50 +28,63 @@ function SubmitButton({ email, answer, QuestionID }) {
           answer: answer,
         }),
       });
-
       if (!res.ok) {
-        alert(data.error || "Submission failed.");
+        const errorData = await res.json().catch(() => ({}));
+        toast.error(
+          errorData.message || "Submission failed. Please try again."
+        );
         return;
       }
       if (res.ok) {
-        alert("Submission successful!");
+        toast.success("Submission successful!");
       }
     } catch (error) {
-      console.error("Error submitting answer:", error);
-      alert("An error occurred while submitting your answer.");
+      toast.error("An error occurred while submitting your answer.");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <button
-      className="h-[42px] rounded-[16px] px-4 text-[#01011B] transition-all duration-200 ease-in-out hover:cursor-pointer"
-      style={{
-        background:
-          "linear-gradient(180deg, #218ACB 0%, #0CC5DA 50%, #11E3FB 100%)",
-        backgroundSize: "100% 200%",
-        backgroundPosition: "0 0",
-      }}
-      onMouseEnter={(e) => {
-        e.currentTarget.style.backgroundPosition = "0 100%";
-        e.currentTarget.style.transform = "scale(1.05)";
-      }}
-      onMouseLeave={(e) => {
-        e.currentTarget.style.backgroundPosition = "0 0";
-        e.currentTarget.style.transform = "scale(1)";
-      }}
-      onMouseDown={(e) => {
-        e.currentTarget.style.transform = "scale(0.95)";
-      }}
-      onMouseUp={(e) => {
-        e.currentTarget.style.transform = "scale(1.05)";
-      }}
-      onClick={handleSubmit}
-    >
-      {loading ? <Loader /> : " "}
-      Submit
-    </button>
+    <>
+      <button
+        className="h-[42px] rounded-[16px] px-4 text-[#01011B] transition-all duration-200 ease-in-out hover:cursor-pointer"
+        style={{
+          background:
+            "linear-gradient(180deg, #218ACB 0%, #0CC5DA 50%, #11E3FB 100%)",
+          backgroundSize: "100% 200%",
+          backgroundPosition: "0 0",
+        }}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.backgroundPosition = "0 100%";
+          e.currentTarget.style.transform = "scale(1.05)";
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.backgroundPosition = "0 0";
+          e.currentTarget.style.transform = "scale(1)";
+        }}
+        onMouseDown={(e) => {
+          e.currentTarget.style.transform = "scale(0.95)";
+        }}
+        onMouseUp={(e) => {
+          e.currentTarget.style.transform = "scale(1.05)";
+        }}
+        onClick={handleSubmit}
+      >
+        {loading ? <Loader /> : " "}
+        Submit
+      </button>
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        pauseOnHover
+        draggable
+        theme="dark"
+      />
+    </>
   );
 }
 export default SubmitButton;

@@ -1028,7 +1028,7 @@ const page = () => {
                         </div>
 
                         {/* Back Face - Description Content */}
-                        <div className="absolute inset-0 w-full h-full backface-hidden rotate-y-180 flex flex-col justify-center items-center text-center p-4 bg-gradient-to-br from-[#1a1a3e]/20 to-[#0a0a2e]/20 rounded-lg">
+                        <div className="relative inset-0 w-full h-full backface-hidden rotate-y-180 flex flex-col justify-center items-center text-center p-4 bg-gradient-to-br from-[#1a1a3e]/20 to-[#0a0a2e]/20 rounded-lg">
                           
                           {/* Animated background pattern */}
                           <div className="absolute inset-0 opacity-10 rounded-lg">
@@ -1225,5 +1225,3 @@ const page = () => {
 };
 
 export default page;
-
-

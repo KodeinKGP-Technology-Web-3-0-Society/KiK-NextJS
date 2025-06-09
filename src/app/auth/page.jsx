@@ -2,301 +2,164 @@
 import React, { useEffect, useState } from "react";
 import { useAuth } from "@/contexts/authContext";
 import { useRouter } from "next/navigation";
-import { doc, setDoc, getDoc } from "firebase/firestore";
-import { auth, db } from "@/backend/firebase";
-import {
-  signInWithEmailAndPassword,
-  createUserWithEmailAndPassword,
-  sendEmailVerification,
-} from "firebase/auth";
-import Message from "@/Components/utils/message";
+import { doc, updateDoc } from "firebase/firestore";
+import { db } from "@/backend/firebase";
+import SignIn from "@/Components/Auth/signIn";
+import SignUp from "@/Components/Auth/signUp";
+import Image from "next/image";
+import RegImg from "../../../public/regImg.png";
+import { toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 
 const Auth = () => {
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [cnfPassword, setCnfPassword] = useState("");
-
   const [doSignUp, setDoSignUp] = useState(false);
 
-  // for displaying messages instead of alerts
-  const [showMsg, setShowMsg] = useState(false);
-  const [msgType, setMsgType] = useState("info");
-  const [msg, setMsg] = useState("");
-
   function toggleSignUp(value) {
-    setUsername("");
-    setEmail("");
-    setPassword("");
-    setCnfPassword("");
     setDoSignUp(value);
   }
-
-  function checkMail(email) {
-    // domain - '@kgpian.iitkgp.ac.in'
-    const regex = /^[a-zA-Z0-9._%+-]+@kgpian\.iitkgp\.ac\.in$/;
-    return regex.test(email);
-  }
-
-  const handleRegister = async (e) => {
-    e.preventDefault();
-
-    if (password !== cnfPassword) {
-      setMsg("Passwords do not match.");
-      setMsgType("error");
-      setShowMsg(true);
-      return;
-    }
-    if (username.length < 3 || username.length > 20) {
-      setMsg("Username must be between 3 and 20 characters.");
-      setMsgType("error");
-      setShowMsg(true);
-      return;
-    }
-    if (password.length < 6) {
-      setMsg("Password must be at least 6 characters long.");
-      setMsgType("error");
-      setShowMsg(true);
-      return;
-    }
-
-    if (!checkMail(email)) {
-      setMsg("Please enter a KGP email address only.");
-      setMsgType("error");
-      setShowMsg(true);
-      return;
-    }
-
-    try {
-      const usernameDoc = await getDoc(doc(db, "usernames", username));
-      if (usernameDoc.exists()) {
-        setMsg("Username already taken");
-        setMsgType("error");
-        setShowMsg(true);
-        return;
-      }
-
-      const userCred = await createUserWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
-      const user = userCred.user;
-      const uid = userCred.user.uid;
-      let initSubmissions = [];
-      for (let i = 0; i < 10; i++) {
-        initSubmissions.push(0);
-      }
-
-      await sendEmailVerification(user); // email verification link
-
-      await setDoc(doc(db, "usernames", username), { uid, email }); // username to uid mapping for login
-      await setDoc(doc(db, "users", uid), {
-        username,
-        email,
-        submissions: [],
-        emailVerified: user.emailVerified,
-      });
-
-      setMsg(
-        "Registration successful! Please check your email to verify your account."
-      );
-      setShowMsg(true);
-      setMsgType("success");
-      setUsername("");
-      setEmail("");
-      setPassword("");
-      setCnfPassword("");
-      setDoSignUp(false);
-    } catch (err) {
-      console.error("Registration error:", err);
-      let errorMessage = "Registration failed. Please try again.";
-      if (err.code === "auth/email-already-in-use") {
-        errorMessage =
-          "This email is already in use. Please sign in or use a different email.";
-      } else if (err.code === "auth/weak-password") {
-        errorMessage =
-          "Password is too weak. Please choose a stronger password.";
-      } else if (err.code === "auth/invalid-email") {
-        errorMessage = "Invalid email address.";
-      } else if (err.code === "auth/operation-not-allowed") {
-        errorMessage =
-          "Email/password accounts are not enabled. Please enable them in Firebase Console.";
-      } else if (err.code === "permission-denied") {
-        // Specific Firestore permission error
-        errorMessage =
-          "Permission denied. Check your Firestore Security Rules.";
-      }
-      setMsg(`Registration error: ${errorMessage}`);
-      setMsgType("error");
-      setShowMsg(true);
-    }
-  };
-
-  const handleLogin = async (e) => {
-    e.preventDefault();
-    let identifierEmail = email;
-
-    // resolving when username provided
-    if (!email.includes("@")) {
-      try {
-        const usernameDoc = await getDoc(doc(db, "usernames", email));
-        if (!usernameDoc.exists()) {
-          setMsg("Username not found");
-          setMsgType("error");
-          setShowMsg(true);
-          return;
-        }
-        identifierEmail = usernameDoc.data().email;
-      } catch (err) {
-        setMsg("Failed to fetch username");
-        setMsgType("error");
-        setShowMsg(true);
-        return;
-      }
-    }
-
-    try {
-      await signInWithEmailAndPassword(auth, identifierEmail, password);
-      setMsg("Login successful!");
-      setShowMsg(true);
-      setMsgType("success");
-    } catch (err) {
-      console.error("Login error:", err);
-      // Provide more user-friendly error messages based on Firebase error codes
-      let errorMessage = "Login failed. Please check your credentials.";
-      if (
-        err.code === "auth/invalid-credential" ||
-        err.code === "auth/user-not-found" ||
-        err.code === "auth/wrong-password"
-      ) {
-        errorMessage = "Invalid email/username or password.";
-      } else if (err.code === "auth/invalid-email") {
-        errorMessage = "Invalid email address format.";
-      }
-      setMsg(`Login error: ${errorMessage}`);
-      setMsgType("error");
-      setShowMsg(true);
-    }
-  };
 
   const router = useRouter();
   const { loggedIn, user } = useAuth();
 
   useEffect(() => {
+    async function updateUserStatus() {
+      const uid = user.uid;
+      const userDocRef = doc(db, "users", uid);
+      try {
+        await updateDoc(userDocRef, {
+          emailVerified: true,
+        });
+        console.log("emailVerified status updated successfully!");
+      } catch (error) {
+        console.error("Error updating emailVerified status:", error);
+      }
+    }
+
     if (user && user.emailVerified) {
-      setMsg("Email verified. Redirecting...");
-      setShowMsg(true);
-      setMsgType("success");
+      toast.success("Email verified. Redirecting...");
+      updateUserStatus();
       router.push("/");
     } else if (user && !user.emailVerified) {
-      setMsg(
+      toast.warn(
         "Please verify your email to continue. A verification link has been sent to your inbox. You may need to refresh after verifying."
       );
-      setShowMsg(true);
-      setMsgType("warning");
     }
-    console.log("User :", user);
   }, [loggedIn, user, router]);
 
   return (
-    <div>
-      {showMsg && (
-        <Message type={msgType} message={msg} setShowMsg={setShowMsg} />
-      )}
-
-      <div>
-        <button
-          className="mx-8 cursor-pointer border-2 bg-blue-200 text-blue-600"
-          onClick={() => toggleSignUp(true)}
-        >
-          Sign up
-        </button>
-        <button
-          className="mx-8 cursor-pointer border-2 bg-blue-200 text-blue-600"
-          onClick={() => toggleSignUp(false)}
-        >
-          Sign in
-        </button>
+    <div className="min-h-screen bg-[rgb(1,1,27)] px-4 sm:px-6 md:px-8 relative overflow-hidden">
+      {/* Background decoration */}
+      <div className="absolute inset-0 opacity-20">
+        <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/5 to-blue-500/5"></div>
       </div>
 
-      {doSignUp ? (
-        <>
-          <form
-            onSubmit={handleRegister}
-            className="flex flex-col items-center justify-center"
-          >
-            <h1>Sign up</h1>
-            <input
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              type="text"
-              placeholder="Username"
-            />
-            <input
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              type="email"
-              placeholder="Email"
-            />
-            <input
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              type="password"
-              placeholder="password"
-            />
-            <input
-              value={cnfPassword}
-              onChange={(e) => setCnfPassword(e.target.value)}
-              type="password"
-              placeholder="confirm password"
-            />
-            <button>Register</button>
-          </form>
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        pauseOnHover
+        draggable
+        theme="dark"
+      />
 
-          <span>
-            Already Registered?{" "}
-            <a
-              onClick={() => toggleSignUp(false)}
-              className="cursor-pointer underline"
-            >
-              Sign In from here!
-            </a>
-          </span>
-        </>
-      ) : (
-        <>
-          <form
-            onSubmit={handleLogin}
-            className="flex flex-col items-center justify-center"
-          >
-            <h1>Sign in</h1>
-            <input
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              type="text"
-              placeholder="Username or Email"
-            />
-            <input
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              type="password"
-              placeholder="password"
-            />
-            <button>Login</button>
-          </form>
+      {/* Modern Tab Navigation */}
+      <div className="flex justify-center pt-8 sm:pt-4">
+        <div className="relative flex bg-white/5 backdrop-blur-xl rounded-2xl p-1.5 border border-white/10">
+          <div
+            className={`absolute top-1.5 h-[calc(100%-12px)] bg-gradient-to-r from-cyan-500 to-blue-500 rounded-xl transition-all duration-500 ease-out ${doSignUp ? 'translate-x-0 w-[calc(50%-3px)]' : 'translate-x-full w-[calc(50%-3px)]'
+              }`}
+          />
 
-          <span>
-            Don't have an account?{" "}
-            <a
-              onClick={() => toggleSignUp(true)}
-              className="cursor-pointer underline"
-            >
-              Create from here!
-            </a>
-          </span>
-        </>
-      )}
+          <button
+            className={`relative z-10 px-8 py-3 text-sm font-semibold transition-all duration-300 rounded-xl min-w-[120px] ${doSignUp
+                ? "text-white"
+                : "text-slate-300 hover:text-white"
+              }`}
+            onClick={() => toggleSignUp(true)}
+          >
+            Sign up
+          </button>
+
+          <button
+            className={`relative z-10 px-8 py-3 text-sm font-semibold transition-all duration-300 rounded-xl min-w-[120px] ${!doSignUp
+                ? "text-white"
+                : "text-slate-300 hover:text-white"
+              }`}
+            onClick={() => toggleSignUp(false)}
+          >
+            Sign in
+          </button>
+        </div>
+      </div>
+
+      {/* Main Content */}
+      <div className="flex items-center justify-center gap-20 py-12 font-sans text-white sm:py-20">
+        {/* Image Section */}
+        <div className="hidden lg:block relative">
+          <div className="absolute -inset-4 bg-gradient-to-r from-cyan-500/20 to-blue-500/20 rounded-3xl blur-xl"></div>
+          <Image
+            src={RegImg}
+            alt="Registration Image"
+            width={400}
+            height={400}
+            className="relative rounded-2xl shadow-2xl"
+          />
+        </div>
+
+        {/* Form Section */}
+        <div className="w-full max-w-md relative hover:shadow-[0_0_25px_#00ffff66] rounded-4xl">
+          {/* Glassmorphism Background */}
+          <div className="absolute -inset-1 bg-gradient-to-r from-cyan-500/30 to-blue-500/30 rounded-3xl blur opacity-60"></div>
+
+          <div className="relative bg-white/10 backdrop-blur-2xl rounded-3xl border border-white/20 p-8 sm:p-10 shadow-2xl">
+            {/* Floating Header */}
+            <div className="text-center mb-8">
+              <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-r from-cyan-500 to-blue-500 mb-4 shadow-lg">
+                <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                </svg>
+              </div>
+              <h2 className="text-3xl font-bold bg-gradient-to-r from-white to-slate-300 bg-clip-text text-transparent">
+                {doSignUp ? "Create Account" : "Welcome Back"}
+              </h2>
+              <p className="text-slate-400 mt-2 text-sm">
+                {doSignUp ? "Join us today and get started" : "Sign in to continue your journey"}
+              </p>
+            </div>
+
+            {/* Form Content - SignIn/SignUp Components */}
+            {doSignUp ? (
+              <>
+                <SignUp />
+                <span className="block text-sm text-slate-400 text-center pt-4">
+                  Already Registered for dekodeX?
+                  <a
+                    onClick={() => toggleSignUp(false)}
+                    className="ml-1 cursor-pointer font-medium text-cyan-400 transition-all hover:underline"
+                  >
+                    Sign In from here!
+                  </a>
+                </span>
+              </>
+            ) : (
+              <>
+                <SignIn />
+                <span className="block text-sm text-slate-400 text-center pt-4">
+                  Not yet Registered for dekodeX?
+                  <a
+                    onClick={() => toggleSignUp(true)}
+                    className="ml-1 cursor-pointer font-medium text-cyan-400 transition-all hover:underline"
+                  >
+                    Register here!
+                  </a>
+                </span>
+              </>
+            )}
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

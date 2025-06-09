@@ -954,14 +954,14 @@ const page = () => {
             </h2>
 
             {/* Timeline Container */}
-            <div className="relative flex justify-center max-lg:mx-[15vw]">
+            <div className="relative flex justify-center">
               {/* Enhanced Timeline Line with glow effect */}
               <div className="absolute left-1/2 transform -translate-x-1/2 w-[6px] bg-gradient-to-b from-[#87CEEB] via-[#5ce1e6] to-[#33bbcf] h-full z-0 rounded-full shadow-lg shadow-[#87CEEB]/50 animate-pulse"></div>
 
               {/* Event Card - Flex Row Layout */}
               <div className="relative w-full max-w-[900px] mb-12 flex items-center justify-center group">
                 {/* Timeline Dot with enhanced glow */}
-                <div className="absolute left-1/2 transform -translate-x-1/2 w-[20px] h-[20px] bg-gradient-to-r from-[#87CEEB] to-[#33bbcf] rounded-full border-4 border-[#01011b] z-20 shadow-lg shadow-[#87CEEB]/60 animate-pulse group-hover:scale-150 group-hover:shadow-[#87CEEB] transition-all duration-500"></div>
+                <div className="absolute left-1/2 transform max-lg:hidden -translate-x-1/2 w-[20px] h-[20px] bg-gradient-to-r from-[#87CEEB] to-[#33bbcf] rounded-full border-4 border-[#01011b] z-20 shadow-lg shadow-[#87CEEB]/60 animate-pulse group-hover:scale-150 group-hover:shadow-[#87CEEB] transition-all duration-500"></div>
 
                 {/* Event Card with Border - Flex Row */}
                 <div className="border-2 border-[#87CEEB]/60 rounded-[20px] p-8 bg-gradient-to-br from-[#0a0a2e]/90 to-[#01011b]/95 hover:border-[#33bbcf] transition-all duration-500 hover:shadow-2xl hover:shadow-[#87CEEB]/30 backdrop-blur-sm hover:scale-[1.02] transform hover:-translate-y-2 relative overflow-hidden w-full cursor-default">
@@ -978,8 +978,8 @@ const page = () => {
                         src={eventx.image}
                         alt="event"
                         fill
-                        className="rounded-[16px] object-cover transition-all duration-500 group-hover:scale-105 group-hover:brightness-110 group-hover:saturate-110"
-                        sizes="(max-width: 1024px) 100vw, 400px"
+                        className="rounded-[16px] w-[100%] max-lg:object-cover bg-top transition-all duration-500 group-hover:scale-105 group-hover:brightness-110 group-hover:saturate-110"
+                        
                         priority={index < 2}
                       />
                       {/* Enhanced image overlay effect */}

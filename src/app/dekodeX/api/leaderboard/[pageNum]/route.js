@@ -22,12 +22,13 @@ export async function GET(request, { params }) {
       return NextResponse.json({ message: "No users found" }, { status: 200 });
     }
 
-    const pageSize = 2;
+    const pageSize = 10;
     const startIndex = (pageNum - 1) * pageSize;
     const endIndex = startIndex + pageSize;
     const fullLeaderboard = Object.entries(users)
       .map(([userId, userData]) => ({
         userId,
+        email: userData.email,
         name: userData.username || "Anonymous",
         score: userData.submissions
           ? userData.submissions.reduce((sum, val) => sum + val, 0)

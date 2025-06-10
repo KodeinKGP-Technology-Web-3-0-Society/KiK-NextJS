@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useState } from "react";
 import Logo from "../../../public/KIK_logo-removebg.png";
 import { useAuth } from "@/contexts/authContext";
+import SignOutButton from "../utils/signOut";
 
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -12,7 +13,7 @@ function Navbar() {
     setIsOpen(!isOpen);
   };
 
-  const { loggedIn } = useAuth();
+  const { loggedIn, user } = useAuth();
 
   return (
     <div

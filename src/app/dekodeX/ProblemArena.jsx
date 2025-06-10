@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { NotepadText } from "lucide-react";
 import { createPortal } from "react-dom";
 import Link from "next/link";
+import { useAuth } from "@/contexts/authContext";
 
 const LoadingSkeleton = () => {
   return (
@@ -40,6 +41,10 @@ const ProblemArena = () => {
   const [loading, setLoading] = useState(true);
   const [unlockedProblems, setUnlockedProblems] = useState([]);
   const [lockedProblems, setLockedProblems] = useState([]);
+  const { user, loggedIn } = useAuth();
+  const getSubmissionIndex = (questionId) => {
+    return parseInt(questionId.replace('q', '')) - 1;
+  };
   useEffect(() => {
     setMounted(true);
   }, []);
@@ -78,13 +83,13 @@ const ProblemArena = () => {
       }
 
       // After 12:01 AM stop polling completely
-      if (now.getHours() === 0 && now.getMinutes() === 0 && now.getSeconds()<= 10) {
+      if (now.getHours() === 0 && now.getMinutes() === 0 && now.getSeconds() <= 10) {
         clearInterval(intervalId);
       }
     }, 1000);
 
     return () => clearInterval(intervalId);
-  }, [unlockedProblems.length,lockedProblems.length]);
+  }, [unlockedProblems.length, lockedProblems.length]);
 
   // Modal JSX
   const modalContent = (
@@ -116,7 +121,7 @@ const ProblemArena = () => {
   );
 
   return (
-    <div className="relative mx-2 sm:mx-auto max-w-none sm:max-w-4xl overflow-hidden rounded-[4px] bg-[linear-gradient(108.74deg,rgba(255,255,255,0.24)_0%,rgba(255,255,255,0.06)_100%)] shadow-[0_0_50px_-25px_rgba(0,0,0,0.5)] backdrop-blur-[100px] before:pointer-events-none before:absolute before:inset-0 before:rounded-[4px] before:border-[3px] before:border-transparent before:content-[''] before:[border-image-slice:1] before:[border-image-source:linear-gradient(108.74deg,rgba(33,138,203,0.6)_0%,rgba(255,255,255,0.54)_36.46%,rgba(255,255,255,0.3)_73.96%,rgba(17,227,251,0.6)_100%)]">
+    <div className="relative mx-2 sm:mx-auto max-w-none sm:max-w-4xl overflow-hidden rounded-[4px] bg-[linear-gradient(108.74deg,rgba(255,255,255,0.24)0%,rgba(255,255,255,0.06)_100%)] shadow-[0_0_50px-25px_rgba(0,0,0,0.5)] backdrop-blur-[100px] before:pointer-events-none before:absolute before:inset-0 before:rounded-[4px] before:border-[3px] before:border-transparent before:content-[''] before:[border-image-slice:1] before:[border-image-source:linear-gradient(108.74deg,rgba(33,138,203,0.6)_0%,rgba(255,255,255,0.54)_36.46%,rgba(255,255,255,0.3)_73.96%,rgba(17,227,251,0.6)_100%)]">
       <div className="relative z-10 rounded p-4 sm:p-6">
         {/* Header */}
         <div className="mb-4 sm:mb-6">
@@ -208,7 +213,7 @@ const ProblemArena = () => {
         {/* Open Problems Section */}
         <div className="mb-6 sm:mb-8">
           <h2
-            className="mb-3 sm:mb-4 bg-[linear-gradient(to_right,_#218ACB_0%,_#11E3FB_33%,_#218ACB_66%,_#11E3FB_100%)] bg-clip-text text-xl sm:text-2xl font-bold text-transparent"
+            className="mb-3 sm:mb-4 bg-[linear-gradient(to_right,#218ACB_0%,#11E3FB_33%,#218ACB_66%,#11E3FB_100%)] bg-clip-text text-xl sm:text-2xl font-bold text-transparent"
             style={{
               background:
                 "linear-gradient(92.46deg, #218ACB 0%, #11E3FB 33.33%, #218ACB 66.67%, #11E3FB 100%)",
@@ -226,7 +231,12 @@ const ProblemArena = () => {
               unlockedProblems.map((problem) => (
                 <div
                   key={problem.questionId}
-                  className="group flex cursor-pointer items-center justify-between rounded bg-[linear-gradient(90.27deg,rgba(255,255,255,0.24)_0%,rgba(115,115,115,0.12)_100%)] p-3 sm:p-4 transition-colors duration-200 hover:bg-gray-700"
+                  className={`group flex cursor-pointer items-center justify-between rounded p-3 sm:p-4 transition-colors duration-200 hover:bg-gray-700 ${user?.submissions?.[getSubmissionIndex(problem.questionId)] > 0
+                    ? 'bg-green-500/20 border border-green-500/30'
+                    : user?.submissions?.[getSubmissionIndex(problem.questionId)] < 0
+                      ? 'bg-red-500/20 border border-red-500/30'
+                      : 'bg-[linear-gradient(90.27deg,rgba(255,255,255,0.24)_0%,rgba(115,115,115,0.12)_100%)]'
+                    }`}
                 >
                   <div
                     className="flex items-center space-x-2 sm:space-x-4 flex-1 min-w-0"
@@ -257,7 +267,7 @@ const ProblemArena = () => {
 
         {/* Yet to Reveal Section */}
         <div>
-          <h2 className="mb-3 sm:mb-4 bg-[linear-gradient(to_right,_#218ACB_0%,_#11E3FB_33%,_#218ACB_66%,_#11E3FB_100%)] bg-clip-text text-xl sm:text-2xl font-bold text-transparent">
+          <h2 className="mb-3 sm:mb-4 bg-[linear-gradient(to_right,#218ACB_0%,#11E3FB_33%,#218ACB_66%,#11E3FB_100%)] bg-clip-text text-xl sm:text-2xl font-bold text-transparent">
             Yet to Reveal
           </h2>
           <div className="space-y-2">

@@ -18,38 +18,27 @@ export function AuthProvider({ children }) {
   async function getUserData(currentUser) {
     if (currentUser) {
       try {
-        const userDocRef = doc(db, 'users', currentUser.uid);
+        const userDocRef = doc(db, "users", currentUser.uid);
         const userDocSnap = await getDoc(userDocRef);
 
         if (userDocSnap.exists()) {
-          const userData = userDocSnap.data();
-          console.log('User Data:', userData);
-
-          // Ensure userData has the required properties
-          setUser({
-            ...userData,
-            uid: currentUser.uid,
-            email: currentUser.email,
-            emailVerified: currentUser.emailVerified
-          });
+          console.log("User Data:", userDocSnap.data());
+          setUser(userDocSnap.data());
+          return;
         } else {
-          console.error('Server error: No such user document!');
-          setUser(null);
+          console.error("Server error: No such user document!");
         }
       } catch (error) {
-        console.error("Error fetching user data:", error);
         toast.error("Error fetching user data: " + error.message);
-        setUser(null);
       }
-    } else {
-      setUser(null);
     }
+    setUser(null);
   }
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       console.log("Auth state changed:", currentUser);
-      await getUserData(currentUser);
+      getUserData(currentUser);
       setLoading(false);
     });
 

@@ -33,7 +33,11 @@ const SignIn = () => {
     }
 
     try {
-      const userCredential = await signInWithEmailAndPassword(auth, identifierEmail, password);
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        identifierEmail,
+        password
+      );
       const user = userCredential.user;
 
       if (!user.emailVerified) {

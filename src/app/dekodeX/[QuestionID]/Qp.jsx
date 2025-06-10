@@ -62,9 +62,9 @@ function Qp() {
           minHeight: 80, // ensures enough space for the absolute title
         }}
       >
-        <div className="absolute right-6 bottom-5 left-6 flex max-sm:right-4 max-sm:left-4 max-sm:bottom-3">
+        <div className="absolute right-6 bottom-5 left-6 flex max-sm:right-4 max-sm:bottom-3 max-sm:left-4">
           <span
-            className="font-[poppins] pb-5 sm:pb-0 text-[20px] leading-[36px] font-bold max-md:text-[18px] max-sm:text-[16px] max-sm:leading-[24px]"
+            className="pb-5 font-[poppins] text-[20px] leading-[36px] font-bold max-md:text-[18px] max-sm:text-[16px] max-sm:leading-[24px] sm:pb-0"
             style={{
               background:
                 "linear-gradient(92.46deg, #218ACB 3.64%, #11E3FB 20.06%, #218ACB 31.73%, #11E3FB 47.81%)",
@@ -87,7 +87,7 @@ function Qp() {
         </div>
         <div className="absolute top-[80px] h-[17px] w-full bg-gradient-to-b from-[rgba(255,255,255,0.2)] via-[#0CC5DA] to-[#01011B] max-sm:top-[60px]"></div>
       </div>
-      <div className="mb-[100px] flex flex-col gap-6 p-8 max-sm:p-4 max-sm:gap-4 max-sm:mb-[60px]">
+      <div className="mb-[100px] flex flex-col gap-6 p-8 max-sm:mb-[60px] max-sm:gap-4 max-sm:p-4">
         <span className="absolute top-[117px] left-[9px] flex h-[20px] w-[22px] items-center justify-center font-[victor-mono] text-[18px] leading-[100%] tracking-[0%] text-[#00FF00] max-sm:top-[85px] max-sm:left-[12px] max-sm:text-[16px]">
           $$
         </span>

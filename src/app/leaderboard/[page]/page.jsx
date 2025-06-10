@@ -1,17 +1,19 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
-import leaderboard from "./leaderboard.json";
+import leaderboard from "../leaderboard.json";
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
-export default function Leaderboard() {
-    const [currentPage, setCurrentPage] = useState(1);
+export default function LeaderboardPage({ params }) {
+    const router = useRouter();
     const [currentUser, setCurrentUser] = useState({
         rank: 25,
         name: "Current User",
         score: 850,
         isCurrentUser: true
     }); // Set default value for testing
+    const currentPage = parseInt(params.page) || 1;
     const itemsPerPage = 12;
     const totalPages = Math.ceil(leaderboard.length / itemsPerPage);
     
@@ -23,7 +25,7 @@ export default function Leaderboard() {
     const currentPageData = leaderboard.slice(startIndex, endIndex);
 
     return (
-        <div className="h-[146.8vh] flex min-h-screen flex-col before:absolute before:inset-0 before:rounded-[4px] before:border-[3px] before:border-transparent before:[border-image-source:linear-gradient(108.74deg,rgba(33,138,203,0.6)_0%,rgba(255,255,255,0.54)_36.46%,rgba(255,255,255,0.3)_73.96%,rgba(17,227,251,0.6)_100%)] before:[border-image-slice:1] before:content-[''] before:pointer-events-none shadow-[0_0_50px_-25px_rgba(0,0,0,0.5)] backdrop-blur-[100px] bg-[linear-gradient(108.74deg,rgba(255,255,255,0.24)_0%,rgba(255,255,255,0.06)_100%)]">
+        <div className="flex min-h-screen flex-col before:absolute before:inset-0 before:rounded-[4px] before:border-[3px] before:border-transparent before:[border-image-source:linear-gradient(108.74deg,rgba(33,138,203,0.6)_0%,rgba(255,255,255,0.54)_36.46%,rgba(255,255,255,0.3)_73.96%,rgba(17,227,251,0.6)_100%)] before:[border-image-slice:1] before:content-[''] before:pointer-events-none shadow-[0_0_50px_-25px_rgba(0,0,0,0.5)] backdrop-blur-[100px] bg-[linear-gradient(108.74deg,rgba(255,255,255,0.24)_0%,rgba(255,255,255,0.06)_100%)]">
             <div className="flex w-full flex-col items-center justify-center p-3">
                 <h2 className="text-[2rem] font-bold mb-4"
                     style={{
@@ -116,13 +118,12 @@ export default function Leaderboard() {
 
             {/* Pagination */}
             <div className="flex justify-center items-center gap-2 mt-8 mb-4">
-                <button 
-                    onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
-                    disabled={currentPage === 1}
-                    className="relative px-3 py-1 border-[3px] border-transparent [border-image-source:linear-gradient(108.74deg,rgba(33,138,203,0.6)_0%,rgba(255,255,255,0.54)_36.46%,rgba(255,255,255,0.3)_73.96%,rgba(17,227,251,0.6)_100%)] [border-image-slice:1] shadow-[0_0_50px_-25px_rgba(0,0,0,0.5)] backdrop-blur-[100px] bg-[linear-gradient(108.74deg,rgba(255,255,255,0.24)_0%,rgba(255,255,255,0.06)_100%)] hover:bg-gray-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                <Link 
+                    href={`/leaderboard/${currentPage - 1}`}
+                    className={`relative px-3 py-1 border-[3px] border-transparent [border-image-source:linear-gradient(108.74deg,rgba(33,138,203,0.6)_0%,rgba(255,255,255,0.54)_36.46%,rgba(255,255,255,0.3)_73.96%,rgba(17,227,251,0.6)_100%)] [border-image-slice:1] shadow-[0_0_50px_-25px_rgba(0,0,0,0.5)] backdrop-blur-[100px] bg-[linear-gradient(108.74deg,rgba(255,255,255,0.24)_0%,rgba(255,255,255,0.06)_100%)] hover:bg-gray-300 ${currentPage === 1 ? 'opacity-50 pointer-events-none' : ''}`}
                 >
                     &lt;
-                </button>
+                </Link>
 
                 {[...Array(totalPages)].map((_, index) => {
                     const pageNumber = index + 1;
@@ -133,15 +134,15 @@ export default function Leaderboard() {
                         (pageNumber >= currentPage - 1 && pageNumber <= currentPage + 1)
                     ) {
                         return (
-                            <button
+                            <Link
                                 key={pageNumber}
-                                onClick={() => setCurrentPage(pageNumber)}
+                                href={`/leaderboard/${pageNumber}`}
                                 className={`relative px-3 py-1 border-[3px] border-transparent [border-image-source:linear-gradient(108.74deg,rgba(33,138,203,0.6)_0%,rgba(255,255,255,0.54)_36.46%,rgba(255,255,255,0.3)_73.96%,rgba(17,227,251,0.6)_100%)] [border-image-slice:1] shadow-[0_0_50px_-25px_rgba(0,0,0,0.5)] backdrop-blur-[100px] bg-[linear-gradient(108.74deg,rgba(255,255,255,0.24)_0%,rgba(255,255,255,0.06)_100%)] hover:bg-gray-300 ${
                                     currentPage === pageNumber ? 'bg-gray-300' : ''
                                 }`}
                             >
                                 {pageNumber}
-                            </button>
+                            </Link>
                         );
                     } else if (
                         pageNumber === currentPage - 2 ||
@@ -152,14 +153,13 @@ export default function Leaderboard() {
                     return null;
                 })}
 
-                <button 
-                    onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
-                    disabled={currentPage === totalPages}
-                    className="relative px-3 py-1 border-[3px] border-transparent [border-image-source:linear-gradient(108.74deg,rgba(33,138,203,0.6)_0%,rgba(255,255,255,0.54)_36.46%,rgba(255,255,255,0.3)_73.96%,rgba(17,227,251,0.6)_100%)] [border-image-slice:1] shadow-[0_0_50px_-25px_rgba(0,0,0,0.5)] backdrop-blur-[100px] bg-[linear-gradient(108.74deg,rgba(255,255,255,0.24)_0%,rgba(255,255,255,0.06)_100%)] hover:bg-gray-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                <Link 
+                    href={`/leaderboard/${currentPage + 1}`}
+                    className={`relative px-3 py-1 border-[3px] border-transparent [border-image-source:linear-gradient(108.74deg,rgba(33,138,203,0.6)_0%,rgba(255,255,255,0.54)_36.46%,rgba(255,255,255,0.3)_73.96%,rgba(17,227,251,0.6)_100%)] [border-image-slice:1] shadow-[0_0_50px_-25px_rgba(0,0,0,0.5)] backdrop-blur-[100px] bg-[linear-gradient(108.74deg,rgba(255,255,255,0.24)_0%,rgba(255,255,255,0.06)_100%)] hover:bg-gray-300 ${currentPage === totalPages ? 'opacity-50 pointer-events-none' : ''}`}
                 >
                     &gt;
-                </button>
+                </Link>
             </div>
         </div>
     );
-}
+} 

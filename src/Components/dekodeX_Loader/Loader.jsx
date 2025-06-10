@@ -112,7 +112,7 @@ const DekodeXLoading = () => {
               </div>
 
               {/* Main Text */}
-              <h1 className="relative text-3xl md:text-6xl font-black tracking-wider">
+              <h1 className="relative text-3xl font-black tracking-wider md:text-6xl">
                 {["d", "e", "k", "o", "d", "e", "X"].map((char, index) => (
                   <span
                     key={index}

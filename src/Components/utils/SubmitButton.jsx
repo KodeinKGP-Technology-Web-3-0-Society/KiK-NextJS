@@ -31,17 +31,15 @@ function SubmitButton({ email, answer, id }) {
       if (!res.ok) {
         const errorData = await res.json().catch(() => ({}));
         console.log("Error response:", errorData);
-        toast.error(
-          errorData.error || "Submission failed. Please try again."
-        );
+        toast.error(errorData.error || "Submission failed. Please try again.");
         return;
       }
       if (res.ok) {
         const data = await res.json();
         console.log("Success response:", data);
-        if(data.isCorrect) {
+        if (data.isCorrect) {
           toast.success("Submission accepted!");
-        }else{
+        } else {
           toast.error("Incorrect answer. Please try again.");
         }
       }

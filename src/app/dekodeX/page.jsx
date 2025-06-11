@@ -42,13 +42,11 @@ export default function Layout() {
       <button
         id="floatingAuthBtn"
         onClick={handleAuthAction}
-        className={`fixed bottom-6 right-6 md:bottom-8 md:right-8 text-white rounded-lg shadow-lg hover:shadow-xl transform hover:scale-110 hover:-translate-y-1 transition-all duration-300 ease-in-out z-50 flex items-center justify-center group pulse-glow py-1.5 px-2 cursor-pointer ${loggedIn ? 'bg-gradient-to-r from-cyan-500 to-cyan-600' : 'bg-gradient-to-r from-red-500 to-red-600'}`}
+        className={`group pulse-glow fixed right-6 bottom-6 z-50 flex transform cursor-pointer items-center justify-center rounded-lg px-2 py-1.5 text-white shadow-lg transition-all duration-300 ease-in-out hover:-translate-y-1 hover:scale-110 hover:shadow-xl md:right-8 md:bottom-8 ${loggedIn ? "bg-gradient-to-r from-cyan-500 to-cyan-600" : "bg-gradient-to-r from-red-500 to-red-600"}`}
         aria-label={loggedIn ? "Sign Out" : "Login"}
       >
         {loggedIn ? <LogOut /> : <LogIn />}
-        <div className="pl-2">
-          {loggedIn ? "Sign Out" : "Login"}
-        </div>
+        <div className="pl-2">{loggedIn ? "Sign Out" : "Login"}</div>
       </button>
     </div>
   );

@@ -9,7 +9,7 @@ export async function GET(request, { params }) {
     const { searchParams } = new URL(request.url);
     const email = searchParams.get("email");
 
-    console.log(email)
+    console.log(email);
 
     if (!pageNum || isNaN(pageNum) || pageNum < 1) {
       return NextResponse.json(
@@ -41,14 +41,11 @@ export async function GET(request, { params }) {
       }))
       .sort((a, b) => b.score - a.score);
 
-
     const userRanking = fullLeaderboard.findIndex(
       (entry) => entry.email === email
     );
 
-    const currUser = fullLeaderboard.find(
-      (entry) => entry.email === email
-    );
+    const currUser = fullLeaderboard.find((entry) => entry.email === email);
 
     const rankedLeaderboard = fullLeaderboard.map((entry, index) => ({
       ...entry,
@@ -61,14 +58,15 @@ export async function GET(request, { params }) {
     // console.log(currUser.username, currUser.score, userRanking);
 
     // console.log(leaderboard);
-    return NextResponse.json({
-      paginatedLeaderboard,
-      currentUser: {
-        username: currUser ? currUser.name : "Anonymous",
-        score: currUser ? Math.max(0, currUser.score) : 0,
-        rank: userRanking !== -1 ? userRanking + 1 : null
-      }
-    },
+    return NextResponse.json(
+      {
+        paginatedLeaderboard,
+        currentUser: {
+          username: currUser ? currUser.name : "Anonymous",
+          score: currUser ? Math.max(0, currUser.score) : 0,
+          rank: userRanking !== -1 ? userRanking + 1 : null,
+        },
+      },
       { status: 200 }
     );
   } catch (error) {

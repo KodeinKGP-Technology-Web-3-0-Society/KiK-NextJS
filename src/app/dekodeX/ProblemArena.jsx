@@ -258,7 +258,9 @@ const ProblemArena = () => {
                     </Link>
                   </div>
                   <span className="ml-2 flex-shrink-0 text-base font-bold text-[#218ACB] sm:text-lg">
-                    {"<"}{problem.score}{"/>"}
+                    {"<"}
+                    {problem.score}
+                    {"/>"}
                   </span>
                 </div>
               ))
@@ -293,7 +295,9 @@ const ProblemArena = () => {
                     </span>
                   </div>
                   <span className="ml-2 flex-shrink-0 text-base font-bold text-[#218ACB] blur-sm sm:text-lg">
-                    {"<"}{problem.points}{"/>"}
+                    {"<"}
+                    {problem.points}
+                    {"/>"}
                   </span>
                 </div>
               ))

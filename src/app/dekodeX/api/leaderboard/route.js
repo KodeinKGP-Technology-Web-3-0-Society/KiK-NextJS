@@ -14,7 +14,7 @@ export async function GET(request, { params }) {
       return NextResponse.json({ message: "No users found" }, { status: 200 });
     }
 
-    const fullLeaderboard = users; 
+    const fullLeaderboard = users;
 
     return NextResponse.json(
       {

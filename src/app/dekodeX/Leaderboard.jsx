@@ -10,7 +10,7 @@ export default function Leaderboard() {
   const [totalPages, setTotalPages] = useState(0);
   const [totalUsers, setTotalUsers] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
-  
+
   const [fetchedLeaderboardData, setFetchedLeaderboardData] = useState([]);
   const [currentUserLeaderboardInfo, setCurrentUserLeaderboardInfo] =
     useState(null);
@@ -56,7 +56,10 @@ export default function Leaderboard() {
           toast.error("Internal Server Error. Please try again later.");
           return;
         } else {
-          if(!data.paginatedLeaderboard || data.paginatedLeaderboard.length === 0) {
+          if (
+            !data.paginatedLeaderboard ||
+            data.paginatedLeaderboard.length === 0
+          ) {
             return;
           }
           setFetchedLeaderboardData(data.paginatedLeaderboard);
@@ -92,8 +95,7 @@ export default function Leaderboard() {
       }
     }
     getTotalUsers();
-  }
-  , []);
+  }, []);
 
   return (
     <>
@@ -187,29 +189,27 @@ export default function Leaderboard() {
             </div>
 
             <ul className="space-y-1">
-              {fetchedLeaderboardData.map((user, idx) =>
-                (
-                  <li
-                    key={user.rank}
-                    className="hover:text-#01011B group ml-2 flex items-center space-x-4 bg-gradient-to-r from-[rgba(17,227,251,0.3)] to-[rgba(255,255,255,0.06)] px-4 transition-colors duration-300 hover:bg-[#0CC5DA] hover:bg-clip-border"
-                  >
-                    <span className="w-6 text-right text-lg font-bold group-hover:text-black">
-                      {user.rank}.
-                    </span>
-                    <img
-                      src={`https://robohash.org/${encodeURIComponent(user.name)}?set=set4`}
-                      alt={user.name}
-                      className="my-1 h-8 w-8 rounded-full border-2 border-white object-cover"
-                    />
-                    <span className="flex-1 bg-gradient-to-b from-[#24E8FF] to-[#0CC5DA] bg-clip-text font-bold text-transparent group-hover:text-black">
-                      {user.name}
-                    </span>
-                    <span className="bg-gradient-to-b from-[#24E8FF] to-[#0CC5DA] bg-clip-text font-bold text-transparent group-hover:text-black">
-                      {user.score}
-                    </span>
-                  </li>
-                )
-              )}
+              {fetchedLeaderboardData.map((user, idx) => (
+                <li
+                  key={user.rank}
+                  className="hover:text-#01011B group ml-2 flex items-center space-x-4 bg-gradient-to-r from-[rgba(17,227,251,0.3)] to-[rgba(255,255,255,0.06)] px-4 transition-colors duration-300 hover:bg-[#0CC5DA] hover:bg-clip-border"
+                >
+                  <span className="w-6 text-right text-lg font-bold group-hover:text-black">
+                    {user.rank}.
+                  </span>
+                  <img
+                    src={`https://robohash.org/${encodeURIComponent(user.name)}?set=set4`}
+                    alt={user.name}
+                    className="my-1 h-8 w-8 rounded-full border-2 border-white object-cover"
+                  />
+                  <span className="flex-1 bg-gradient-to-b from-[#24E8FF] to-[#0CC5DA] bg-clip-text font-bold text-transparent group-hover:text-black">
+                    {user.name}
+                  </span>
+                  <span className="bg-gradient-to-b from-[#24E8FF] to-[#0CC5DA] bg-clip-text font-bold text-transparent group-hover:text-black">
+                    {user.score}
+                  </span>
+                </li>
+              ))}
             </ul>
 
             {/*displays the loggedin user */}
@@ -236,52 +236,52 @@ export default function Leaderboard() {
             )}
 
             <div className="mt-8 mb-4 flex items-center justify-center gap-2">
-            <div
-            onClick={() => setCurrentPage(currentPage - 1)}
-              className={`relative border-[3px] border-transparent bg-[linear-gradient(108.74deg,rgba(255,255,255,0.24)_0%,rgba(255,255,255,0.06)_100%)] px-3 py-1 shadow-[0_0_50px_-25px_rgba(0,0,0,0.5)] backdrop-blur-[100px] [border-image-slice:1] [border-image-source:linear-gradient(108.74deg,rgba(33,138,203,0.6)_0%,rgba(255,255,255,0.54)_36.46%,rgba(255,255,255,0.3)_73.96%,rgba(17,227,251,0.6)_100%)] hover:bg-gray-300 ${currentPage === 1 ? "pointer-events-none opacity-50" : ""}`}
-            >
-              &lt;
+              <div
+                onClick={() => setCurrentPage(currentPage - 1)}
+                className={`relative border-[3px] border-transparent bg-[linear-gradient(108.74deg,rgba(255,255,255,0.24)_0%,rgba(255,255,255,0.06)_100%)] px-3 py-1 shadow-[0_0_50px_-25px_rgba(0,0,0,0.5)] backdrop-blur-[100px] [border-image-slice:1] [border-image-source:linear-gradient(108.74deg,rgba(33,138,203,0.6)_0%,rgba(255,255,255,0.54)_36.46%,rgba(255,255,255,0.3)_73.96%,rgba(17,227,251,0.6)_100%)] hover:bg-gray-300 ${currentPage === 1 ? "pointer-events-none opacity-50" : ""}`}
+              >
+                &lt;
+              </div>
+
+              {[...Array(totalPages)].map((_, index) => {
+                const pageNumber = index + 1;
+                if (
+                  pageNumber === 1 ||
+                  pageNumber === totalPages ||
+                  (pageNumber >= currentPage - 1 &&
+                    pageNumber <= currentPage + 1)
+                ) {
+                  return (
+                    <div
+                      key={pageNumber}
+                      onClick={() => setCurrentPage(pageNumber)}
+                      className={`relative cursor-pointer border-[3px] border-transparent bg-[linear-gradient(108.74deg,rgba(255,255,255,0.24)_0%,rgba(255,255,255,0.06)_100%)] px-3 py-1 shadow-[0_0_50px_-25px_rgba(0,0,0,0.5)] backdrop-blur-[100px] [border-image-slice:1] [border-image-source:linear-gradient(108.74deg,rgba(33,138,203,0.6)_0%,rgba(255,255,255,0.54)_36.46%,rgba(255,255,255,0.3)_73.96%,rgba(17,227,251,0.6)_100%)] hover:bg-gray-300 ${
+                        currentPage === pageNumber ? "bg-gray-300" : ""
+                      }`}
+                    >
+                      {pageNumber}
+                    </div>
+                  );
+                } else if (
+                  pageNumber === currentPage - 2 ||
+                  pageNumber === currentPage + 2
+                ) {
+                  return (
+                    <span key={pageNumber} className="px-2">
+                      ...
+                    </span>
+                  );
+                }
+                return null;
+              })}
+
+              <div
+                onClick={() => setCurrentPage(currentPage + 1)}
+                className={`relative border-[3px] border-transparent bg-[linear-gradient(108.74deg,rgba(255,255,255,0.24)_0%,rgba(255,255,255,0.06)_100%)] px-3 py-1 shadow-[0_0_50px_-25px_rgba(0,0,0,0.5)] backdrop-blur-[100px] [border-image-slice:1] [border-image-source:linear-gradient(108.74deg,rgba(33,138,203,0.6)_0%,rgba(255,255,255,0.54)_36.46%,rgba(255,255,255,0.3)_73.96%,rgba(17,227,251,0.6)_100%)] hover:bg-gray-300 ${currentPage === totalPages ? "pointer-events-none opacity-50" : ""}`}
+              >
+                &gt;
+              </div>
             </div>
-
-            {[...Array(totalPages)].map((_, index) => {
-              const pageNumber = index + 1;
-              if (
-                pageNumber === 1 ||
-                pageNumber === totalPages ||
-                (pageNumber >= currentPage - 1 && pageNumber <= currentPage + 1)
-              ) {
-                return (
-                  <div
-                    key={pageNumber}
-                    onClick={() => setCurrentPage(pageNumber)}
-                    className={`relative border-[3px] border-transparent bg-[linear-gradient(108.74deg,rgba(255,255,255,0.24)_0%,rgba(255,255,255,0.06)_100%)] px-3 py-1 shadow-[0_0_50px_-25px_rgba(0,0,0,0.5)] backdrop-blur-[100px] [border-image-slice:1] [border-image-source:linear-gradient(108.74deg,rgba(33,138,203,0.6)_0%,rgba(255,255,255,0.54)_36.46%,rgba(255,255,255,0.3)_73.96%,rgba(17,227,251,0.6)_100%)] hover:bg-gray-300 cursor-pointer ${
-                      currentPage === pageNumber ? "bg-gray-300" : ""
-                    }`}
-                  >
-                    {pageNumber}
-                  </div>
-                );
-              } else if (
-                pageNumber === currentPage - 2 ||
-                pageNumber === currentPage + 2
-              ) {
-                return (
-                  <span key={pageNumber} className="px-2">
-                    ...
-                  </span>
-                );
-              }
-              return null;
-            })}
-
-            <div
-            onClick={() => setCurrentPage(currentPage + 1)}
-              className={`relative border-[3px] border-transparent bg-[linear-gradient(108.74deg,rgba(255,255,255,0.24)_0%,rgba(255,255,255,0.06)_100%)] px-3 py-1 shadow-[0_0_50px_-25px_rgba(0,0,0,0.5)] backdrop-blur-[100px] [border-image-slice:1] [border-image-source:linear-gradient(108.74deg,rgba(33,138,203,0.6)_0%,rgba(255,255,255,0.54)_36.46%,rgba(255,255,255,0.3)_73.96%,rgba(17,227,251,0.6)_100%)] hover:bg-gray-300 ${currentPage === totalPages ? "pointer-events-none opacity-50" : ""}`}
-            >
-              &gt;
-            </div>
-          </div>
-
           </div>
         ) : (
           <div className="flex h-screen flex-col items-center justify-center px-3">

@@ -212,7 +212,7 @@ export default function LeaderboardPage({ params }) {
                   alt={currentUserLeaderboardInfo.username}
                   className="my-1 h-8 w-8 rounded-full border-2 border-white object-cover"
                 />
-                <span className="flex-1 font-bold ">
+                <span className="flex-1 font-bold">
                   {currentUserLeaderboardInfo.username}
                 </span>
                 <span className="pr-4 font-bold">

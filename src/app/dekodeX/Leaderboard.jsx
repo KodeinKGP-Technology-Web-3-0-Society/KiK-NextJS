@@ -6,9 +6,11 @@ import { toast } from "react-toastify";
 
 export default function Leaderboard() {
   const { loggedIn, user } = useAuth();
-  const currentPage = 1;
 
-  const [totalPages, setTotalPages] = useState(0); // will be set according to total entries in the database
+  const [totalPages, setTotalPages] = useState(0);
+  const [totalUsers, setTotalUsers] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
+  
   const [fetchedLeaderboardData, setFetchedLeaderboardData] = useState([]);
   const [currentUserLeaderboardInfo, setCurrentUserLeaderboardInfo] =
     useState(null);
@@ -54,19 +56,10 @@ export default function Leaderboard() {
           toast.error("Internal Server Error. Please try again later.");
           return;
         } else {
+          if(!data.paginatedLeaderboard || data.paginatedLeaderboard.length === 0) {
+            return;
+          }
           setFetchedLeaderboardData(data.paginatedLeaderboard);
-          setTotalPages(
-            Math.ceil((data.paginatedLeaderboard.length - 3) / itemsPerPage)
-          );
-
-          // console.log(user.email)
-          // setCurrentUserLeaderboardInfo(
-          //   loggedIn
-          //     ? data.paginatedLeaderboard.find(
-          //         (entry) => entry.email === user.email
-          //       ) || null
-          //     : null
-          // );
           getTopScorerData();
           return;
         }
@@ -78,10 +71,34 @@ export default function Leaderboard() {
     getLeaderboardData();
   }, [currentPage, user]);
 
+  // fetching total number of users for pagination
+  useEffect(() => {
+    async function getTotalUsers() {
+      try {
+        const res = await fetch(`../../dekodeX/api/leaderboard`);
+        const data = await res.json();
+
+        if (data.status === 500) {
+          toast.error("Internal Server Error. Please try again later.");
+          return;
+        } else {
+          setTotalUsers(data.leaderboardSize);
+          setTotalPages(Math.ceil(data.leaderboardSize / itemsPerPage));
+          return;
+        }
+      } catch (error) {
+        toast.error(`Error fetching total users: ${error.message}`);
+        console.error("Error fetching total users:", error);
+      }
+    }
+    getTotalUsers();
+  }
+  , []);
+
   return (
     <>
       <div className="flex h-[146.8vh] min-h-screen flex-col rounded-[1rem] border-2 border-[rgb(91,230,255)] bg-[linear-gradient(108.74deg,rgba(255,255,255,0.24)_0%,rgba(255,255,255,0.06)_100%)] backdrop-blur-[100px]">
-        {fetchedLeaderboardData && fetchedLeaderboardData.length > 10 ? (
+        {fetchedLeaderboardData && totalUsers >= 10 ? (
           <div className="">
             <div className="flex w-full flex-col items-center justify-center p-3">
               <h2
@@ -171,7 +188,7 @@ export default function Leaderboard() {
 
             <ul className="space-y-1">
               {fetchedLeaderboardData.map((user, idx) =>
-                idx < 3 ? null : (
+                (
                   <li
                     key={user.rank}
                     className="hover:text-#01011B group ml-2 flex items-center space-x-4 bg-gradient-to-r from-[rgba(17,227,251,0.3)] to-[rgba(255,255,255,0.06)] px-4 transition-colors duration-300 hover:bg-[#0CC5DA] hover:bg-clip-border"
@@ -217,6 +234,54 @@ export default function Leaderboard() {
                 </span>
               </div>
             )}
+
+            <div className="mt-8 mb-4 flex items-center justify-center gap-2">
+            <div
+            onClick={() => setCurrentPage(currentPage - 1)}
+              className={`relative border-[3px] border-transparent bg-[linear-gradient(108.74deg,rgba(255,255,255,0.24)_0%,rgba(255,255,255,0.06)_100%)] px-3 py-1 shadow-[0_0_50px_-25px_rgba(0,0,0,0.5)] backdrop-blur-[100px] [border-image-slice:1] [border-image-source:linear-gradient(108.74deg,rgba(33,138,203,0.6)_0%,rgba(255,255,255,0.54)_36.46%,rgba(255,255,255,0.3)_73.96%,rgba(17,227,251,0.6)_100%)] hover:bg-gray-300 ${currentPage === 1 ? "pointer-events-none opacity-50" : ""}`}
+            >
+              &lt;
+            </div>
+
+            {[...Array(totalPages)].map((_, index) => {
+              const pageNumber = index + 1;
+              if (
+                pageNumber === 1 ||
+                pageNumber === totalPages ||
+                (pageNumber >= currentPage - 1 && pageNumber <= currentPage + 1)
+              ) {
+                return (
+                  <div
+                    key={pageNumber}
+                    onClick={() => setCurrentPage(pageNumber)}
+                    className={`relative border-[3px] border-transparent bg-[linear-gradient(108.74deg,rgba(255,255,255,0.24)_0%,rgba(255,255,255,0.06)_100%)] px-3 py-1 shadow-[0_0_50px_-25px_rgba(0,0,0,0.5)] backdrop-blur-[100px] [border-image-slice:1] [border-image-source:linear-gradient(108.74deg,rgba(33,138,203,0.6)_0%,rgba(255,255,255,0.54)_36.46%,rgba(255,255,255,0.3)_73.96%,rgba(17,227,251,0.6)_100%)] hover:bg-gray-300 cursor-pointer ${
+                      currentPage === pageNumber ? "bg-gray-300" : ""
+                    }`}
+                  >
+                    {pageNumber}
+                  </div>
+                );
+              } else if (
+                pageNumber === currentPage - 2 ||
+                pageNumber === currentPage + 2
+              ) {
+                return (
+                  <span key={pageNumber} className="px-2">
+                    ...
+                  </span>
+                );
+              }
+              return null;
+            })}
+
+            <div
+            onClick={() => setCurrentPage(currentPage + 1)}
+              className={`relative border-[3px] border-transparent bg-[linear-gradient(108.74deg,rgba(255,255,255,0.24)_0%,rgba(255,255,255,0.06)_100%)] px-3 py-1 shadow-[0_0_50px_-25px_rgba(0,0,0,0.5)] backdrop-blur-[100px] [border-image-slice:1] [border-image-source:linear-gradient(108.74deg,rgba(33,138,203,0.6)_0%,rgba(255,255,255,0.54)_36.46%,rgba(255,255,255,0.3)_73.96%,rgba(17,227,251,0.6)_100%)] hover:bg-gray-300 ${currentPage === totalPages ? "pointer-events-none opacity-50" : ""}`}
+            >
+              &gt;
+            </div>
+          </div>
+
           </div>
         ) : (
           <div className="flex h-screen flex-col items-center justify-center px-3">

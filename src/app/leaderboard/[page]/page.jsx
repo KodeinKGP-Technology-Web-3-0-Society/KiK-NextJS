@@ -9,18 +9,20 @@ export default function LeaderboardPage({ params }) {
   const currentPage = parseInt(params.page) || 1;
 
   const [totalPages, setTotalPages] = useState(0);
+  const [totalUsers, setTotalUsers] = useState(0);
   const [fetchedLeaderboardData, setFetchedLeaderboardData] = useState([]);
   const [topData, setTopData] = useState([]);
   const [currentUserLeaderboardInfo, setCurrentUserLeaderboardInfo] =
     useState(null);
 
   const itemsPerPage = 10;
-  const startIndex = (currentPage - 1) * itemsPerPage;
 
   useEffect(() => {
     async function getTopScorerData() {
       try {
-        const res = await fetch(`../../dekodeX/api/leaderboard/1`);
+        const res = await fetch(
+          `../../dekodeX/api/leaderboard/1?email=${encodeURIComponent(user?.email)}`
+        );
         const data = await res.json();
 
         if (data.status == 500) {
@@ -28,6 +30,14 @@ export default function LeaderboardPage({ params }) {
           return;
         } else {
           setTopData(data.paginatedLeaderboard);
+          setCurrentUserLeaderboardInfo(data.currentUser);
+          if (data.currentUser) {
+            toast.success(
+              `Welcome back, ${data.currentUser.username}! Your current score is ${data.currentUser.score}.`
+            );
+          } else {
+            toast.info("You are not on the leaderboard yet.");
+          }
           return;
         }
       } catch {
@@ -46,17 +56,6 @@ export default function LeaderboardPage({ params }) {
           return;
         } else {
           setFetchedLeaderboardData(data.paginatedLeaderboard);
-          setTotalPages(
-            Math.ceil((data.paginatedLeaderboard.length - 3) / itemsPerPage)
-          );
-          setCurrentUserLeaderboardInfo(
-            loggedIn
-              ? data.paginatedLeaderboard.find(
-                  (entry) => entry.email === user.email
-                ) || null
-              : null
-          );
-          console.log("Asfasldkfjlkj");
           getTopScorerData();
           return;
         }
@@ -68,9 +67,33 @@ export default function LeaderboardPage({ params }) {
     getLeaderboardData();
   }, [currentPage, user]);
 
+  // fetching total number of users for pagination
+  useEffect(() => {
+    async function getTotalUsers() {
+      try {
+        const res = await fetch("../../dekodeX/api/leaderboard");
+        const data = await res.json();
+
+        if (data.status === 500) {
+          toast.error("Internal Server Error. Please try again later.");
+          return;
+        } else {
+          console.log("Total Users Data:", data);
+          setTotalUsers(data.leaderboardSize);
+          setTotalPages(Math.ceil(data.leaderboardSize / itemsPerPage));
+          return;
+        }
+      } catch (error) {
+        toast.error(`Error fetching total users: ${error.message}`);
+        console.error("Error fetching total users:", error);
+      }
+    }
+    getTotalUsers();
+  }, []);
+
   return (
     <div className="flex min-h-screen flex-col bg-[linear-gradient(108.74deg,rgba(255,255,255,0.24)_0%,rgba(255,255,255,0.06)_100%)] shadow-[0_0_50px_-25px_rgba(0,0,0,0.5)] backdrop-blur-[100px] before:pointer-events-none before:absolute before:inset-0 before:rounded-[4px] before:border-[3px] before:border-transparent before:content-[''] before:[border-image-slice:1] before:[border-image-source:linear-gradient(108.74deg,rgba(33,138,203,0.6)_0%,rgba(255,255,255,0.54)_36.46%,rgba(255,255,255,0.3)_73.96%,rgba(17,227,251,0.6)_100%)]">
-      {fetchedLeaderboardData && fetchedLeaderboardData.length >= 10 ? (
+      {fetchedLeaderboardData && totalUsers >= 10 ? (
         <>
           <div className="flex w-full flex-col items-center justify-center p-3">
             <h2
@@ -186,11 +209,11 @@ export default function LeaderboardPage({ params }) {
                 </span>
                 <img
                   src={`https://robohash.org/${encodeURIComponent(currentUserLeaderboardInfo.name)}?set=set4`}
-                  alt={currentUserLeaderboardInfo.name}
+                  alt={currentUserLeaderboardInfo.username}
                   className="my-1 h-8 w-8 rounded-full border-2 border-white object-cover"
                 />
-                <span className="flex-1 font-bold">
-                  {currentUserLeaderboardInfo.name}
+                <span className="flex-1 font-bold ">
+                  {currentUserLeaderboardInfo.username}
                 </span>
                 <span className="pr-4 font-bold">
                   {currentUserLeaderboardInfo.score}

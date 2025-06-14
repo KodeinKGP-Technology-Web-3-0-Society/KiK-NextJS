@@ -1,11 +1,19 @@
 "use client";
 import { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
-function GetInput(testCase) {
-  const openTestCaseTab = (testCase) => {
-    const newWindow = window.open("", "_blank");
+function GetInput({ testcaseUrl }) {
+  const openTestCaseTab = (testcaseUrl) => {
+    if (!testcaseUrl) {
+      console.error("Test case can't be opened: Try again");
+      return;
+    }
+
+    // Ensure the file is accessed from the root, not relative to /deKodeX
+    const fullUrl = `${window.location.origin}${testcaseUrl}`;
+    console.log("Opening test case from:", fullUrl);
+
+    const newWindow = window.open(fullUrl, "_blank", "noopener,noreferrer");
     if (newWindow) {
-      newWindow.document.write(testCase.testcase);
       newWindow.document.title = "Test Case";
     }
   };
@@ -19,7 +27,7 @@ function GetInput(testCase) {
         backgroundSize: "100% 200%",
         backgroundPosition: "0 0",
       }}
-      onClick={() => openTestCaseTab(testCase)}
+      onClick={() => openTestCaseTab(testcaseUrl)}
       onMouseEnter={(e) => {
         e.currentTarget.style.backgroundPosition = "0 100%";
         e.currentTarget.style.transform = "scale(1.05)";

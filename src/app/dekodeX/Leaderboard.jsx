@@ -19,10 +19,12 @@ export default function Leaderboard() {
   useEffect(() => {
     async function getTopScorerData() {
       try {
-        const res = await fetch(`../../dekodeX/api/leaderboard/1?email=${encodeURIComponent(user?.email)}`);
+        const res = await fetch(
+          `../../dekodeX/api/leaderboard/1?email=${encodeURIComponent(user?.email)}`
+        );
         const data = await res.json();
 
-        console.log(data)
+        console.log(data);
 
         if (data.status == 500) {
           toast.error("Internal Server Error. Please try again later.");
@@ -170,7 +172,7 @@ export default function Leaderboard() {
             </div>
 
             <ul className="space-y-1">
-              {fetchedLeaderboardData.map((user, idx) => (
+              {fetchedLeaderboardData.map((user, idx) =>
                 idx < 3 ? null : (
                   <li
                     key={user.rank}
@@ -191,7 +193,8 @@ export default function Leaderboard() {
                       {user.score}
                     </span>
                   </li>
-                )))}
+                )
+              )}
             </ul>
 
             {/*displays the loggedin user */}
@@ -216,8 +219,9 @@ export default function Leaderboard() {
                 </span>
               </div>
             )}
-          </div>) : (
-          <div className="flex h-screen flex-col px-3 items-center justify-center">
+          </div>
+        ) : (
+          <div className="flex h-screen flex-col items-center justify-center px-3">
             <h2 className="mb-4 text-center text-xl font-bold">
               The leaderboard will be updated soon
             </h2>

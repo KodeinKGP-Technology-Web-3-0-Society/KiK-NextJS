@@ -58,7 +58,7 @@ body {
 .markdown-content h4,
 .markdown-content h5,
 .markdown-content h6 {
-  color: #00FF00;
+  color: #00ff00;
   font-weight: bold;
   margin-bottom: 1rem;
   margin-top: 1.5rem;
@@ -66,7 +66,7 @@ body {
 
 .markdown-content h2 {
   font-size: 1.5rem;
-  border-bottom: 2px solid #218ACB;
+  border-bottom: 2px solid #218acb;
   padding-bottom: 0.5rem;
 }
 
@@ -75,26 +75,30 @@ body {
 }
 
 .markdown-content blockquote {
-  border-left: 4px solid #11E3FB;
+  border-left: 4px solid #11e3fb;
   padding-left: 1rem;
   padding-right: 1rem;
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
   margin: 1rem 0;
-  background: linear-gradient(108.74deg, rgba(33,138,203,0.1) 0%, rgba(17,227,251,0.1) 100%);
+  background: linear-gradient(
+    108.74deg,
+    rgba(33, 138, 203, 0.1) 0%,
+    rgba(17, 227, 251, 0.1) 100%
+  );
   border-radius: 0 8px 8px 0;
   font-style: italic;
-  color: #E0E0E0;
+  color: #e0e0e0;
 }
 
 .markdown-content pre {
   background: #1a1a1a;
-  color: #00FF00;
+  color: #00ff00;
   padding: 1rem;
   border-radius: 8px;
   overflow-x: auto;
   border: 1px solid #333;
-  font-family: 'victor-mono', monospace;
+  font-family: "victor-mono", monospace;
   margin: 1rem 0;
 }
 
@@ -103,7 +107,7 @@ body {
   padding: 0.25rem 0.5rem;
   border-radius: 4px;
   font-size: 0.875rem;
-  font-family: 'victor-mono', monospace;
+  font-family: "victor-mono", monospace;
   /* color: #11E3FB; */
 }
 
@@ -130,26 +134,29 @@ body {
 }
 
 .markdown-content strong {
-  color: #11E3FB;
+  color: #11e3fb;
   font-weight: bold;
 }
 
 .markdown-content em {
-  color: #E0E0E0;
+  color: #e0e0e0;
   font-style: italic;
 }
 
 .markdown-content.story-section blockquote {
-  background: linear-gradient(108.74deg, rgba(255, 215, 0, 0.1) 0%, rgba(255, 165, 0, 0.1) 100%);
-  border-left-color: #FFD700;
-  color: #FFE4B5;
+  background: linear-gradient(
+    108.74deg,
+    rgba(255, 215, 0, 0.1) 0%,
+    rgba(255, 165, 0, 0.1) 100%
+  );
+  border-left-color: #ffd700;
+  color: #ffe4b5;
 }
-
 
 .markdown-content.sample-input pre,
 .markdown-content.sample-output pre {
   background: #0a0a0a;
-  border: 1px solid #218ACB;
+  border: 1px solid #218acb;
   box-shadow:
     0 0 10px rgba(33, 138, 203, 0.4),
     0 0 20px rgba(33, 138, 203, 0.2),

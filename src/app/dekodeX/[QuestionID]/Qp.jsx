@@ -17,22 +17,37 @@ import DekodeXLoading from "@/Components/dekodeX_Loader/Loader";
 import "highlight.js/styles/atom-one-dark.css";
 // app/layout.js or app/page.js (if using App Router)
 
-import { Source_Code_Pro } from 'next/font/google';
+import { Source_Code_Pro } from "next/font/google";
 
 const sourceCodePro = Source_Code_Pro({
-  subsets: ['latin'],
-  weight: ['400', '500', '700'], // Choose weights as needed
-  variable: '--font-source-code-pro', // Optional for Tailwind
-  display: 'swap',
+  subsets: ["latin"],
+  weight: ["400", "500", "700"], // Choose weights as needed
+  variable: "--font-source-code-pro", // Optional for Tailwind
+  display: "swap",
 });
 
-
 function Qp() {
+  const [testcases, setTestcases] = useState([]);
+
   const params = useParams();
   const { QuestionID } = params;
   const [questionData, setQuestionData] = useState(null);
   const { user, loggedIn } = useAuth();
   const [answer, setAnswer] = useState("");
+  const [testcaseUrl, setTestcaseUrl] = useState("");
+  useEffect(() => {
+    fetch("/testcases.json")
+      .then((res) => res.json())
+      .then((data) => {
+        setTestcases(data);
+      });
+  }, []);
+
+  useEffect(() => {
+    console.log("Fetched testcases:", testcases);
+    const found = testcases.find((tc) => tc.questionId === QuestionID);
+    setTestcaseUrl(found?.inputUrl || "");
+  }, [testcases]);
 
   useEffect(() => {
     fetch(`/dekodeX/api/question/${QuestionID}`)
@@ -60,7 +75,7 @@ function Qp() {
   }
 
   // Extract question number from QuestionID for display
-  const questionNumber = QuestionID?.replace('q', '') || '1';
+  const questionNumber = QuestionID?.replace("q", "") || "1";
 
   return (
     <div
@@ -110,7 +125,6 @@ function Qp() {
 
       {/* Main Content */}
       <div className="mb-[100px] flex flex-col gap-6 p-8 max-sm:mb-[60px] max-sm:gap-4 max-sm:p-4">
-
         {/* Terminal Prompt */}
         <span className="absolute top-[117px] left-[9px] flex h-[20px] w-[22px] items-center justify-center text-[18px] leading-[100%] tracking-[0%] text-[#00FF00] max-sm:top-[85px] max-sm:left-[12px] max-sm:text-[16px]">
           $$
@@ -118,7 +132,9 @@ function Qp() {
 
         {/* Question Section */}
         {questionData.question && (
-          <div className={`markdown-content story-section pt-1 ${sourceCodePro.className} text-[18px] leading-tight tracking-[0%] text-white max-sm:text-[16px] max-sm:leading-normal `}>
+          <div
+            className={`markdown-content story-section pt-1 ${sourceCodePro.className} text-[18px] leading-tight tracking-[0%] text-white max-sm:text-[16px] max-sm:leading-normal`}
+          >
             <ReactMarkdown
               remarkPlugins={[remarkGfm]}
               rehypePlugins={[rehypeHighlight]}
@@ -128,16 +144,15 @@ function Qp() {
           </div>
         )}
 
-
         {/* Sample Input */}
-        <h3 className="text-[24px] text-[#00FF00] max-sm:text-[20px]">
+        <h3 className="text-[22px] font-bold text-[#00FF00] max-sm:text-[20px]">
           Sample Input
         </h3>
         {questionData.sampleInput ? (
-          <div className="markdown-content sample-input w-fit">
+          <div className="markdown-content sample-input w-fit max-w-[320px] min-w-[240px] overflow-auto">
             <div className="relative">
               <CopyButton
-                text={questionData.sampleInput.replace(/```\n?/g, '')}
+                text={questionData.sampleInput.replace(/```\n?/g, "")}
               />
               <ReactMarkdown
                 remarkPlugins={[remarkGfm]}
@@ -150,7 +165,6 @@ function Qp() {
         ) : (
           <pre className="text-white">No sample input available</pre>
         )}
-
 
         {/* Explanation */}
         {questionData.explanation && (
@@ -165,14 +179,14 @@ function Qp() {
         )}
 
         {/* Sample Output */}
-        <h3 className="text-[24px] text-[#00FF00] max-sm:text-[20px]">
+        <h3 className="text-[22px] font-bold text-[#00FF00] max-sm:text-[20px]">
           Sample Output
         </h3>
         {questionData.sampleOutput ? (
-          <div className="markdown-content sample-input w-fit">
+          <div className="markdown-content sample-input w-fit max-w-[320px] min-w-[240px] overflow-auto">
             <div className="relative">
               <CopyButton
-                text={questionData.sampleOutput.replace(/```\n?/g, '')}
+                text={questionData.sampleOutput.replace(/```\n?/g, "")}
               />
               <ReactMarkdown
                 remarkPlugins={[remarkGfm]}
@@ -189,7 +203,7 @@ function Qp() {
         {/* Test Cases Input */}
         {questionData.testcases && (
           <div className="flex flex-row items-center gap-2">
-            <GetInput testcase={questionData.testcases} />
+            <GetInput testcaseUrl={testcaseUrl} />
           </div>
         )}
 

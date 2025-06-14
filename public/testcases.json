@@ -2,51 +2,51 @@
   {
     "questionId": "q1",
     "correctAnswer": "90",
-    "input": "9876543210123456789"
+    "inputUrl": "/data/testcase1.txt"
   },
   {
     "questionId": "q2",
     "correctAnswer": "true",
-    "input": "abccbaabccbaabccbaabccba"
+    "inputUrl": "/data/testcase2.txt"
   },
   {
     "questionId": "q3",
     "correctAnswer": "2432902008176640000",
-    "input": "20"
+    "inputUrl": "/data/testcase3.txt"
   },
   {
     "questionId": "q4",
     "correctAnswer": "123",
-    "input": "[5,3,7,2,9,8,10,23,87,90,123,76,34]"
+    "inputUrl": "/data/testcase4.txt"
   },
   {
     "questionId": "q5",
     "correctAnswer": "9876543210ZYXWVUTSRQPONMLKJIHGFEDCBAzyxwvutsrqponmlkjihgfedcba",
-    "input": "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+    "inputUrl": "/data/testcase5.txt"
   },
   {
     "questionId": "q6",
     "correctAnswer": "10",
-    "input": "aeiouAEIOUbcdfghjklmnpqrstvwxyz"
+    "inputUrl": "/data/testcase6.txt"
   },
   {
     "questionId": "q7",
     "correctAnswer": "true",
-    "input": "999983"
+    "inputUrl": "/data/testcase7.txt"
   },
   {
     "questionId": "q8",
     "correctAnswer": "832040",
-    "input": "30"
+    "inputUrl": "/data/testcase8.txt"
   },
   {
     "questionId": "q9",
     "correctAnswer": "[0,1,4,9,12,23,34,67,78]",
-    "input": "[12,4,78,34,1,67,9,0,23]"
+    "inputUrl": "/data/testcase9.txt"
   },
   {
     "questionId": "q10",
     "correctAnswer": "{\"a\":2,\"b\":2,\"c\":2,\"d\":2,\"e\":2,\"f\":2,\"g\":2,\"1\":2,\"2\":2,\"3\":2,\"4\":2,\"5\":2,\"6\":2,\"7\":2,\"8\":2,\"9\":2,\"0\":2}",
-    "input": "aabbccddeeffgg11223344556677889900"
+    "inputUrl": "/data/testcase10.txt"
   }
 ]

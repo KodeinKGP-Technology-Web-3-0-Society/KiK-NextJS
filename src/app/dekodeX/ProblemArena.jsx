@@ -111,13 +111,11 @@ const ProblemArena = () => {
         <div className="mb-4 h-0.5 bg-[linear-gradient(90deg,rgba(33,138,203,0.8)_0%,rgba(17,227,251,0.8)_50%,rgba(33,138,203,0.8)_75%,rgba(17,227,251,0.8)_100%)]"></div>
         <div className="mb-3 space-y-2 sm:mb-4">
           <p className="text-sm sm:text-base">
-            One new problem drops every day — solve it anytime during the
-            event.
+            One new problem drops every day — solve it anytime during the event.
           </p>
           <p className="text-sm sm:text-base">
-            Submit your answer right on the problem page. You'll see sample
-            I/O, a submission box, and your past attempts in the Submissions
-            tab.
+            Submit your answer right on the problem page. You'll see sample I/O,
+            a submission box, and your past attempts in the Submissions tab.
           </p>
         </div>
 
@@ -199,23 +197,29 @@ const ProblemArena = () => {
 
           <div className="mb-4 h-0.5 bg-[linear-gradient(90deg,rgba(33,138,203,0.8)_0%,rgba(17,227,251,0.8)_50%,rgba(33,138,203,0.8)_75%,rgba(17,227,251,0.8)_100%)] sm:mb-6"></div>
 
-          <div className="mx-auto text-white font-sans">
+          <div className="mx-auto font-sans text-white">
             <h1 className="text-xl font-semibold">
               "Abyss Protocol: The Last Stand"
             </h1>
-            <p className="italic mt-1 text-gray-300">
+            <p className="mt-1 text-gray-300 italic">
               10 Days. One Ocean. One Chance.
             </p>
 
             <hr className="my-3 border-gray-600" />
 
-            <h2 className="text-2xl font-bold mb-3">Backstory (Pre-Event)</h2>
+            <h2 className="mb-3 text-2xl font-bold">Backstory (Pre-Event)</h2>
 
             <p className="text-base leading-7 text-gray-200">
-              The year is 2142. Earth is submerged under oceans. Survivors now live inside vast underwater structures — the last remnants of humanity. An alien race known as <strong>"The Varions"</strong> has invaded. They've corrupted Earth's tech, stolen energy cores, and released weaponized viruses into critical systems. You are a <strong className="text-white">Cyber-Diver</strong>, part human, part machine. You must solve encoded challenges to regain control, survive, and fight back.
+              The year is 2142. Earth is submerged under oceans. Survivors now
+              live inside vast underwater structures — the last remnants of
+              humanity. An alien race known as <strong>"The Varions"</strong>{" "}
+              has invaded. They've corrupted Earth's tech, stolen energy cores,
+              and released weaponized viruses into critical systems. You are a{" "}
+              <strong className="text-white">Cyber-Diver</strong>, part human,
+              part machine. You must solve encoded challenges to regain control,
+              survive, and fight back.
             </p>
           </div>
-
 
           <div className="my-4 h-0.5 bg-[linear-gradient(90deg,rgba(33,138,203,0.8)_0%,rgba(17,227,251,0.8)_50%,rgba(33,138,203,0.8)_75%,rgba(17,227,251,0.8)_100%)] sm:my-6"></div>
         </div>
@@ -265,7 +269,9 @@ const ProblemArena = () => {
                     </Link>
                   </div>
                   <span className="ml-2 flex-shrink-0 text-base font-bold text-[#218ACB] sm:text-lg">
-                    {"<"}{problem.score}{"/>"}
+                    {"<"}
+                    {problem.score}
+                    {"/>"}
                   </span>
                 </div>
               ))
@@ -300,7 +306,9 @@ const ProblemArena = () => {
                     </span>
                   </div>
                   <span className="ml-2 flex-shrink-0 text-base font-bold text-[#218ACB] blur-sm sm:text-lg">
-                    {"<"}{problem.points}{"/>"}
+                    {"<"}
+                    {problem.points}
+                    {"/>"}
                   </span>
                 </div>
               ))

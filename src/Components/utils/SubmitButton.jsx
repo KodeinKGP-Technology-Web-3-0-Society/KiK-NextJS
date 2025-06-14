@@ -76,7 +76,7 @@ function SubmitButton({ email, answer, id }) {
         }}
         onClick={handleSubmit}
       >
-        {loading ? <Loader isSubmit={true}/> : " "}
+        {loading ? <Loader isSubmit={true} /> : " "}
         Submit
       </button>
       <ToastContainer

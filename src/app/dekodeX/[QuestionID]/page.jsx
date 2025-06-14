@@ -1,5 +1,4 @@
 import Qp from "./Qp";
-
 async function page() {
   return <Qp />;
 }

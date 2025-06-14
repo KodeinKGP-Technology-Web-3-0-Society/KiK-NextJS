@@ -28,11 +28,32 @@ const sourceCodePro = Source_Code_Pro({
 
 
 function Qp() {
+  const [testcases, setTestcases] = useState([]);
+
+
   const params = useParams();
   const { QuestionID } = params;
   const [questionData, setQuestionData] = useState(null);
   const { user, loggedIn } = useAuth();
   const [answer, setAnswer] = useState("");
+  const [testcaseUrl,setTestcaseUrl] = useState("");
+useEffect(() => {
+  fetch('/testcases.json')
+    .then((res) => res.json())
+    .then((data) => {
+      setTestcases(data);
+      
+    });
+}, []);
+
+
+  useEffect(() => {
+    console.log("Fetched testcases:", testcases);
+    const found = testcases.find(tc => tc.questionId === QuestionID);
+    setTestcaseUrl(found?.inputUrl || "");
+  },[testcases]);
+  
+
 
   useEffect(() => {
     fetch(`/dekodeX/api/question/${QuestionID}`)
@@ -130,11 +151,11 @@ function Qp() {
 
 
         {/* Sample Input */}
-        <h3 className="text-[24px] text-[#00FF00] max-sm:text-[20px]">
+        <h3 className="text-[22px] font-bold text-[#00FF00] max-sm:text-[20px]">
           Sample Input
         </h3>
         {questionData.sampleInput ? (
-          <div className="markdown-content sample-input w-fit">
+          <div className="markdown-content sample-input w-fit min-w-[240px] max-w-[320px] overflow-auto">
             <div className="relative">
               <CopyButton
                 text={questionData.sampleInput.replace(/```\n?/g, '')}
@@ -165,11 +186,11 @@ function Qp() {
         )}
 
         {/* Sample Output */}
-        <h3 className="text-[24px] text-[#00FF00] max-sm:text-[20px]">
+        <h3 className="text-[22px] font-bold text-[#00FF00] max-sm:text-[20px]">
           Sample Output
         </h3>
         {questionData.sampleOutput ? (
-          <div className="markdown-content sample-input w-fit">
+          <div className="markdown-content sample-input w-fit min-w-[240px] max-w-[320px] overflow-auto">
             <div className="relative">
               <CopyButton
                 text={questionData.sampleOutput.replace(/```\n?/g, '')}
@@ -189,7 +210,7 @@ function Qp() {
         {/* Test Cases Input */}
         {questionData.testcases && (
           <div className="flex flex-row items-center gap-2">
-            <GetInput testcase={questionData.testcases} />
+            <GetInput testcaseUrl={testcaseUrl} />
           </div>
         )}
 

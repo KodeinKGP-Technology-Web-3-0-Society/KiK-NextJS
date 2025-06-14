@@ -2,7 +2,9 @@
 
 import { useAuth } from "@/contexts/authContext";
 import React from "react";
-import data from "../../../data/dekodeX/event-que.json";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+import rehypeHighlight from "rehype-highlight";
 import ReturnButton from "@/Components/utils/ReturnButton";
 import CopyButton from "@/Components/utils/CopyButton";
 import SubmitButton from "@/Components/utils/SubmitButton";
@@ -11,12 +13,41 @@ import { useParams } from "next/navigation";
 import GetInput from "@/Components/utils/GetInput";
 import DekodeXLoading from "@/Components/dekodeX_Loader/Loader";
 
+// Import highlight.js theme
+import "highlight.js/styles/atom-one-dark.css";
+// app/layout.js or app/page.js (if using App Router)
+
+import { Source_Code_Pro } from "next/font/google";
+
+const sourceCodePro = Source_Code_Pro({
+  subsets: ["latin"],
+  weight: ["400", "500", "700"], // Choose weights as needed
+  variable: "--font-source-code-pro", // Optional for Tailwind
+  display: "swap",
+});
+
 function Qp() {
+  const [testcases, setTestcases] = useState([]);
+
   const params = useParams();
   const { QuestionID } = params;
   const [questionData, setQuestionData] = useState(null);
   const { user, loggedIn } = useAuth();
   const [answer, setAnswer] = useState("");
+  const [testcaseUrl, setTestcaseUrl] = useState("");
+  useEffect(() => {
+    fetch("/testcases.json")
+      .then((res) => res.json())
+      .then((data) => {
+        setTestcases(data);
+      });
+  }, []);
+
+  useEffect(() => {
+    console.log("Fetched testcases:", testcases);
+    const found = testcases.find((tc) => tc.questionId === QuestionID);
+    setTestcaseUrl(found?.inputUrl || "");
+  }, [testcases]);
 
   useEffect(() => {
     fetch(`/dekodeX/api/question/${QuestionID}`)
@@ -43,9 +74,12 @@ function Qp() {
     );
   }
 
+  // Extract question number from QuestionID for display
+  const questionNumber = QuestionID?.replace("q", "") || "1";
+
   return (
     <div
-      className="relative mx-auto mt-[70px] mr-[39px] ml-[39px] flex flex-col overflow-hidden rounded-tl-[18px] rounded-tr-[18px] font-[poppins] max-md:mt-[50px] max-md:mr-[28px] max-md:ml-[28px] max-sm:mx-4 max-sm:mt-6"
+      className={`relative mx-auto mt-[70px] mr-[39px] ml-[39px] flex flex-col overflow-hidden rounded-tl-[18px] rounded-tr-[18px] max-md:mt-[50px] max-md:mr-[28px] max-md:ml-[28px] max-sm:mx-4 max-sm:mt-6 ${sourceCodePro.className}`}
       style={{
         border: "3px solid transparent",
         backgroundImage:
@@ -54,17 +88,18 @@ function Qp() {
         backgroundClip: "padding-box, border-box",
       }}
     >
+      {/* Header Section */}
       <div
         className="relative rounded-tl-[16px] rounded-tr-[16px]"
         style={{
           background:
             "linear-gradient(108.74deg, rgba(255,255,255,0.24) 0%, rgba(255,255,255,0.06) 100%)",
-          minHeight: 80, // ensures enough space for the absolute title
+          minHeight: 80,
         }}
       >
         <div className="absolute right-6 bottom-5 left-6 flex max-sm:right-4 max-sm:bottom-3 max-sm:left-4">
           <span
-            className="pb-5 font-[poppins] text-[20px] leading-[36px] font-bold max-md:text-[18px] max-sm:text-[16px] max-sm:leading-[24px] sm:pb-0"
+            className="pb-5 text-[20px] leading-[36px] font-bold max-md:text-[18px] max-sm:text-[16px] max-sm:leading-[24px] sm:pb-0"
             style={{
               background:
                 "linear-gradient(92.46deg, #218ACB 3.64%, #11E3FB 20.06%, #218ACB 31.73%, #11E3FB 47.81%)",
@@ -78,8 +113,8 @@ function Qp() {
               alignItems: "center",
             }}
           >
-            {QuestionID[1] < 9 ? "0" : ""}
-            {QuestionID[1]} {questionData.title}
+            {questionNumber.length < 2 ? "0" : ""}
+            {questionNumber} {questionData.title}
           </span>
           <div className="flex-shrink-0">
             <ReturnButton />
@@ -87,45 +122,93 @@ function Qp() {
         </div>
         <div className="absolute top-[80px] h-[17px] w-full bg-gradient-to-b from-[rgba(255,255,255,0.2)] via-[#0CC5DA] to-[#01011B] max-sm:top-[60px]"></div>
       </div>
+
+      {/* Main Content */}
       <div className="mb-[100px] flex flex-col gap-6 p-8 max-sm:mb-[60px] max-sm:gap-4 max-sm:p-4">
-        <span className="absolute top-[117px] left-[9px] flex h-[20px] w-[22px] items-center justify-center font-[victor-mono] text-[18px] leading-[100%] tracking-[0%] text-[#00FF00] max-sm:top-[85px] max-sm:left-[12px] max-sm:text-[16px]">
+        {/* Terminal Prompt */}
+        <span className="absolute top-[117px] left-[9px] flex h-[20px] w-[22px] items-center justify-center text-[18px] leading-[100%] tracking-[0%] text-[#00FF00] max-sm:top-[85px] max-sm:left-[12px] max-sm:text-[16px]">
           $$
         </span>
-        <p className="left-[34px] pt-1 font-[victor-mono] text-[18px] leading-tight tracking-[0%] text-white decoration-solid decoration-[0%] underline-offset-[0%] max-sm:text-[16px] max-sm:leading-normal">
-          {questionData.question}
-        </p>
-        <h3 className="font-[victor-mono] text-[24px] text-[#00FF00] max-sm:text-[20px]">
+
+        {/* Question Section */}
+        {questionData.question && (
+          <div
+            className={`markdown-content story-section pt-1 ${sourceCodePro.className} text-[18px] leading-tight tracking-[0%] text-white max-sm:text-[16px] max-sm:leading-normal`}
+          >
+            <ReactMarkdown
+              remarkPlugins={[remarkGfm]}
+              rehypePlugins={[rehypeHighlight]}
+            >
+              {questionData.question}
+            </ReactMarkdown>
+          </div>
+        )}
+
+        {/* Sample Input */}
+        <h3 className="text-[22px] font-bold text-[#00FF00] max-sm:text-[20px]">
           Sample Input
         </h3>
-        <div className="relative flex w-fit flex-row px-4 py-6 shadow-[10px_10px_20px_0px_#218ACB33,_-10px_-10px_20px_0px_#11E3FB33] max-sm:px-3 max-sm:py-4">
-          <div className="po custom-scrollbar relative flex h-fit max-h-[300px] w-fit max-w-[250px] min-w-[160px] flex-row items-center justify-start overflow-auto font-[victor-mono] max-sm:max-w-[200px] max-sm:min-w-[120px] max-sm:text-[14px]">
-            <pre>{questionData.sampleInput}</pre>
+        {questionData.sampleInput ? (
+          <div className="markdown-content sample-input w-fit max-w-[320px] min-w-[240px] overflow-auto">
+            <div className="relative">
+              <CopyButton
+                text={questionData.sampleInput.replace(/```\n?/g, "")}
+              />
+              <ReactMarkdown
+                remarkPlugins={[remarkGfm]}
+                rehypePlugins={[rehypeHighlight]}
+              >
+                {questionData.sampleInput}
+              </ReactMarkdown>
+            </div>
           </div>
-          <div className="flex min-h-[100%] min-w-[20px] items-center">
-            <CopyButton text={questionData.sampleInput} />
+        ) : (
+          <pre className="text-white">No sample input available</pre>
+        )}
+
+        {/* Explanation */}
+        {questionData.explanation && (
+          <div className="markdown-content explanation-section text-[18px] text-white max-sm:text-[16px] max-sm:leading-normal">
+            <ReactMarkdown
+              remarkPlugins={[remarkGfm]}
+              rehypePlugins={[rehypeHighlight]}
+            >
+              {questionData.explanation}
+            </ReactMarkdown>
           </div>
-        </div>
-        <p className="font-[victor-mono] text-[18px] max-sm:text-[16px] max-sm:leading-normal">
-          {questionData.explanation}
-        </p>
-        <h3 className="font-[victor-mono] text-[24px] text-[#00FF00] max-sm:text-[20px]">
+        )}
+
+        {/* Sample Output */}
+        <h3 className="text-[22px] font-bold text-[#00FF00] max-sm:text-[20px]">
           Sample Output
         </h3>
-
-        <div className="relative flex w-fit flex-row px-4 py-6 shadow-[10px_10px_20px_0px_#218ACB33,_-10px_-10px_20px_0px_#11E3FB33] max-sm:px-3 max-sm:py-4">
-          <div className="po custom-scrollbar relative flex h-fit max-h-[300px] w-fit max-w-[250px] min-w-[160px] flex-row items-center justify-start overflow-auto font-[victor-mono] max-sm:max-w-[200px] max-sm:min-w-[120px] max-sm:text-[14px]">
-            <pre>{questionData.sampleOutput}</pre>
+        {questionData.sampleOutput ? (
+          <div className="markdown-content sample-input w-fit max-w-[320px] min-w-[240px] overflow-auto">
+            <div className="relative">
+              <CopyButton
+                text={questionData.sampleOutput.replace(/```\n?/g, "")}
+              />
+              <ReactMarkdown
+                remarkPlugins={[remarkGfm]}
+                rehypePlugins={[rehypeHighlight]}
+              >
+                {questionData.sampleOutput}
+              </ReactMarkdown>
+            </div>
           </div>
-          <div className="flex min-h-[100%] min-w-[20px] items-center">
-            <CopyButton text={questionData.sampleOutput} />
+        ) : (
+          <pre className="text-white">No sample Output available</pre>
+        )}
+
+        {/* Test Cases Input */}
+        {questionData.testcases && (
+          <div className="flex flex-row items-center gap-2">
+            <GetInput testcaseUrl={testcaseUrl} />
           </div>
-        </div>
+        )}
 
-        <div className="flex flex-row items-center gap-2">
-          <GetInput testcase={questionData.testcases} />
-        </div>
-
-        <h3 className="font-[victor-mono] text-[24px] text-[#00FF00] max-sm:text-[20px]">
+        {/* Answer Section */}
+        <h3 className="text-[24px] text-[#00FF00] max-sm:text-[20px]">
           Answer
         </h3>
         <div className="flex flex-row items-center gap-2 max-sm:flex-col max-sm:items-stretch max-sm:gap-3">
@@ -146,6 +229,8 @@ function Qp() {
             <SubmitButton email={user?.email} answer={answer} id={QuestionID} />
           </div>
         </div>
+
+        {/* Footer Code Icon */}
         <div className="absolute bottom-2 left-8 h-fit w-fit bg-[linear-gradient(236.43deg,_#218ACB_18.56%,_#0CC5DA_59.05%,_#11E3FB_79.29%)] bg-clip-text text-3xl font-bold text-transparent max-sm:left-4 max-sm:text-2xl">
           {"</>"}
         </div>
@@ -153,4 +238,5 @@ function Qp() {
     </div>
   );
 }
+
 export default Qp;

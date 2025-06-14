@@ -109,16 +109,41 @@ const ProblemArena = () => {
         {/* Modal Content */}
         <h2 className="mb-2 text-lg font-bold sm:text-xl">Rules</h2>
         <div className="mb-4 h-0.5 bg-[linear-gradient(90deg,rgba(33,138,203,0.8)_0%,rgba(17,227,251,0.8)_50%,rgba(33,138,203,0.8)_75%,rgba(17,227,251,0.8)_100%)]"></div>
-        <p className="text-xs text-white sm:text-sm">
-          User with KGP email ID allow to Submit. <br />
-          Wrong answers incur -10 penalty
-          <br />
-          Unique input per user
-          <br />
-          Leaderboard updates live.
-          <br />
-          No cheating—violators face disqualification and score resets.
-        </p>
+        <div className="mb-3 space-y-2 sm:mb-4">
+          <p className="text-sm sm:text-base">
+            One new problem drops every day — solve it anytime during the event.
+          </p>
+          <p className="text-sm sm:text-base">
+            Submit your answer right on the problem page. You'll see sample I/O,
+            a submission box, and your past attempts in the Submissions tab.
+          </p>
+        </div>
+
+        <div className="mb-3 space-y-1 sm:mb-4">
+          <div className="flex items-start">
+            <span className="mr-2 text-sm sm:text-base">•</span>
+            <span className="text-sm sm:text-base">
+              Points are awarded based on correctness and speed — faster,
+              accurate submissions earn more.
+            </span>
+          </div>
+          <div className="flex items-start">
+            <span className="mr-2 text-sm sm:text-base">•</span>
+            <span className="text-sm sm:text-base">
+              The Leaderboard updates live, showing your rank and top
+              performers.
+            </span>
+          </div>
+        </div>
+
+        <div className="mb-2">
+          <span className="text-sm font-semibold sm:text-base">
+            This is a solo competition — no collaboration or code sharing.
+          </span>
+        </div>
+        <div className="text-sm font-semibold sm:text-base">
+          Stay sharp, code fast, and climb the ranks!
+        </div>
       </div>
     </div>
   );
@@ -172,42 +197,28 @@ const ProblemArena = () => {
 
           <div className="mb-4 h-0.5 bg-[linear-gradient(90deg,rgba(33,138,203,0.8)_0%,rgba(17,227,251,0.8)_50%,rgba(33,138,203,0.8)_75%,rgba(17,227,251,0.8)_100%)] sm:mb-6"></div>
 
-          <div className="mb-3 space-y-2 sm:mb-4">
-            <p className="text-sm sm:text-base">
-              One new problem drops every day — solve it anytime during the
-              event.
+          <div className="mx-auto font-sans text-white">
+            <h1 className="text-xl font-semibold">
+              "Abyss Protocol: The Last Stand"
+            </h1>
+            <p className="mt-1 text-gray-300 italic">
+              10 Days. One Ocean. One Chance.
             </p>
-            <p className="text-sm sm:text-base">
-              Submit your answer right on the problem page. You'll see sample
-              I/O, a submission box, and your past attempts in the Submissions
-              tab.
+
+            <hr className="my-3 border-gray-600" />
+
+            <h2 className="mb-3 text-2xl font-bold">Backstory (Pre-Event)</h2>
+
+            <p className="text-base leading-7 text-gray-200">
+              The year is 2142. Earth is submerged under oceans. Survivors now
+              live inside vast underwater structures — the last remnants of
+              humanity. An alien race known as <strong>"The Varions"</strong>{" "}
+              has invaded. They've corrupted Earth's tech, stolen energy cores,
+              and released weaponized viruses into critical systems. You are a{" "}
+              <strong className="text-white">Cyber-Diver</strong>, part human,
+              part machine. You must solve encoded challenges to regain control,
+              survive, and fight back.
             </p>
-          </div>
-
-          <div className="mb-3 space-y-1 sm:mb-4">
-            <div className="flex items-start">
-              <span className="mr-2 text-sm sm:text-base">•</span>
-              <span className="text-sm sm:text-base">
-                Points are awarded based on correctness and speed — faster,
-                accurate submissions earn more.
-              </span>
-            </div>
-            <div className="flex items-start">
-              <span className="mr-2 text-sm sm:text-base">•</span>
-              <span className="text-sm sm:text-base">
-                The Leaderboard updates live, showing your rank and top
-                performers.
-              </span>
-            </div>
-          </div>
-
-          <div className="mb-2">
-            <span className="text-sm font-semibold sm:text-base">
-              This is a solo competition — no collaboration or code sharing.
-            </span>
-          </div>
-          <div className="text-sm font-semibold sm:text-base">
-            Stay sharp, code fast, and climb the ranks!
           </div>
 
           <div className="my-4 h-0.5 bg-[linear-gradient(90deg,rgba(33,138,203,0.8)_0%,rgba(17,227,251,0.8)_50%,rgba(33,138,203,0.8)_75%,rgba(17,227,251,0.8)_100%)] sm:my-6"></div>

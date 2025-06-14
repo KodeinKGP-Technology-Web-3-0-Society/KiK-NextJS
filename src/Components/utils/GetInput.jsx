@@ -10,7 +10,6 @@ function GetInput({ testcaseUrl }) {
 
     // Ensure the file is accessed from the root, not relative to /deKodeX
     const fullUrl = `${window.location.origin}${testcaseUrl}`;
-    
 
     const newWindow = window.open(fullUrl, "_blank", "noopener,noreferrer");
     if (newWindow) {

@@ -44,7 +44,6 @@ function Qp() {
   }, []);
 
   useEffect(() => {
-    console.log("Fetched testcases:", testcases);
     const found = testcases.find((tc) => tc.questionId === QuestionID);
     setTestcaseUrl(found?.inputUrl || "");
   }, [testcases]);

@@ -4,13 +4,13 @@ import { useParams } from "next/navigation";
 function GetInput({ testcaseUrl }) {
   const openTestCaseTab = (testcaseUrl) => {
     if (!testcaseUrl) {
-      console.error("Test case can't be opened: Try again");
+      alert("Test case can't be opened: Try again");
       return;
     }
 
     // Ensure the file is accessed from the root, not relative to /deKodeX
     const fullUrl = `${window.location.origin}${testcaseUrl}`;
-    console.log("Opening test case from:", fullUrl);
+    
 
     const newWindow = window.open(fullUrl, "_blank", "noopener,noreferrer");
     if (newWindow) {

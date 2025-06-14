@@ -24,8 +24,6 @@ export default function Leaderboard() {
         );
         const data = await res.json();
 
-        console.log(data);
-
         if (data.status == 500) {
           toast.error("Internal Server Error. Please try again later.");
           return;

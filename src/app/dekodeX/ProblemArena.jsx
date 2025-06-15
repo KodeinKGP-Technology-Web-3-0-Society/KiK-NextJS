@@ -96,8 +96,14 @@ const ProblemArena = () => {
 
   // Modal JSX
   const modalContent = (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 px-4 backdrop-blur-sm">
-      <div className="relative w-full max-w-md rounded-2xl bg-white p-4 text-black shadow-2xl sm:p-6 dark:bg-[#111827] dark:text-white">
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 px-4 backdrop-blur-sm"
+      onClick={() => setIsOpen(false)}
+    >
+      <div
+        className="relative w-full max-w-md rounded-2xl bg-white p-4 text-black shadow-2xl sm:p-6 dark:bg-[#111827] dark:text-white"
+        onClick={(e) => e.stopPropagation()}
+      >
         {/* Close Button */}
         <button
           onClick={() => setIsOpen(false)}
@@ -107,42 +113,79 @@ const ProblemArena = () => {
         </button>
 
         {/* Modal Content */}
-        <h2 className="mb-2 text-lg font-bold sm:text-xl">Rules</h2>
+        <h2 className="mb-2 text-lg font-bold sm:text-xl">Competition Rules</h2>
         <div className="mb-4 h-0.5 bg-[linear-gradient(90deg,rgba(33,138,203,0.8)_0%,rgba(17,227,251,0.8)_50%,rgba(33,138,203,0.8)_75%,rgba(17,227,251,0.8)_100%)]"></div>
-        <div className="mb-3 space-y-2 sm:mb-4">
-          <p className="text-sm sm:text-base">
-            One new problem drops every day — solve it anytime during the event.
-          </p>
-          <p className="text-sm sm:text-base">
-            Submit your answer right on the problem page. You'll see sample I/O,
-            a submission box, and your past attempts in the Submissions tab.
-          </p>
+
+        <div className="mb-4 space-y-3 sm:mb-5">
+          <div className="rounded-lg bg-blue-50 p-3 dark:bg-blue-900/20">
+            <h3 className="mb-2 text-sm font-semibold text-blue-800 dark:text-blue-300">
+              📅 Problem Release
+            </h3>
+            <p className="text-xs text-blue-700 sm:text-sm dark:text-blue-200">
+              One new problem drops daily at midnight IST. Solve it anytime
+              during the competition period.
+            </p>
+          </div>
+
+          <div className="rounded-lg bg-green-50 p-3 dark:bg-green-900/20">
+            <h3 className="mb-2 text-sm font-semibold text-green-800 dark:text-green-300">
+              💻 Submission Process
+            </h3>
+            <p className="text-xs text-green-700 sm:text-sm dark:text-green-200">
+              Submit your answers directly on the problem page. View sample
+              input/output and get your problem input.
+            </p>
+          </div>
+
+          <div className="rounded-lg bg-purple-50 p-3 dark:bg-purple-900/20">
+            <h3 className="mb-2 text-sm font-semibold text-purple-800 dark:text-purple-300">
+              🏆 Scoring System
+            </h3>
+            <div className="space-y-1 text-xs text-purple-700 sm:text-sm dark:text-purple-200">
+              <p>
+                • <strong>Correctness:</strong> Full points for passing all test
+                cases
+              </p>
+              <p>
+                • <strong>Speed Bonus:</strong> Earlier submissions earn higher
+                scores
+              </p>
+              <p>
+                • <strong>Penalty:</strong> Wrong submissions reduce final score
+              </p>
+            </div>
+          </div>
+
+          <div className="rounded-lg bg-orange-50 p-3 dark:bg-orange-900/20">
+            <h3 className="mb-2 text-sm font-semibold text-orange-800 dark:text-orange-300">
+              📊 Leaderboard
+            </h3>
+            <p className="text-xs text-orange-700 sm:text-sm dark:text-orange-200">
+              Real-time ranking updates. Your position depends on total score
+              across all solved problems.
+            </p>
+          </div>
         </div>
 
-        <div className="mb-3 space-y-1 sm:mb-4">
+        <div className="mb-3 rounded-lg border-l-4 border-red-500 bg-red-50 p-3 dark:bg-red-900/20">
           <div className="flex items-start">
-            <span className="mr-2 text-sm sm:text-base">•</span>
-            <span className="text-sm sm:text-base">
-              Points are awarded based on correctness and speed — faster,
-              accurate submissions earn more.
-            </span>
-          </div>
-          <div className="flex items-start">
-            <span className="mr-2 text-sm sm:text-base">•</span>
-            <span className="text-sm sm:text-base">
-              The Leaderboard updates live, showing your rank and top
-              performers.
-            </span>
+            <span className="mr-2 text-red-600 dark:text-red-400">⚠️</span>
+            <div>
+              <p className="text-sm font-semibold text-red-800 dark:text-red-300">
+                Solo Competition
+              </p>
+              <p className="text-xs text-red-700 dark:text-red-200">
+                No collaboration, code sharing, or external assistance allowed.
+                Fair play is strictly enforced.
+              </p>
+            </div>
           </div>
         </div>
 
-        <div className="mb-2">
-          <span className="text-sm font-semibold sm:text-base">
-            This is a solo competition — no collaboration or code sharing.
-          </span>
-        </div>
-        <div className="text-sm font-semibold sm:text-base">
-          Stay sharp, code fast, and climb the ranks!
+        <div className="rounded-lg bg-gradient-to-r from-cyan-50 to-blue-50 p-3 text-center dark:from-cyan-900/20 dark:to-blue-900/20">
+          <p className="text-sm font-bold text-cyan-800 dark:text-cyan-300">
+            🚀 Dive deep, code fast, dominate the abyss!
+          </p>
         </div>
       </div>
     </div>
@@ -207,18 +250,42 @@ const ProblemArena = () => {
 
             <hr className="my-3 border-gray-600" />
 
-            {/* <h2 className="mb-3 text-2xl font-bold">Backstory (Pre-Event)</h2> */}
+            <div className="space-y-3 text-base leading-7 text-gray-200">
+              <p>
+                The year is 2142. Earth is submerged under oceans, and
+                humanity's last survivors live within massive underwater
+                biodomes — colossal structures of steel and glass that serve as
+                the final bastions of civilization, powered by geothermal vents
+                and protected by quantum shields that flicker against the
+                crushing depths.
+              </p>
 
-            <p className="text-base leading-7 text-gray-200">
-              The year is 2142. Earth is submerged under oceans. Survivors now
-              live inside vast underwater structures — the last remnants of
-              humanity. An alien race known as <strong>"The Varions"</strong>{" "}
-              has invaded. They've corrupted Earth's tech, stolen energy cores,
-              and released weaponized viruses into critical systems. You are a{" "}
-              <strong className="text-white">Cyber-Diver</strong>, part human,
-              part machine. You must solve encoded challenges to regain control,
-              survive, and fight back.
-            </p>
+              <p>
+                An alien race known as{" "}
+                <strong className="text-red-400">"The Varions"</strong> has
+                infiltrated Earth's technology from the deepest ocean trenches.
+                These silicon-based entities corrupt quantum processors, steal
+                energy cores, and release weaponized digital viruses that turn
+                our own systems against us, threatening the very survival of the
+                remaining biodomes.
+              </p>
+
+              <p>
+                You are a <strong className="text-cyan-400">Cyber-Diver</strong>{" "}
+                — part human, part machine, with neural implants that connect
+                your consciousness directly to the network. Your mission:
+                navigate through layers of encrypted alien code, solve their
+                twisted algorithmic puzzles, and reclaim control of humanity's
+                digital infrastructure before the last biodome falls to eternal
+                darkness.
+              </p>
+
+              <p className="font-medium text-cyan-300">
+                Each algorithm you crack brings us one step closer to freedom.
+                The pressure is mounting, and the Varions are watching your
+                every move...
+              </p>
+            </div>
           </div>
 
           <div className="my-4 h-0.5 bg-[linear-gradient(90deg,rgba(33,138,203,0.8)_0%,rgba(17,227,251,0.8)_50%,rgba(33,138,203,0.8)_75%,rgba(17,227,251,0.8)_100%)] sm:my-6"></div>

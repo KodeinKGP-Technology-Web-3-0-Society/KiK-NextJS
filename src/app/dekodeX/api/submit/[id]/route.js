@@ -39,13 +39,18 @@ export async function POST(request, { params }) {
 
     const questionData = questDoc.data();
     const questionDate = questionData.date;
-    const localToday = new Date();
+
+    // Use IST timezone for consistency
+    const utcToday = new Date();
+    const istOffset = 5.5 * 60 * 60 * 1000; // IST is UTC+5:30
+    const istDate = new Date(utcToday.getTime() + istOffset);
+
     const today =
-      localToday.getFullYear() +
+      istDate.getFullYear() +
       "-" +
-      String(localToday.getMonth() + 1).padStart(2, "0") +
+      String(istDate.getMonth() + 1).padStart(2, "0") +
       "-" +
-      String(localToday.getDate()).padStart(2, "0");
+      String(istDate.getDate()).padStart(2, "0");
 
     if (questionDate > today) {
       return NextResponse.json(

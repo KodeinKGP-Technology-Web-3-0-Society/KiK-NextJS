@@ -3,13 +3,17 @@ import { db } from "@/backend/firebaseAdmin.js";
 
 export async function GET() {
   try {
-    const localToday = new Date();
+    // Use IST timezone for consistency
+    const utcToday = new Date();
+    const istOffset = 5.5 * 60 * 60 * 1000; // IST is UTC+5:30
+    const istDate = new Date(utcToday.getTime() + istOffset);
+
     const today =
-      localToday.getFullYear() +
+      istDate.getFullYear() +
       "-" +
-      String(localToday.getMonth() + 1).padStart(2, "0") +
+      String(istDate.getMonth() + 1).padStart(2, "0") +
       "-" +
-      String(localToday.getDate()).padStart(2, "0");
+      String(istDate.getDate()).padStart(2, "0");
 
     const snapshot = await db
       .collection("questions")

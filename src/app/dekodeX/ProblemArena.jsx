@@ -166,7 +166,25 @@ const ProblemArena = () => {
             </p>
           </div>
         </div>
-
+        <div className="rounded-lg bg-purple-50 p-3 dark:bg-purple-900/20">
+          <h3 className="mb-2 text-sm font-semibold text-purple-800 dark:text-purple-300">
+            🏆 Scoring System
+          </h3>
+          <div className="space-y-1 text-xs text-purple-700 sm:text-sm dark:text-purple-200">
+            <p>
+              • <strong>Correctness:</strong> Full points for passing all test
+              cases
+            </p>
+            <p>
+              • <strong>Speed Bonus:</strong> Earlier submissions earn higher
+              scores
+            </p>
+            <p>
+              • <strong>Wrong Answer Penalty:</strong> Incorrect submissions
+              result in -10 points
+            </p>
+          </div>
+        </div>
         <div className="mb-3 rounded-lg border-l-4 border-red-500 bg-red-50 p-3 dark:bg-red-900/20">
           <div className="flex items-start">
             <span className="mr-2 text-red-600 dark:text-red-400">⚠️</span>

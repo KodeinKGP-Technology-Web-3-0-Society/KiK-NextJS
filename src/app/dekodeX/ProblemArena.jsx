@@ -207,7 +207,7 @@ const ProblemArena = () => {
 
             <hr className="my-3 border-gray-600" />
 
-            <h2 className="mb-3 text-2xl font-bold">Backstory (Pre-Event)</h2>
+            {/* <h2 className="mb-3 text-2xl font-bold">Backstory (Pre-Event)</h2> */}
 
             <p className="text-base leading-7 text-gray-200">
               The year is 2142. Earth is submerged under oceans. Survivors now

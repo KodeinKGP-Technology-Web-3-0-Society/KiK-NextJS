@@ -91,6 +91,11 @@ export default function LeaderboardPage({ params }) {
     getTotalUsers();
   }, []);
 
+  // for redirecting to dekodeX page
+  const redirectToDekodeX = () => {
+    window.location.href = "/dekodeX";
+  };
+
   return (
     <div className="flex min-h-screen flex-col bg-[linear-gradient(108.74deg,rgba(255,255,255,0.24)_0%,rgba(255,255,255,0.06)_100%)] shadow-[0_0_50px_-25px_rgba(0,0,0,0.5)] backdrop-blur-[100px] before:pointer-events-none before:absolute before:inset-0 before:rounded-[4px] before:border-[3px] before:border-transparent before:content-[''] before:[border-image-slice:1] before:[border-image-source:linear-gradient(108.74deg,rgba(33,138,203,0.6)_0%,rgba(255,255,255,0.54)_36.46%,rgba(255,255,255,0.3)_73.96%,rgba(17,227,251,0.6)_100%)]">
       {fetchedLeaderboardData && totalUsers >= 10 ? (
@@ -189,7 +194,7 @@ export default function LeaderboardPage({ params }) {
                   {leaderboardEntry.rank}.
                 </span>
                 <img
-                  src={`https://robohash.org/${encodeURIComponent(leaderboardEntry.name)}?set=set4`}
+                  src={`https://robohash.org/${encodeURIComponent(leaderboardEntry.name)}?set=set3 `}
                   alt={leaderboardEntry.name}
                   className="my-1 h-8 w-8 rounded-full border-2 border-white object-cover"
                 />
@@ -208,7 +213,7 @@ export default function LeaderboardPage({ params }) {
                   {currentUserLeaderboardInfo.rank}.
                 </span>
                 <img
-                  src={`https://robohash.org/${encodeURIComponent(currentUserLeaderboardInfo.name)}?set=set4`}
+                  src={`https://robohash.org/${encodeURIComponent(currentUserLeaderboardInfo.name)}?set=set3 `}
                   alt={currentUserLeaderboardInfo.username}
                   className="my-1 h-8 w-8 rounded-full border-2 border-white object-cover"
                 />
@@ -273,6 +278,15 @@ export default function LeaderboardPage({ params }) {
               &gt;
             </Link>
           </div>
+
+          <button
+            id="floatingReturnBtn"
+            onClick={redirectToDekodeX}
+            className="animate-float fixed right-2 bottom-4 z-[9999] flex items-center justify-center rounded-full bg-gradient-to-r from-cyan-500 to-cyan-600 px-4 py-2 text-white shadow-2xl backdrop-blur-xl transition-transform hover:-translate-y-1 hover:scale-110 md:right-8 md:bottom-8"
+            aria-label="Return"
+          >
+            <span className="font-semibold">Return</span>
+          </button>
         </>
       ) : (
         <div className="flex h-screen flex-col items-center justify-center">

@@ -198,7 +198,7 @@ export default function Leaderboard() {
                     {user.rank}.
                   </span>
                   <img
-                    src={`https://robohash.org/${encodeURIComponent(user.name)}?set=set4`}
+                    src={`https://robohash.org/${encodeURIComponent(user.name)}?set=set1 `}
                     alt={user.name}
                     className="my-1 h-8 w-8 rounded-full border-2 border-white object-cover"
                   />
@@ -222,7 +222,7 @@ export default function Leaderboard() {
                   {currentUserLeaderboardInfo.rank}.
                 </span>
                 <img
-                  src={`https://robohash.org/${encodeURIComponent(currentUserLeaderboardInfo.name)}?set=set4`}
+                  src={`https://robohash.org/${encodeURIComponent(currentUserLeaderboardInfo.name)}?set=set1 `}
                   alt={currentUserLeaderboardInfo.username}
                   className="my-1 h-8 w-8 rounded-full border-2 border-white object-cover"
                 />

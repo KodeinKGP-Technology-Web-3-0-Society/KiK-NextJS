@@ -106,7 +106,7 @@ const ProblemArena = () => {
       onClick={() => setIsOpen(false)}
     >
       <div
-        className="relative max-h-[90vh] w-full max-w-md overflow-y-auto no-scrollbar rounded-2xl bg-white p-4 text-black shadow-2xl sm:p-6 dark:bg-[#111827] dark:text-white"
+        className="no-scrollbar relative max-h-[90vh] w-full max-w-md overflow-y-auto rounded-2xl bg-white p-4 text-black shadow-2xl sm:p-6 dark:bg-[#111827] dark:text-white"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Close Button */}

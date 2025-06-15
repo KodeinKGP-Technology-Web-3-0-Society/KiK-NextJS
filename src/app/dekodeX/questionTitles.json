@@ -1,57 +1,62 @@
 [
   {
     "id": "q1",
-    "title": "Red-Nosed Reports",
-    "points": "<100>",
-    "is_revealed": true
+    "title": "XXXXXXXXX",
+    "points": "XXX",
+    "is_revealed": false
   },
   {
     "id": "q2",
-    "title": "Hystorian Hysteria",
-    "points": "<120>",
-    "is_revealed": true
+    "title": "XXXXXXXXXXXXXX",
+    "points": "XXX",
+    "is_revealed": false
   },
   {
     "id": "q3",
-    "title": "Mull It Over",
-    "points": "<150>",
-    "is_revealed": true
+    "title": "XXXXXXXX",
+    "points": "XXX",
+    "is_revealed": false
   },
   {
     "id": "q4",
-    "title": "Ceres Search",
-    "points": "<175>",
-    "is_revealed": true
+    "title": "XXXXXXXXXXX",
+    "points": "XXX",
+    "is_revealed": false
   },
   {
     "id": "q5",
-    "title": "Print Queue",
-    "points": "<200>",
+    "title": "XXXXXXXXXXXXXXX",
+    "points": "XXX",
     "is_revealed": false
   },
   {
     "id": "q6",
-    "title": "Guard Gallivant",
-    "points": "<225>",
+    "title": "XXXXXXXXXXXX",
+    "points": "XXX",
     "is_revealed": false
   },
   {
     "id": "q7",
-    "title": "Bridge Repair",
-    "points": "<250>",
+    "title": "XXXXXXXXXXXXXXXXX",
+    "points": "XXX",
     "is_revealed": false
   },
   {
     "id": "q8",
-    "title": "Resonant Collinearity",
-    "points": "<275>",
+    "title": "XXXXXXXXXXXXXXXXXXXXXXX",
+    "points": "XXX",
     "is_revealed": false
   },
   {
     "id": "q9",
-    "title": "Disk Fragmenter",
-    "points": "<300>",
+    "title": "XXXXXXXXXXXXXXXXXXXXX",
+    "points": "XXX",
     "is_revealed": false
   },
-  { "id": "q10", "title": "Hoof It", "points": "<325>", "is_revealed": false }
+  {
+    "id": "q10",
+    "title": "XXXXXXXXXXXXXXXXXXXXXX",
+    "points": "XXX",
+    "is_revealed": false
+  }
 ]

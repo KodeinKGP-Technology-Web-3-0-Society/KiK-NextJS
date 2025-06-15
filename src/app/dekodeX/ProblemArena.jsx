@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { NotepadText } from "lucide-react";
 import { createPortal } from "react-dom";
 import Link from "next/link";
+import { useAuth } from "@/contexts/authContext";
 
 const LoadingSkeleton = () => {
   return (
@@ -40,6 +41,10 @@ const ProblemArena = () => {
   const [loading, setLoading] = useState(true);
   const [unlockedProblems, setUnlockedProblems] = useState([]);
   const [lockedProblems, setLockedProblems] = useState([]);
+  const { user, loggedIn } = useAuth();
+  const getSubmissionIndex = (questionId) => {
+    return parseInt(questionId.replace('q', '')) - 1;
+  };
   useEffect(() => {
     setMounted(true);
   }, []);
@@ -330,7 +335,9 @@ const ProblemArena = () => {
               unlockedProblems.map((problem) => (
                 <div
                   key={problem.questionId}
-                  className="group flex cursor-pointer items-center justify-between rounded bg-[linear-gradient(90.27deg,rgba(255,255,255,0.24)_0%,rgba(115,115,115,0.12)_100%)] p-3 transition-colors duration-200 hover:bg-gray-700 sm:p-4"
+                  className={`group flex cursor-pointer items-center justify-between rounded p-3 sm:p-4 transition-colors duration-200 hover:bg-gray-700 ${user?.submissions?.[getSubmissionIndex(problem.questionId)] > 0
+                    ? 'bg-green-500/20 border border-green-500/30' : 'bg-[linear-gradient(90.27deg,rgba(255,255,255,0.24)_0%,rgba(115,115,115,0.12)_100%)]'
+                    }`}
                 >
                   <div
                     className="flex min-w-0 flex-1 items-center space-x-2 sm:space-x-4"

@@ -77,35 +77,39 @@ const SignIn = () => {
     }
   };
 
-  const handleMagicLinkSend = async (e) => {
-    e.preventDefault();
-    if (!magicLinkEmail) {
-      toast.error("Please enter your email address");
-      return;
-    }
+ const handleMagicLinkSend = async (e) => {
+  e.preventDefault();
+  if (!magicLinkEmail) {
+    toast.error("Please enter your email address");
+    return;
+  }
 
-    setIsLoadingMagicLink(true);
-    try {
-      await sendSignInLinkToEmail(auth, magicLinkEmail, actionCodeSettings);
-      // Save the email locally so you don't need to ask the user for it again
-      // if they open the link on the same device.
-      window.localStorage.setItem('emailForSignIn', magicLinkEmail);
-      toast.success("Magic link sent! Check your email to sign in.");
-      setShowMagicLink(false);
-      setMagicLinkEmail("");
-    } catch (error) {
-      console.error("Error sending magic link:", error);
-      let errorMessage = "Failed to send magic link. Please try again.";
-      if (error.code === "auth/invalid-email") {
-        errorMessage = "Invalid email address format.";
-      } else if (error.code === "auth/user-not-found") {
-        errorMessage = "No account found with this email address.";
-      }
-      toast.error(errorMessage);
-    } finally {
-      setIsLoadingMagicLink(false);
+  // ✅ Email domain verification
+  if (!magicLinkEmail.endsWith("@kgpian.iitkgp.ac.in")) {
+    toast.error("Please register with your valid Kgpian email first");
+    return;
+  }
+
+  setIsLoadingMagicLink(true);
+  try {
+    await sendSignInLinkToEmail(auth, magicLinkEmail, actionCodeSettings);
+    window.localStorage.setItem("emailForSignIn", magicLinkEmail);
+    toast.success("Login link sent! Check your email to sign in.");
+    setShowMagicLink(false);
+    setMagicLinkEmail("");
+  } catch (error) {
+    console.error("Error sending Login link:", error);
+    let errorMessage = "Failed to send Login link. Please try again.";
+    if (error.code === "auth/invalid-email") {
+      errorMessage = "Invalid email address format.";
     }
-  };
+    toast.error(errorMessage);
+  } finally {
+    setIsLoadingMagicLink(false);
+  }
+};
+
+
 
   // Handle magic link sign-in is now handled in the separate verification page
   // No need for useEffect here

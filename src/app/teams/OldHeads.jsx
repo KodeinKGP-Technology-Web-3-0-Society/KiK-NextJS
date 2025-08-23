@@ -16,7 +16,7 @@ const OldHeads = () => {
               alt={head.name}
               height={250}
               width={200}
-              priority={true}
+              sizes="200px"
               className="h-[250px] w-[200px] object-cover"
             />
           </div>

@@ -19,6 +19,7 @@ const Heads = () => {
               alt={head.name}
               width={200}
               height={250}
+              sizes="200px"
               priority={true}
               className="h-[250px] w-[200px] object-cover"
             />

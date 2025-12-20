@@ -101,18 +101,18 @@ export default function TeamsCombined() {
   return (
     <div
       ref={componentRef}
-      className={`${montserrat.variable} relative flex min-h-screen w-full flex-col items-center justify-center gap-20 overflow-x-hidden bg-[#00002C] py-10 md:gap-25 md:py-5`}
+      className={`${montserrat.variable} relative flex min-h-screen w-full flex-col items-center justify-center gap-20 overflow-x-hidden bg-[#00002C] py-10 md:gap-16 md:py-5`}
     >
       <h2
         id="recentHeader"
         ref={headingRef}
-        className="my-8 bg-gradient-to-br from-[#11E3FB] via-[#5BE6FF] to-[#11E3FB] [background-clip:text] text-center text-[32px] font-bold text-transparent [-webkit-background-clip:text] sm:text-[48px]"
+        className="my-6 bg-gradient-to-br from-[#11E3FB] via-[#5BE6FF] to-[#11E3FB] [background-clip:text] text-center text-[32px] font-bold text-transparent [-webkit-background-clip:text] sm:text-[48px]"
       >
         Our Contributions
       </h2>
 
       <div
-        className="cards-wrapper relative flex h-[420px] w-full max-w-7xl items-center justify-center"
+        className="lg:scale-90 cards-wrapper relative flex h-[420px] w-full max-w-7xl items-center justify-center"
         style={{ perspective: isMobile ? "none" : "1600px" }}
       >
         {images.map((item, index) => {

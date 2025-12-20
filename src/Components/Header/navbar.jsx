@@ -54,7 +54,87 @@ function Navbar() {
       className={`sticky top-0 z-20 flex min-h-[5rem] max-w-[99%] flex-wrap items-center justify-between bg-[rgba(1,1,27,0.6)] px-2 ${isOpen ? "h-screen w-full flex-col bg-black" : ""}`}
     >
       {/* Scroll Progress Bar - Tech Style */}
-      <div className="absolute right-0 bottom-0 left-0 h-[4px] w-screen bg-gradient-to-r from-transparent via-[rgba(17,227,251,0.1)] to-transparent">
+      <div className="absolute right-0 bottom-0 left-0 h-[2.5px] w-screen bg-gradient-to-r from-transparent via-[rgba(17,227,251,0.1)] to-transparent">
+        {/* Circuit line background */}
+        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[rgba(17,227,251,0.2)] to-transparent opacity-50"></div>
+
+        {/* Main progress line */}
+        <div
+          className="relative h-full bg-gradient-to-r from-[#00d4ff] via-[#11e3fb] to-[#5be6ff] will-change-transform"
+          style={{
+            width: `${scrollProgress}%`,
+            boxShadow: `
+              0 0 20px rgba(17, 227, 251, 0.8),
+              0 0 40px rgba(17, 227, 251, 0.4),
+              0 0 60px rgba(17, 227, 251, 0.2),
+              inset 0 0 10px rgba(255, 255, 255, 0.2)
+            `,
+            transition: "width 0.1s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
+            transform: "translateZ(0)",
+            filter: "brightness(1.1) saturate(1.2)",
+          }}
+        >
+          {/* Animated glow effect */}
+          <div
+            className="absolute inset-0 bg-gradient-to-r from-transparent via-white to-transparent opacity-30"
+            style={{
+              animation: "shimmer 2s infinite linear",
+            }}
+          ></div>
+
+          {/* Circuit nodes/dots effect with sparkles */}
+          <div
+            className="absolute top-1/2 right-0 h-[6px] w-[6px] translate-x-1/2 -translate-y-1/2 rounded-full bg-[#11e3fb]"
+            style={{
+              boxShadow:
+                "0 0 15px rgba(17, 227, 251, 0.9), 0 0 30px rgba(17, 227, 251, 0.5)",
+              opacity: scrollProgress > 0 ? 1 : 0,
+              transition: "opacity 0.3s ease",
+            }}
+          >
+            {/* Sparkle effects */}
+            <div
+              className="absolute -top-1 -right-1 h-[2px] w-[2px] rounded-full bg-white"
+              style={{
+                animation: "sparkle1 1.5s infinite ease-in-out",
+                opacity: scrollProgress > 5 ? 1 : 0,
+              }}
+            ></div>
+            <div
+              className="absolute -bottom-1 -left-1 h-[1.5px] w-[1.5px] rounded-full bg-[#5be6ff]"
+              style={{
+                animation: "sparkle2 2s infinite ease-in-out 0.5s",
+                opacity: scrollProgress > 5 ? 1 : 0,
+              }}
+            ></div>
+            <div
+              className="absolute -top-2 left-1/2 h-[1px] w-[1px] rounded-full bg-white"
+              style={{
+                animation: "sparkle3 1.8s infinite ease-in-out 1s",
+                opacity: scrollProgress > 5 ? 1 : 0,
+              }}
+            ></div>
+            <div
+              className="absolute top-1/2 -right-2 h-[1.5px] w-[1.5px] rounded-full bg-[#00d4ff]"
+              style={{
+                animation: "sparkle4 2.2s infinite ease-in-out 0.3s",
+                opacity: scrollProgress > 5 ? 1 : 0,
+              }}
+            ></div>
+          </div>
+        </div>
+
+        {/* Data flow lines */}
+        <div className="absolute top-0 left-0 h-full w-full overflow-hidden">
+          <div
+            className="absolute top-1/2 h-[1px] w-full -translate-y-1/2 bg-gradient-to-r from-transparent via-[rgba(17,227,251,0.3)] to-transparent"
+            style={{
+              animation: "pulse 3s infinite ease-in-out",
+            }}
+          ></div>
+        </div>
+      </div>
+      <div className="absolute right-0 bottom-[-5px] left-0 h-[2.5px] w-screen bg-gradient-to-r from-transparent via-[rgba(17,227,251,0.1)] to-transparent">
         {/* Circuit line background */}
         <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[rgba(17,227,251,0.2)] to-transparent opacity-50"></div>
 
@@ -135,7 +215,7 @@ function Navbar() {
         </div>
       </div>
 
-      <style jsx>{`
+      {/* <style jsx>{`
         @keyframes shimmer {
           0% {
             transform: translateX(-100%);
@@ -202,18 +282,21 @@ function Navbar() {
             transform: scale(1.3) rotate(45deg);
           }
         }
-      `}</style>
+      `}</style> */}
+
       <div
         className={`ml-[1.5vw] flex min-w-[20vw] flex-row items-center ${isOpen ? "hidden" : "block"} md:flex`}
       >
-        <div className="flex items-center gap-[5px] text-[1.2rem]">
+        <Link
+          href={'/'}
+          className="flex items-center gap-[5px] text-[1.2rem]">
           <Image
             src={Logo}
             alt="KodeinKGP Logo"
             className="h-[60px] w-[60px] p-[5px]"
           />
           <h4 className="font-semibold text-white">KodeinKGP</h4>
-        </div>
+        </Link>
       </div>
 
       <button
@@ -233,7 +316,7 @@ function Navbar() {
       </button>
 
       <div
-        className={`ml-auto min-w-[26vw] ${isOpen ? "flex h-full w-full items-center justify-center" : "hidden"} md:block`}
+        className={`ml-auto min-w-[26vw] ${isOpen ? "flex h-full w-full items-center justify-center" : "hidden"} md:block md:mt-3`}
       >
         <div
           className={`flex font-[Arial] ${isOpen ? "flex-col" : "flex-row"} items-center ${isOpen ? "gap-4" : "gap-[4rem]"}`}

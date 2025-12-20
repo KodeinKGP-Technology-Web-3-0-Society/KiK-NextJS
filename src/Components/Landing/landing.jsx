@@ -5,11 +5,17 @@ import Lottie from "lottie-react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { motion } from "framer-motion";
-import Link from "next/link";
 import { FaPaperPlane, FaLink, FaBolt } from "react-icons/fa";
 
 import logo from "../../data/animations/newLanding/logofull.json";
 import robo from "../../data/animations/newLanding/robo.json";
+
+import BGImg from "../utils/BGImg";
+import LogoAnime from "../utils/LogoAnime";
+import Welcome from "../utils/Welcome";
+import RoboAnime from "../utils/RoboAnime";
+import OurWorksCard from "../utils/OurWorksCard";
+import HomeFooter from "../utils/HomeFooter";
 
 export default function Landing() {
   useEffect(() => {
@@ -113,8 +119,8 @@ export default function Landing() {
   }, []);
 
   return (
-    <div className="flex w-full flex-col overflow-hidden bg-[#00002C]">
-      <div className="flex flex-col items-center justify-between p-5 min-[660px]:px-10 min-[940px]:px-20 md:flex-row md:items-start">
+    <div className="flex w-full flex-col justify-center overflow-hidden bg-[#001841]">
+      {/* <div className="flex flex-col items-center justify-between p-5 min-[660px]:px-10 min-[940px]:px-20 md:flex-row md:items-start">
         <div className="flex w-full flex-col items-center space-y-6 text-center md:w-1/2 md:items-start  md:text-left md:pt-10">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -263,6 +269,26 @@ export default function Landing() {
           <span className="bg-gradient-to-br from-[#11e3fb] via-[#5be6ff] to-[#11e3fb] bg-clip-text text-2xl text-transparent">
             Community Members
           </span>
+        </div>
+      </div> */}
+      <div className="w-[100vw] flex flex-col sm:flex-row items-center justify-center">
+        <div className="flex flex-col p-0 z-50">
+          <Welcome />
+        </div>
+        <div
+        >
+          <OurWorksCard />
+        </div>
+        <div className="scale-80 order-first md:opacity-100 opacity-40 mix-blend-lighten">
+          <BGImg />
+        </div>
+        <div className="hidden md:flex flex-col mix-blend-lighten">
+          <div className="scale-200 absolute right-[-190px] top-[-100px]">
+            <LogoAnime />
+          </div>
+          <div className="">
+            <RoboAnime />
+          </div>
         </div>
       </div>
     </div>

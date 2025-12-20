@@ -7,6 +7,8 @@ import Block from "../../data/animations/newLanding/Block.json";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Montserrat } from "next/font/google";
+import { motion } from 'framer-motion'
+import { useRouter } from "next/navigation";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -21,6 +23,7 @@ export default function Teams() {
   const cardRefs = useRef([]);
   const lottieRefs = useRef([]);
   const componentRef = useRef(null);
+  const router = useRouter();
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -93,15 +96,19 @@ export default function Teams() {
     >
       <h2
         id="recentHeader"
-        className="mb-16 bg-gradient-to-br from-[#11E3FB] via-[#5BE6FF] to-[#11E3FB] [background-clip:text] text-center text-4xl font-bold text-transparent [-webkit-background-clip:text] md:text-5xl"
+        className="mb-10 bg-gradient-to-br from-[#11E3FB] via-[#5BE6FF] to-[#11E3FB] [background-clip:text] text-center text-4xl font-bold text-transparent [-webkit-background-clip:text] md:text-5xl"
       >
         Our Expertise
       </h2>
 
-      <div className="mx-auto flex w-full max-w-7xl flex-col items-center justify-center gap-8 px-4 md:flex-row md:items-stretch md:gap-8">
-        <div
+      <div className="mx-auto scale-90 flex w-full max-w-7xl flex-col items-center justify-between gap-8 px-4 md:flex-row md:items-stretch md:gap-8">
+        <motion.div
+          initial="rest"
+          whileHover="hover"
+          animate="rest"
           className="flex h-fit w-[320px] flex-col overflow-hidden rounded-3xl bg-[#0a0a3a] shadow-lg min-[480px]:w-[360px] min-[640px]:w-[400px] min-[768px]:w-[360px]"
           ref={(el) => (cardRefs.current[0] = el)}
+          onClick={()=>router.push('/teams')}
         >
           <div className="lottie-wrapper flex h-fit w-full items-center justify-center">
             <Lottie
@@ -111,7 +118,17 @@ export default function Teams() {
               loop={true}
             />
           </div>
-          <div className="text-content flex h-fit flex-col items-center justify-center bg-[#101045] p-10 text-center">
+          <motion.div
+            className="text-content cursor-pointer flex h-fit flex-col items-center justify-center bg-[#101045] p-10 text-center"
+            variants={{
+              rest: { y: '-100%', opacity: 0 },
+              hover: { y: 0, opacity: 1 },
+            }}
+            transition={{
+              duration: 0.4,
+              ease: 'easeOut',
+            }}
+          >
             <p className="font-montserrat -webkit-bg-clip-text mb-2 bg-[linear-gradient(to_bottom_right,rgba(17,227,251,1),rgba(91,230,255,1),rgba(17,227,251,1))] bg-clip-text text-xl font-semibold text-transparent md:text-2xl">
               AI & Metaverse
             </p>
@@ -119,12 +136,16 @@ export default function Teams() {
               Enter a realm where AI drives immersive Metaverse encounters,
               pushing boundaries of what&apos;s possible.
             </p>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
 
-        <div
+        <motion.div
+          initial="rest"
+          whileHover="hover"
+          animate="rest"
           className="flex h-fit w-[320px] flex-col overflow-hidden rounded-3xl bg-[#0a0a3a] shadow-lg min-[480px]:w-[360px] min-[640px]:w-[400px] min-[768px]:w-[360px]"
           ref={(el) => (cardRefs.current[1] = el)}
+          onClick={()=>router.push('/teams')}
         >
           <div className="lottie-wrapper flex h-fit w-full items-center justify-center">
             <Lottie
@@ -134,7 +155,16 @@ export default function Teams() {
               loop={true}
             />
           </div>
-          <div className="text-content flex h-fit flex-col items-center justify-center bg-[#101045] p-10 text-center">
+          <motion.div
+            variants={{
+              rest: { y: '-100%', opacity: 0 },
+              hover: { y: 0, opacity: 1 },
+            }}
+            transition={{
+              duration: 0.4,
+              ease: 'easeOut',
+            }}
+            className="text-content cursor-pointer flex h-fit flex-col items-center justify-center bg-[#101045] p-10 text-center">
             <p className="font-montserrat -webkit-bg-clip-text mb-2 bg-[linear-gradient(to_bottom_right,rgba(17,227,251,1),rgba(91,230,255,1),rgba(17,227,251,1))] bg-clip-text text-xl font-semibold text-transparent md:text-2xl">
               Web Development
             </p>
@@ -142,12 +172,16 @@ export default function Teams() {
               Crafting dynamic, responsive websites that deliver exceptional
               user experiences across all devices.
             </p>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
 
-        <div
+        <motion.div
+          initial="rest"
+          whileHover="hover"
+          animate="rest"
           className="flex h-fit w-[320px] flex-col overflow-hidden rounded-3xl bg-[#0a0a3a] shadow-lg min-[480px]:w-[360px] min-[640px]:w-[400px] min-[768px]:w-[360px]"
           ref={(el) => (cardRefs.current[2] = el)}
+          onClick={()=>router.push('/teams')}
         >
           <div className="lottie-wrapper flex h-fit w-full items-center justify-center">
             <Lottie
@@ -157,7 +191,16 @@ export default function Teams() {
               loop={true}
             />
           </div>
-          <div className="text-content flex h-fit flex-col items-center justify-center bg-[#101045] p-[38px] text-center">
+          <motion.div
+            variants={{
+              rest: { y: '-100%', opacity: 0 },
+              hover: { y: 0, opacity: 1 },
+            }}
+            transition={{
+              duration: 0.4,
+              ease: 'easeOut',
+            }}
+            className="text-content cursor-pointer flex h-fit flex-col items-center justify-center bg-[#101045] p-[38px] text-center">
             <p className="font-montserrat -webkit-bg-clip-text mb-2 bg-[linear-gradient(to_bottom_right,rgba(17,227,251,1),rgba(91,230,255,1),rgba(17,227,251,1))] bg-clip-text text-xl font-semibold text-transparent md:text-2xl">
               Blockchain
             </p>
@@ -165,8 +208,8 @@ export default function Teams() {
               Building the decentralized future with secure, transparent
               blockchain solutions and smart contracts.
             </p>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       </div>
     </div>
   );

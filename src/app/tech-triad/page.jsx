@@ -91,7 +91,7 @@ const TechTriadPage = () => {
                 <div className="group rounded-xl border border-[#87CEEB]/30 bg-gradient-to-br from-[#0a0a2e]/60 to-[#01011b]/80 p-4 transition-all duration-300 hover:border-[#5ce1e6]/50 hover:shadow-lg hover:shadow-[#5ce1e6]/10">
                   <div className="mb-2 flex items-center gap-2">
                     <div className="h-2 w-2 rounded-full bg-[#87CEEB] animate-pulse"></div>
-                    <span className="font-[Kanit] text-sm font-semibold uppercase tracking-wider text-[#87CEEB]">Registration</span>
+                    <span className="font-[Kanit] text-sm font-semibold uppercase tracking-wider text-[#87CEEB]">Reporting Time</span>
                   </div>
                   <p className="font-[Poppins] text-gray-300">
                     <span className="block text-xl font-bold text-white md:text-2xl">11:00 PM</span>

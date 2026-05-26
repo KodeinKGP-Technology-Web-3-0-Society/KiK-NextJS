@@ -73,7 +73,7 @@ function Navbar() {
                 <span className="absolute bottom-3 left-0 h-[2px] w-full origin-left scale-x-0 bg-[#11e3fb] transition-transform duration-300 group-hover:scale-x-100"></span>
               </span>
             </li>
-            <li
+            {/* <li
               className="cursor-pointer list-none"
               onClick={() => {
                 if (isOpen) toggleMenu();
@@ -92,7 +92,7 @@ function Navbar() {
                 </Link>
                 <span className="absolute bottom-3 left-0 h-[2px] w-full origin-left scale-x-0 bg-[#11e3fb] transition-transform duration-300 group-hover:scale-x-100"></span>
               </span>
-            </li>
+            </li> */}
 
             <li
               className="cursor-pointer list-none"
@@ -188,7 +188,7 @@ function Navbar() {
               </span>
             </li>
 
-            {/* <li
+            <li
               className="cursor-pointer list-none"
               onClick={() => {
                 if (isOpen) toggleMenu();
@@ -203,13 +203,13 @@ function Navbar() {
                     filter: "drop-shadow(0 0 5px rgba(34, 211, 238, 0.5))",
                   }}
                 >
-                  Fresher's Selection
+                  Sophomore's Selection
                 </Link>
                 <span className="absolute top-0 left-1/4 h-1 w-1 animate-ping rounded-full bg-cyan-400 opacity-100 transition-opacity duration-300"></span>
                 <span className="absolute top-1 right-1/4 h-0.5 w-0.5 animate-ping rounded-full bg-blue-400 opacity-100 transition-opacity duration-500"></span>
                 <span className="absolute bottom-3 left-0 h-[2px] w-full origin-left scale-x-0 bg-[#11e3fb] transition-transform duration-300 group-hover:scale-x-100"></span>
               </span>
-            </li> */}
+            </li>
           </div>
         </div>
       </div>

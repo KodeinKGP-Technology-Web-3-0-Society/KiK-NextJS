@@ -20,9 +20,10 @@ const AlertComponent = ({ type, title, message }) => {
   };
 
   const iconStyles = {
-    width: "24px",
-    height: "24px",
+    width: "20px",
+    height: "20px",
     marginRight: "10px",
+    flexShrink: 0,
   };
 
   const icons = {
@@ -57,30 +58,33 @@ const AlertComponent = ({ type, title, message }) => {
 
   const containerStyle = {
     display: "flex",
-    alignItems: "center",
-    padding: "12px",
-    borderRadius: "4px",
-    marginBottom: "10px",
-    position: "absolute",
+    alignItems: "flex-start",
+    padding: "10px 12px",
+    borderRadius: "10px",
+    border: "1px solid",
+    marginBottom: "0",
+    fontSize: "14px",
+    width: "100%",
     ...alertStyles[type],
   };
 
   const titleStyle = {
     fontWeight: "bold",
-    marginRight: "10px",
+    marginRight: "6px",
   };
 
   const msgDiv = {
     display: "flex",
     flexDirection: "column",
+    gap: "2px",
   };
 
   return (
-    <div style={containerStyle}>
+    <div style={containerStyle} role="status" aria-live="polite">
       {icons[type]}
       <div style={msgDiv}>
         <span style={titleStyle}>{title}</span>
-        {message}
+        <span>{message}</span>
       </div>
     </div>
   );

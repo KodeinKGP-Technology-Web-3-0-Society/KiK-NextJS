@@ -8,6 +8,9 @@
   display: flex;
   flex-direction: row;
   justify-content: center;
+  align-items: flex-start;
+  gap: 2.5rem;
+  padding: 1.5rem 1rem 3rem;
   height: fit-content;
 }
 .imgofai,
@@ -38,30 +41,33 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1.7vw;
-  width: 30vw;
+  gap: 0.9rem;
+  width: min(34rem, 92%);
 }
 .input_box {
   display: flex;
   justify-content: center;
-  padding: 8px;
+  align-items: center;
+  padding: 0 14px;
   border: 3px round;
   border-radius: 20px;
-  width: 22vw;
-  height: 6vh;
+  width: 100%;
+  height: 2.85rem;
+  font-size: 0.95rem;
 }
 .regbox {
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
+  justify-content: flex-start;
   align-items: center;
   border-radius: 20px;
   box-shadow: 0 0 22px #5ce1e6;
-  margin-top: 2vw;
-  margin-left: 10vw;
-  min-height: 38vw;
+  margin-top: 0.5rem;
+  margin-left: 0;
+  min-height: auto;
   text-align: center;
-  max-width: 30vw;
+  width: min(40rem, 95vw);
+  padding: 1rem 1rem 1.3rem;
   animation: form-entry 2.5s ease-out forwards;
 }
 .regbox {
@@ -75,13 +81,13 @@
   padding: 10px;
   border-radius: 20px;
   border: round;
-  width: 22vw;
-  margin: 1.5vw;
+  width: min(34rem, 92%);
+  margin: 0.7rem 0 0.3rem;
   transition: transform 0.3s ease;
   font-weight: 550;
-  font-size: 1.25vw;
+  font-size: 1.05rem;
   cursor: pointer;
-  height: 5vh;
+  height: 2.9rem;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -102,6 +108,12 @@
 }
 .reg-btn:hover {
   transform: scale(1.1);
+}
+
+.submit {
+  width: min(34rem, 92%);
+  display: flex;
+  justify-content: center;
 }
 .label_portfolio {
   color: white;
@@ -167,13 +179,13 @@
 }
 @media (max-width: 1400px) {
   .regbox {
-    min-height: 50vw;
-    min-width: 33vw;
+    min-height: auto;
+    min-width: min(40rem, 95vw);
   }
 }
 @media (max-width: 1300px) {
   .regbox {
-    min-height: 45vw;
+    min-height: auto;
   }
 }
 @media (max-width: 1150px) {
@@ -183,9 +195,10 @@
 }
 @media (max-width: 1024px) {
   .regbox {
-    margin: 30px;
-    min-width: 60vw;
-    min-height: 70vw;
+    margin: 20px auto;
+    width: 90vw;
+    min-height: auto;
+    padding: 1rem;
   }
   .reg-header {
     font-size: 6vw;
@@ -197,8 +210,8 @@
     display: none;
   }
   .input_box {
-    width: 42vw;
-    height: 6vw;
+    width: 100%;
+    height: 2.8rem;
   }
   .Portfolio_freshers {
     width: 35vw;
@@ -216,23 +229,23 @@
     font-size: 2.2vw;
   }
   .reg-btn {
-    width: 42vw;
-    height: 6vw;
-    font-size: 3.5vw;
-    margin: 2vw;
+    width: 100%;
+    height: 2.8rem;
+    font-size: 1rem;
+    margin: 0.8rem 0 0.3rem;
   }
 }
 @media (max-width: 960px) {
   .regbox {
-    min-width: 80vw;
-    min-height: 90vw;
+    min-width: 90vw;
+    min-height: auto;
   }
   .reg-header {
     font-size: 8vw;
   }
   .input_box {
-    width: 55vw;
-    height: 8vw;
+    width: 100%;
+    height: 2.75rem;
   }
   .Portfolio_freshers {
     width: 45vw;
@@ -250,23 +263,23 @@
     font-size: 3.25vw;
   }
   .reg-btn {
-    width: 55vw;
-    height: 7vw;
-    font-size: 4vw;
-    margin: 3vw;
+    width: 100%;
+    height: 2.75rem;
+    font-size: 1rem;
+    margin: 0.8rem 0 0.3rem;
   }
 }
 @media (max-width: 768px) {
   .regbox {
-    min-width: 80vw;
-    min-height: 100vw;
+    min-width: 92vw;
+    min-height: auto;
   }
   .reg-header {
     margin: 4vw;
   }
   .input_box {
-    width: 55vw;
-    height: 8vw;
+    width: 100%;
+    height: 2.7rem;
   }
   .regformtag {
     gap: 2.5vw;
@@ -291,21 +304,21 @@
     font-size: 4vw;
   }
   .reg-btn {
-    width: 55vw;
-    height: 7vw;
-    font-size: 4vw;
+    width: 100%;
+    height: 2.7rem;
+    font-size: 1rem;
     padding: 1vw;
-    margin: 3.5vw;
+    margin: 0.8rem 0 0.3rem;
   }
 }
 @media (max-width: 480px) {
   .regbox {
-    min-width: 80vw;
-    min-height: 150vw;
+    min-width: 94vw;
+    min-height: auto;
   }
   .input_box {
-    width: 60vw;
-    height: 10vw;
+    width: 100%;
+    height: 2.6rem;
   }
   .Portfolio_freshers {
     width: 57vw;
@@ -320,12 +333,12 @@
     font-size: 8vw;
   }
   .reg-btn {
-    width: 60vw;
-    height: 9vw;
+    width: 100%;
+    height: 2.6rem;
     border-radius: 20px;
-    font-size: 4vw;
+    font-size: 1rem;
     padding: 1.5vw;
-    margin: 7vw;
+    margin: 0.8rem 0 0.3rem;
   }
   .portfolio_selector {
     width: 70vw;
@@ -343,6 +356,7 @@
   align-items: center;
   margin-bottom: 0.5em;
   color: white; /* optional: space between rows */
+  font-size: 0.95rem;
 }
 
 .team-checkbox-item label {
@@ -351,13 +365,44 @@
 
 .select-team-text {
   color: white;
-  padding-bottom: 1rem;
+  padding-bottom: 0.6rem;
+  text-align: left;
+  width: 100%;
+  font-size: 0.95rem;
 }
 
 .sel-team-main-div {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  width: 100%;
+  border: 1px solid rgba(92, 225, 230, 0.45);
+  border-radius: 14px;
+  padding: 0.8rem 0.9rem 0.4rem;
+  margin-top: 0.1rem;
+}
+
+.team-checkbox-container {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr;
+  text-align: left;
+}
+
+.error-message {
+  color: #ffd7d7;
+  font-size: 0.85rem;
+  margin: 0.4rem 0 0.2rem;
+  text-align: left;
+  width: 100%;
+}
+
+.reg-alert-wrap {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  width: min(26rem, calc(100vw - 2rem));
+  z-index: 1200;
 }
 
 .reg-closed-heading {

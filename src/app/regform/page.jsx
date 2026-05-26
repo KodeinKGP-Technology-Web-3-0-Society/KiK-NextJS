@@ -7,7 +7,7 @@ import Link from "next/link";
 import aiimg from "./ai3.png";
 import AlertComponent from "./AlertComponent";
 import { db } from "@/backend/firebase";
-import { addDoc, collection } from "firebase/firestore";
+import { addDoc, collection, getDocs, query, where } from "firebase/firestore";
 
 const rollRegex = /^25[A-Z]{2}\d{5,6}$/;
 
@@ -92,6 +92,18 @@ const RegForm = () => {
     }
 
     try {
+      const dupSnap = await getDocs(
+        query(
+          collection(db, "registrations"),
+          where("rollNumber", "==", trimmedRoll)
+        )
+      );
+      if (!dupSnap.empty) {
+        showAlert("You are already registered!", "warning", "Already Registered");
+        setIsLoad(false);
+        return;
+      }
+
       await addDoc(collection(db, "registrations"), {
         name: nme.trim(),
         email: email.trim(),

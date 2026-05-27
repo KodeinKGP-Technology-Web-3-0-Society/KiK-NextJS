@@ -1,40 +1,110 @@
-/* ═══════════════════════════════════════════════════════════════════════════
-   KodeinKGP — Global Stylesheet
+/* ═══════════════════════════════════════════════════════════════
+   KodeinKGP — Global Stylesheet  (Tailwind v4 + next/font)
    Design System v2.0
-
-   Rule: NO raw hex values or arbitrary sizes in components.
-         Reference CSS variables or Tailwind tokens only.
-   ═══════════════════════════════════════════════════════════════════════════ */
+   NOTE: Fonts are loaded by next/font in layout.jsx — no @import here.
+   NOTE: All hex values live as CSS vars below — never hardcode in components.
+   ═══════════════════════════════════════════════════════════════ */
 
 @import "tailwindcss";
 
-/* ── Google Fonts ─────────────────────────────────────────────────────────── */
-@import url("https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;1,400&display=swap");
+/* ── Tailwind v4 theme tokens ────────────────────────────────── */
+@theme {
+  /* Font families — vars populated by next/font via layout.jsx */
+  --font-kanit:     var(--nf-kanit, 'Kanit', sans-serif);
+  --font-poppins:   var(--nf-poppins, 'Poppins', sans-serif);
+  --font-mono:      var(--nf-mono, 'JetBrains Mono', monospace);
 
-/* ── CSS Custom Properties (Design Tokens) ───────────────────────────────── */
+  /* Brand cyan scale */
+  --color-cyan-200: #B5F6FD;
+  --color-cyan-300: #5BE6FF;
+  --color-cyan-400: #11E3FB;
+  --color-cyan-500: #33BBCF;
+  --color-cyan-600: #218ACB;
+
+  /* Navy scale (backgrounds / surfaces) */
+  --color-navy-950: #01011B;
+  --color-navy-900: #050520;
+  --color-navy-800: #0A0A2E;
+  --color-navy-700: #12123D;
+
+  /* Stone (text) */
+  --color-stone-400: #979898;
+  --color-stone-600: #3F3E45;
+
+  /* Semantic aliases */
+  --color-brand:   #11E3FB;
+  --color-surface: #0A0A2E;
+  --color-base:    #01011B;
+
+  /* Custom font sizes using clamp() */
+  --text-display-2xl: clamp(3rem, 6vw, 5rem);
+  --text-display-xl:  clamp(2.25rem, 4vw, 3.75rem);
+  --text-display-lg:  clamp(1.75rem, 3vw, 3rem);
+  --text-display-md:  clamp(1.25rem, 2vw, 2rem);
+  --text-body-lg:   1.125rem;
+  --text-body-md:   1rem;
+  --text-body-sm:   0.875rem;
+  --text-label:     0.75rem;
+
+  /* Line heights for the above */
+  --text-display-2xl--line-height: 1.05;
+  --text-display-xl--line-height:  1.1;
+  --text-display-lg--line-height:  1.15;
+  --text-display-md--line-height:  1.2;
+  --text-body-lg--line-height:     1.75;
+  --text-body-md--line-height:     1.7;
+  --text-body-sm--line-height:     1.6;
+  --text-label--line-height:       1.5;
+
+  /* Letter spacing for display */
+  --text-display-2xl--letter-spacing: -0.02em;
+  --text-display-xl--letter-spacing:  -0.02em;
+  --text-label--letter-spacing:        0.08em;
+
+  /* Semantic spacing */
+  --spacing-section-sm: 4rem;
+  --spacing-section-md: 6rem;
+  --spacing-section-lg: 8rem;
+  --spacing-nav-h:      5rem;
+
+  /* Border radius */
+  --radius-card:    1.25rem;
+  --radius-card-lg: 1.875rem;
+  --radius-pill:    99px;
+
+  /* Box shadows */
+  --shadow-glow-sm: 0 0 15px rgba(17,227,251,0.2);
+  --shadow-glow-md: 0 0 30px rgba(17,227,251,0.25), 0 0 60px rgba(17,227,251,0.1);
+  --shadow-glow-lg: 0 0 50px rgba(17,227,251,0.3), 0 0 100px rgba(17,227,251,0.12);
+  --shadow-card:    0 4px 24px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.05);
+  --shadow-card-hover: 0 8px 40px rgba(0,0,0,0.5), 0 0 30px rgba(17,227,251,0.15);
+
+  /* Transitions */
+  --ease-spring:     cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-smooth-out: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Animations */
+  --animate-float:      float 5s ease-in-out infinite;
+  --animate-float-slow: float 7s ease-in-out infinite;
+  --animate-glow-pulse: glow-pulse 3s ease-in-out infinite;
+  --animate-shimmer:    shimmer 2s linear infinite;
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50%       { transform: translateY(-12px); }
+  }
+  @keyframes glow-pulse {
+    0%, 100% { opacity: 0.4; }
+    50%       { opacity: 0.9; }
+  }
+  @keyframes shimmer {
+    0%   { background-position: -200% 0; }
+    100% { background-position:  200% 0; }
+  }
+}
+
+/* ── CSS Custom Properties (non-Tailwind — for use in plain CSS) ── */
 :root {
-  /* Colors */
-  --color-brand:        #11E3FB;
-  --color-brand-light:  #5BE6FF;
-  --color-brand-lighter:#B5F6FD;
-  --color-brand-dark:   #33BBCF;
-  --color-brand-deeper: #218ACB;
-
-  --color-base:    #01011B;   /* page background */
-  --color-surface: #0A0A2E;   /* card / glass surface */
-  --color-raised:  #12123D;   /* hover / elevated */
-
-  --color-text-primary:   #FFFFFF;
-  --color-text-secondary: #979898;
-  --color-text-muted:     #6B6B6B;
-  --color-text-accent:    #11E3FB;
-
-  --color-border-subtle: rgba(255, 255, 255, 0.07);
-  --color-border-muted:  rgba(255, 255, 255, 0.12);
-  --color-border-accent: rgba(17, 227, 251, 0.25);
-  --color-border-focus:  rgba(17, 227, 251, 0.6);
-
-  /* Gradients (reusable via var()) */
   --gradient-brand-radial:
     radial-gradient(
       64.18% 64.18% at 71.16% 35.69%,
@@ -46,85 +116,55 @@
   --gradient-glass:
     linear-gradient(135deg, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.02) 100%);
 
-  /* Glows */
-  --glow-sm:  0 0 15px rgba(17, 227, 251, 0.2);
-  --glow-md:  0 0 30px rgba(17, 227, 251, 0.25), 0 0 60px rgba(17, 227, 251, 0.1);
-  --glow-lg:  0 0 50px rgba(17, 227, 251, 0.3), 0 0 100px rgba(17, 227, 251, 0.12);
+  --color-border-subtle: rgba(255,255,255,0.07);
+  --color-border-muted:  rgba(255,255,255,0.12);
+  --color-border-accent: rgba(17,227,251,0.25);
+  --color-border-focus:  rgba(17,227,251,0.6);
 
-  /* Font vars (set by Next.js font loader in layout.tsx) */
-  --font-kanit:      'Kanit', sans-serif;
-  --font-poppins:    'Poppins', sans-serif;
-  --font-jetbrains:  'JetBrains Mono', monospace;
-
-  /* Layout */
-  --nav-height: 5rem;        /* 80px sticky navbar */
-  --page-max-w: 1280px;
-  --section-px: clamp(1rem, 5vw, 5rem);  /* responsive horizontal padding */
+  --page-max-w:   1280px;
+  --section-px:   clamp(1rem, 5vw, 5rem);
 }
 
-/* ── Base Reset ───────────────────────────────────────────────────────────── */
-*, *::before, *::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
+/* ── Base reset ───────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
 
 html {
   scroll-behavior: smooth;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-rendering: optimizeLegibility;
+  color-scheme: dark;
 }
 
 body {
-  background-color: var(--color-base);
-  color: var(--color-text-primary);
+  background-color: #01011B;
+  color: #ffffff;
   font-family: var(--font-poppins);
   font-size: 1rem;
   line-height: 1.7;
   overflow-x: hidden;
-  /* Subtle ambient page glow from top */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  /* Subtle top glow */
   background-image:
-    radial-gradient(ellipse 80% 40% at 50% -5%, rgba(17,227,251,0.10) 0%, transparent 65%);
+    radial-gradient(ellipse 80% 40% at 50% -5%, rgba(17,227,251,0.09) 0%, transparent 65%);
 }
 
-/* ── Typography Defaults ─────────────────────────────────────────────────── */
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-kanit);
   font-weight: 700;
-  color: var(--color-text-primary);
   line-height: 1.1;
 }
 
-p {
-  font-family: var(--font-poppins);
-  color: var(--color-text-secondary);
-}
+code, kbd, pre, samp { font-family: var(--font-mono); }
+a { color: inherit; text-decoration: none; }
+img, video { max-width: 100%; height: auto; display: block; }
 
-code, kbd, samp, pre {
-  font-family: var(--font-jetbrains);
-}
+/* ── Design utility classes ───────────────────────────────────── */
 
-a {
-  color: inherit;
-  text-decoration: none;
-}
-
-img, video {
-  max-width: 100%;
-  height: auto;
-  display: block;
-}
-
-/* ── Design System Utility Classes ───────────────────────────────────────── */
-
-/* Gradient text — the KodeinKGP signature heading style */
+/* Gradient text — the KodeinKGP signature */
 .text-gradient {
   background: var(--gradient-brand-radial);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  color: transparent;
 }
 
 .text-gradient-sweep {
@@ -132,10 +172,9 @@ img, video {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  color: transparent;
 }
 
-/* Glass card — reusable surface treatment */
+/* Glass surface */
 .glass {
   background: var(--gradient-glass);
   backdrop-filter: blur(12px);
@@ -150,29 +189,26 @@ img, video {
   border: 1px solid var(--color-border-accent);
 }
 
-/* Glow border — cyan glow effect on cards */
+/* Glow border */
 .glow-border {
-  box-shadow: var(--glow-sm);
   border: 1px solid var(--color-border-accent);
+  box-shadow: var(--shadow-glow-sm);
+  transition: box-shadow 0.4s ease, border-color 0.4s ease;
 }
-
 .glow-border:hover {
-  box-shadow: var(--glow-md);
+  box-shadow: var(--shadow-glow-md);
   border-color: var(--color-border-focus);
-  transition: box-shadow 400ms ease, border-color 400ms ease;
 }
 
-/* Section wrapper — consistent horizontal padding + max-width */
+/* Section container — max-width + responsive padding */
 .section-container {
   width: 100%;
   max-width: var(--page-max-w);
-  margin-left: auto;
-  margin-right: auto;
-  padding-left: var(--section-px);
-  padding-right: var(--section-px);
+  margin-inline: auto;
+  padding-inline: var(--section-px);
 }
 
-/* Ambient glow orb — decorative background element */
+/* Ambient orb */
 .orb {
   position: absolute;
   border-radius: 50%;
@@ -181,20 +217,16 @@ img, video {
   will-change: transform;
 }
 
-/* Gradient divider line */
+/* Gradient divider */
 .divider-gradient {
   height: 1px;
   background: linear-gradient(
-    90deg,
-    transparent 0%,
-    var(--color-border-accent) 30%,
-    rgba(17,227,251,0.4) 50%,
-    var(--color-border-accent) 70%,
-    transparent 100%
+    90deg, transparent 0%, rgba(17,227,251,0.3) 30%,
+    rgba(17,227,251,0.5) 50%, rgba(17,227,251,0.3) 70%, transparent 100%
   );
 }
 
-/* Tag / badge chip */
+/* Badge chip */
 .badge {
   display: inline-flex;
   align-items: center;
@@ -205,61 +237,53 @@ img, video {
   font-size: 0.75rem;
   font-weight: 500;
   border: 1px solid var(--color-border-accent);
-  background: rgba(17, 227, 251, 0.08);
-  color: var(--color-brand);
+  background: rgba(17,227,251,0.08);
+  color: #11E3FB;
   letter-spacing: 0.04em;
 }
 
-/* Mono label — for technical text, stats, tags */
+/* Mono label */
 .mono-label {
-  font-family: var(--font-jetbrains);
-  font-size: 0.75rem;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--color-brand);
-  opacity: 0.7;
+  color: rgba(17,227,251,0.65);
 }
 
-/* ── Scrollbar ───────────────────────────────────────────────────────────── */
-::-webkit-scrollbar {
-  width: 4px;
-  height: 4px;
-}
-
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-::-webkit-scrollbar-thumb {
-  background: var(--color-border-accent);
-  border-radius: 2px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: var(--color-brand-dark);
-}
-
-/* Firefox */
-* {
-  scrollbar-width: thin;
-  scrollbar-color: var(--color-border-accent) transparent;
-}
-
-/* Hide scrollbar utility */
+/* ── Scrollbar ─────────────────────────────────────────────────── */
+::-webkit-scrollbar              { width: 4px; height: 4px; }
+::-webkit-scrollbar-track        { background: transparent; }
+::-webkit-scrollbar-thumb        { background: rgba(17,227,251,0.3); border-radius: 2px; }
+::-webkit-scrollbar-thumb:hover  { background: #33BBCF; }
+*                                { scrollbar-width: thin; scrollbar-color: rgba(17,227,251,0.3) transparent; }
 .no-scrollbar::-webkit-scrollbar { display: none; }
-.no-scrollbar { scrollbar-width: none; }
+.no-scrollbar                    { scrollbar-width: none; }
 
-/* ── Focus Styles (Accessibility) ────────────────────────────────────────── */
+/* ── Focus ─────────────────────────────────────────────────────── */
 :focus-visible {
-  outline: 2px solid var(--color-brand);
+  outline: 2px solid #11E3FB;
   outline-offset: 3px;
   border-radius: 4px;
 }
 
-/* ── Selection ───────────────────────────────────────────────────────────── */
-::selection {
-  background: rgba(17, 227, 251, 0.25);
-  color: white;
+/* ── Selection ─────────────────────────────────────────────────── */
+::selection { background: rgba(17,227,251,0.22); color: #fff; }
+
+/* ── Infinite marquee ──────────────────────────────────────────── */
+@keyframes marquee-ltr {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-33.3334%); }
+}
+@keyframes marquee-rtl {
+  0%   { transform: translateX(-33.3334%); }
+  100% { transform: translateX(0); }
+}
+.animate-marquee-ltr {
+  animation: marquee-ltr 32s linear infinite;
+}
+.animate-marquee-rtl {
+  animation: marquee-rtl 32s linear infinite;
 }
 
 /* ── Framer Motion — prevent FOUC on page transitions ────────────────────── */
@@ -482,6 +506,5 @@ img, video {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
   }
 }

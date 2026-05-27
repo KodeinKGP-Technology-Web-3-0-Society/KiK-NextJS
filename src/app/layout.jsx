@@ -1,51 +1,50 @@
-import { Geist, Geist_Mono } from "next/font/google";
+import { Kanit, Poppins, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
-import Navbar from "@/Components/Header/navbar";
-import Footer from "@/Components/Footer/footer";
+import Navbar from "@/components/layout/Navbar";
+import Footer from "@/components/layout/Footer";
 import { AuthProvider } from "@/contexts/authContext";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+/* ── Font loading (next/font — no external @import needed) ─────── */
+const kanit = Kanit({
   subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700", "800"],
+  variable: "--nf-kanit",        // maps into --font-kanit via @theme
+  display: "swap",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const poppins = Poppins({
   subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
+  variable: "--nf-poppins",
+  display: "swap",
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ["latin"],
+  weight: ["400", "500", "600"],
+  variable: "--nf-mono",
+  display: "swap",
 });
 
 export const metadata = {
-  title: "KodeinKGP",
-  description: "KodeinKGP,Technology Web3.0 Society,IIT Kharagpur",
+  title: "KodeinKGP — Web 3.0 & Technology Society, IIT Kharagpur",
+  description:
+    "KodeinKGP is the Web3.0, Blockchain & AI society at IIT Kharagpur. " +
+    "We host hackathons, workshops, and build real-world blockchain projects.",
+  keywords: ["KodeinKGP", "Web3", "Blockchain", "AI", "IIT Kharagpur", "technology society"],
 };
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
+    <html
+      lang="en"
+      className={`${kanit.variable} ${poppins.variable} ${jetbrainsMono.variable}`}
+    >
       <head>
-        <link
-          href="https://fonts.googleapis.com/css2?family=Victor+Mono:wght@400;700&display=swap"
-          rel="stylesheet"
-        />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap"
-          rel="stylesheet"
-        />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
-          rel="stylesheet"
-        />
+        {/* Font Awesome for social icons in Footer */}
         <link
           rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
-          integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
-          crossOrigin="anonymous"
-          referrerPolicy="no-referrer"
-        />
-        <link
-          rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
-          integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
           crossOrigin="anonymous"
           referrerPolicy="no-referrer"
         />
@@ -53,7 +52,7 @@ export default function RootLayout({ children }) {
       <body className="antialiased">
         <AuthProvider>
           <Navbar />
-          {children}
+          <main>{children}</main>
           <Footer />
         </AuthProvider>
       </body>

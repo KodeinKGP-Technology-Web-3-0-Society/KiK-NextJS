@@ -1,42 +1,26 @@
-"use client";
-import React, { useEffect, useState } from "react";
-import Landing from "@/Components/Landing/landing";
-import Work from "@/Components/Landing/work";
-import Loader from "@/Components/utils/loader";
+// Root page — Server Component shell.
+// Client islands carry their own "use client" directives.
+// PdsBanner and EventsPreview are Server Components.
 
-const MainContent = () => {
-  const [loading, setLoading] = useState(true);
+import Hero             from "@/components/sections/home/Hero";
+import InfiniteMarquee  from "@/components/sections/home/InfiniteMarquee";
+import StatsBar         from "@/components/sections/home/StatsBar";
+import ExpertiseSection from "@/components/sections/home/ExpertiseSection";
+import PdsBanner        from "@/components/sections/home/PdsBanner";
+import EventsPreview    from "@/components/sections/home/EventsPreview";
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setLoading(false);
-    }, 450);
-
-    return () => clearTimeout(timer);
-  }, []);
-
+export default function HomePage() {
   return (
-    <div className="relative flex h-full w-full flex-col overflow-hidden bg-[rgb(1,1,27)]">
-      {/* Content always rendered */}
-      <Landing />
-      <Work />
-
-      {/* Loader overlay */}
-      <div
-        className={`absolute top-0 left-0 flex h-full w-full items-center justify-center bg-[rgb(1,1,27)] transition-opacity duration-500 ease-in-out ${loading ? "z-50 opacity-100" : "pointer-events-none z-0 opacity-0"}`}
-      >
-        <Loader />
-      </div>
-    </div>
+    <>
+      <Hero />
+      <InfiniteMarquee />
+      <StatsBar />
+      <div className="divider-gradient mx-auto max-w-5xl" />
+      <ExpertiseSection />
+      <div className="divider-gradient mx-auto max-w-5xl" />
+      <PdsBanner />
+      <div className="divider-gradient mx-auto max-w-5xl" />
+      <EventsPreview />
+    </>
   );
-};
-
-const Home = () => {
-  return (
-    <div className="App">
-      <MainContent />
-    </div>
-  );
-};
-
-export default Home;
+}

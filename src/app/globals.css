@@ -1,172 +1,266 @@
-/* ═══════════════════════════════════════════════════════════════
-   KodeinKGP — Global Stylesheet  (Tailwind v4 + next/font)
-   Design System v2.0
-   NOTE: Fonts are loaded by next/font in layout.jsx — no @import here.
-   NOTE: All hex values live as CSS vars below — never hardcode in components.
-   ═══════════════════════════════════════════════════════════════ */
+/* ════════════════════════════════════════════════════════════════
+   KodeinKGP — Global Stylesheet  v3.0
+   "Deep Space Flagship" Edition
+   ────────────────────────────────────────────────────────────────
+   Base       : #040814  (deep space midnight)
+   Primary    : #00E5FF  (cyber-cyan)
+   Secondary  : #007BFF  (electric blue)
+   Fonts      : Space Grotesk (display) · DM Sans (body) · JetBrains Mono
+   ════════════════════════════════════════════════════════════════ */
 
 @import "tailwindcss";
 
-/* ── Tailwind v4 theme tokens ────────────────────────────────── */
+/* ── Tailwind v4 CSS-first theme tokens ─────────────────────────── */
 @theme {
-  /* Font families — vars populated by next/font via layout.jsx */
-  --font-kanit:     var(--nf-kanit, 'Kanit', sans-serif);
-  --font-poppins:   var(--nf-poppins, 'Poppins', sans-serif);
-  --font-mono:      var(--nf-mono, 'JetBrains Mono', monospace);
+  /* ── Font families (CSS vars populated by next/font in layout.tsx) */
+  --font-grotesk: var(--nf-grotesk, "Space Grotesk", sans-serif);
+  --font-dm:      var(--nf-dm,      "DM Sans",       sans-serif);
+  --font-mono:    var(--nf-mono,    "JetBrains Mono", monospace);
+  /* Legacy (backward compat for existing pages) */
+  --font-kanit:   var(--nf-kanit,   "Kanit",   sans-serif);
+  --font-poppins: var(--nf-poppins, "Poppins", sans-serif);
 
-  /* Brand cyan scale */
-  --color-cyan-200: #B5F6FD;
-  --color-cyan-300: #5BE6FF;
-  --color-cyan-400: #11E3FB;
-  --color-cyan-500: #33BBCF;
-  --color-cyan-600: #218ACB;
+  /* ── Deep space colour scale */
+  --color-space-950: #020509;
+  --color-space-900: #040814;
+  --color-space-800: #060C18;
+  --color-space-700: #080F1F;
+  --color-space-600: #0A0F1C;
+  --color-space-500: #0D1426;
+  --color-space-400: #111B35;
+  --color-space-300: #1A2544;
 
-  /* Navy scale (backgrounds / surfaces) */
-  --color-navy-950: #01011B;
-  --color-navy-900: #050520;
-  --color-navy-800: #0A0A2E;
-  --color-navy-700: #12123D;
+  /* ── Cyber-cyan accent */
+  --color-cyan-50:  #E0FEFF;
+  --color-cyan-100: #B3FCFF;
+  --color-cyan-200: #7FF9FF;
+  --color-cyan-300: #4DF7FF;
+  --color-cyan-400: #1AF4FF;
+  --color-cyan-500: #00E5FF;
+  --color-cyan-600: #00B2CC;
+  --color-cyan-700: #008099;
+  --color-cyan-800: #004D66;
 
-  /* Stone (text) */
-  --color-stone-400: #979898;
-  --color-stone-600: #3F3E45;
+  /* ── Electric blue */
+  --color-electric-400: #60A5FA;
+  --color-electric-500: #007BFF;
+  --color-electric-600: #0062CC;
 
-  /* Semantic aliases */
-  --color-brand:   #11E3FB;
-  --color-surface: #0A0A2E;
-  --color-base:    #01011B;
+  /* ── Domain accents */
+  --color-violet-400: #A78BFA;
+  --color-violet-500: #8B5CF6;
+  --color-amber-400:  #FCD34D;
+  --color-amber-500:  #F59E0B;
 
-  /* Custom font sizes using clamp() */
-  --text-display-2xl: clamp(3rem, 6vw, 5rem);
-  --text-display-xl:  clamp(2.25rem, 4vw, 3.75rem);
+  /* ── Semantic aliases */
+  --color-brand:   #00E5FF;
+  --color-base:    #040814;
+  --color-surface: #0A0F1C;
+  --color-card:    #0D1426;
+
+  /* ── Legacy navy aliases */
+  --color-navy-950: #040814;
+  --color-navy-900: #060C18;
+  --color-navy-800: #0A0F1C;
+  --color-navy-700: #111B35;
+
+  /* ── Typography scale */
+  --text-display-3xl: clamp(3.8rem, 10vw, 9rem);
+  --text-display-2xl: clamp(3rem, 7vw, 6.5rem);
+  --text-display-xl:  clamp(2.25rem, 4vw, 4.25rem);
   --text-display-lg:  clamp(1.75rem, 3vw, 3rem);
   --text-display-md:  clamp(1.25rem, 2vw, 2rem);
   --text-body-lg:   1.125rem;
   --text-body-md:   1rem;
   --text-body-sm:   0.875rem;
   --text-label:     0.75rem;
+  --text-micro:     0.625rem;
 
-  /* Line heights for the above */
-  --text-display-2xl--line-height: 1.05;
-  --text-display-xl--line-height:  1.1;
-  --text-display-lg--line-height:  1.15;
-  --text-display-md--line-height:  1.2;
+  /* ── Line heights */
+  --text-display-3xl--line-height: 0.95;
+  --text-display-2xl--line-height: 1.0;
+  --text-display-xl--line-height:  1.06;
+  --text-display-lg--line-height:  1.12;
+  --text-display-md--line-height:  1.18;
   --text-body-lg--line-height:     1.75;
-  --text-body-md--line-height:     1.7;
-  --text-body-sm--line-height:     1.6;
-  --text-label--line-height:       1.5;
+  --text-body-md--line-height:     1.70;
+  --text-body-sm--line-height:     1.60;
+  --text-label--line-height:       1.50;
+  --text-micro--line-height:       1.40;
 
-  /* Letter spacing for display */
-  --text-display-2xl--letter-spacing: -0.02em;
-  --text-display-xl--letter-spacing:  -0.02em;
+  /* ── Letter spacing */
+  --text-display-3xl--letter-spacing: -0.04em;
+  --text-display-2xl--letter-spacing: -0.03em;
+  --text-display-xl--letter-spacing:  -0.025em;
+  --text-display-lg--letter-spacing:  -0.018em;
   --text-label--letter-spacing:        0.08em;
+  --text-micro--letter-spacing:        0.16em;
 
-  /* Semantic spacing */
-  --spacing-section-sm: 4rem;
-  --spacing-section-md: 6rem;
-  --spacing-section-lg: 8rem;
-  --spacing-nav-h:      5rem;
+  /* ── Spacing */
+  --spacing-nav-h:      4.5rem;
+  --spacing-section-sm: 5rem;
+  --spacing-section-md: 7rem;
+  --spacing-section-lg: 10rem;
 
-  /* Border radius */
-  --radius-card:    1.25rem;
-  --radius-card-lg: 1.875rem;
+  /* ── Border radius */
+  --radius-card:    0.875rem;
+  --radius-card-lg: 1.25rem;
+  --radius-card-xl: 1.875rem;
   --radius-pill:    99px;
 
-  /* Box shadows */
-  --shadow-glow-sm: 0 0 15px rgba(17,227,251,0.2);
-  --shadow-glow-md: 0 0 30px rgba(17,227,251,0.25), 0 0 60px rgba(17,227,251,0.1);
-  --shadow-glow-lg: 0 0 50px rgba(17,227,251,0.3), 0 0 100px rgba(17,227,251,0.12);
-  --shadow-card:    0 4px 24px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.05);
-  --shadow-card-hover: 0 8px 40px rgba(0,0,0,0.5), 0 0 30px rgba(17,227,251,0.15);
+  /* ── Shadows */
+  --shadow-glow-xs:    0 0 12px rgba(0,229,255,0.16);
+  --shadow-glow-sm:    0 0 24px rgba(0,229,255,0.22);
+  --shadow-glow-md:    0 0 48px rgba(0,229,255,0.28), 0 0 96px rgba(0,229,255,0.10);
+  --shadow-glow-lg:    0 0 72px rgba(0,229,255,0.35), 0 0 144px rgba(0,229,255,0.13);
+  --shadow-card:       0 4px 32px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.04);
+  --shadow-card-hover: 0 12px 60px rgba(0,0,0,0.65), 0 0 48px rgba(0,229,255,0.16);
+  --shadow-terminal:   0 0 80px rgba(0,229,255,0.20), 0 48px 100px rgba(0,0,0,0.90);
 
-  /* Transitions */
+  /* ── Easing */
+  --ease-smooth-out: cubic-bezier(0.16, 1, 0.30, 1);
+  --ease-expo-out:   cubic-bezier(0.19, 1, 0.22, 1);
   --ease-spring:     cubic-bezier(0.34, 1.56, 0.64, 1);
-  --ease-smooth-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-sharp:      cubic-bezier(0.65, 0, 0.35, 1);
 
-  /* Animations */
-  --animate-float:      float 5s ease-in-out infinite;
-  --animate-float-slow: float 7s ease-in-out infinite;
-  --animate-glow-pulse: glow-pulse 3s ease-in-out infinite;
-  --animate-shimmer:    shimmer 2s linear infinite;
+  /* ── Keyframe animations */
+  --animate-float:          float 6s ease-in-out infinite;
+  --animate-float-slow:     float-slow 9s ease-in-out infinite;
+  --animate-glow-pulse:     glow-pulse 3.5s ease-in-out infinite;
+  --animate-shimmer:        shimmer 2.5s linear infinite;
+  --animate-terminal-blink: terminal-blink 1.1s step-end infinite;
 
   @keyframes float {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    40%       { transform: translateY(-10px) rotate(0.5deg); }
+    70%       { transform: translateY(-5px) rotate(-0.5deg); }
+  }
+  @keyframes float-slow {
     0%, 100% { transform: translateY(0px); }
-    50%       { transform: translateY(-12px); }
+    50%       { transform: translateY(-20px); }
   }
   @keyframes glow-pulse {
-    0%, 100% { opacity: 0.4; }
-    50%       { opacity: 0.9; }
+    0%, 100% { opacity: 0.30; }
+    50%       { opacity: 0.85; }
   }
   @keyframes shimmer {
     0%   { background-position: -200% 0; }
     100% { background-position:  200% 0; }
   }
+  @keyframes terminal-blink {
+    0%, 49%   { opacity: 1; }
+    50%, 100% { opacity: 0; }
+  }
+  @keyframes scan-line {
+    0%   { top: -2px; opacity: 0; }
+    8%   { opacity: 0.85; }
+    92%  { opacity: 0.50; }
+    100% { top: 100%; opacity: 0; }
+  }
+  @keyframes marquee-ltr {
+    0%   { transform: translateX(0); }
+    100% { transform: translateX(-33.3334%); }
+  }
+  @keyframes marquee-rtl {
+    0%   { transform: translateX(-33.3334%); }
+    100% { transform: translateX(0); }
+  }
 }
 
-/* ── CSS Custom Properties (non-Tailwind — for use in plain CSS) ── */
+/* ── Global custom properties ───────────────────────────────────── */
 :root {
-  --gradient-brand-radial:
-    radial-gradient(
-      64.18% 64.18% at 71.16% 35.69%,
-      #B5F6FD 0.89%, #9DEDF0 17.23%, #7DE7EB 42.04%,
-      #5CE1E6 55.12%, #33BBCF 71.54%, #11E3FB 100%
-    );
-  --gradient-brand-sweep:
-    linear-gradient(135deg, #11E3FB 0%, #5BE6FF 40%, #B5F6FD 70%, #11E3FB 100%);
-  --gradient-glass:
-    linear-gradient(135deg, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.02) 100%);
+  /* Gradients (used in complex CSS, not Tailwind) */
+  --gradient-brand-text:   linear-gradient(135deg, #00E5FF 0%, #B3FCFF 45%, #007BFF 100%);
+  --gradient-brand-sweep:  linear-gradient(135deg, #00E5FF 0%, #007BFF 55%, #00E5FF 100%);
+  --gradient-glass:        linear-gradient(135deg, rgba(255,255,255,0.055) 0%, rgba(255,255,255,0.018) 100%);
+  --gradient-glass-cyan:   linear-gradient(135deg, rgba(0,229,255,0.08) 0%, rgba(0,229,255,0.025) 100%);
 
-  --color-border-subtle: rgba(255,255,255,0.07);
-  --color-border-muted:  rgba(255,255,255,0.12);
-  --color-border-accent: rgba(17,227,251,0.25);
-  --color-border-focus:  rgba(17,227,251,0.6);
+  /* Border colours */
+  --border-subtle:  rgba(255,255,255,0.06);
+  --border-muted:   rgba(255,255,255,0.10);
+  --border-accent:  rgba(0,229,255,0.20);
+  --border-focus:   rgba(0,229,255,0.55);
 
-  --page-max-w:   1280px;
-  --section-px:   clamp(1rem, 5vw, 5rem);
+  /* Layout */
+  --page-max-w: 1280px;
+  --section-px: clamp(1rem, 5vw, 5rem);
+
+  /* Custom cursor sizes */
+  --cursor-dot: 10px;
+  --cursor-ring: 38px;
 }
 
-/* ── Base reset ───────────────────────────────────────────────── */
+/* ── Box model & font smoothing ─────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; }
 
 html {
   scroll-behavior: smooth;
   color-scheme: dark;
+  /* Hide native cursor — CustomCursor component renders our own */
+  cursor: none;
 }
 
 body {
-  background-color: #01011B;
+  background-color: #040814;
   color: #ffffff;
-  font-family: var(--font-poppins);
+  font-family: var(--font-dm), var(--font-poppins), sans-serif;
   font-size: 1rem;
   line-height: 1.7;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  /* Subtle top glow */
+
+  /* Ambient radial glow from top — feels like light from a distant star */
   background-image:
-    radial-gradient(ellipse 80% 40% at 50% -5%, rgba(17,227,251,0.09) 0%, transparent 65%);
+    radial-gradient(ellipse 85% 45% at 50% -8%, rgba(0,229,255,0.08) 0%, transparent 60%);
+}
+
+/* Restore cursor on interactive elements when JS is disabled / no custom cursor */
+@media (hover: none) {
+  html { cursor: auto; }
+  a, button, [role="button"], input, textarea, select { cursor: pointer; }
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-kanit);
+  font-family: var(--font-grotesk), var(--font-kanit), sans-serif;
   font-weight: 700;
-  line-height: 1.1;
+  line-height: 1.08;
 }
 
 code, kbd, pre, samp { font-family: var(--font-mono); }
 a { color: inherit; text-decoration: none; }
 img, video { max-width: 100%; height: auto; display: block; }
+button { cursor: none; }
 
-/* ── Design utility classes ───────────────────────────────────── */
+/* ── Boot CRT scan-line ──────────────────────────────────────────── */
+body::before {
+  content: "";
+  position: fixed;
+  inset-x: 0;
+  height: 2px;
+  background: linear-gradient(
+    90deg, transparent 0%, rgba(0,229,255,0.0) 15%,
+    #00E5FF 50%, rgba(0,229,255,0.0) 85%, transparent 100%
+  );
+  z-index: 99999;
+  pointer-events: none;
+  animation: scan-line 0.65s ease-out forwards;
+}
 
-/* Gradient text — the KodeinKGP signature */
+/* ── Custom cursor CSS vars (driven by JS via --cx / --cy) ──────── */
+/* Actual cursor component lives in src/components/ui/CustomCursor.tsx */
+
+/* ── Marquee utility classes ────────────────────────────────────── */
+.animate-marquee-ltr { animation: marquee-ltr 38s linear infinite; }
+.animate-marquee-rtl { animation: marquee-rtl 30s linear infinite; }
+
+/* ── Gradient text ──────────────────────────────────────────────── */
 .text-gradient {
-  background: var(--gradient-brand-radial);
+  background: var(--gradient-brand-text);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
-
 .text-gradient-sweep {
   background: var(--gradient-brand-sweep);
   -webkit-background-clip: text;
@@ -174,33 +268,46 @@ img, video { max-width: 100%; height: auto; display: block; }
   background-clip: text;
 }
 
-/* Glass surface */
+/* ── Glassmorphism surfaces ──────────────────────────────────────── */
 .glass {
   background: var(--gradient-glass);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid var(--color-border-subtle);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid var(--border-subtle);
 }
-
 .glass-brand {
-  background: linear-gradient(135deg, rgba(17,227,251,0.06) 0%, rgba(17,227,251,0.02) 100%);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid var(--color-border-accent);
+  background: var(--gradient-glass-cyan);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid var(--border-accent);
 }
 
-/* Glow border */
+/* Radial-gradient border that reacts to CSS custom property --mx/--my */
+/* (set by JS mouseenter listeners for the "hot" border glow effect)   */
+.glass-card {
+  background: var(--gradient-glass);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid var(--border-subtle);
+  transition: border-color 0.4s ease, box-shadow 0.4s ease;
+}
+.glass-card:hover {
+  border-color: var(--border-accent);
+  box-shadow: var(--shadow-glow-xs);
+}
+
+/* ── Glow borders ────────────────────────────────────────────────── */
 .glow-border {
-  border: 1px solid var(--color-border-accent);
-  box-shadow: var(--shadow-glow-sm);
+  border: 1px solid var(--border-accent);
+  box-shadow: var(--shadow-glow-xs);
   transition: box-shadow 0.4s ease, border-color 0.4s ease;
 }
 .glow-border:hover {
   box-shadow: var(--shadow-glow-md);
-  border-color: var(--color-border-focus);
+  border-color: var(--border-focus);
 }
 
-/* Section container — max-width + responsive padding */
+/* ── Section container ───────────────────────────────────────────── */
 .section-container {
   width: 100%;
   max-width: var(--page-max-w);
@@ -208,82 +315,92 @@ img, video { max-width: 100%; height: auto; display: block; }
   padding-inline: var(--section-px);
 }
 
-/* Ambient orb */
+/* ── Orb decorator ───────────────────────────────────────────────── */
 .orb {
   position: absolute;
   border-radius: 50%;
-  filter: blur(80px);
   pointer-events: none;
   will-change: transform;
 }
 
-/* Gradient divider */
+/* ── Gradient divider ────────────────────────────────────────────── */
 .divider-gradient {
   height: 1px;
   background: linear-gradient(
-    90deg, transparent 0%, rgba(17,227,251,0.3) 30%,
-    rgba(17,227,251,0.5) 50%, rgba(17,227,251,0.3) 70%, transparent 100%
+    90deg, transparent 0%, rgba(0,229,255,0.25) 25%,
+    rgba(0,229,255,0.45) 50%, rgba(0,229,255,0.25) 75%, transparent 100%
   );
 }
 
-/* Badge chip */
+/* ── Badge / chip ────────────────────────────────────────────────── */
 .badge {
   display: inline-flex;
   align-items: center;
   gap: 0.375rem;
   padding: 0.25rem 0.75rem;
   border-radius: 99px;
-  font-family: var(--font-poppins);
-  font-size: 0.75rem;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
   font-weight: 500;
-  border: 1px solid var(--color-border-accent);
-  background: rgba(17,227,251,0.08);
-  color: #11E3FB;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.06em;
+  border: 1px solid var(--border-accent);
+  background: rgba(0,229,255,0.07);
+  color: #00E5FF;
 }
 
-/* Mono label */
+/* ── Mono label ──────────────────────────────────────────────────── */
 .mono-label {
   font-family: var(--font-mono);
-  font-size: 0.72rem;
-  letter-spacing: 0.1em;
+  font-size: 0.67rem;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: rgba(17,227,251,0.65);
+  color: rgba(0,229,255,0.55);
 }
 
-/* ── Scrollbar ─────────────────────────────────────────────────── */
+/* ── Terminal UI classes ─────────────────────────────────────────── */
+.terminal-surface {
+  background: rgba(4,8,20,0.95);
+  backdrop-filter: blur(36px);
+  -webkit-backdrop-filter: blur(36px);
+  border-top: 1px solid rgba(0,229,255,0.25);
+  box-shadow: var(--shadow-terminal);
+}
+.terminal-text    { color: #00E5FF; font-family: var(--font-mono); }
+.terminal-prompt  { color: rgba(0,229,255,0.55); }
+.terminal-output  { color: rgba(255,255,255,0.75); }
+.terminal-success { color: #4DF7FF; }
+.terminal-error   { color: #FF5F57; }
+.terminal-cursor  { display: inline-block; width: 8px; height: 1.1em; background: #00E5FF; animation: terminal-blink 1.1s step-end infinite; vertical-align: text-bottom; }
+
+/* ── Custom scrollbar ────────────────────────────────────────────── */
 ::-webkit-scrollbar              { width: 4px; height: 4px; }
 ::-webkit-scrollbar-track        { background: transparent; }
-::-webkit-scrollbar-thumb        { background: rgba(17,227,251,0.3); border-radius: 2px; }
-::-webkit-scrollbar-thumb:hover  { background: #33BBCF; }
-*                                { scrollbar-width: thin; scrollbar-color: rgba(17,227,251,0.3) transparent; }
+::-webkit-scrollbar-thumb        { background: rgba(0,229,255,0.25); border-radius: 2px; }
+::-webkit-scrollbar-thumb:hover  { background: rgba(0,229,255,0.50); }
+*                                { scrollbar-width: thin; scrollbar-color: rgba(0,229,255,0.25) transparent; }
 .no-scrollbar::-webkit-scrollbar { display: none; }
 .no-scrollbar                    { scrollbar-width: none; }
 
-/* ── Focus ─────────────────────────────────────────────────────── */
+/* ── Focus ring ──────────────────────────────────────────────────── */
 :focus-visible {
-  outline: 2px solid #11E3FB;
+  outline: 2px solid #00E5FF;
   outline-offset: 3px;
   border-radius: 4px;
 }
 
-/* ── Selection ─────────────────────────────────────────────────── */
-::selection { background: rgba(17,227,251,0.22); color: #fff; }
+/* ── Text selection ──────────────────────────────────────────────── */
+::selection { background: rgba(0,229,255,0.20); color: #fff; }
 
-/* ── Infinite marquee ──────────────────────────────────────────── */
-@keyframes marquee-ltr {
-  0%   { transform: translateX(0); }
-  100% { transform: translateX(-33.3334%); }
-}
-@keyframes marquee-rtl {
-  0%   { transform: translateX(-33.3334%); }
-  100% { transform: translateX(0); }
-}
-.animate-marquee-ltr {
-  animation: marquee-ltr 32s linear infinite;
-}
-.animate-marquee-rtl {
-  animation: marquee-rtl 32s linear infinite;
+/* ── Shimmer skeleton ────────────────────────────────────────────── */
+.shimmer-bg {
+  background: linear-gradient(
+    90deg,
+    rgba(255,255,255,0.03) 0%,
+    rgba(0,229,255,0.08) 50%,
+    rgba(255,255,255,0.03) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 2.5s linear infinite;
 }
 
 /* ── Framer Motion — prevent FOUC on page transitions ────────────────────── */
@@ -506,5 +623,7 @@ img, video { max-width: 100%; height: auto; display: block; }
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
+  body::before { display: none; }
 }

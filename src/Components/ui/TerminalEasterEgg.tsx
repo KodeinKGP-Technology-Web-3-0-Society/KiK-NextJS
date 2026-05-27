@@ -9,9 +9,8 @@
  *   help                  — list commands
  *   whoami                — ASCII art + society info
  *   ls domains            — list our 3 domains
- *   run ai_model          — deploy a fake neural net (w/ progress)
+ *   run ai_model          — neural network status
  *   fetch_events          — pull recent events from JSON
- *   join                  — how to join → redirects /join
  *   sudo make me a sandwich
  *   clear                 — wipe terminal
  *   exit                  — close terminal
@@ -19,15 +18,20 @@
  * Discovery
  * ─────────
  * A pulsing [ ` ] TERMINAL hint button appears at bottom-right
- * 3 s after mount. It stays as a persistent soft CTA.
- * Clicking it OR pressing ` toggles the terminal.
+ * 3 s after first mount. State is lifted to parent so it survives
+ * open/close cycles without restarting the timer.
+ *
+ * Traffic lights
+ * ──────────────
+ * Red    → close terminal
+ * Yellow → minimize to title bar only
+ * Green  → toggle fullscreen (100 vh)
  */
 
 "use client";
 
 import { useState, useEffect, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { useRouter } from "next/navigation";
 import eventsData from "@/data/events/EventsData.json";
 
 /* ── Types ─────────────────────────────────────────────────────── */
@@ -56,9 +60,8 @@ const HELP: string[] = [
   "  help                   Show this message",
   "  whoami                 Who is KodeinKGP?",
   "  ls domains             List our tech domains",
-  "  run ai_model           Deploy a neural network",
+  "  run ai_model           Neural network status",
   "  fetch_events           Recent events",
-  "  join                   How to join us",
   "  sudo make me a sandwich",
   "  clear                  Wipe terminal",
   "  exit                   Close terminal",
@@ -66,6 +69,7 @@ const HELP: string[] = [
   "  Tip: press [ ` ] to toggle at any time.",
 ];
 
+/* ── ASCII art spells "Kodein" (top) + "KGP" (centered below) ─── */
 const WHOAMI: string[] = [
   "  ██╗  ██╗ ██████╗ ██████╗ ███████╗██╗███╗   ██╗",
   "  ██║ ██╔╝██╔═══██╗██╔══██╗██╔════╝██║████╗  ██║",
@@ -73,11 +77,16 @@ const WHOAMI: string[] = [
   "  ██╔═██╗ ██║   ██║██║  ██║██╔══╝  ██║██║╚██╗██║",
   "  ██║  ██╗╚██████╔╝██████╔╝███████╗██║██║ ╚████║",
   "  ╚═╝  ╚═╝ ╚═════╝ ╚═════╝ ╚══════╝╚═╝╚═╝  ╚═══╝",
+  "          ██╗  ██╗  ██████╗ ██████╗ ",
+  "          ██║ ██╔╝ ██╔════╝ ██╔══██╗",
+  "          █████╔╝  ██║  ███╗██████╔╝",
+  "          ██╔═██╗  ██║   ██║██╔═══╝ ",
+  "          ██║  ██╗ ╚██████╔╝██║     ",
+  "          ╚═╝  ╚═╝  ╚═════╝ ╚═╝     ",
   "",
   "  Web 3.0 & Technology Society — IIT Kharagpur",
   "  ──────────────────────────────────────────────",
   "  Founded  :  2021",
-  "  Members  :  7,000+",
   "  Domains  :  Blockchain · AI/ML · Web Dev",
   "  Mission  :  Building the decentralised future.",
   "",
@@ -100,34 +109,17 @@ const LS_DOMAINS: string[] = [
 const AI_MODEL: string[] = [
   "  Connecting to KGP compute cluster...",
   "",
-  "  [████░░░░░░░░]  33%  Loading model weights",
-  "  [████████░░░░]  66%  Compiling CUDA layers",
-  "  [████████████] 100%  Inference engine ready",
+  "  [░░░░░░░░░░░░]   0%  Initialising",
+  "  [████░░░░░░░░]  33%  Loading architecture",
+  "  [████████░░░░]  66%  Compiling layers",
+  "  [██████████░░]  85%  Awaiting training data",
   "",
   "  >> Model     :  KGP-GPT-v0.1  (experimental)",
-  "  >> Params    :  420 Million",
-  "  >> Trained on:  IIT KGP course corpus",
-  "  >> Status    :  ONLINE ✓",
+  "  >> Status    :  BUILDING IN PROGRESS ⚙",
+  "  >> ETA       :  Coming soon™",
   "",
-  "  Access is restricted to members.",
-  "  Run 'join' to apply.",
-];
-
-const JOIN: string[] = [
-  "  KodeinKGP Recruitment Portal",
-  "  ──────────────────────────────────────────────",
-  "  Open tracks:",
-  "    [1] Web Development",
-  "    [2] Blockchain Research",
-  "    [3] AI / ML Lab",
-  "    [4] Content & Community",
-  "",
-  "  How to apply:",
-  "    1.  kodeinkgp.com/join  → fill the form",
-  "    2.  Clear the technical screening",
-  "    3.  Ship something cool in the interview",
-  "",
-  "  Redirecting to /join in 3 s...",
+  "  This model is not yet available to the public.",
+  "  Stay tuned — we are building something great.",
 ];
 
 const SANDWICH: string[] = [
@@ -149,18 +141,17 @@ const SANDWICH: string[] = [
   "  🥪  Enjoy your sandwich.",
 ];
 
-/* ── Hint button ─────────────────────────────────────────────── */
-function HintButton({ onClick }: { onClick: () => void }) {
-  const [visible, setVisible] = useState(false);
-
-  useEffect(() => {
-    const t = setTimeout(() => setVisible(true), 3000);
-    return () => clearTimeout(t);
-  }, []);
-
+/* ── Hint button — receives `ready` from parent; no local timer ── */
+function HintButton({
+  onClick,
+  ready,
+}: {
+  onClick: () => void;
+  ready: boolean;
+}) {
   return (
     <AnimatePresence>
-      {visible && (
+      {ready && (
         <motion.button
           key="hint"
           onClick={onClick}
@@ -205,6 +196,11 @@ function HintButton({ onClick }: { onClick: () => void }) {
 /* ── Main component ──────────────────────────────────────────── */
 export default function TerminalEasterEgg() {
   const [open, setOpen] = useState(false);
+  const [minimized, setMinimized] = useState(false);
+  const [maximized, setMaximized] = useState(false);
+  /* Lifted out of HintButton so the 3 s timer never restarts */
+  const [hintReady, setHintReady] = useState(false);
+
   const [input, setInput] = useState("");
   const [history, setHistory] = useState<LineEntry[]>([
     { kind: "out", lines: WELCOME },
@@ -216,7 +212,12 @@ export default function TerminalEasterEgg() {
   const inputRef = useRef<HTMLInputElement>(null);
   const bottomRef = useRef<HTMLDivElement>(null);
   const openRef = useRef(false);
-  const router = useRouter();
+
+  /* Fires once, 3 s after first mount — persists across open/close */
+  useEffect(() => {
+    const t = setTimeout(() => setHintReady(true), 3000);
+    return () => clearTimeout(t);
+  }, []);
 
   /* Sync ref so stable keydown handler can read latest open state */
   useEffect(() => {
@@ -234,22 +235,25 @@ export default function TerminalEasterEgg() {
       if (e.key === "`") {
         e.preventDefault();
         setOpen((prev) => !prev);
+        setMinimized(false);
       }
       if (e.key === "Escape" && openRef.current) {
         setOpen(false);
+        setMinimized(false);
+        setMaximized(false);
       }
     };
     window.addEventListener("keydown", handler);
     return () => window.removeEventListener("keydown", handler);
   }, []);
 
-  /* Focus the input whenever the terminal opens */
+  /* Focus input whenever terminal opens and is not minimized */
   useEffect(() => {
-    if (open) {
+    if (open && !minimized) {
       const t = setTimeout(() => inputRef.current?.focus(), 320);
       return () => clearTimeout(t);
     }
-  }, [open]);
+  }, [open, minimized]);
 
   /* Auto-scroll to bottom on new history entries */
   useEffect(() => {
@@ -257,95 +261,88 @@ export default function TerminalEasterEgg() {
   }, [history, processing]);
 
   /* Command processor */
-  const processCommand = useCallback(
-    (raw: string) => {
-      const cmd = raw.trim();
-      const lower = cmd.toLowerCase();
+  const processCommand = useCallback((raw: string) => {
+    const cmd = raw.trim();
+    const lower = cmd.toLowerCase();
 
-      if (!cmd) return;
+    if (!cmd) return;
 
-      setCmdHistory((prev) => [lower, ...prev]);
-      setHistIdx(-1);
-      setHistory((prev) => [...prev, { kind: "cmd", text: cmd }]);
-      setInput("");
+    setCmdHistory((prev) => [lower, ...prev]);
+    setHistIdx(-1);
+    setHistory((prev) => [...prev, { kind: "cmd", text: cmd }]);
+    setInput("");
 
-      if (lower === "clear") {
-        setHistory([]);
-        return;
-      }
+    if (lower === "clear") {
+      setHistory([]);
+      return;
+    }
 
-      if (lower === "exit") {
-        setOpen(false);
-        return;
-      }
+    if (lower === "exit") {
+      setOpen(false);
+      return;
+    }
 
-      /* Commands with artificial async delay */
-      const asyncMap: Record<string, number> = {
-        "run ai_model": 1800,
-        fetch_events: 900,
-        join: 800,
-      };
+    /* Commands with artificial async delay */
+    const asyncMap: Record<string, number> = {
+      "run ai_model": 1800,
+      fetch_events: 900,
+    };
 
-      if (lower in asyncMap) {
-        setProcessing(true);
-        setTimeout(() => {
-          setProcessing(false);
-          let lines: string[] = [];
+    if (lower in asyncMap) {
+      setProcessing(true);
+      setTimeout(() => {
+        setProcessing(false);
+        let lines: string[] = [];
 
-          if (lower === "run ai_model") {
-            lines = AI_MODEL;
-          } else if (lower === "fetch_events") {
-            const recent = (
-              eventsData as Array<{ heading: string; description: string }>
-            )
-              .slice(-3)
-              .reverse();
-            lines = [
-              "  Fetching from KodeinKGP API...",
+        if (lower === "run ai_model") {
+          lines = AI_MODEL;
+        } else if (lower === "fetch_events") {
+          const recent = (
+            eventsData as Array<{ heading: string; description: string }>
+          )
+            .slice(-3)
+            .reverse();
+          lines = [
+            "  Fetching from KodeinKGP API...",
+            "",
+            "  Recent Events",
+            "  ──────────────────────────────────────────────",
+            ...recent.flatMap((ev, i) => [
+              `  [${i + 1}] ${ev.heading}`,
+              `       ${ev.description.slice(0, 68)}...`,
               "",
-              "  Recent Events",
-              "  ──────────────────────────────────────────────",
-              ...recent.flatMap((ev, i) => [
-                `  [${i + 1}] ${ev.heading}`,
-                `       ${ev.description.slice(0, 68)}...`,
-                "",
-              ]),
-              "  → Visit /events for the full list.",
-            ];
-          } else if (lower === "join") {
-            lines = JOIN;
-            setTimeout(() => router.push("/join"), 3100);
-          }
+            ]),
+            "  → Visit /events for the full list.",
+          ];
+        }
 
-          setHistory((prev) => [...prev, { kind: "out", lines }]);
-        }, asyncMap[lower]);
-        return;
-      }
-
-      /* Static commands */
-      const map: Record<string, string[]> = {
-        help: HELP,
-        whoami: WHOAMI,
-        "ls domains": LS_DOMAINS,
-        ls: ["  Usage: ls <path>", "  Try:   ls domains"],
-        "sudo make me a sandwich": SANDWICH,
-      };
-
-      const lines = map[lower];
-      if (lines) {
         setHistory((prev) => [...prev, { kind: "out", lines }]);
-      } else {
-        setHistory((prev) => [
-          ...prev,
-          {
-            kind: "err",
-            text: `${cmd}: command not found.  Try 'help'.`,
-          },
-        ]);
-      }
-    },
-    [router]
-  );
+      }, asyncMap[lower]);
+      return;
+    }
+
+    /* Static commands */
+    const map: Record<string, string[]> = {
+      help: HELP,
+      whoami: WHOAMI,
+      "ls domains": LS_DOMAINS,
+      ls: ["  Usage: ls <path>", "  Try:   ls domains"],
+      "sudo make me a sandwich": SANDWICH,
+    };
+
+    const lines = map[lower];
+    if (lines) {
+      setHistory((prev) => [...prev, { kind: "out", lines }]);
+    } else {
+      setHistory((prev) => [
+        ...prev,
+        {
+          kind: "err",
+          text: `${cmd}: command not found.  Try 'help'.`,
+        },
+      ]);
+    }
+  }, []);
 
   /* Input key handler */
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -370,7 +367,6 @@ export default function TerminalEasterEgg() {
         "ls domains",
         "run ai_model",
         "fetch_events",
-        "join",
         "sudo make me a sandwich",
         "clear",
         "exit",
@@ -384,19 +380,28 @@ export default function TerminalEasterEgg() {
   const lineColor = (line: string): string => {
     if (line.includes("██") || line.includes("──"))
       return "rgba(0,229,255,0.75)";
+    if (line.includes("BUILDING IN PROGRESS") || line.includes("⚙"))
+      return "#fbbf24";
     if (line.includes("100%") || line.includes("✓") || line.includes("ONLINE"))
       return "#22c55e";
     if (line.startsWith("  >>")) return "#a78bfa";
     if (line.startsWith('  "')) return "rgba(255,255,255,0.55)";
-    if (line.startsWith("  [") && /\[[\d]+\]/.test(line))
+    if (line.startsWith("  [") && /\[\d+\]/.test(line))
       return "rgba(255,255,255,0.75)";
     return "rgba(255,255,255,0.58)";
   };
 
+  /* Computed height — CSS transition handles the smooth resize */
+  const terminalHeight = minimized
+    ? "48px"
+    : maximized
+      ? "100vh"
+      : "clamp(320px, 65vh, 600px)";
+
   return (
     <>
-      {/* Hint button — hides when terminal is open */}
-      {!open && <HintButton onClick={() => setOpen(true)} />}
+      {/* Hint button — shown when terminal is closed; ready state never resets */}
+      {!open && <HintButton onClick={() => setOpen(true)} ready={hintReady} />}
 
       {/* Terminal overlay */}
       <AnimatePresence>
@@ -407,9 +412,12 @@ export default function TerminalEasterEgg() {
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: "100%", opacity: 0 }}
             transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
-            className="fixed inset-x-0 bottom-0 z-50 flex flex-col"
+            className="fixed inset-x-0 bottom-0 z-50 flex flex-col overflow-hidden"
             style={{
-              height: "clamp(320px, 65vh, 600px)",
+              height: terminalHeight,
+              /* CSS transition drives minimize/maximize — no Framer re-entry needed */
+              transition:
+                "height 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.45s ease",
               background: "rgba(4,8,20,0.96)",
               borderTop: "1px solid rgba(0,229,255,0.14)",
               backdropFilter: "blur(36px)",
@@ -425,13 +433,34 @@ export default function TerminalEasterEgg() {
               {/* macOS-style traffic lights + title */}
               <div className="flex items-center gap-3">
                 <div className="flex items-center gap-1.5">
+                  {/* Red — close */}
                   <button
-                    onClick={() => setOpen(false)}
-                    className="transition-brightness flex h-3 w-3 items-center justify-center rounded-full bg-[#FF5F57] hover:brightness-125"
+                    onClick={() => {
+                      setOpen(false);
+                      setMinimized(false);
+                      setMaximized(false);
+                    }}
+                    className="flex h-3 w-3 items-center justify-center rounded-full bg-[#FF5F57] transition-[filter] duration-150 hover:brightness-125"
                     aria-label="Close terminal"
                   />
-                  <div className="h-3 w-3 rounded-full bg-[#FFBD2E] opacity-60" />
-                  <div className="h-3 w-3 rounded-full bg-[#28C840] opacity-60" />
+                  {/* Yellow — minimize (toggle title bar only) */}
+                  <button
+                    onClick={() => {
+                      setMinimized((prev) => !prev);
+                      setMaximized(false);
+                    }}
+                    className="flex h-3 w-3 items-center justify-center rounded-full bg-[#FFBD2E] transition-[filter] duration-150 hover:brightness-125"
+                    aria-label="Minimize terminal"
+                  />
+                  {/* Green — maximize (toggle full viewport) */}
+                  <button
+                    onClick={() => {
+                      setMaximized((prev) => !prev);
+                      setMinimized(false);
+                    }}
+                    className="flex h-3 w-3 items-center justify-center rounded-full bg-[#28C840] transition-[filter] duration-150 hover:brightness-125"
+                    aria-label="Maximize terminal"
+                  />
                 </div>
                 <span
                   style={{
@@ -442,10 +471,22 @@ export default function TerminalEasterEgg() {
                   }}
                 >
                   kodeinkgp — terminal
+                  {minimized && (
+                    <span style={{ color: "rgba(255,189,46,0.55)" }}>
+                      {" "}
+                      (minimized)
+                    </span>
+                  )}
+                  {maximized && (
+                    <span style={{ color: "rgba(40,200,64,0.55)" }}>
+                      {" "}
+                      (fullscreen)
+                    </span>
+                  )}
                 </span>
               </div>
 
-              {/* Close hint */}
+              {/* Keyboard hint */}
               <span
                 style={{
                   fontFamily: "var(--font-mono)",
@@ -458,137 +499,142 @@ export default function TerminalEasterEgg() {
               </span>
             </div>
 
-            {/* ── Output scroll area ──────────────────────────── */}
-            <div
-              className="flex-1 overflow-y-auto px-5 py-4"
-              style={{
-                scrollbarWidth: "thin",
-                scrollbarColor: "rgba(0,229,255,0.12) transparent",
-              }}
-              onClick={() => inputRef.current?.focus()}
-            >
-              {history.map((entry, i) => {
-                if (entry.kind === "cmd") {
-                  return (
-                    <div key={i} className="flex gap-2 leading-relaxed">
-                      <span
-                        style={{
-                          fontFamily: "var(--font-mono)",
-                          fontSize: "0.8rem",
-                          color: "rgba(0,229,255,0.58)",
-                          whiteSpace: "nowrap",
-                          flexShrink: 0,
-                        }}
-                      >
-                        {PROMPT}
-                      </span>
-                      <span
-                        style={{
-                          fontFamily: "var(--font-mono)",
-                          fontSize: "0.8rem",
-                          color: "rgba(255,255,255,0.9)",
-                        }}
-                      >
-                        {entry.text}
-                      </span>
-                    </div>
-                  );
-                }
+            {/* ── Output + input — hidden when minimized ───────── */}
+            {!minimized && (
+              <>
+                {/* ── Output scroll area ──────────────────────────── */}
+                <div
+                  className="flex-1 overflow-y-auto px-5 py-4"
+                  style={{
+                    scrollbarWidth: "thin",
+                    scrollbarColor: "rgba(0,229,255,0.12) transparent",
+                  }}
+                  onClick={() => inputRef.current?.focus()}
+                >
+                  {history.map((entry, i) => {
+                    if (entry.kind === "cmd") {
+                      return (
+                        <div key={i} className="flex gap-2 leading-relaxed">
+                          <span
+                            style={{
+                              fontFamily: "var(--font-mono)",
+                              fontSize: "0.8rem",
+                              color: "rgba(0,229,255,0.58)",
+                              whiteSpace: "nowrap",
+                              flexShrink: 0,
+                            }}
+                          >
+                            {PROMPT}
+                          </span>
+                          <span
+                            style={{
+                              fontFamily: "var(--font-mono)",
+                              fontSize: "0.8rem",
+                              color: "rgba(255,255,255,0.9)",
+                            }}
+                          >
+                            {entry.text}
+                          </span>
+                        </div>
+                      );
+                    }
 
-                if (entry.kind === "out") {
-                  return (
-                    <div key={i} className="mb-1">
-                      {entry.lines.map((line, j) => (
+                    if (entry.kind === "out") {
+                      return (
+                        <div key={i} className="mb-1">
+                          {entry.lines.map((line, j) => (
+                            <div
+                              key={j}
+                              style={{
+                                fontFamily: "var(--font-mono)",
+                                fontSize: "0.78rem",
+                                lineHeight: "1.75",
+                                color: lineColor(line),
+                                whiteSpace: "pre",
+                              }}
+                            >
+                              {line === "" ? " " : line}
+                            </div>
+                          ))}
+                        </div>
+                      );
+                    }
+
+                    if (entry.kind === "err") {
+                      return (
                         <div
-                          key={j}
+                          key={i}
                           style={{
                             fontFamily: "var(--font-mono)",
                             fontSize: "0.78rem",
                             lineHeight: "1.75",
-                            color: lineColor(line),
-                            whiteSpace: "pre",
+                            color: "#FF5F57",
                           }}
                         >
-                          {line === "" ? " " : line}
+                          bash: {entry.text}
                         </div>
-                      ))}
-                    </div>
-                  );
-                }
+                      );
+                    }
 
-                if (entry.kind === "err") {
-                  return (
-                    <div
-                      key={i}
+                    return null;
+                  })}
+
+                  {/* Async processing indicator */}
+                  {processing && (
+                    <motion.div
+                      animate={{ opacity: [0.4, 1, 0.4] }}
+                      transition={{ repeat: Infinity, duration: 0.75 }}
                       style={{
                         fontFamily: "var(--font-mono)",
                         fontSize: "0.78rem",
-                        lineHeight: "1.75",
-                        color: "#FF5F57",
+                        color: "rgba(0,229,255,0.45)",
                       }}
                     >
-                      bash: {entry.text}
-                    </div>
-                  );
-                }
+                      Processing...
+                    </motion.div>
+                  )}
 
-                return null;
-              })}
+                  {/* Scroll anchor */}
+                  <div ref={bottomRef} />
+                </div>
 
-              {/* Async processing indicator */}
-              {processing && (
-                <motion.div
-                  animate={{ opacity: [0.4, 1, 0.4] }}
-                  transition={{ repeat: Infinity, duration: 0.75 }}
-                  style={{
-                    fontFamily: "var(--font-mono)",
-                    fontSize: "0.78rem",
-                    color: "rgba(0,229,255,0.45)",
-                  }}
+                {/* ── Input row ───────────────────────────────────── */}
+                <div
+                  className="flex flex-shrink-0 items-center gap-3 px-5 py-3"
+                  style={{ borderTop: "1px solid rgba(0,229,255,0.08)" }}
                 >
-                  Processing...
-                </motion.div>
-              )}
-
-              {/* Scroll anchor */}
-              <div ref={bottomRef} />
-            </div>
-
-            {/* ── Input row ───────────────────────────────────── */}
-            <div
-              className="flex flex-shrink-0 items-center gap-3 px-5 py-3"
-              style={{ borderTop: "1px solid rgba(0,229,255,0.08)" }}
-            >
-              <span
-                style={{
-                  fontFamily: "var(--font-mono)",
-                  fontSize: "0.8rem",
-                  color: "rgba(0,229,255,0.58)",
-                  whiteSpace: "nowrap",
-                  flexShrink: 0,
-                }}
-              >
-                {PROMPT}
-              </span>
-              <input
-                ref={inputRef}
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                onKeyDown={handleKeyDown}
-                disabled={processing}
-                placeholder="type a command…"
-                className="flex-1 bg-transparent outline-none placeholder:text-white/[0.12]"
-                style={{
-                  fontFamily: "var(--font-mono)",
-                  fontSize: "0.8rem",
-                  color: "rgba(255,255,255,0.88)",
-                  caretColor: "#00E5FF",
-                }}
-                autoComplete="off"
-                autoCapitalize="none"
-                spellCheck={false}
-              />
-            </div>
+                  <span
+                    style={{
+                      fontFamily: "var(--font-mono)",
+                      fontSize: "0.8rem",
+                      color: "rgba(0,229,255,0.58)",
+                      whiteSpace: "nowrap",
+                      flexShrink: 0,
+                    }}
+                  >
+                    {PROMPT}
+                  </span>
+                  <input
+                    ref={inputRef}
+                    value={input}
+                    onChange={(e) => setInput(e.target.value)}
+                    onKeyDown={handleKeyDown}
+                    disabled={processing}
+                    placeholder="type a command…"
+                    className="flex-1 bg-transparent outline-none placeholder:text-white/[0.12]"
+                    style={{
+                      fontFamily: "var(--font-mono)",
+                      fontSize: "0.8rem",
+                      color: "rgba(255,255,255,0.88)",
+                      caretColor: "#00E5FF",
+                    }}
+                    autoComplete="off"
+                    autoCapitalize="none"
+                    spellCheck={false}
+                  />
+                </div>
+              </>
+            )}
           </motion.div>
         )}
       </AnimatePresence>

@@ -1,0 +1,691 @@
+/* ══════════════════════════════════════════════════════
+   KodeinKGP · Registration Summary Dashboard
+   Theme: Space Command-Centre · Cyan/Teal Glow on Navy
+   ══════════════════════════════════════════════════════ */
+
+@import url("https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap");
+
+/* ── Loader ─────────────────────────────────────────── */
+.rs-loader-wrap {
+  min-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+}
+
+.rs-loader-ring {
+  width: 56px;
+  height: 56px;
+  border: 3px solid rgba(17, 227, 251, 0.15);
+  border-top-color: #11e3fb;
+  border-radius: 50%;
+  animation: rs-spin 0.9s linear infinite;
+}
+
+@keyframes rs-spin {
+  to { transform: rotate(360deg); }
+}
+
+.rs-loader-text {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.85rem;
+  color: rgba(17, 227, 251, 0.6);
+  letter-spacing: 0.1em;
+}
+
+/* ── Page shell ─────────────────────────────────────── */
+.rs-page {
+  position: relative;
+  min-height: 100vh;
+  padding: 3rem 2rem 5rem;
+  max-width: 1300px;
+  margin: 0 auto;
+  overflow: hidden;
+}
+
+/* ── Ambient orbs ───────────────────────────────────── */
+.rs-orb {
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(120px);
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.18;
+}
+
+.rs-orb-1 {
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, #11e3fb, transparent 70%);
+  top: -120px;
+  right: -100px;
+}
+
+.rs-orb-2 {
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, #a78bfa, transparent 70%);
+  bottom: 200px;
+  left: -100px;
+}
+
+.rs-orb-3 {
+  width: 320px;
+  height: 320px;
+  background: radial-gradient(circle, #34d399, transparent 70%);
+  bottom: -80px;
+  right: 15%;
+}
+
+/* Keep all content above orbs */
+.rs-page > *:not(.rs-orb) {
+  position: relative;
+  z-index: 1;
+}
+
+/* ── Header ─────────────────────────────────────────── */
+.rs-header {
+  text-align: center;
+  margin-bottom: 3rem;
+  animation: rs-fade-up 0.7s ease both;
+}
+
+.rs-header-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.25em;
+  color: rgba(17, 227, 251, 0.7);
+  text-transform: uppercase;
+  margin-bottom: 0.9rem;
+}
+
+.rs-eyebrow-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #11e3fb;
+  box-shadow: 0 0 8px #11e3fb, 0 0 16px rgba(17, 227, 251, 0.5);
+  animation: rs-pulse 2s ease infinite;
+}
+
+@keyframes rs-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.7); }
+}
+
+.rs-title {
+  font-family: "Kanit", sans-serif;
+  font-size: clamp(2.2rem, 5vw, 3.8rem);
+  font-weight: 700;
+  background: radial-gradient(
+    64.18% 64.18% at 71.16% 35.69%,
+    #def9fa 0.89%,
+    #bef3f5 17.23%,
+    #9dedf0 42.04%,
+    #7de7eb 55.12%,
+    #5ce1e6 71.54%,
+    #33bbcf 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin: 0 0 0.4rem;
+  line-height: 1.1;
+}
+
+.rs-subtitle {
+  font-family: "Poppins", sans-serif;
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.45);
+  font-weight: 300;
+  letter-spacing: 0.04em;
+}
+
+/* ── Stats Row ──────────────────────────────────────── */
+.rs-stats-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2.5rem;
+}
+
+.rs-stat-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 1.4rem 1rem;
+  border-radius: 16px;
+  border: 1px solid rgba(var(--card-color-rgb, 17, 227, 251), 0.2);
+  background: rgba(1, 1, 40, 0.6);
+  backdrop-filter: blur(12px);
+  border-color: color-mix(in srgb, var(--card-color) 30%, transparent);
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--card-color) 20%, transparent),
+    0 8px 32px color-mix(in srgb, var(--card-color) 8%, transparent),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  animation: rs-fade-up 0.6s ease both;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  cursor: default;
+}
+
+.rs-stat-card:hover {
+  transform: translateY(-4px);
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--card-color) 40%, transparent),
+    0 16px 40px color-mix(in srgb, var(--card-color) 20%, transparent),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+.rs-stat-icon {
+  font-size: 1.25rem;
+  color: var(--card-color);
+  line-height: 1;
+  text-shadow: 0 0 12px var(--card-glow);
+}
+
+.rs-stat-value {
+  font-family: "Kanit", sans-serif;
+  font-size: 2.4rem;
+  font-weight: 700;
+  color: var(--card-color);
+  text-shadow: 0 0 20px var(--card-glow);
+  line-height: 1;
+}
+
+.rs-stat-label {
+  font-family: "Poppins", sans-serif;
+  font-size: 0.72rem;
+  color: rgba(255, 255, 255, 0.5);
+  text-align: center;
+  font-weight: 400;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+/* ── Section shell ──────────────────────────────────── */
+.rs-section {
+  margin-bottom: 2.5rem;
+  animation: rs-fade-up 0.7s ease both;
+}
+
+.rs-section--bars {
+  animation-delay: 0.15s;
+}
+.rs-section--table {
+  animation-delay: 0.25s;
+}
+
+.rs-section-title {
+  font-family: "Kanit", sans-serif;
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.rs-section-accent {
+  color: #11e3fb;
+  text-shadow: 0 0 10px rgba(17, 227, 251, 0.6);
+}
+
+/* ── Team bars ──────────────────────────────────────── */
+.rs-bar-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  background: rgba(1, 1, 40, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 16px;
+  padding: 1.5rem 1.75rem;
+  backdrop-filter: blur(10px);
+}
+
+.rs-team-bar-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.rs-team-bar-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.rs-team-bar-icon {
+  font-size: 1rem;
+  width: 1.4rem;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.rs-team-bar-name {
+  font-family: "Poppins", sans-serif;
+  font-size: 0.88rem;
+  color: rgba(255, 255, 255, 0.8);
+  flex: 1;
+}
+
+.rs-team-bar-count {
+  font-family: "Kanit", sans-serif;
+  font-size: 1.05rem;
+  font-weight: 600;
+  min-width: 2.5rem;
+  text-align: right;
+}
+
+.rs-bar-track {
+  width: 100%;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 99px;
+  overflow: hidden;
+}
+
+.rs-bar-fill {
+  height: 100%;
+  border-radius: 99px;
+  transition: width 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+  animation: rs-bar-in 1.2s cubic-bezier(0.23, 1, 0.32, 1) both;
+}
+
+@keyframes rs-bar-in {
+  from { width: 0 !important; }
+}
+
+/* ── Table header controls ──────────────────────────── */
+.rs-table-header {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.rs-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.rs-search-wrap {
+  position: relative;
+  flex: 1;
+  min-width: 220px;
+}
+
+.rs-search-icon {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: rgba(17, 227, 251, 0.5);
+  font-size: 1.15rem;
+  pointer-events: none;
+}
+
+.rs-search {
+  width: 100%;
+  background: rgba(1, 1, 40, 0.7);
+  border: 1px solid rgba(17, 227, 251, 0.2);
+  border-radius: 12px;
+  padding: 0.6rem 1rem 0.6rem 2.5rem;
+  font-family: "Poppins", sans-serif;
+  font-size: 0.88rem;
+  color: rgba(255, 255, 255, 0.85);
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.rs-search::placeholder {
+  color: rgba(255, 255, 255, 0.25);
+}
+
+.rs-search:focus {
+  border-color: rgba(17, 227, 251, 0.5);
+  box-shadow: 0 0 0 3px rgba(17, 227, 251, 0.1);
+}
+
+.rs-filter-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.rs-filter-btn {
+  font-family: "Poppins", sans-serif;
+  font-size: 0.75rem;
+  padding: 0.35rem 0.85rem;
+  border-radius: 99px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.04);
+  color: rgba(255, 255, 255, 0.55);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.rs-filter-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.rs-filter-btn--active {
+  border-color: #11e3fb;
+  color: #11e3fb;
+  background: rgba(17, 227, 251, 0.08);
+  box-shadow: 0 0 10px rgba(17, 227, 251, 0.2);
+}
+
+.rs-count-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(17, 227, 251, 0.15);
+  color: #11e3fb;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.75rem;
+  font-weight: 500;
+  border-radius: 99px;
+  padding: 0.15rem 0.6rem;
+  border: 1px solid rgba(17, 227, 251, 0.3);
+  margin-left: 0.6rem;
+  vertical-align: middle;
+}
+
+/* ── Table ──────────────────────────────────────────── */
+.rs-table-wrap {
+  overflow-x: auto;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  background: rgba(1, 1, 40, 0.55);
+  backdrop-filter: blur(10px);
+}
+
+.rs-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.rs-thead-row {
+  border-bottom: 1px solid rgba(17, 227, 251, 0.15);
+}
+
+.rs-th {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(17, 227, 251, 0.55);
+  padding: 1rem 1.2rem;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.rs-table-row {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  cursor: pointer;
+  transition: background 0.18s ease;
+  animation: rs-row-in 0.4s ease both;
+}
+
+.rs-table-row:hover,
+.rs-table-row--open {
+  background: rgba(17, 227, 251, 0.05);
+}
+
+.rs-table-row--open {
+  border-bottom-color: transparent;
+}
+
+.rs-td {
+  font-family: "Poppins", sans-serif;
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.82);
+  padding: 0.9rem 1.2rem;
+  vertical-align: middle;
+}
+
+.rs-td-idx {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.3);
+  width: 3rem;
+}
+
+.rs-td-name {
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.rs-mono {
+  font-family: "JetBrains Mono", monospace !important;
+  font-size: 0.78rem !important;
+  color: rgba(255, 255, 255, 0.6) !important;
+}
+
+.rs-td-teams {
+  min-width: 200px;
+}
+
+.rs-td-hall {
+  white-space: nowrap;
+  color: rgba(255, 255, 255, 0.55);
+  font-size: 0.82rem;
+}
+
+.rs-td-chevron {
+  width: 2rem;
+  text-align: center;
+}
+
+.rs-chevron {
+  display: inline-block;
+  font-size: 1.2rem;
+  color: rgba(17, 227, 251, 0.5);
+  transform: rotate(90deg);
+  transition: transform 0.25s ease;
+  line-height: 1;
+}
+
+.rs-chevron--up {
+  transform: rotate(-90deg);
+  color: #11e3fb;
+}
+
+/* ── Team pills ─────────────────────────────────────── */
+.rs-team-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.rs-team-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.7rem;
+  font-family: "Poppins", sans-serif;
+  padding: 0.2rem 0.6rem;
+  border-radius: 99px;
+  border: 1px solid;
+  background: rgba(0, 0, 0, 0.3);
+  white-space: nowrap;
+}
+
+/* ── Detail row ─────────────────────────────────────── */
+.rs-detail-row {
+  animation: rs-detail-in 0.3s ease both;
+}
+
+@keyframes rs-detail-in {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+}
+
+.rs-detail-td {
+  padding: 0 1.2rem 1.25rem 3.5rem;
+  background: rgba(17, 227, 251, 0.03);
+  border-bottom: 1px solid rgba(17, 227, 251, 0.12);
+}
+
+.rs-detail-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+  padding: 1rem;
+  background: rgba(1, 1, 27, 0.5);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.rs-detail-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.rs-detail-item--full {
+  grid-column: 1 / -1;
+}
+
+.rs-detail-key {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(17, 227, 251, 0.5);
+}
+
+.rs-detail-val {
+  font-family: "Poppins", sans-serif;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 1.5;
+}
+
+/* ── Empty state ─────────────────────────────────────── */
+.rs-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 4rem 2rem;
+  color: rgba(255, 255, 255, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 16px;
+  background: rgba(1, 1, 40, 0.4);
+}
+
+.rs-empty-icon {
+  font-size: 2.5rem;
+  opacity: 0.4;
+}
+
+/* ── Footer ─────────────────────────────────────────── */
+.rs-footer {
+  text-align: center;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.18);
+  letter-spacing: 0.1em;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* ── Animations ─────────────────────────────────────── */
+@keyframes rs-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes rs-row-in {
+  from {
+    opacity: 0;
+    transform: translateX(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* ── Responsive ─────────────────────────────────────── */
+@media (max-width: 768px) {
+  .rs-page {
+    padding: 2rem 1rem 4rem;
+  }
+
+  .rs-stats-row {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.75rem;
+  }
+
+  .rs-stat-value {
+    font-size: 1.9rem;
+  }
+
+  .rs-stat-card {
+    padding: 1rem 0.75rem;
+  }
+
+  .rs-td-hall,
+  .rs-td-roll {
+    display: none;
+  }
+
+  .rs-detail-td {
+    padding-left: 0.75rem;
+  }
+
+  .rs-controls {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .rs-search-wrap {
+    min-width: unset;
+  }
+
+  .rs-filter-pills {
+    gap: 0.4rem;
+  }
+
+  .rs-bar-list {
+    padding: 1rem 1.25rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .rs-stats-row {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .rs-td-teams {
+    min-width: 140px;
+  }
+
+  .rs-team-pill {
+    font-size: 0.65rem;
+    padding: 0.18rem 0.5rem;
+  }
+}

@@ -17,6 +17,9 @@
     "@fortawesome/free-brands-svg-icons": "^6.4.2",
     "@fortawesome/free-solid-svg-icons": "^6.4.2",
     "@fortawesome/react-fontawesome": "^0.2.0",
+    "@react-three/drei": "^10.7.7",
+    "@react-three/fiber": "^9.6.1",
+    "clsx": "^2.1.1",
     "firebase": "^11.9.1",
     "firebase-admin": "^13.4.0",
     "framer-motion": "^12.40.0",
@@ -35,13 +38,16 @@
     "react-toastify": "^11.0.5",
     "rehype-highlight": "^7.0.2",
     "remark-gfm": "^4.0.1",
-    "tailwind-scrollbar": "^4.0.2"
+    "tailwind-merge": "^3.6.0",
+    "tailwind-scrollbar": "^4.0.2",
+    "three": "^0.184.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
     "@tailwindcss/postcss": "^4.1.8",
     "@types/node": "22.15.30",
     "@types/react": "19.1.6",
+    "@types/three": "^0.184.1",
     "eslint": "^9",
     "eslint-config-next": "15.3.3",
     "eslint-config-prettier": "^10.1.5",

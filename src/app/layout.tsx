@@ -18,8 +18,9 @@ import {
 } from "next/font/google";
 import "./globals.css";
 
-import Navbar  from "@/components/layout/Navbar";
-import Footer  from "@/components/layout/Footer";
+import Navbar        from "@/components/layout/Navbar";
+import Footer        from "@/components/layout/Footer";
+import CustomCursor  from "@/components/ui/CustomCursor";
 import { AuthProvider } from "@/contexts/authContext";
 
 /* ── Display font: Space Grotesk ─────────────────────────────────── */
@@ -124,15 +125,12 @@ export default function RootLayout({
 
       <body className="antialiased">
         <AuthProvider>
+          {/* Custom glowing cursor — hidden on touch devices automatically */}
+          <CustomCursor />
+
           {/*
-           * CustomCursor — injects the glowing dot + ring cursor.
-           * Built in Scene 0 (Phase 2). Import path ready to uncomment:
-           *
-           * import CustomCursor from "@/components/ui/CustomCursor";
-           * <CustomCursor />
-           *
            * TerminalEasterEgg — global ` key listener + slide-up terminal.
-           * Built in the Easter Egg phase. Import path ready to uncomment:
+           * Uncomment when built:
            *
            * import TerminalEasterEgg from "@/components/ui/TerminalEasterEgg";
            * <TerminalEasterEgg />

@@ -1,6 +1,6 @@
 // Root page — Server Component shell.
+// Hero is now the TypeScript Scene 0 version with R3F NeuralMesh.
 // Client islands carry their own "use client" directives.
-// PdsBanner and EventsPreview are Server Components.
 
 import Hero             from "@/components/sections/home/Hero";
 import InfiniteMarquee  from "@/components/sections/home/InfiniteMarquee";

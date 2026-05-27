@@ -194,7 +194,7 @@ function ExpertiseCard({
         </h3>
 
         <p
-          className="flex-1 text-xs leading-relaxed md:text-sm"
+          className={`text-xs leading-relaxed md:text-sm ${!large ? "flex-1" : ""}`}
           style={{
             fontFamily: "var(--font-dm)",
             color: "rgba(255,255,255,0.46)",
@@ -223,6 +223,84 @@ function ExpertiseCard({
                 {chip}
               </span>
             ))}
+          </div>
+        )}
+
+        {/* Active Initiatives — large (AI) card only */}
+        {large && (
+          <div
+            className="mt-auto pt-5"
+            style={{
+              borderTop: `1px solid ${card.color}18`,
+              marginTop: "auto",
+            }}
+          >
+            <p
+              style={{
+                fontFamily: "var(--font-mono)",
+                fontSize: "0.55rem",
+                letterSpacing: "0.2em",
+                textTransform: "uppercase" as const,
+                color: `${card.color}50`,
+                marginBottom: "0.9rem",
+              }}
+            >
+              {"// active_initiatives"}
+            </p>
+
+            <div className="flex flex-col gap-3">
+              {[
+                { status: "live", label: "GPT course assistant — IIT KGP" },
+                { status: "building", label: "AI hackathon problem matcher" },
+                { status: "research", label: "Metaverse campus tour (AR/VR)" },
+              ].map(({ status, label }) => {
+                const dotColor =
+                  status === "live"
+                    ? "#22c55e"
+                    : status === "building"
+                      ? card.color
+                      : "#f59e0b";
+                return (
+                  <div key={label} className="flex items-center gap-2.5">
+                    <motion.span
+                      animate={
+                        status === "building" ? { opacity: [1, 0.25, 1] } : {}
+                      }
+                      transition={{ repeat: Infinity, duration: 1.6 }}
+                      style={{
+                        width: 6,
+                        height: 6,
+                        flexShrink: 0,
+                        borderRadius: "50%",
+                        display: "inline-block",
+                        background: dotColor,
+                        boxShadow: `0 0 6px ${dotColor}99`,
+                      }}
+                    />
+                    <span
+                      className="flex-1 text-[0.71rem]"
+                      style={{
+                        fontFamily: "var(--font-dm)",
+                        color: "rgba(255,255,255,0.46)",
+                      }}
+                    >
+                      {label}
+                    </span>
+                    <span
+                      style={{
+                        fontFamily: "var(--font-mono)",
+                        fontSize: "0.46rem",
+                        letterSpacing: "0.12em",
+                        textTransform: "uppercase" as const,
+                        color: `${dotColor}80`,
+                      }}
+                    >
+                      {status}
+                    </span>
+                  </div>
+                );
+              })}
+            </div>
           </div>
         )}
       </div>

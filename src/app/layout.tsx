@@ -21,6 +21,7 @@ import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import CustomCursor from "@/components/ui/CustomCursor";
+import TerminalEasterEgg from "@/components/ui/TerminalEasterEgg";
 import { AuthProvider } from "@/contexts/authContext";
 
 /* ── Display font: Space Grotesk ─────────────────────────────────── */
@@ -135,13 +136,8 @@ export default function RootLayout({
           {/* Custom glowing cursor — hidden on touch devices automatically */}
           <CustomCursor />
 
-          {/*
-           * TerminalEasterEgg — global ` key listener + slide-up terminal.
-           * Uncomment when built:
-           *
-           * import TerminalEasterEgg from "@/components/ui/TerminalEasterEgg";
-           * <TerminalEasterEgg />
-           */}
+          {/* Terminal Easter Egg — global ` key listener + slide-up terminal */}
+          <TerminalEasterEgg />
 
           <Navbar />
           <main>{children}</main>

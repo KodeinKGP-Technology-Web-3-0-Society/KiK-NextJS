@@ -5,13 +5,7 @@ import {
   createUserWithEmailAndPassword,
   sendEmailVerification,
 } from "firebase/auth";
-import {
-  doc,
-  getDoc,
-  setDoc,
-  collection,
-  runTransaction,
-} from "firebase/firestore";
+import { collection, doc, runTransaction } from "firebase/firestore";
 import { Eye, EyeOff } from "lucide-react";
 import { toast } from "react-toastify";
 import Script from "next/script";

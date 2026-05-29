@@ -114,8 +114,7 @@ export async function POST(request, { params }) {
 
     if (isCorrect) {
       const questionRef = db.collection("questions").doc(id);
-      const questionSnap = await questionRef.get();
-      const questionScore = questionSnap.data().score;
+      const questionScore = questionData.score;
 
       submissions[qIndex] = Math.max(
         questionScore - Math.abs(submissions[qIndex]),
@@ -139,13 +138,57 @@ export async function POST(request, { params }) {
       submissions[qIndex] -= WRONG_PENALTY; // apply penalty for wrong submission
     }
 
-    await userRef.update({ submissions });
-
     // --- Calculate total points after update ---
     const totalPts = submissions.reduce(
       (sum, val) => sum + Math.max(0, val),
       0
     );
+
+    await userRef.update({ submissions });
+
+    if (isCorrect) {
+      // Wrong submissions do not change positive leaderboard points.
+      const leaderboardRef = db.collection("leaderboard").doc("users");
+      await db.runTransaction(async (transaction) => {
+        const leaderboardSnap = await transaction.get(leaderboardRef);
+        const leaderboardUser = {
+          email,
+          name: userData.username || "Anonymous",
+          totalPts,
+        };
+
+        if (!leaderboardSnap.exists) {
+          transaction.set(leaderboardRef, { users: [leaderboardUser] });
+          return;
+        }
+
+        const leaderboardUsers = leaderboardSnap.data().users || [];
+        const idx = leaderboardUsers.findIndex((u) => u.email === email);
+
+        if (idx < 0) {
+          leaderboardUsers.push(leaderboardUser);
+          transaction.update(leaderboardRef, { users: leaderboardUsers });
+          return;
+        }
+
+        const currentEntry = leaderboardUsers[idx];
+        const nextName = userData.username || currentEntry.name || "Anonymous";
+
+        if (
+          currentEntry.totalPts === totalPts &&
+          currentEntry.name === nextName
+        ) {
+          return;
+        }
+
+        leaderboardUsers[idx] = {
+          ...currentEntry,
+          name: nextName,
+          totalPts,
+        };
+        transaction.update(leaderboardRef, { users: leaderboardUsers });
+      });
+    }
 
     return new Response(
       JSON.stringify({

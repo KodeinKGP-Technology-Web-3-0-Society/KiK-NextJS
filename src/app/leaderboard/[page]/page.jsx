@@ -1,12 +1,14 @@
 "use client";
 import Link from "next/link";
+import { useParams } from "next/navigation";
 import { useAuth } from "@/contexts/authContext";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
-export default function LeaderboardPage({ params }) {
+export default function LeaderboardPage() {
   const { loggedIn, user } = useAuth();
-  const currentPage = parseInt(params.page) || 1;
+  const params = useParams();
+  const currentPage = parseInt(params?.page, 10) || 1;
 
   const [totalPages, setTotalPages] = useState(0);
   const [totalUsers, setTotalUsers] = useState(0);
@@ -18,47 +20,37 @@ export default function LeaderboardPage({ params }) {
   const itemsPerPage = 10;
 
   useEffect(() => {
-    async function getTopScorerData() {
+    async function getLeaderboardData() {
       try {
+        const qs = new URLSearchParams();
+        if (user?.email) qs.set("email", user.email);
+        qs.set("pageSize", String(itemsPerPage));
+
         const res = await fetch(
-          `${process.env.NEXT_PUBLIC_API_BASE_URL}/dekodeX/api/leaderboard/1?email=${encodeURIComponent(user?.email)}`
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/dekodeX/api/leaderboard/${currentPage}?${qs.toString()}`
         );
         const data = await res.json();
 
-        if (data.status == 500) {
-          toast.error("Internal Server Error. Please try again later.");
+        if (!res.ok) {
+          toast.error(
+            data?.error || "Error fetching leaderboard. Please try again later."
+          );
           return;
         } else {
-          setTopData(data.paginatedLeaderboard);
-          setCurrentUserLeaderboardInfo(data.currentUser);
-          if (data.currentUser && data.currentUser != "Anonymous") {
+          setFetchedLeaderboardData(data.paginatedLeaderboard || []);
+          setTopData(data.podium || []);
+          setCurrentUserLeaderboardInfo(data.currentUser || null);
+          if (data.meta) {
+            setTotalUsers(data.meta.leaderboardSize ?? 0);
+            setTotalPages(data.meta.totalPages ?? 0);
+          }
+          if (data.currentUser && data.currentUser.username !== "Anonymous") {
             toast.success(
               `Welcome back, ${data.currentUser.username}! Your current score is ${data.currentUser.score}.`
             );
-          } else {
+          } else if (loggedIn) {
             toast.info("You are not on the leaderboard yet.");
           }
-          return;
-        }
-      } catch {
-        toast.error("Error occured while fetching leaderboard.");
-        return;
-      }
-    }
-
-    async function getLeaderboardData() {
-      try {
-        const res = await fetch(
-          `${process.env.NEXT_PUBLIC_API_BASE_URL}/dekodeX/api/leaderboard/${currentPage}`
-        );
-        const data = await res.json();
-
-        if (data.status === 500) {
-          toast.error("Internal Server Error. Please try again later.");
-          return;
-        } else {
-          setFetchedLeaderboardData(data.paginatedLeaderboard);
-          getTopScorerData();
           return;
         }
       } catch (error) {
@@ -67,32 +59,7 @@ export default function LeaderboardPage({ params }) {
       }
     }
     getLeaderboardData();
-  }, [currentPage, user]);
-
-  // fetching total number of users for pagination
-  useEffect(() => {
-    async function getTotalUsers() {
-      try {
-        const res = await fetch(
-          `${process.env.NEXT_PUBLIC_API_BASE_URL}/dekodeX/api/leaderboard`
-        );
-        const data = await res.json();
-
-        if (data.status === 500) {
-          toast.error("Internal Server Error. Please try again later.");
-          return;
-        } else {
-          setTotalUsers(data.leaderboardSize);
-          setTotalPages(Math.ceil(data.leaderboardSize / itemsPerPage));
-          return;
-        }
-      } catch (error) {
-        toast.error(`Error fetching total users: ${error.message}`);
-        console.error("Error fetching total users:", error);
-      }
-    }
-    getTotalUsers();
-  }, []);
+  }, [currentPage, user?.email, loggedIn]);
 
   // for redirecting to dekodeX page
   const redirectToDekodeX = () => {
@@ -100,7 +67,7 @@ export default function LeaderboardPage({ params }) {
   };
 
   return (
-    <div className="flex min-h-screen flex-col bg-[linear-gradient(108.74deg,rgba(255,255,255,0.24)_0%,rgba(255,255,255,0.06)_100%)] shadow-[0_0_50px_-25px_rgba(0,0,0,0.5)] backdrop-blur-[100px] before:pointer-events-none before:absolute before:inset-0 before:rounded-[4px] before:border-[3px] before:border-transparent before:content-[''] before:[border-image-slice:1] before:[border-image-source:linear-gradient(108.74deg,rgba(33,138,203,0.6)_0%,rgba(255,255,255,0.54)_36.46%,rgba(255,255,255,0.3)_73.96%,rgba(17,227,251,0.6)_100%)]">
+    <div className="relative flex min-h-screen flex-col overflow-hidden bg-[linear-gradient(108.74deg,rgba(255,255,255,0.24)_0%,rgba(255,255,255,0.06)_100%)] shadow-[0_0_50px_-25px_rgba(0,0,0,0.5)] backdrop-blur-[100px] before:pointer-events-none before:absolute before:inset-0 before:rounded-[4px] before:border-[3px] before:border-transparent before:content-[''] before:[border-image-slice:1] before:[border-image-source:linear-gradient(108.74deg,rgba(33,138,203,0.6)_0%,rgba(255,255,255,0.54)_36.46%,rgba(255,255,255,0.3)_73.96%,rgba(17,227,251,0.6)_100%)]">
       {fetchedLeaderboardData && totalUsers >= 10 ? (
         <>
           <div className="flex w-full flex-col items-center justify-center p-3">
@@ -216,7 +183,7 @@ export default function LeaderboardPage({ params }) {
                   {currentUserLeaderboardInfo.rank}.
                 </span>
                 <img
-                  src={`https://robohash.org/${encodeURIComponent(currentUserLeaderboardInfo.name)}?set=set1 `}
+                  src={`https://robohash.org/${encodeURIComponent(currentUserLeaderboardInfo.username)}?set=set1 `}
                   alt={currentUserLeaderboardInfo.username}
                   className="my-1 h-8 w-8 rounded-full border-2 border-white object-cover"
                 />

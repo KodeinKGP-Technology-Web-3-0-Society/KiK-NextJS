@@ -104,20 +104,60 @@ useEffect(() => {
   fetchQuestions();
 }, [authToken]);
   const modalContent = (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 px-4 backdrop-blur-sm" onClick={() => setIsOpen(false)}>
-      <div className="relative w-full max-w-md rounded-2xl bg-white p-6 text-black shadow-2xl dark:bg-[#111827] dark:text-white" onClick={(e) => e.stopPropagation()}>
-        <button onClick={() => setIsOpen(false)} className="absolute top-3 right-3 text-gray-400 hover:text-white">✕</button>
-        <h2 className="mb-2 text-xl font-bold">Competition Rules</h2>
-        <div className="mb-4 h-0.5 bg-[linear-gradient(90deg,#218ACB,#11E3FB)]"></div>
-        <div className="space-y-3 text-sm text-gray-300">
-          <p>📅 One new problem drops daily at midnight IST.</p>
-          <p>💻 Submit your answers directly on the problem page.</p>
-          <p>🏆 Real-time ranking based on total score.</p>
+  <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 px-4 backdrop-blur-sm" onClick={() => setIsOpen(false)}>
+    <div className="relative w-full max-w-lg rounded-2xl bg-white p-6 text-black shadow-2xl dark:bg-[#0f172a] dark:text-white" onClick={(e) => e.stopPropagation()}>
+      
+      {/* Header */}
+      <div className="flex justify-between items-center mb-4">
+        <h2 className="text-2xl font-bold">Competition Rules</h2>
+        <button onClick={() => setIsOpen(false)} className="text-gray-500 hover:text-black dark:hover:text-white text-2xl">×</button>
+      </div>
+      <div className="mb-6 h-1 w-full bg-[linear-gradient(90deg,#218ACB,#11E3FB)] rounded-full"></div>
+
+      {/* Rules Grid */}
+      <div className="space-y-4">
+        
+        {/* 1. Problem Release */}
+        <div className="bg-blue-50 dark:bg-blue-950/30 p-4 rounded-lg border border-blue-200 dark:border-blue-900">
+          <h3 className="font-bold text-blue-800 dark:text-blue-300 flex items-center gap-2">📅 Problem Release</h3>
+          <p className="text-sm text-gray-700 dark:text-gray-300 mt-1">One new problem drops daily at midnight IST. Solve it anytime during the competition period.</p>
         </div>
+
+        {/* 2. Submission Process */}
+        <div className="bg-green-50 dark:bg-green-950/30 p-4 rounded-lg border border-green-200 dark:border-green-900">
+          <h3 className="font-bold text-green-800 dark:text-green-300 flex items-center gap-2">💻 Submission Process</h3>
+          <p className="text-sm text-gray-700 dark:text-gray-300 mt-1">Submit your answers directly on the problem page. View sample input/output and get your problem input.</p>
+        </div>
+
+        {/* 3. Leaderboard */}
+        <div className="bg-orange-50 dark:bg-orange-950/30 p-4 rounded-lg border border-orange-200 dark:border-orange-900">
+          <h3 className="font-bold text-orange-800 dark:text-orange-300 flex items-center gap-2">📊 Leaderboard</h3>
+          <p className="text-sm text-gray-700 dark:text-gray-300 mt-1">Real-time ranking updates. Your position depends on total score across all solved problems.</p>
+        </div>
+
+        {/* 4. Scoring System */}
+        <div className="bg-purple-50 dark:bg-purple-950/30 p-4 rounded-lg border border-purple-200 dark:border-purple-900">
+          <h3 className="font-bold text-purple-800 dark:text-purple-300 flex items-center gap-2">🏆 Scoring System</h3>
+          <ul className="text-sm text-gray-700 dark:text-gray-300 mt-1 space-y-1 list-disc ml-4">
+            <li><span className="font-semibold">Correctness:</span> Full points for passing all test cases.</li>
+            <li><span className="font-semibold">Speed Bonus:</span> Earlier submissions earn higher scores.</li>
+            <li><span className="font-semibold">Wrong Answer Penalty:</span> Incorrect submissions result in -10 points.</li>
+          </ul>
+        </div>
+
+        {/* 5. Solo Warning */}
+        <div className="bg-red-50 dark:bg-red-950/30 p-4 rounded-lg border-l-4 border-red-500">
+          <p className="text-sm text-red-800 dark:text-red-200 font-medium">⚠️ Solo Competition: No collaboration, code sharing, or external assistance allowed. Fair play is strictly enforced.</p>
+        </div>
+
+        {/* Footer Button */}
+        <button className="w-full py-3 bg-[linear-gradient(90deg,#218ACB,#11E3FB)] text-white font-bold rounded-lg hover:opacity-90 transition">
+          🚀 Dive deep, code fast, dominate the abyss!
+        </button>
       </div>
     </div>
-  );
-console.log("Locked items count:", lockedProblems.filter(p => !p.is_revealed).length);
+  </div>
+);
   return (
     <div className="relative mx-2 max-w-4xl sm:mx-auto rounded-[4px] bg-[linear-gradient(108.74deg,rgba(255,255,255,0.24)_0%,rgba(255,255,255,0.06)_100%)] p-6 backdrop-blur-[100px] border border-white/10">
       <div className="mb-6 flex justify-between items-start">

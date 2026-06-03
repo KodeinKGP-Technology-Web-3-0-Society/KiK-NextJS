@@ -80,11 +80,12 @@ function Qp() {
   }, [QuestionID, authToken]);
 
   if (!questionData) {
-    return (
+     return (
       <div>
         <DekodeXLoading />
       </div>
     );
+    
   }
 
   // Extract question number from QuestionID for display

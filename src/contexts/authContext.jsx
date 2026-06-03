@@ -41,8 +41,8 @@ export function AuthProvider({ children }) {
   }
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      getUserData(currentUser);
+    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+      await getUserData(currentUser);
       setLoading(false);
     });
 

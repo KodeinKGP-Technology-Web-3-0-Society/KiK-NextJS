@@ -20,51 +20,35 @@ export default function Leaderboard() {
   // console.log("leaderboard",user?.email);
 
   useEffect(() => {
-    async function getTopScorerData() {
+    async function getLeaderboardData() {
       try {
+        const qs = new URLSearchParams();
+        if (user?.email) qs.set("email", user.email);
+        qs.set("pageSize", String(itemsPerPage));
+
         const res = await fetch(
-          `${process.env.NEXT_PUBLIC_API_BASE_URL}/dekodeX/api/leaderboard/1?email=${encodeURIComponent(user?.email)}`
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/dekodeX/api/leaderboard/${currentPage}?${qs.toString()}`
         );
         const data = await res.json();
 
-        if (data.status == 500) {
-          toast.error("Internal Server Error. Please try again later.");
+        if (!res.ok) {
+          toast.error(
+            data?.error || "Error fetching leaderboard. Please try again later."
+          );
           return;
         } else {
-          setTopData(data.paginatedLeaderboard);
-          setCurrentUserLeaderboardInfo(data.currentUser);
-          if (data.currentUser && data.currentUser.username != "Anonymous") {
+          setFetchedLeaderboardData(data.paginatedLeaderboard || []);
+          setTopData(data.podium || []);
+          setCurrentUserLeaderboardInfo(data.currentUser || null);
+          if (data.meta) {
+            setTotalUsers(data.meta.leaderboardSize ?? 0);
+            setTotalPages(data.meta.totalPages ?? 0);
+          }
+          if (data.currentUser && data.currentUser.username !== "Anonymous") {
             toast.success(
               `Welcome back, ${data.currentUser.username}! Your current score is ${data.currentUser.score}.`
             );
           }
-          return;
-        }
-      } catch {
-        toast.error("Error occured while fetching leaderboard.");
-        return;
-      }
-    }
-
-    async function getLeaderboardData() {
-      try {
-        const res = await fetch(
-          `${process.env.NEXT_PUBLIC_API_BASE_URL}/dekodeX/api/leaderboard/${currentPage}`
-        );
-        const data = await res.json();
-
-        if (data.status === 500) {
-          toast.error("Internal Server Error. Please try again later.");
-          return;
-        } else {
-          if (
-            !data.paginatedLeaderboard ||
-            data.paginatedLeaderboard.length === 0
-          ) {
-            return;
-          }
-          setFetchedLeaderboardData(data.paginatedLeaderboard);
-          getTopScorerData();
           return;
         }
       } catch (error) {
@@ -73,37 +57,18 @@ export default function Leaderboard() {
       }
     }
     getLeaderboardData();
-  }, [currentPage, user]);
+  }, [currentPage, user?.email]);
 
-  // fetching total number of users for pagination
-  useEffect(() => {
-    async function getTotalUsers() {
-      try {
-        const res = await fetch(
-          `${process.env.NEXT_PUBLIC_API_BASE_URL}/dekodeX/api/leaderboard`
-        );
-        const data = await res.json();
-
-        if (data.status === 500) {
-          toast.error("Internal Server Error. Please try again later.");
-          return;
-        } else {
-          setTotalUsers(data.leaderboardSize);
-          // console.log(data.leaderboardSize);
-          setTotalPages(Math.ceil(data.leaderboardSize / itemsPerPage));
-          return;
-        }
-      } catch (error) {
-        toast.error(`Error fetching total users: ${error.message}`);
-        console.error("Error fetching total users:", error);
-      }
+  const goToPage = (pageNumber) => {
+    if (pageNumber === currentPage || pageNumber < 1 || pageNumber > totalPages) {
+      return;
     }
-    getTotalUsers();
-  }, []);
+    setCurrentPage(pageNumber);
+  };
 
   return (
     <>
-      <div className="flex h-[146.8vh] min-h-screen flex-col rounded-[1rem] border-2 border-[rgb(91,230,255)] bg-[linear-gradient(108.74deg,rgba(255,255,255,0.24)_0%,rgba(255,255,255,0.06)_100%)] backdrop-blur-[100px]">
+      <div className="relative flex h-[146.8vh] min-h-screen flex-col overflow-hidden rounded-[1rem] border-2 border-[rgb(91,230,255)] bg-[linear-gradient(108.74deg,rgba(255,255,255,0.24)_0%,rgba(255,255,255,0.06)_100%)] backdrop-blur-[100px]">
         {fetchedLeaderboardData && totalUsers >= 10 ? (
           <div className="">
             <div className="flex w-full flex-col items-center justify-center p-3">
@@ -243,7 +208,7 @@ export default function Leaderboard() {
                   {currentUserLeaderboardInfo.rank}.
                 </span>
                 <img
-                  src={`https://robohash.org/${encodeURIComponent(currentUserLeaderboardInfo.name)}?set=set1 `}
+                  src={`https://robohash.org/${encodeURIComponent(currentUserLeaderboardInfo.username)}?set=set1 `}
                   alt={currentUserLeaderboardInfo.username}
                   className="my-1 h-8 w-8 rounded-full border-2 border-white object-cover"
                 />
@@ -258,7 +223,7 @@ export default function Leaderboard() {
 
             <div className="mt-8 mb-4 flex items-center justify-center gap-1">
               <div
-                onClick={() => setCurrentPage(currentPage - 1)}
+                onClick={() => goToPage(currentPage - 1)}
                 className={`relative border-[3px] border-transparent bg-[linear-gradient(108.74deg,rgba(255,255,255,0.24)_0%,rgba(255,255,255,0.06)_100%)] px-3 py-1 shadow-[0_0_50px_-25px_rgba(0,0,0,0.5)] backdrop-blur-[100px] [border-image-slice:1] [border-image-source:linear-gradient(108.74deg,rgba(33,138,203,0.6)_0%,rgba(255,255,255,0.54)_36.46%,rgba(255,255,255,0.3)_73.96%,rgba(17,227,251,0.6)_100%)] hover:bg-gray-300 ${currentPage === 1 ? "pointer-events-none opacity-50" : ""}`}
               >
                 &lt;
@@ -272,7 +237,7 @@ export default function Leaderboard() {
                   return (
                     <div
                       key={pageNumber}
-                      onClick={() => setCurrentPage(pageNumber)}
+                      onClick={() => goToPage(pageNumber)}
                       className={`relative cursor-pointer border-[3px] border-transparent bg-[linear-gradient(108.74deg,rgba(255,255,255,0.24)_0%,rgba(255,255,255,0.06)_100%)] px-3 py-1 shadow-[0_0_50px_-25px_rgba(0,0,0,0.5)] backdrop-blur-[100px] [border-image-slice:1] [border-image-source:linear-gradient(108.74deg,rgba(33,138,203,0.6)_0%,rgba(255,255,255,0.54)_36.46%,rgba(255,255,255,0.3)_73.96%,rgba(17,227,251,0.6)_100%)] hover:bg-gray-300 ${currentPage === pageNumber ? "bg-gray-300" : ""}`}
                     >
                       {pageNumber}
@@ -298,7 +263,7 @@ export default function Leaderboard() {
                   return (
                     <div
                       key={pageNumber}
-                      onClick={() => setCurrentPage(pageNumber)}
+                      onClick={() => goToPage(pageNumber)}
                       className={`relative cursor-pointer border-[3px] border-transparent bg-gray-300 bg-[linear-gradient(108.74deg,rgba(255,255,255,0.24)_0%,rgba(255,255,255,0.06)_100%)] px-3 py-1 shadow-[0_0_50px_-25px_rgba(0,0,0,0.5)] backdrop-blur-[100px] [border-image-slice:1] [border-image-source:linear-gradient(108.74deg,rgba(33,138,203,0.6)_0%,rgba(255,255,255,0.54)_36.46%,rgba(255,255,255,0.3)_73.96%,rgba(17,227,251,0.6)_100%)] hover:bg-gray-300`}
                     >
                       {pageNumber}
@@ -314,7 +279,7 @@ export default function Leaderboard() {
                   return (
                     <div
                       key={pageNumber}
-                      onClick={() => setCurrentPage(pageNumber)}
+                      onClick={() => goToPage(pageNumber)}
                       className={`relative cursor-pointer border-[3px] border-transparent bg-[linear-gradient(108.74deg,rgba(255,255,255,0.24)_0%,rgba(255,255,255,0.06)_100%)] px-3 py-1 shadow-[0_0_50px_-25px_rgba(0,0,0,0.5)] backdrop-blur-[100px] [border-image-slice:1] [border-image-source:linear-gradient(108.74deg,rgba(33,138,203,0.6)_0%,rgba(255,255,255,0.54)_36.46%,rgba(255,255,255,0.3)_73.96%,rgba(17,227,251,0.6)_100%)] hover:bg-gray-300`}
                     >
                       {pageNumber}
@@ -339,7 +304,7 @@ export default function Leaderboard() {
                   return (
                     <div
                       key={pageNumber}
-                      onClick={() => setCurrentPage(pageNumber)}
+                      onClick={() => goToPage(pageNumber)}
                       className={`relative cursor-pointer border-[3px] border-transparent bg-[linear-gradient(108.74deg,rgba(255,255,255,0.24)_0%,rgba(255,255,255,0.06)_100%)] px-3 py-1 shadow-[0_0_50px_-25px_rgba(0,0,0,0.5)] backdrop-blur-[100px] [border-image-slice:1] [border-image-source:linear-gradient(108.74deg,rgba(33,138,203,0.6)_0%,rgba(255,255,255,0.54)_36.46%,rgba(255,255,255,0.3)_73.96%,rgba(17,227,251,0.6)_100%)] hover:bg-gray-300 ${currentPage === pageNumber ? "bg-gray-300" : ""}`}
                     >
                       {pageNumber}
@@ -351,7 +316,7 @@ export default function Leaderboard() {
               })}
 
               <div
-                onClick={() => setCurrentPage(currentPage + 1)}
+                onClick={() => goToPage(currentPage + 1)}
                 className={`relative border-[3px] border-transparent bg-[linear-gradient(108.74deg,rgba(255,255,255,0.24)_0%,rgba(255,255,255,0.06)_100%)] px-3 py-1 shadow-[0_0_50px_-25px_rgba(0,0,0,0.5)] backdrop-blur-[100px] [border-image-slice:1] [border-image-source:linear-gradient(108.74deg,rgba(33,138,203,0.6)_0%,rgba(255,255,255,0.54)_36.46%,rgba(255,255,255,0.3)_73.96%,rgba(17,227,251,0.6)_100%)] hover:bg-gray-300 ${currentPage === totalPages ? "pointer-events-none opacity-50" : ""}`}
               >
                 &gt;

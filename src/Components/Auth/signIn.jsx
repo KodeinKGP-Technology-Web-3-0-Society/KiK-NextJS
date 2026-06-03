@@ -19,6 +19,22 @@ const SignIn = () => {
   const captchaRenderedRef = useRef(false);
   const captchaContainerRef = useRef(null);
 
+  const resolveIdentifierToEmail = async (rawIdentifier) => {
+    const trimmedIdentifier = rawIdentifier.trim();
+
+    if (!trimmedIdentifier) return null;
+    if (trimmedIdentifier.includes("@")) return trimmedIdentifier;
+
+    try {
+      const usernameDoc = await getDoc(doc(db, "usernames", trimmedIdentifier));
+      if (!usernameDoc.exists()) return null;
+      return usernameDoc.data().email || null;
+    } catch (error) {
+      console.error("Error resolving username to email:", error);
+      return null;
+    }
+  };
+
   useEffect(() => {
     if (typeof window === "undefined") return;
 
@@ -91,24 +107,11 @@ const SignIn = () => {
       return;
     }
 
-    let identifierEmail = trimmedIdentifier;
-
-    if (!trimmedIdentifier.includes("@")) {
-      try {
-        const usernameDoc = await getDoc(
-          doc(db, "usernames", trimmedIdentifier)
-        );
-        if (!usernameDoc.exists()) {
-          toast.error("Username not found");
-          setLoader(false);
-          return;
-        }
-        identifierEmail = usernameDoc.data().email;
-      } catch (err) {
-        toast.error("Failed to fetch username");
-        setLoader(false);
-        return;
-      }
+    const identifierEmail = await resolveIdentifierToEmail(trimmedIdentifier);
+    if (!identifierEmail) {
+      toast.error("Invalid email/username or password.");
+      setLoader(false);
+      return;
     }
 
     try {

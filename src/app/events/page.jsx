@@ -21,7 +21,7 @@ const page = () => {
             <h2
               className="animate-fadeInUp mt-[32px] mb-6 ml-[5px] bg-clip-text text-center font-[kanit] text-[48px] font-bold max-lg:ml-4 max-lg:text-[35px]"
               style={{
-                marginBottom: index === 0 || index === 5 ? "3.5rem" : "0",
+                marginBottom: index === 0 || index === 7 ? "3.5rem" : "0",
                 background: `radial-gradient(64.18% 64.18% at 71.16% 35.69%, 
                             #def9fa 0.89%, #bef3f5 17.23%, #9dedf0 42.04%, 
                             #7de7eb 55.12%, #5ce1e6 71.54%, #33bbcf 100%)`,
@@ -39,7 +39,7 @@ const page = () => {
                     className="h-[120px] w-[200px] rounded-full border-4 border-[#87CEEB]/50 shadow-lg shadow-[#87CEEB]/30 transition-transform duration-300 hover:scale-110"
                   />
                 </div>
-              ) : index === 5 ? (
+              ) : index === 7 ? (
                 <div className="flex items-center justify-center gap-5 max-lg:flex-col">
                   Previous Workshops
                   <img

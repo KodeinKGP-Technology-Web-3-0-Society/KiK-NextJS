@@ -1,7 +1,16 @@
 import { NextResponse } from "next/server";
 import { db } from "@/backend/firebaseAdmin.js";
 
+const CERTIFICATE_APPLICATIONS_ENABLED = false;
+
 export async function POST(request) {
+  if (!CERTIFICATE_APPLICATIONS_ENABLED) {
+    return NextResponse.json(
+      { error: "Certificate applications are currently disabled" },
+      { status: 403 }
+    );
+  }
+
   try {
     const { email, name } = await request.json();
     if (!email) {

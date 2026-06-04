@@ -12,6 +12,8 @@ import { toast } from "react-toastify";
 import Modal from "./Modal";
 import { useAuthToken } from "@/hooks/useAuthToken";
 
+const CERTIFICATE_APPLICATIONS_ENABLED = false;
+
 async function checkCertificate(email, token) {
   try {
     const res = await fetch(
@@ -47,7 +49,12 @@ export default function Layout() {
 
   useEffect(() => {
     async function checkStatusAndModal() {
-      if (loggedIn && user?.email && authToken) {
+      if (
+        CERTIFICATE_APPLICATIONS_ENABLED &&
+        loggedIn &&
+        user?.email &&
+        authToken
+      ) {
         setLoading(true);
         const exists = await checkCertificate(user.email, authToken);
         setHasCert(exists);
@@ -88,7 +95,7 @@ export default function Layout() {
           <Leaderboard />
         </div>
       </div>
-      {loggedIn ? (
+      {loggedIn && CERTIFICATE_APPLICATIONS_ENABLED ? (
         <div className="p-6">
           <h1 className="mb-4 text-2xl font-bold">Certificate Application</h1>
           {hasCert === false && (

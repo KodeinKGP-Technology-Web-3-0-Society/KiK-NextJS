@@ -26,6 +26,7 @@ export function AuthProvider({ children }) {
           // Always use the current Firebase Auth emailVerified status
           const updatedUserData = {
             ...userData,
+            uid: currentUser.uid,
             emailVerified: currentUser.emailVerified,
           };
           setUser(updatedUserData);

@@ -5,6 +5,45 @@ import { useAuth } from "@/contexts/authContext";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
+function LeaderboardPageSkeleton() {
+  return (
+    <>
+      <div className="flex w-full flex-col items-center justify-center p-3">
+        <h2
+          className="mb-4 text-[2rem] font-bold"
+          style={{
+            background:
+              "linear-gradient(92.46deg, #218ACB 0%, #11E3FB 33.33%, #218ACB 66.67%, #11E3FB 100%)",
+            WebkitBackgroundClip: "text",
+            WebkitTextFillColor: "transparent",
+          }}
+        >
+          Leaderboard
+        </h2>
+        <div className="mb-8 flex items-end gap-2">
+          <div className="h-[160px] w-[130px] animate-pulse rounded-tl-xl bg-white/10" />
+          <div className="h-[200px] w-[140px] animate-pulse rounded-t-xl bg-white/15" />
+          <div className="h-[140px] w-[120px] animate-pulse rounded-tr-xl bg-white/10" />
+        </div>
+      </div>
+
+      <div className="space-y-1 pr-5 pl-1">
+        {Array.from({ length: 10 }, (_, index) => (
+          <div
+            key={index}
+            className="ml-5 flex items-center gap-4 bg-gradient-to-r from-[rgba(17,227,251,0.2)] to-[rgba(255,255,255,0.04)] px-4 py-2"
+          >
+            <div className="h-6 w-6 animate-pulse rounded bg-white/20" />
+            <div className="h-8 w-8 animate-pulse rounded-full bg-white/20" />
+            <div className="h-6 flex-1 animate-pulse rounded bg-white/20" />
+            <div className="h-6 w-16 animate-pulse rounded bg-white/20" />
+          </div>
+        ))}
+      </div>
+    </>
+  );
+}
+
 export default function LeaderboardPage() {
   const { loggedIn, user } = useAuth();
   const params = useParams();
@@ -16,11 +55,13 @@ export default function LeaderboardPage() {
   const [topData, setTopData] = useState([]);
   const [currentUserLeaderboardInfo, setCurrentUserLeaderboardInfo] =
     useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   const itemsPerPage = 10;
 
   useEffect(() => {
     async function getLeaderboardData() {
+      setIsLoading(true);
       try {
         const qs = new URLSearchParams();
         if (user?.email) qs.set("email", user.email);
@@ -56,6 +97,8 @@ export default function LeaderboardPage() {
       } catch (error) {
         toast.error(`Error fetching leaderboard data: ${error.message}`);
         console.error("Error fetching leaderboard data:", error);
+      } finally {
+        setIsLoading(false);
       }
     }
     getLeaderboardData();
@@ -68,7 +111,9 @@ export default function LeaderboardPage() {
 
   return (
     <div className="relative flex min-h-screen flex-col overflow-hidden bg-[linear-gradient(108.74deg,rgba(255,255,255,0.24)_0%,rgba(255,255,255,0.06)_100%)] shadow-[0_0_50px_-25px_rgba(0,0,0,0.5)] backdrop-blur-[100px] before:pointer-events-none before:absolute before:inset-0 before:rounded-[4px] before:border-[3px] before:border-transparent before:content-[''] before:[border-image-slice:1] before:[border-image-source:linear-gradient(108.74deg,rgba(33,138,203,0.6)_0%,rgba(255,255,255,0.54)_36.46%,rgba(255,255,255,0.3)_73.96%,rgba(17,227,251,0.6)_100%)]">
-      {fetchedLeaderboardData && totalUsers >= 10 ? (
+      {isLoading ? (
+        <LeaderboardPageSkeleton />
+      ) : fetchedLeaderboardData && totalUsers >= 10 ? (
         <>
           <div className="flex w-full flex-col items-center justify-center p-3">
             <h2

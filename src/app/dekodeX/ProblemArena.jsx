@@ -8,10 +8,10 @@ import Link from "next/link";
 import { useAuth } from "@/contexts/authContext";
 import { useAuthToken } from "../../hooks/useAuthToken";
 
-const LoadingSkeleton = () => {
+const LoadingSkeleton = ({ count = 5 }) => {
   return (
     <div className="space-y-2">
-      {Array.from({ length: 5 }, (_, index) => (
+      {Array.from({ length: count }, (_, index) => (
         <div
           key={index}
           className="group flex cursor-pointer items-center justify-between rounded bg-[linear-gradient(90.27deg,rgba(255,255,255,0.24)_0%,rgba(115,115,115,0.12)_100%)] p-3 transition-colors duration-200 sm:p-4"
@@ -44,7 +44,8 @@ const ProblemArena = () => {
   const [lockedProblems, setLockedProblems] = useState([]);
   const [currentTime, setCurrentTime] = useState(new Date());
   const { user, loggedIn } = useAuth();
-  const { token: authToken } = useAuthToken();
+  const { token: authToken, loading: tokenLoading } = useAuthToken();
+  const showQuestionLoader = loading || tokenLoading;
   const formatTime = (ms) => {
     if (ms <= 0) return "Loading...";
     const seconds = Math.floor(ms / 1000);
@@ -117,7 +118,13 @@ const ProblemArena = () => {
     async function fetchQuestions() {
       setLoading(true);
       try {
+        if (tokenLoading) {
+          return;
+        }
+
         if (!authToken) {
+          setUnlockedProblems([]);
+          setLockedProblems(problemsData.slice(0, 10));
           setLoading(false);
           return;
         }
@@ -182,7 +189,7 @@ const ProblemArena = () => {
     }, 1000);
 
     return () => clearInterval(intervalId);
-  }, [authToken]);
+  }, [authToken, tokenLoading]);
 
   // Modal JSX
   const modalContent = (
@@ -402,8 +409,8 @@ const ProblemArena = () => {
           )}
 
           <div className="space-y-2">
-            {loading ? (
-              <LoadingSkeleton />
+            {showQuestionLoader ? (
+              <LoadingSkeleton count={10} />
             ) : (
               unlockedProblems.map((problem) => (
                 <div
@@ -456,10 +463,8 @@ const ProblemArena = () => {
             </h2>
           )}
           <div className="space-y-2">
-            {loading ? (
-              <div className="">
-                <LoadingSkeleton />
-              </div>
+            {showQuestionLoader ? (
+              <></>
             ) : (
               lockedProblems.map((problem) => {
                 const timeUntilUnlock = problem.unlockDate

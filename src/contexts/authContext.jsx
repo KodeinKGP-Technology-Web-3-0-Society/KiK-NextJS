@@ -51,12 +51,11 @@ export function AuthProvider({ children }) {
 
   const value = {
     user,
-    loggedIn: !!user && user.emailVerified,
+    loggedIn: !loading && !!user && user.emailVerified,
+    loading,
   };
 
   return (
-    <AuthContext.Provider value={value}>
-      {!loading && children}
-    </AuthContext.Provider>
+    <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
   );
 }

@@ -9,13 +9,13 @@ import { UnrealBloomPass } from "three/examples/jsm/postprocessing/UnrealBloomPa
 import { GlitchPass } from "three/examples/jsm/postprocessing/GlitchPass.js";
 import { ShaderPass } from "three/examples/jsm/postprocessing/ShaderPass.js";
 
-const VOID = "#020205";
-const TEAL = "#00FFB2";
-const TEAL_DARK = "#00CC8E";
-const AMBER = "#F5A623";
-const CRIMSON = "#FF2D55";
+const VOID = "#020408";
+const TEAL = "#00FFFF";
+const TEAL_DARK = "#00B8D9";
+const AMBER = "#3B82F6";
+const CRIMSON = "#6366F1";
 const OFF_WHITE = "#f4f6f6";
-const DEEP_BLUE = "#0A1628";
+const DEEP_BLUE = "#040D18";
 
 const TYPE_TEXT = "> DECRYPTING... SIGNAL ";
 const PHASE = {
@@ -247,8 +247,8 @@ export default function DekodeXLoading({ onComplete, lockToScreen = true, classN
 
     const scene = new THREE.Scene();
     // Richer, deeper fog with a hint of teal
-    scene.fog = new THREE.FogExp2(0x020408, 0.038);
-    scene.background = new THREE.Color(0x020205);
+    scene.fog = new THREE.FogExp2(0x030810, 0.038);
+    scene.background = new THREE.Color(0x020408);
 
     const camera = new THREE.PerspectiveCamera(58, host.clientWidth / host.clientHeight, 0.1, 450);
     camera.position.set(0.3, 0.7, 12.5);
@@ -289,15 +289,15 @@ export default function DekodeXLoading({ onComplete, lockToScreen = true, classN
     const ambient = new THREE.AmbientLight(0x0a1628, 0.4);
     scene.add(ambient);
 
-    const tealRim = new THREE.PointLight(0x00ffb2, 28, 65, 1.4);
+    const tealRim = new THREE.PointLight(0x00ffff, 28, 65, 1.4);
     tealRim.position.set(-6, 6, 10);
     scene.add(tealRim);
 
-    const amberKey = new THREE.PointLight(0xf5a623, 18, 52, 1.7);
+    const amberKey = new THREE.PointLight(0x3b82f6, 18, 52, 1.7);
     amberKey.position.set(8, -3, 8);
     scene.add(amberKey);
 
-    const crimsonFill = new THREE.PointLight(0xff2d55, 10, 40, 2.0);
+    const crimsonFill = new THREE.PointLight(0x6366f1, 10, 40, 2.0);
     crimsonFill.position.set(0, -8, -5);
     scene.add(crimsonFill);
 
@@ -582,13 +582,13 @@ export default function DekodeXLoading({ onComplete, lockToScreen = true, classN
     ];
 
     // Enhanced grid — two overlapping grids for depth
-    const grid = new THREE.GridHelper(260, 140, new THREE.Color(TEAL), new THREE.Color(0x0d3d2e));
+    const grid = new THREE.GridHelper(260, 140, new THREE.Color(TEAL), new THREE.Color(0x0d2d45));
     grid.material.transparent = true;
     grid.material.opacity = 0;
     grid.position.y = -6;
     scene.add(grid);
 
-    const grid2 = new THREE.GridHelper(120, 60, new THREE.Color(AMBER), new THREE.Color(0x1a0a00));
+    const grid2 = new THREE.GridHelper(120, 60, new THREE.Color(AMBER), new THREE.Color(0x08142d));
     grid2.material.transparent = true;
     grid2.material.opacity = 0;
     grid2.position.y = -6;
@@ -617,7 +617,7 @@ export default function DekodeXLoading({ onComplete, lockToScreen = true, classN
     const tmp = new THREE.Vector3();
     const camLow = new THREE.Vector3(-7.8, -2.7, 16.5);
     const camMid = new THREE.Vector3(-2.6, 1.8, 12.8);
-    const camHigh = new THREE.Vector3(0.8, 10.5, 9.1);
+    const camHigh = new THREE.Vector3(0.5, 1.8, 11.5);
     const camGrid = new THREE.Vector3(0, 6.6, 7.2);
     const camTarget = new THREE.Vector3();
 
@@ -636,21 +636,21 @@ export default function DekodeXLoading({ onComplete, lockToScreen = true, classN
 
       // Richer background: layered gradient
       const bg = ctx.createLinearGradient(0, 0, 0, height);
-      bg.addColorStop(0, "rgba(2,4,8,0.92)");
-      bg.addColorStop(0.5, "rgba(4,10,20,0.85)");
-      bg.addColorStop(1, "rgba(0,8,4,0.92)");
+      bg.addColorStop(0, "rgba(2,4,12,0.92)");
+      bg.addColorStop(0.5, "rgba(4,10,24,0.85)");
+      bg.addColorStop(1, "rgba(2,4,12,0.92)");
       ctx.fillStyle = bg;
       ctx.fillRect(0, 0, width, height);
 
       // Scanlines
-      ctx.strokeStyle = "rgba(0,255,178,0.08)";
+      ctx.strokeStyle = "rgba(0,255,255,0.08)";
       ctx.lineWidth = 1;
       for (let y = 0; y < height; y += 20) {
         ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(width, y); ctx.stroke();
       }
 
       // Vertical subtle lines
-      ctx.strokeStyle = "rgba(0,255,178,0.04)";
+      ctx.strokeStyle = "rgba(0,255,255,0.04)";
       for (let x = 0; x < width; x += 80) {
         ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, height); ctx.stroke();
       }
@@ -664,25 +664,25 @@ export default function DekodeXLoading({ onComplete, lockToScreen = true, classN
 
       // Multi-layer glow text rendering
       // Outer glow (teal, wide)
-      ctx.shadowColor = "rgba(0,255,178,0.9)";
+      ctx.shadowColor = "rgba(0,255,255,0.9)";
       ctx.shadowBlur = 38;
-      ctx.fillStyle = "rgba(0,255,178,0.18)";
+      ctx.fillStyle = "rgba(0,255,255,0.18)";
       ctx.fillText(line, x, y);
 
       // Mid glow
       ctx.shadowBlur = 16;
-      ctx.fillStyle = "rgba(0,255,178,0.45)";
+      ctx.fillStyle = "rgba(0,255,255,0.45)";
       ctx.fillText(line, x, y);
 
       // Chromatic split
       ctx.shadowBlur = 0;
       ctx.fillStyle = "rgba(245,166,35,0.18)";
       ctx.fillText(line, x + 1.2, y + 0.8);
-      ctx.fillStyle = "rgba(255,45,85,0.1)";
+      ctx.fillStyle = "rgba(99,102,241,0.1)";
       ctx.fillText(line, x - 0.8, y - 0.4);
 
       // Crisp main text
-      ctx.shadowColor = "rgba(0,255,178,0.5)";
+      ctx.shadowColor = "rgba(0,255,255,0.5)";
       ctx.shadowBlur = 8;
       ctx.fillStyle = "rgba(244,246,246,0.96)";
       ctx.fillText(line, x, y);
@@ -695,18 +695,18 @@ export default function DekodeXLoading({ onComplete, lockToScreen = true, classN
         const ch = 90;
         const cy = y - ch * 0.5;
         const cursorGrad = ctx.createLinearGradient(cx, cy, cx, cy + ch);
-        cursorGrad.addColorStop(0, "rgba(0,255,178,0.2)");
+        cursorGrad.addColorStop(0, "rgba(0,255,255,0.2)");
         cursorGrad.addColorStop(0.5, "rgba(244,246,246,1.0)");
-        cursorGrad.addColorStop(1, "rgba(0,255,178,0.2)");
+        cursorGrad.addColorStop(1, "rgba(0,255,255,0.2)");
         ctx.fillStyle = cursorGrad;
         ctx.fillRect(cx, cy, 5, ch);
       }
 
       // Border: double-line frame
-      ctx.strokeStyle = "rgba(0,255,178,0.7)";
+      ctx.strokeStyle = "rgba(0,255,255,0.7)";
       ctx.lineWidth = 3;
       ctx.strokeRect(18, 18, width - 36, height - 36);
-      ctx.strokeStyle = "rgba(0,255,178,0.2)";
+      ctx.strokeStyle = "rgba(0,255,255,0.2)";
       ctx.lineWidth = 1;
       ctx.strokeRect(26, 26, width - 52, height - 52);
 
@@ -738,7 +738,7 @@ export default function DekodeXLoading({ onComplete, lockToScreen = true, classN
       const dynamicStep = THREE.MathUtils.clamp((fpsFactor + 0.8) * 0.78, 0.32, 1.3);
 
       // Animate rim light flicker every frame
-      tealRim.intensity = 24 + Math.sin(t * 0.003) * 6 + Math.sin(t * 0.0071) * 3;
+      tealRim.intensity = 18 + Math.sin(t * 0.003) * 4 + Math.sin(t * 0.0071) * 2;
       amberKey.intensity = 16 + Math.sin(t * 0.004 + 1.2) * 4;
 
       // Chromatic aberration and grain update
@@ -761,9 +761,9 @@ export default function DekodeXLoading({ onComplete, lockToScreen = true, classN
         chromaPass.uniforms.amount.value = 0.003 + Math.sin(t * 0.002) * 0.001;
         glitch.curF = 0.02 + Math.sin(t * 0.0014) * 0.01;
 
-        if (typedCountRef.current >= TYPE_TEXT.length && phaseTimeRef.current > 1.4 / speedRef.current) {
-          phaseTransition(PHASE.MORPH_HIERO);
-          gsap.to(camera.position, { x: 0.8, y: 0.2, z: 9.2, duration: 2.4, ease: "power2.inOut" });
+        if (typedCountRef.current >= TYPE_TEXT.length && phaseTimeRef.current > 1.5 / speedRef.current) {
+          setTerminalText("");
+          phaseTransition(PHASE.CONSTRUCT);
         }
         return;
       }
@@ -829,19 +829,29 @@ export default function DekodeXLoading({ onComplete, lockToScreen = true, classN
       }
 
       if (phase === PHASE.CONSTRUCT) {
-        const constructT = Math.min(1, phaseTimeRef.current / (4 / speedRef.current));
+        const constructT = Math.min(1, phaseTimeRef.current / (4.0 / speedRef.current));
         const constructEase = THREE.MathUtils.smoothstep(constructT, 0, 1);
 
-        world.pyramidMesh.material.opacity = THREE.MathUtils.lerp(world.pyramidMesh.material.opacity, 0.38 + constructEase * 0.58, 0.07);
-        world.innerPyramidMesh.material.opacity = THREE.MathUtils.lerp(world.innerPyramidMesh.material.opacity, constructEase * 0.45, 0.06);
+        // Fade out the holographic terminal board and overlay plates
+        world.terminalPlane.material.opacity = Math.max(0, world.terminalPlane.material.opacity - 0.055);
+        world.volPlate.material.opacity = Math.max(0, world.volPlate.material.opacity - 0.045);
+        world.volPlate2.material.opacity = Math.max(0, world.volPlate2.material.opacity - 0.038);
+        if (world.terminalPlane.material.opacity <= 0.01) world.terminalPlane.visible = false;
+        if (world.volPlate.material.opacity <= 0.01) world.volPlate.visible = false;
+        if (world.volPlate2.material.opacity <= 0.01) world.volPlate2.visible = false;
+
+        // Bring back the particles opacity so they charge up the pyramid
+        world.particleMat.opacity = THREE.MathUtils.lerp(world.particleMat.opacity, 0.78, 0.05);
+        world.particleMat.size = 0.045 + constructEase * 0.025;
+
+        world.pyramidMesh.material.opacity = THREE.MathUtils.lerp(world.pyramidMesh.material.opacity, 0.24 + constructEase * 0.42, 0.07);
+        world.innerPyramidMesh.material.opacity = THREE.MathUtils.lerp(world.innerPyramidMesh.material.opacity, constructEase * 0.30, 0.06);
         world.haloRing.material.opacity = THREE.MathUtils.lerp(world.haloRing.material.opacity, constructEase * 0.6, 0.05);
         world.haloRing2.material.opacity = THREE.MathUtils.lerp(world.haloRing2.material.opacity, constructEase * 0.35, 0.05);
         world.haloRing.rotation.z = t * 0.001;
         world.haloRing2.rotation.z = -t * 0.0008;
         world.haloRing.scale.setScalar(1 + Math.sin(t * 0.005) * 0.08 * constructEase);
         world.haloRing2.scale.setScalar(1 + Math.cos(t * 0.006) * 0.06 * constructEase);
-
-        world.particleMat.size = 0.05 + constructEase * 0.035;
 
         const pull = 0.032 * dynamicStep;
         for (let i = 0; i < particleCount; i++) {
@@ -875,11 +885,11 @@ export default function DekodeXLoading({ onComplete, lockToScreen = true, classN
         camera.position.lerp(camTarget, 0.014 + constructEase * 0.02);
         camera.lookAt(0, -0.2 + constructEase * 1.15, 0);
 
-        bloom.strength = THREE.MathUtils.lerp(bloom.strength, 1.44 + constructEase * 0.32, 0.04);
+        bloom.strength = THREE.MathUtils.lerp(bloom.strength, 1.1 + constructEase * 0.22, 0.04);
         chromaPass.uniforms.amount.value = THREE.MathUtils.lerp(chromaPass.uniforms.amount.value, 0.004 + constructEase * 0.003, 0.03);
         glitch.curF = 0.03 + constructEase * 0.04;
 
-        if (phaseTimeRef.current > 4 / speedRef.current) {
+        if (phaseTimeRef.current > 4.0 / speedRef.current) {
           phaseTransition(PHASE.BREACH);
           setInBreach(true);
         }
@@ -887,50 +897,53 @@ export default function DekodeXLoading({ onComplete, lockToScreen = true, classN
       }
 
       if (phase === PHASE.BREACH) {
-        const breachT = Math.min(1, phaseTimeRef.current / (2.9 / speedRef.current));
-        const charge = THREE.MathUtils.smoothstep(breachT, 0.05, 0.38);
-        const launch = THREE.MathUtils.smoothstep(breachT, 0.38, 1);
+        const breachT = Math.min(1, phaseTimeRef.current / (1.7 / speedRef.current));
+        const thinRelease = THREE.MathUtils.smoothstep(breachT, 0.0, 0.1);
+        const charge = THREE.MathUtils.smoothstep(breachT, 0.15, 0.6);
+        const launch = THREE.MathUtils.smoothstep(breachT, 0.65, 0.96);
 
-        world.beam.material.opacity = THREE.MathUtils.lerp(world.beam.material.opacity, 0.42 + charge * 0.52, 0.1);
-        world.beam.scale.x = 0.9 + charge * 0.9 + Math.sin(t * 0.013) * 0.18;
-        world.beam.scale.z = 0.9 + charge * 0.9 + Math.sin(t * 0.011) * 0.16;
-        world.beamCore.material.opacity = THREE.MathUtils.lerp(world.beamCore.material.opacity, 0.65 + charge * 0.35, 0.12);
-        world.beamCore.scale.x = 0.95 + charge * 0.7 + Math.sin(t * 0.018) * 0.08;
-        world.beamCore.scale.z = 0.95 + charge * 0.7 + Math.sin(t * 0.018) * 0.08;
-        world.superCore.material.opacity = THREE.MathUtils.lerp(world.superCore.material.opacity, 0.92 + charge * 0.08, 0.15);
+        world.beam.material.opacity = THREE.MathUtils.lerp(world.beam.material.opacity, 0.18 + thinRelease * 0.18 + charge * 0.3 + launch * 0.16, 0.08);
+        world.beam.scale.x = 0.18 + thinRelease * 0.32 + charge * 0.95 + launch * 2.1 + Math.sin(t * 0.013) * 0.06;
+        world.beam.scale.z = 0.18 + thinRelease * 0.28 + charge * 0.82 + launch * 1.8 + Math.sin(t * 0.011) * 0.05;
+        world.beamCore.material.opacity = THREE.MathUtils.lerp(world.beamCore.material.opacity, 0.24 + thinRelease * 0.2 + charge * 0.4 + launch * 0.12, 0.1);
+        world.beamCore.scale.x = 0.2 + thinRelease * 0.26 + charge * 0.52 + launch * 0.86 + Math.sin(t * 0.018) * 0.04;
+        world.beamCore.scale.z = 0.2 + thinRelease * 0.26 + charge * 0.52 + launch * 0.86 + Math.sin(t * 0.018) * 0.04;
+        world.superCore.material.opacity = THREE.MathUtils.lerp(world.superCore.material.opacity, 0.28 + thinRelease * 0.3 + charge * 0.32 + launch * 0.2, 0.14);
 
-        world.haloRing.material.opacity = THREE.MathUtils.lerp(world.haloRing.material.opacity, 0.8 - launch * 0.75, 0.1);
-        world.haloRing2.material.opacity = THREE.MathUtils.lerp(world.haloRing2.material.opacity, 0.6 - launch * 0.55, 0.08);
-        world.haloRing.scale.setScalar(1 + charge * 0.5 + launch * 2);
-        world.haloRing2.scale.setScalar(1 + charge * 0.3 + launch * 1.5);
+        world.haloRing.material.opacity = THREE.MathUtils.lerp(world.haloRing.material.opacity, 0.56 - launch * 0.52, 0.1);
+        world.haloRing2.material.opacity = THREE.MathUtils.lerp(world.haloRing2.material.opacity, 0.38 - launch * 0.34, 0.08);
+        world.haloRing.scale.setScalar(1 + charge * 0.35 + launch * 1.3);
+        world.haloRing2.scale.setScalar(1 + charge * 0.24 + launch * 0.92);
 
-        world.pyramidMesh.material.opacity = THREE.MathUtils.lerp(world.pyramidMesh.material.opacity, 0.7 - launch * 0.65, 0.08);
-        world.innerPyramidMesh.material.opacity = THREE.MathUtils.lerp(world.innerPyramidMesh.material.opacity, 0.5 - launch * 0.48, 0.08);
-        world.swarm.material.opacity = THREE.MathUtils.lerp(world.swarm.material.opacity, 0.85 - launch * 0.8, 0.08);
+        world.pyramidMesh.material.opacity = THREE.MathUtils.lerp(world.pyramidMesh.material.opacity, 0.52 - launch * 0.42, 0.08);
+        world.innerPyramidMesh.material.opacity = THREE.MathUtils.lerp(world.innerPyramidMesh.material.opacity, 0.36 - launch * 0.3, 0.08);
+        world.swarm.material.opacity = THREE.MathUtils.lerp(world.swarm.material.opacity, 0.72 - launch * 0.66, 0.08);
 
-        bloom.strength = THREE.MathUtils.lerp(bloom.strength, 2.1 + launch * 1.1, 0.07);
-        chromaPass.uniforms.amount.value = THREE.MathUtils.lerp(chromaPass.uniforms.amount.value, 0.012 + launch * 0.018, 0.06);
-        glitch.curF = 0.04 + launch * 0.14;
+        bloom.strength = THREE.MathUtils.lerp(bloom.strength, 1.74 + launch * 0.82, 0.07);
+        chromaPass.uniforms.amount.value = THREE.MathUtils.lerp(chromaPass.uniforms.amount.value, 0.01 + launch * 0.014, 0.06);
+        glitch.curF = 0.03 + launch * 0.1;
 
-        world.grid.material.opacity = THREE.MathUtils.lerp(world.grid.material.opacity, 0.24 + launch * 0.62, 0.08);
-        world.grid2.material.opacity = THREE.MathUtils.lerp(world.grid2.material.opacity, 0.1 + launch * 0.32, 0.06);
-        world.fogPlane.material.opacity = THREE.MathUtils.lerp(world.fogPlane.material.opacity, launch * 0.08, 0.06);
+        world.grid.material.opacity = THREE.MathUtils.lerp(world.grid.material.opacity, 0.18 + launch * 0.48, 0.08);
+        world.grid2.material.opacity = THREE.MathUtils.lerp(world.grid2.material.opacity, 0.08 + launch * 0.24, 0.06);
+        world.fogPlane.material.opacity = THREE.MathUtils.lerp(world.fogPlane.material.opacity, launch * 0.06, 0.06);
 
-        camera.position.y += dt * (2.4 + launch * 10.5);
-        camera.position.z -= dt * (3.4 + launch * 16.5);
-        camera.lookAt(0, 7.5 + launch * 9, -launch * 15);
+        camera.position.y += dt * (0.7 + launch * 8.2);
+        camera.position.z -= dt * (0.8 + launch * 11.2);
+        const breachLookY = THREE.MathUtils.lerp(-0.2, 7.5, launch);
+        const breachLookZ = -launch * 15;
+        camera.lookAt(0, breachLookY, breachLookZ);
 
-        if (phaseTimeRef.current > 2.9 / speedRef.current) {
+        if (phaseTimeRef.current > 1.6 / speedRef.current) {
           phaseTransition(PHASE.GRID);
           setShowInit(true);
-          gsap.delayedCall(0.95, () => { if (!mounted) return; setShowGranted(true); });
-          if (shouldResolveRef.current) gsap.delayedCall(2.45, markComplete);
+          gsap.delayedCall(0.5, () => { if (!mounted) return; setShowGranted(true); });
+          if (shouldResolveRef.current) gsap.delayedCall(1.2, markComplete);
         }
         return;
       }
 
       if (phase === PHASE.GRID) {
-        const gridT = Math.min(1, phaseTimeRef.current / (2.7 / speedRef.current));
+        const gridT = Math.min(1, phaseTimeRef.current / (1.5 / speedRef.current));
         world.swarm.material.opacity = THREE.MathUtils.lerp(world.swarm.material.opacity, 0.02, 0.05);
         world.pyramidMesh.material.opacity = THREE.MathUtils.lerp(world.pyramidMesh.material.opacity, 0.01, 0.05);
         world.innerPyramidMesh.material.opacity = THREE.MathUtils.lerp(world.innerPyramidMesh.material.opacity, 0, 0.06);
@@ -1034,7 +1047,7 @@ export default function DekodeXLoading({ onComplete, lockToScreen = true, classN
       <div
         className={`pointer-events-none absolute inset-0 transition-opacity duration-500`}
         style={{
-          background: "radial-gradient(ellipse at center, rgba(0,255,178,0.18) 0%, rgba(0,0,0,0) 70%)",
+          background: "radial-gradient(ellipse at center, rgba(0,255,255,0.18) 0%, rgba(0,0,0,0) 70%)",
           opacity: inBreach ? 1 : 0,
         }}
       />
@@ -1042,16 +1055,16 @@ export default function DekodeXLoading({ onComplete, lockToScreen = true, classN
       {/* HUD layer */}
       <div className="pointer-events-none absolute inset-0">
         {/* Corner HUD brackets */}
-        <div className="absolute top-4 left-4 w-10 h-10 border-t-2 border-l-2 border-[#00FFB2]/50" />
-        <div className="absolute top-4 right-4 w-10 h-10 border-t-2 border-r-2 border-[#00FFB2]/50" />
-        <div className="absolute bottom-4 left-4 w-10 h-10 border-b-2 border-l-2 border-[#00FFB2]/50" />
-        <div className="absolute bottom-4 right-4 w-10 h-10 border-b-2 border-r-2 border-[#00FFB2]/50" />
+        <div className="absolute top-4 left-4 w-10 h-10 border-t-2 border-l-2 border-[#00FFFF]/50" />
+        <div className="absolute top-4 right-4 w-10 h-10 border-t-2 border-r-2 border-[#00FFFF]/50" />
+        <div className="absolute bottom-4 left-4 w-10 h-10 border-b-2 border-l-2 border-[#00FFFF]/50" />
+        <div className="absolute bottom-4 right-4 w-10 h-10 border-b-2 border-r-2 border-[#00FFFF]/50" />
 
         {/* Top status bar */}
         <div className="absolute top-5 left-1/2 -translate-x-1/2 flex items-center gap-3">
-          <div className="w-1.5 h-1.5 rounded-full bg-[#00FFB2] shadow-[0_0_6px_#00FFB2] animate-pulse" />
-          <span className="font-mono text-[10px] tracking-[0.35em] text-[#00FFB2]/55 uppercase">Signal Active</span>
-          <div className="w-1.5 h-1.5 rounded-full bg-[#F5A623] shadow-[0_0_6px_#F5A623] animate-pulse" style={{ animationDelay: "0.5s" }} />
+          <div className="w-1.5 h-1.5 rounded-full bg-[#00FFFF] shadow-[0_0_6px_#00FFFF] animate-pulse" />
+          <span className="font-mono text-[10px] tracking-[0.35em] text-[#00FFFF]/55 uppercase">Signal Active</span>
+          <div className="w-1.5 h-1.5 rounded-full bg-[#3B82F6] shadow-[0_0_6px_#3B82F6] animate-pulse" style={{ animationDelay: "0.5s" }} />
         </div>
 
         {/* AXIOM text */}
@@ -1062,7 +1075,7 @@ export default function DekodeXLoading({ onComplete, lockToScreen = true, classN
             AXIOM INITIALIZING
           </div>
           <div
-            className={`mt-2 tracking-[0.22em] text-[clamp(0.55rem,1vw,0.8rem)] text-[#00FFB2]/50 font-mono transition-opacity duration-1000 ${showGranted ? "opacity-100" : "opacity-0"}`}
+            className={`mt-2 tracking-[0.22em] text-[clamp(0.55rem,1vw,0.8rem)] text-[#00FFFF]/50 font-mono transition-opacity duration-1000 ${showGranted ? "opacity-100" : "opacity-0"}`}
           >
             NEURAL LATTICE ONLINE — SECTOR 7G VERIFIED
           </div>
@@ -1071,18 +1084,18 @@ export default function DekodeXLoading({ onComplete, lockToScreen = true, classN
         {/* ACCESS GRANTED */}
         <div
           className={`absolute top-[32%] left-1/2 -translate-x-1/2 text-center font-mono text-[clamp(1rem,2.6vw,2.2rem)] font-bold tracking-[0.26em] transition-all duration-500 ${showGranted ? "opacity-100 scale-100" : "opacity-0 scale-95"}`}
-          style={{ color: "#FF2D55", textShadow: "0 0 12px rgba(255,45,85,0.8), 0 0 30px rgba(255,45,85,0.4)" }}
+          style={{ color: "#6366F1", textShadow: "0 0 12px rgba(99,102,241,0.8), 0 0 30px rgba(99,102,241,0.4)" }}
         >
           ACCESS GRANTED
         </div>
 
         {/* Terminal text bottom */}
         <div className="absolute right-5 bottom-8 left-5 flex items-center justify-center gap-2">
-          <div className="h-px flex-1 bg-gradient-to-r from-transparent to-[#00FFB2]/20" />
-          <span className="font-mono text-[10px] tracking-[0.18em] text-[#00ffb2]/65 sm:text-xs">
+          <div className="h-px flex-1 bg-gradient-to-r from-transparent to-[#00FFFF]/20" />
+          <span className="font-mono text-[10px] tracking-[0.18em] text-[#00ffff]/65 sm:text-xs">
             {terminalText}
           </span>
-          <div className="h-px flex-1 bg-gradient-to-l from-transparent to-[#00FFB2]/20" />
+          <div className="h-px flex-1 bg-gradient-to-l from-transparent to-[#00FFFF]/20" />
         </div>
       </div>
 
@@ -1095,11 +1108,11 @@ export default function DekodeXLoading({ onComplete, lockToScreen = true, classN
         .axiom-init {
           text-shadow:
             0 0 4px rgba(244,246,246,0.9),
-            0 0 14px rgba(0,255,178,0.6),
-            0 0 32px rgba(0,255,178,0.35),
-            0 0 60px rgba(0,255,178,0.18);
+            0 0 14px rgba(0,255,255,0.6),
+            0 0 32px rgba(0,255,255,0.35),
+            0 0 60px rgba(0,255,255,0.18);
         }
       `}</style>
     </div>
   );
-} 
+}

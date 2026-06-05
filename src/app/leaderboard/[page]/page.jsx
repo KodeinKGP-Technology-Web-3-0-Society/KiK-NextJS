@@ -1,12 +1,53 @@
 "use client";
 import Link from "next/link";
+import { useParams } from "next/navigation";
 import { useAuth } from "@/contexts/authContext";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
-export default function LeaderboardPage({ params }) {
+function LeaderboardPageSkeleton() {
+  return (
+    <>
+      <div className="flex w-full flex-col items-center justify-center p-3">
+        <h2
+          className="mb-4 text-[2rem] font-bold"
+          style={{
+            background:
+              "linear-gradient(92.46deg, #218ACB 0%, #11E3FB 33.33%, #218ACB 66.67%, #11E3FB 100%)",
+            WebkitBackgroundClip: "text",
+            WebkitTextFillColor: "transparent",
+          }}
+        >
+          Leaderboard
+        </h2>
+        <div className="mb-8 flex items-end gap-2">
+          <div className="h-[160px] w-[130px] animate-pulse rounded-tl-xl bg-white/10" />
+          <div className="h-[200px] w-[140px] animate-pulse rounded-t-xl bg-white/15" />
+          <div className="h-[140px] w-[120px] animate-pulse rounded-tr-xl bg-white/10" />
+        </div>
+      </div>
+
+      <div className="space-y-1 pr-5 pl-1">
+        {Array.from({ length: 10 }, (_, index) => (
+          <div
+            key={index}
+            className="ml-5 flex items-center gap-4 bg-gradient-to-r from-[rgba(17,227,251,0.2)] to-[rgba(255,255,255,0.04)] px-4 py-2"
+          >
+            <div className="h-6 w-6 animate-pulse rounded bg-white/20" />
+            <div className="h-8 w-8 animate-pulse rounded-full bg-white/20" />
+            <div className="h-6 flex-1 animate-pulse rounded bg-white/20" />
+            <div className="h-6 w-16 animate-pulse rounded bg-white/20" />
+          </div>
+        ))}
+      </div>
+    </>
+  );
+}
+
+export default function LeaderboardPage() {
   const { loggedIn, user } = useAuth();
-  const currentPage = parseInt(params.page) || 1;
+  const params = useParams();
+  const currentPage = parseInt(params?.page, 10) || 1;
 
   const [totalPages, setTotalPages] = useState(0);
   const [totalUsers, setTotalUsers] = useState(0);
@@ -14,85 +55,54 @@ export default function LeaderboardPage({ params }) {
   const [topData, setTopData] = useState([]);
   const [currentUserLeaderboardInfo, setCurrentUserLeaderboardInfo] =
     useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   const itemsPerPage = 10;
 
   useEffect(() => {
-    async function getTopScorerData() {
+    async function getLeaderboardData() {
+      setIsLoading(true);
       try {
+        const qs = new URLSearchParams();
+        if (user?.email) qs.set("email", user.email);
+        qs.set("pageSize", String(itemsPerPage));
+
         const res = await fetch(
-          `${process.env.NEXT_PUBLIC_API_BASE_URL}/dekodeX/api/leaderboard/1?email=${encodeURIComponent(user?.email)}`
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/dekodeX/api/leaderboard/${currentPage}?${qs.toString()}`
         );
         const data = await res.json();
 
-        if (data.status == 500) {
-          toast.error("Internal Server Error. Please try again later.");
+        if (!res.ok) {
+          toast.error(
+            data?.error || "Error fetching leaderboard. Please try again later."
+          );
           return;
         } else {
-          setTopData(data.paginatedLeaderboard);
-          setCurrentUserLeaderboardInfo(data.currentUser);
-          if (data.currentUser && data.currentUser != "Anonymous") {
+          setFetchedLeaderboardData(data.paginatedLeaderboard || []);
+          setTopData(data.podium || []);
+          setCurrentUserLeaderboardInfo(data.currentUser || null);
+          if (data.meta) {
+            setTotalUsers(data.meta.leaderboardSize ?? 0);
+            setTotalPages(data.meta.totalPages ?? 0);
+          }
+          if (data.currentUser && data.currentUser.username !== "Anonymous") {
             toast.success(
               `Welcome back, ${data.currentUser.username}! Your current score is ${data.currentUser.score}.`
             );
-          } else {
+          } else if (loggedIn) {
             toast.info("You are not on the leaderboard yet.");
           }
-          return;
-        }
-      } catch {
-        toast.error("Error occured while fetching leaderboard.");
-        return;
-      }
-    }
-
-    async function getLeaderboardData() {
-      try {
-        const res = await fetch(
-          `${process.env.NEXT_PUBLIC_API_BASE_URL}/dekodeX/api/leaderboard/${currentPage}`
-        );
-        const data = await res.json();
-
-        if (data.status === 500) {
-          toast.error("Internal Server Error. Please try again later.");
-          return;
-        } else {
-          setFetchedLeaderboardData(data.paginatedLeaderboard);
-          getTopScorerData();
           return;
         }
       } catch (error) {
         toast.error(`Error fetching leaderboard data: ${error.message}`);
         console.error("Error fetching leaderboard data:", error);
+      } finally {
+        setIsLoading(false);
       }
     }
     getLeaderboardData();
-  }, [currentPage, user]);
-
-  // fetching total number of users for pagination
-  useEffect(() => {
-    async function getTotalUsers() {
-      try {
-        const res = await fetch(
-          `${process.env.NEXT_PUBLIC_API_BASE_URL}/dekodeX/api/leaderboard`
-        );
-        const data = await res.json();
-
-        if (data.status === 500) {
-          toast.error("Internal Server Error. Please try again later.");
-          return;
-        } else {
-          setTotalUsers(data.leaderboardSize);
-          setTotalPages(Math.ceil(data.leaderboardSize / itemsPerPage));
-          return;
-        }
-      } catch (error) {
-        toast.error(`Error fetching total users: ${error.message}`);
-        console.error("Error fetching total users:", error);
-      }
-    }
-    getTotalUsers();
-  }, []);
+  }, [currentPage, user?.email, loggedIn]);
 
   // for redirecting to dekodeX page
   const redirectToDekodeX = () => {
@@ -100,8 +110,10 @@ export default function LeaderboardPage({ params }) {
   };
 
   return (
-    <div className="flex min-h-screen flex-col bg-[linear-gradient(108.74deg,rgba(255,255,255,0.24)_0%,rgba(255,255,255,0.06)_100%)] shadow-[0_0_50px_-25px_rgba(0,0,0,0.5)] backdrop-blur-[100px] before:pointer-events-none before:absolute before:inset-0 before:rounded-[4px] before:border-[3px] before:border-transparent before:content-[''] before:[border-image-slice:1] before:[border-image-source:linear-gradient(108.74deg,rgba(33,138,203,0.6)_0%,rgba(255,255,255,0.54)_36.46%,rgba(255,255,255,0.3)_73.96%,rgba(17,227,251,0.6)_100%)]">
-      {fetchedLeaderboardData && totalUsers >= 10 ? (
+    <div className="relative flex min-h-screen flex-col overflow-hidden bg-[linear-gradient(108.74deg,rgba(255,255,255,0.24)_0%,rgba(255,255,255,0.06)_100%)] shadow-[0_0_50px_-25px_rgba(0,0,0,0.5)] backdrop-blur-[100px] before:pointer-events-none before:absolute before:inset-0 before:rounded-[4px] before:border-[3px] before:border-transparent before:content-[''] before:[border-image-slice:1] before:[border-image-source:linear-gradient(108.74deg,rgba(33,138,203,0.6)_0%,rgba(255,255,255,0.54)_36.46%,rgba(255,255,255,0.3)_73.96%,rgba(17,227,251,0.6)_100%)]">
+      {isLoading ? (
+        <LeaderboardPageSkeleton />
+      ) : fetchedLeaderboardData && totalUsers >= 10 ? (
         <>
           <div className="flex w-full flex-col items-center justify-center p-3">
             <h2
@@ -216,7 +228,7 @@ export default function LeaderboardPage({ params }) {
                   {currentUserLeaderboardInfo.rank}.
                 </span>
                 <img
-                  src={`https://robohash.org/${encodeURIComponent(currentUserLeaderboardInfo.name)}?set=set1 `}
+                  src={`https://robohash.org/${encodeURIComponent(currentUserLeaderboardInfo.username)}?set=set1 `}
                   alt={currentUserLeaderboardInfo.username}
                   className="my-1 h-8 w-8 rounded-full border-2 border-white object-cover"
                 />

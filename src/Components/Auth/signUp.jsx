@@ -5,13 +5,7 @@ import {
   createUserWithEmailAndPassword,
   sendEmailVerification,
 } from "firebase/auth";
-import {
-  doc,
-  getDoc,
-  setDoc,
-  collection,
-  runTransaction,
-} from "firebase/firestore";
+import { collection, doc, runTransaction } from "firebase/firestore";
 import { Eye, EyeOff } from "lucide-react";
 import { toast } from "react-toastify";
 import Script from "next/script";
@@ -25,12 +19,21 @@ const SignUp = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showCnfPassword, setShowCnfPassword] = useState(false);
   const [loader, setLoader] = useState(false);
+  const [registeredEmail, setRegisteredEmail] = useState("");
   const [captchaLoaded, setCaptchaLoaded] = useState(false);
 
   function checkMail(email) {
     const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     return regex.test(email);
   }
+
+  const getVerificationSettings = () => ({
+    url:
+      typeof window !== "undefined"
+        ? `${window.location.origin}/auth`
+        : undefined,
+    handleCodeInApp: false,
+  });
 
   useEffect(() => {
     const renderTurnstile = () => {
@@ -161,7 +164,18 @@ const SignUp = () => {
           });
         });
 
-        await sendEmailVerification(user);
+        try {
+          await sendEmailVerification(user, getVerificationSettings());
+          setRegisteredEmail(trimmedEmail);
+        } catch (emailError) {
+          console.error("Email verification error:", emailError);
+          setRegisteredEmail(trimmedEmail);
+          toast.warn(
+            `Account created, but verification email failed: ${
+              emailError.code || emailError.message
+            }`
+          );
+        }
 
         // Add to leaderboard
         const leaderboardRef = doc(collection(db, "leaderboard"), "users");
@@ -255,6 +269,11 @@ const SignUp = () => {
         strategy="beforeInteractive"
       />
       {loader && <AuthLoader />}
+      {registeredEmail && (
+        <div className="mb-4 rounded-lg border border-cyan-400/25 bg-cyan-400/10 p-3 text-sm text-slate-200">
+          Verification mail sent to {registeredEmail}. Check inbox and spam.
+        </div>
+      )}
       <form onSubmit={handleRegister} className="space-y-4">
         <input
           value={username}

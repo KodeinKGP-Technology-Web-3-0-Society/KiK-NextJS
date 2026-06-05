@@ -1,23 +1,53 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
 import { auth, db } from "@/backend/firebase";
-import { getDoc, doc } from "firebase/firestore";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { collection, getDoc, doc, runTransaction } from "firebase/firestore";
+import {
+  GoogleAuthProvider,
+  signInWithEmailAndPassword,
+  signInWithPopup,
+} from "firebase/auth";
 import { Eye, EyeOff } from "lucide-react";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import Script from "next/script";
 import AuthLoader from "../utils/AuthLoader";
 
+const getSuggestedUsername = (name, email) => {
+  const source = name || email?.split("@")[0] || "";
+  return source
+    .toLowerCase()
+    .replace(/[^a-z0-9_]/g, "")
+    .slice(0, 16);
+};
+
 const SignIn = () => {
   const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
+  const [googleUsername, setGoogleUsername] = useState("");
+  const [pendingGoogleUser, setPendingGoogleUser] = useState(null);
   const [showPassword, setShowPassword] = useState(false);
   const [loader, setLoader] = useState(false);
   const router = useRouter();
 
   const captchaRenderedRef = useRef(false);
   const captchaContainerRef = useRef(null);
+
+  const resolveIdentifierToEmail = async (rawIdentifier) => {
+    const trimmedIdentifier = rawIdentifier.trim();
+
+    if (!trimmedIdentifier) return null;
+    if (trimmedIdentifier.includes("@")) return trimmedIdentifier;
+
+    try {
+      const usernameDoc = await getDoc(doc(db, "usernames", trimmedIdentifier));
+      if (!usernameDoc.exists()) return null;
+      return usernameDoc.data().email || null;
+    } catch (error) {
+      console.error("Error resolving username to email:", error);
+      return null;
+    }
+  };
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -91,24 +121,11 @@ const SignIn = () => {
       return;
     }
 
-    let identifierEmail = trimmedIdentifier;
-
-    if (!trimmedIdentifier.includes("@")) {
-      try {
-        const usernameDoc = await getDoc(
-          doc(db, "usernames", trimmedIdentifier)
-        );
-        if (!usernameDoc.exists()) {
-          toast.error("Username not found");
-          setLoader(false);
-          return;
-        }
-        identifierEmail = usernameDoc.data().email;
-      } catch (err) {
-        toast.error("Failed to fetch username");
-        setLoader(false);
-        return;
-      }
+    const identifierEmail = await resolveIdentifierToEmail(trimmedIdentifier);
+    if (!identifierEmail) {
+      toast.error("Invalid email/username or password.");
+      setLoader(false);
+      return;
     }
 
     try {
@@ -144,6 +161,166 @@ const SignIn = () => {
 
     setLoader(false);
   };
+
+  const handleGoogleLogin = async () => {
+    setLoader(true);
+
+    try {
+      const provider = new GoogleAuthProvider();
+      const result = await signInWithPopup(auth, provider);
+      const googleUser = result.user;
+      const userDoc = await getDoc(doc(db, "users", googleUser.uid));
+
+      if (userDoc.exists()) {
+        toast.success("Login successful!");
+        router.push("/dekodeX");
+        return;
+      }
+
+      setPendingGoogleUser(googleUser);
+      setGoogleUsername(
+        getSuggestedUsername(googleUser.displayName, googleUser.email)
+      );
+    } catch (err) {
+      console.error("Google login error:", err);
+      let errorMessage = "Google login failed. Please try again.";
+
+      if (err.code === "auth/popup-closed-by-user") {
+        errorMessage = "Google login was cancelled.";
+      } else if (err.code === "auth/account-exists-with-different-credential") {
+        errorMessage =
+          "An account already exists with this email. Please sign in with email/password.";
+      }
+
+      toast.error(errorMessage);
+    } finally {
+      setLoader(false);
+    }
+  };
+
+  const handleGoogleUsernameSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!pendingGoogleUser) return;
+
+    const trimmedUsername = googleUsername.trim().toLowerCase();
+
+    if (!/^[a-z0-9_]+$/.test(trimmedUsername)) {
+      toast.error("Username can only contain lowercase letters, numbers, and underscores.");
+      return;
+    }
+
+    if (trimmedUsername.length < 3 || trimmedUsername.length > 20) {
+      toast.error("Username must be between 3 and 20 characters.");
+      return;
+    }
+
+    setLoader(true);
+
+    try {
+      const initSubmissions = Array(10).fill(0);
+      const leaderboardRef = doc(collection(db, "leaderboard"), "users");
+
+      await runTransaction(db, async (transaction) => {
+        const usernameRef = doc(db, "usernames", trimmedUsername);
+        const userRef = doc(db, "users", pendingGoogleUser.uid);
+        const usernameDoc = await transaction.get(usernameRef);
+        const userDoc = await transaction.get(userRef);
+        const leaderboardSnap = await transaction.get(leaderboardRef);
+
+        if (usernameDoc.exists()) {
+          throw new Error("USERNAME_TAKEN");
+        }
+
+        if (userDoc.exists()) {
+          return;
+        }
+
+        transaction.set(usernameRef, {
+          uid: pendingGoogleUser.uid,
+          email: pendingGoogleUser.email,
+        });
+
+        transaction.set(userRef, {
+          uid: pendingGoogleUser.uid,
+          username: trimmedUsername,
+          email: pendingGoogleUser.email,
+          submissions: initSubmissions,
+          emailVerified: pendingGoogleUser.emailVerified,
+          provider: "google",
+          photoURL: pendingGoogleUser.photoURL || "",
+          displayName: pendingGoogleUser.displayName || "",
+        });
+
+        if (!leaderboardSnap.exists()) {
+          transaction.set(leaderboardRef, {
+            users: [
+              {
+                email: pendingGoogleUser.email,
+                name: trimmedUsername,
+                totalPts: 0,
+              },
+            ],
+          });
+          return;
+        }
+
+        const leaderboardData = leaderboardSnap.data();
+        const usersArray = leaderboardData.users || [];
+        const alreadyExists = usersArray.some(
+          (user) => user.email === pendingGoogleUser.email
+        );
+
+        if (!alreadyExists) {
+          usersArray.push({
+            email: pendingGoogleUser.email,
+            name: trimmedUsername,
+            totalPts: 0,
+          });
+          transaction.update(leaderboardRef, { users: usersArray });
+        }
+      });
+
+      toast.success("Username saved!");
+      router.push("/dekodeX");
+    } catch (err) {
+      console.error("Google username error:", err);
+      if (err.message === "USERNAME_TAKEN") {
+        toast.error("Username already taken. Please choose another one.");
+      } else {
+        toast.error("Could not save username. Please try again.");
+      }
+    } finally {
+      setLoader(false);
+    }
+  };
+
+  if (pendingGoogleUser) {
+    return (
+      <>
+        {loader && <AuthLoader />}
+        <form
+          onSubmit={handleGoogleUsernameSubmit}
+          className="flex flex-col items-center justify-center space-y-5"
+        >
+          <input
+            value={googleUsername}
+            onChange={(e) => setGoogleUsername(e.target.value)}
+            type="text"
+            placeholder="Choose username"
+            className="w-full rounded-lg bg-[#10162f] p-3 text-white placeholder-gray-400 outline-none focus:ring-2 focus:ring-cyan-400"
+          />
+
+          <button
+            type="submit"
+            className="w-full cursor-pointer rounded-lg bg-cyan-400 py-2 font-semibold text-black transition duration-200 hover:bg-cyan-300"
+          >
+            Continue
+          </button>
+        </form>
+      </>
+    );
+  }
 
   return (
     <>
@@ -190,6 +367,14 @@ const SignIn = () => {
           className="w-full cursor-pointer rounded-lg bg-cyan-400 py-2 font-semibold text-black transition duration-200 hover:bg-cyan-300"
         >
           Login
+        </button>
+
+        <button
+          type="button"
+          onClick={handleGoogleLogin}
+          className="w-full cursor-pointer rounded-lg border border-white/15 bg-white/5 py-2 font-semibold text-white transition duration-200 hover:bg-white/10"
+        >
+          Continue with Google
         </button>
       </form>
     </>

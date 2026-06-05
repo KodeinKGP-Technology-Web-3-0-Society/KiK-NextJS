@@ -86,14 +86,14 @@ export default function Layout() {
   };
 
   return (
-    <div className="flex min-h-screen flex-col bg-[rgb(1,1,27)] p-4 sm:p-6">
-      <div className="flex w-full flex-1 flex-col gap-2 md:flex-row">
-        <div className="bg-700 w-full rounded-lg p-6 text-white shadow-lg xl:w-[75%]">
+    <div className="min-h-screen bg-[#01011b] px-4 py-5 text-white sm:px-6 lg:px-8">
+      <div className="mx-auto flex w-full max-w-[1500px] flex-col gap-5 xl:grid xl:grid-cols-[minmax(0,1fr)_440px] xl:items-stretch">
+        <div className="min-w-0">
           <ProblemArena />
         </div>
-        <div className="bg-400 hidden rounded-lg p-6 text-white shadow-lg xl:block xl:w-[33%]">
+        <aside className="hidden min-w-0 xl:block xl:h-full">
           <Leaderboard />
-        </div>
+        </aside>
       </div>
       {loggedIn && CERTIFICATE_APPLICATIONS_ENABLED ? (
         <div className="p-6">
@@ -189,7 +189,7 @@ export default function Layout() {
       <button
         id="floatingAuthBtn"
         onClick={handleAuthAction}
-        className={`group pulse-glow fixed right-6 bottom-6 z-50 flex transform cursor-pointer items-center justify-center rounded-lg px-2 py-1.5 text-white shadow-lg transition-all duration-300 ease-in-out hover:-translate-y-1 hover:scale-110 hover:shadow-xl md:right-8 md:bottom-8 ${loggedIn ? "hidden" : "bg-gradient-to-r from-red-500 to-red-600"}`}
+        className={`group fixed right-5 bottom-5 z-50 flex cursor-pointer items-center justify-center rounded-full border border-cyan-300/40 bg-cyan-300 px-4 py-2 text-sm font-semibold text-[#01011b] shadow-lg shadow-cyan-950/40 transition-all duration-200 hover:-translate-y-0.5 hover:bg-cyan-200 md:right-8 md:bottom-8 ${loggedIn ? "hidden" : ""}`}
         aria-label={loggedIn ? "Sign Out" : "Login"}
       >
         {loggedIn ? <LogOut /> : <LogIn />}

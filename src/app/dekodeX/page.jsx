@@ -11,6 +11,9 @@ import { auth } from "@/backend/firebase";
 import { toast } from "react-toastify";
 import Modal from "./Modal";
 import { useAuthToken } from "@/hooks/useAuthToken";
+import DekodeXIntroLoader from "@/Components/dekodeX_Loader/IntroLoader";
+
+const INTRO_LOADER_HIDE_KEY = "dekodex_intro_hide";
 
 const CERTIFICATE_APPLICATIONS_ENABLED = false;
 
@@ -46,6 +49,14 @@ export default function Layout() {
   const [loading, setLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { token: authToken } = useAuthToken();
+  const [showIntro, setShowIntro] = useState(true);
+
+  useEffect(() => {
+    const hideIntro = localStorage.getItem(INTRO_LOADER_HIDE_KEY) === "true";
+    if (hideIntro || window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      setShowIntro(false);
+    }
+  }, []);
 
   useEffect(() => {
     async function checkStatusAndModal() {
@@ -86,6 +97,66 @@ export default function Layout() {
   };
 
   return (
+    <>
+      {showIntro && (
+        <DekodeXIntroLoader onComplete={() => setShowIntro(false)} />
+      )}
+      <div className="flex min-h-screen flex-col bg-[rgb(1,1,27)] p-4 transition-opacity duration-700 sm:p-6">
+        <div className="flex w-full flex-1 flex-col gap-2 md:flex-row">
+          <div className="bg-700 w-full rounded-lg p-6 text-white shadow-lg xl:w-[75%]">
+            <ProblemArena />
+          </div>
+          <div className="bg-400 hidden rounded-lg p-6 text-white shadow-lg xl:block xl:w-[33%]">
+            <Leaderboard />
+          </div>
+        </div>
+        {loggedIn ? (
+          <div className="p-6">
+            <h1 className="mb-4 text-2xl font-bold">Certificate Application</h1>
+            {hasCert === false && (
+              <button
+                className="cursor-pointer rounded border border-cyan-400 bg-neutral-800 px-4 py-2 text-white shadow-md transition-colors hover:border-cyan-300 hover:bg-cyan-600 hover:shadow-cyan-500/30"
+                onClick={() => setShowModal(true)}
+              >
+                Apply for Certificate
+              </button>
+            )}
+
+            {hasCert === true && (
+              <p className="text-green-700">
+                You have already applied for a certificate.
+              </p>
+            )}
+
+            {hasCert === null && <p>Checking your certificate status...</p>}
+
+            {showModal && (
+              <Modal onClose={() => setShowModal(false)}>
+                <h2 className="mb-4 text-xl font-semibold">Enter Your Name</h2>
+                <form
+                  onSubmit={async (e) => {
+                    e.preventDefault();
+                    setIsSubmitting(true);
+                    try {
+                      const res = await fetch(
+                        `${process.env.NEXT_PUBLIC_API_BASE_URL}/dekodeX/api/certificate/apply`,
+                        {
+                          method: "POST",
+                          headers: {
+                            Authorization: `Bearer ${authToken}`,
+                            "Content-Type": "application/json",
+                          },
+                          body: JSON.stringify({
+                            email: user.email,
+                            name: name || null,
+                          }),
+                        }
+                      );
+
+                      if (!res.ok) {
+                        throw new Error(
+                          `Failed to apply for certificate: ${res.status}`
+                        );
     <div className="min-h-screen bg-[#01011b] px-4 py-5 text-white sm:px-6 lg:px-8">
       <div className="mx-auto flex w-full max-w-[1500px] flex-col gap-5 xl:grid xl:grid-cols-[minmax(0,1fr)_440px] xl:items-stretch">
         <div className="min-w-0">
@@ -136,57 +207,50 @@ export default function Layout() {
                           name: name || null,
                         }),
                       }
-                    );
 
-                    if (!res.ok) {
-                      throw new Error(
-                        `Failed to apply for certificate: ${res.status}`
+                      setShowModal(false);
+                      setHasCert(true);
+                      toast.success("Certificate application submitted!");
+                    } catch (err) {
+                      console.error("Error submitting certificate:", err);
+                      toast.error(
+                        err.message ||
+                          "Something went wrong. Please try again later."
                       );
+                      setIsSubmitting(false);
                     }
-
-                    setShowModal(false);
-                    setHasCert(true);
-                    toast.success("Certificate application submitted!");
-                  } catch (err) {
-                    console.error("Error submitting certificate:", err);
-                    toast.error(
-                      err.message ||
-                        "Something went wrong. Please try again later."
-                    );
-                    setIsSubmitting(false);
-                  }
-                }}
-              >
-                <label className="mb-2 block">
-                  Name:
-                  <input
-                    type="text"
-                    required
-                    className="mt-1 block w-full border-0 border-b-1 border-gray-300 bg-transparent px-2 py-1 transition-colors focus:border-blue-500 focus:outline-none"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    disabled={isSubmitting}
-                  />
-                </label>
-                <button
-                  type="submit"
-                  className={`mt-4 w-full rounded-lg px-4 py-2 transition ${
-                    isSubmitting
-                      ? "cursor-not-allowed bg-gray-400 text-gray-700"
-                      : "cursor-pointer border border-cyan-400 px-8 py-2 font-mono text-xs font-bold tracking-widest uppercase shadow-[0_0_10px_rgba(6,182,212,0.3)] transition-all hover:border-cyan-200 hover:bg-blue-950 hover:shadow-[0_0_15px_rgba(6,182,212,0.5)]"
-                  }`}
+                  }}
                 >
-                  Submit Application
-                </button>
-              </form>
-            </Modal>
-          )}
-        </div>
-      ) : (
-        <></>
-      )}
+                  <label className="mb-2 block">
+                    Name:
+                    <input
+                      type="text"
+                      required
+                      className="mt-1 block w-full border-0 border-b-1 border-gray-300 bg-transparent px-2 py-1 transition-colors focus:border-blue-500 focus:outline-none"
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                      disabled={isSubmitting}
+                    />
+                  </label>
+                  <button
+                    type="submit"
+                    className={`mt-4 w-full rounded-lg px-4 py-2 transition ${
+                      isSubmitting
+                        ? "cursor-not-allowed bg-gray-400 text-gray-700"
+                        : "cursor-pointer border border-cyan-400 px-8 py-2 font-mono text-xs font-bold tracking-widest uppercase shadow-[0_0_10px_rgba(6,182,212,0.3)] transition-all hover:border-cyan-200 hover:bg-blue-950 hover:shadow-[0_0_15px_rgba(6,182,212,0.5)]"
+                    }`}
+                  >
+                    Submit Application
+                  </button>
+                </form>
+              </Modal>
+            )}
+          </div>
+        ) : (
+          <></>
+        )}
 
-      <button
+        <button
         id="floatingAuthBtn"
         onClick={handleAuthAction}
         className={`group fixed right-5 bottom-5 z-50 flex cursor-pointer items-center justify-center rounded-full border border-cyan-300/40 bg-cyan-300 px-4 py-2 text-sm font-semibold text-[#01011b] shadow-lg shadow-cyan-950/40 transition-all duration-200 hover:-translate-y-0.5 hover:bg-cyan-200 md:right-8 md:bottom-8 ${loggedIn ? "hidden" : ""}`}
@@ -196,5 +260,6 @@ export default function Layout() {
         <div className="pl-2">Login</div>
       </button>
     </div>
+    </>
   );
 }

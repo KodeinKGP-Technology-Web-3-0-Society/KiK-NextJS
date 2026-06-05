@@ -1,6 +1,8 @@
+"use client";
+
 import React, { useEffect, useState } from "react";
 
-const DekodeXLoading = () => {
+const DekodeXLoading = ({ onComplete }) => {
   const [binaryChars, setBinaryChars] = useState([]);
   const [progress, setProgress] = useState(0);
 
@@ -29,6 +31,14 @@ const DekodeXLoading = () => {
 
     return () => clearInterval(interval);
   }, []);
+
+  useEffect(() => {
+    if (progress < 100 || typeof onComplete !== "function") return;
+    const timer = setTimeout(() => {
+      onComplete();
+    }, 250);
+    return () => clearTimeout(timer);
+  }, [progress, onComplete]);
 
   return (
     <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-gradient-to-br from-gray-900 via-black to-gray-800 p-8">

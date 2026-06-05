@@ -187,7 +187,7 @@ function Navbar() {
                 <span className="absolute bottom-3 left-0 h-[2px] w-full origin-left scale-x-0 bg-[#11e3fb] transition-transform duration-300 group-hover:scale-x-100"></span>
               </span>
             </li>
-
+            {/*
             <li
               className="cursor-pointer list-none"
               onClick={() => {
@@ -210,6 +210,7 @@ function Navbar() {
                 <span className="absolute bottom-3 left-0 h-[2px] w-full origin-left scale-x-0 bg-[#11e3fb] transition-transform duration-300 group-hover:scale-x-100"></span>
               </span>
             </li>
+            */}
           </div>
         </div>
       </div>

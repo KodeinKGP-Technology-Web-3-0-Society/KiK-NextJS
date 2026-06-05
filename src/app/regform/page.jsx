@@ -1,17 +1,71 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import "./regformcss.css";
 import Image from "next/image";
-import Link from "next/link";
 import aiimg from "./ai3.png";
+
+// ==========================================
+// ACTIVE COMPONENT: REGISTRATION CLOSED
+// ==========================================
+const RegForm = () => {
+  useEffect(() => {
+    const handleBeforeUnload = () => {
+      window.scrollTo(0, 0);
+    };
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    return () => window.removeEventListener("beforeunload", handleBeforeUnload);
+  }, []);
+
+  return (
+    <>
+      <div className="regpage">
+        <div className="imgofai">
+          <Image src={aiimg} alt="AI" className="aiimgreg" />
+        </div>
+        <div 
+          className="regbox" 
+          style={{ 
+            display: "flex", 
+            flexDirection: "column", 
+            justifyContent: "center", 
+            alignItems: "center", 
+            padding: "4rem 2rem", 
+            textAlign: "center" 
+          }}
+        >
+          <h2 
+            className="reg-header" 
+            style={{ fontSize: "2.5rem", marginBottom: "1.5rem", color: "#22d3ee" }}
+          >
+            Registration Closed
+          </h2>
+          <p style={{ color: "#d1d5db", fontSize: "1.2rem", lineHeight: "1.6" }}>
+            Thank you for your interest! The selection process for this year has officially concluded.
+          </p>
+        </div>
+      </div>
+    </>
+  );
+};
+
+export default RegForm;
+
+/* =========================================================================
+   ORIGINAL CODE PRESERVED FOR FUTURE USE
+   To restore the form, delete the active component above, remove this 
+   multi-line comment wrapper ( /* and * / ), and save the file.
+   =========================================================================
+
+import { useState } from "react";
+import Link from "next/link";
 import AlertComponent from "./AlertComponent";
 import { db } from "@/backend/firebase";
 import { addDoc, collection, getDocs, query, where } from "firebase/firestore";
 
 const rollRegex = /^25[A-Z]{2}\d{5,6}$/;
 
-const RegForm = () => {
+const RegFormOriginal = () => {
   const [nme, setName] = useState("");
   const [rollNumber, setRollNumber] = useState("");
   const [email, setEmail] = useState("");
@@ -307,5 +361,4 @@ const RegForm = () => {
     </>
   );
 };
-
-export default RegForm;
+ */

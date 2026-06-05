@@ -11,7 +11,9 @@ import { auth } from "@/backend/firebase";
 import { toast } from "react-toastify";
 import Modal from "./Modal";
 import { useAuthToken } from "@/hooks/useAuthToken";
-import DekodeXMainLoading from "@/Components/dekodeX_Loader/maiinLoader";
+import DekodeXIntroLoader from "@/Components/dekodeX_Loader/IntroLoader";
+
+const INTRO_LOADER_HIDE_KEY = "dekodex_intro_hide";
 
 async function checkCertificate(email, token) {
   try {
@@ -45,7 +47,14 @@ export default function Layout() {
   const [loading, setLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { token: authToken } = useAuthToken();
-  const [introDone, setIntroDone] = useState(false);
+  const [showIntro, setShowIntro] = useState(true);
+
+  useEffect(() => {
+    const hideIntro = localStorage.getItem(INTRO_LOADER_HIDE_KEY) === "true";
+    if (hideIntro || window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      setShowIntro(false);
+    }
+  }, []);
 
   useEffect(() => {
     async function checkStatusAndModal() {
@@ -82,14 +91,10 @@ export default function Layout() {
 
   return (
     <>
-      {!introDone && (
-        <DekodeXMainLoading onComplete={() => setIntroDone(true)} />
+      {showIntro && (
+        <DekodeXIntroLoader onComplete={() => setShowIntro(false)} />
       )}
-      <div
-        className={`flex min-h-screen flex-col bg-[rgb(1,1,27)] p-4 transition-opacity duration-700 sm:p-6 ${
-          introDone ? "opacity-100" : "pointer-events-none opacity-0"
-        }`}
-      >
+      <div className="flex min-h-screen flex-col bg-[rgb(1,1,27)] p-4 transition-opacity duration-700 sm:p-6">
         <div className="flex w-full flex-1 flex-col gap-2 md:flex-row">
           <div className="bg-700 w-full rounded-lg p-6 text-white shadow-lg xl:w-[75%]">
             <ProblemArena />

@@ -33,8 +33,7 @@
     "react-toastify": "^11.0.5",
     "rehype-highlight": "^7.0.2",
     "remark-gfm": "^4.0.1",
-    "tailwind-scrollbar": "^4.0.2",
-    "three": "^0.184.0"
+    "tailwind-scrollbar": "^4.0.2"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",

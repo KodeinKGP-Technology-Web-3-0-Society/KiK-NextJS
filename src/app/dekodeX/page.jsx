@@ -1,20 +1,21 @@
 "use client";
-import React, { useEffect, useState } from "react";
-import Leaderboard from "./Leaderboard";
-import ProblemArena from "./ProblemArena";
-import Link from "next/link";
+
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { LogIn, LogOut } from "lucide-react";
-import { useAuth } from "@/contexts/authContext";
 import { signOut } from "firebase/auth";
-import { auth } from "@/backend/firebase";
 import { toast } from "react-toastify";
-import Modal from "./Modal";
+
+import { auth } from "@/backend/firebase";
+import { useAuth } from "@/contexts/authContext";
 import { useAuthToken } from "@/hooks/useAuthToken";
 import DekodeXIntroLoader from "@/Components/dekodeX_Loader/IntroLoader";
 
-const INTRO_LOADER_HIDE_KEY = "dekodex_intro_hide";
+import Leaderboard from "./Leaderboard";
+import Modal from "./Modal";
+import ProblemArena from "./ProblemArena";
 
+const INTRO_LOADER_HIDE_KEY = "dekodex_intro_hide";
 const CERTIFICATE_APPLICATIONS_ENABLED = false;
 
 async function checkCertificate(email, token) {
@@ -43,12 +44,12 @@ async function checkCertificate(email, token) {
 export default function Layout() {
   const { user, loggedIn } = useAuth();
   const router = useRouter();
+  const { token: authToken } = useAuthToken();
+
   const [hasCert, setHasCert] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [name, setName] = useState("");
-  const [loading, setLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const { token: authToken } = useAuthToken();
   const [showIntro, setShowIntro] = useState(true);
 
   useEffect(() => {
@@ -61,82 +62,82 @@ export default function Layout() {
   useEffect(() => {
     async function checkStatusAndModal() {
       if (
-        CERTIFICATE_APPLICATIONS_ENABLED &&
-        loggedIn &&
-        user?.email &&
-        authToken
+        !CERTIFICATE_APPLICATIONS_ENABLED ||
+        !loggedIn ||
+        !user?.email ||
+        !authToken
       ) {
-        setLoading(true);
-        const exists = await checkCertificate(user.email, authToken);
-        setHasCert(exists);
-        setLoading(false);
+        return;
+      }
 
-        const modalShowed = localStorage.getItem("modalShowed");
-        if (modalShowed !== "true" && !exists) {
-          setShowModal(true);
-          localStorage.setItem("modalShowed", "true");
-        }
+      const exists = await checkCertificate(user.email, authToken);
+      setHasCert(exists);
+
+      const modalShowed = localStorage.getItem("modalShowed");
+      if (modalShowed !== "true" && !exists) {
+        setShowModal(true);
+        localStorage.setItem("modalShowed", "true");
       }
     }
+
     checkStatusAndModal();
-  }, [loggedIn, user?.email, authToken]);
+  }, [authToken, loggedIn, user?.email]);
 
   const handleAuthAction = async () => {
     if (loggedIn) {
-      // Sign out user
       try {
         await signOut(auth);
         toast.success("Signed out successfully!");
       } catch (error) {
-        toast.error("Error signing out: " + error.message);
+        toast.error(`Error signing out: ${error.message}`);
       }
-    } else {
-      // Redirect to login page
-      router.push("/auth");
+      return;
     }
+
+    router.push("/auth");
   };
 
   return (
     <>
-      {showIntro && (
-        <DekodeXIntroLoader onComplete={() => setShowIntro(false)} />
-      )}
-      <div className="flex min-h-screen flex-col bg-[rgb(1,1,27)] p-4 transition-opacity duration-700 sm:p-6">
-        <div className="flex w-full flex-1 flex-col gap-2 md:flex-row">
-          <div className="bg-700 w-full rounded-lg p-6 text-white shadow-lg xl:w-[75%]">
+      {showIntro ? <DekodeXIntroLoader onComplete={() => setShowIntro(false)} /> : null}
+
+      <div className="min-h-screen bg-[#01011b] px-4 py-5 text-white sm:px-6 lg:px-8">
+        <div className="mx-auto flex w-full max-w-[1500px] flex-col gap-5 xl:grid xl:grid-cols-[minmax(0,1fr)_440px] xl:items-stretch">
+          <div className="min-w-0">
             <ProblemArena />
           </div>
-          <div className="bg-400 hidden rounded-lg p-6 text-white shadow-lg xl:block xl:w-[33%]">
+          <aside className="hidden min-w-0 xl:block xl:h-full">
             <Leaderboard />
-          </div>
+          </aside>
         </div>
-        {loggedIn ? (
+
+        {loggedIn && CERTIFICATE_APPLICATIONS_ENABLED ? (
           <div className="p-6">
             <h1 className="mb-4 text-2xl font-bold">Certificate Application</h1>
-            {hasCert === false && (
+
+            {hasCert === false ? (
               <button
                 className="cursor-pointer rounded border border-cyan-400 bg-neutral-800 px-4 py-2 text-white shadow-md transition-colors hover:border-cyan-300 hover:bg-cyan-600 hover:shadow-cyan-500/30"
                 onClick={() => setShowModal(true)}
               >
                 Apply for Certificate
               </button>
-            )}
+            ) : null}
 
-            {hasCert === true && (
-              <p className="text-green-700">
-                You have already applied for a certificate.
-              </p>
-            )}
+            {hasCert === true ? (
+              <p className="text-green-700">You have already applied for a certificate.</p>
+            ) : null}
 
-            {hasCert === null && <p>Checking your certificate status...</p>}
+            {hasCert === null ? <p>Checking your certificate status...</p> : null}
 
-            {showModal && (
+            {showModal ? (
               <Modal onClose={() => setShowModal(false)}>
                 <h2 className="mb-4 text-xl font-semibold">Enter Your Name</h2>
                 <form
                   onSubmit={async (e) => {
                     e.preventDefault();
                     setIsSubmitting(true);
+
                     try {
                       const res = await fetch(
                         `${process.env.NEXT_PUBLIC_API_BASE_URL}/dekodeX/api/certificate/apply`,
@@ -154,58 +155,7 @@ export default function Layout() {
                       );
 
                       if (!res.ok) {
-                        throw new Error(
-                          `Failed to apply for certificate: ${res.status}`
-                        );
-    <div className="min-h-screen bg-[#01011b] px-4 py-5 text-white sm:px-6 lg:px-8">
-      <div className="mx-auto flex w-full max-w-[1500px] flex-col gap-5 xl:grid xl:grid-cols-[minmax(0,1fr)_440px] xl:items-stretch">
-        <div className="min-w-0">
-          <ProblemArena />
-        </div>
-        <aside className="hidden min-w-0 xl:block xl:h-full">
-          <Leaderboard />
-        </aside>
-      </div>
-      {loggedIn && CERTIFICATE_APPLICATIONS_ENABLED ? (
-        <div className="p-6">
-          <h1 className="mb-4 text-2xl font-bold">Certificate Application</h1>
-          {hasCert === false && (
-            <button
-              className="cursor-pointer rounded border border-cyan-400 bg-neutral-800 px-4 py-2 text-white shadow-md transition-colors hover:border-cyan-300 hover:bg-cyan-600 hover:shadow-cyan-500/30"
-              onClick={() => setShowModal(true)}
-            >
-              Apply for Certificate
-            </button>
-          )}
-
-          {hasCert === true && (
-            <p className="text-green-700">
-              You have already applied for a certificate.
-            </p>
-          )}
-
-          {hasCert === null && <p>Checking your certificate status...</p>}
-
-          {showModal && (
-            <Modal onClose={() => setShowModal(false)}>
-              <h2 className="mb-4 text-xl font-semibold">Enter Your Name</h2>
-              <form
-                onSubmit={async (e) => {
-                  e.preventDefault();
-                  setIsSubmitting(true);
-                  try {
-                    const res = await fetch(
-                      `${process.env.NEXT_PUBLIC_API_BASE_URL}/dekodeX/api/certificate/apply`,
-                      {
-                        method: "POST",
-                        headers: {
-                          Authorization: `Bearer ${authToken}`,
-                          "Content-Type": "application/json",
-                        },
-                        body: JSON.stringify({
-                          email: user.email,
-                          name: name || null,
-                        }),
+                        throw new Error(`Failed to apply for certificate: ${res.status}`);
                       }
 
                       setShowModal(false);
@@ -214,8 +164,7 @@ export default function Layout() {
                     } catch (err) {
                       console.error("Error submitting certificate:", err);
                       toast.error(
-                        err.message ||
-                          "Something went wrong. Please try again later."
+                        err.message || "Something went wrong. Please try again later."
                       );
                       setIsSubmitting(false);
                     }
@@ -232,6 +181,7 @@ export default function Layout() {
                       disabled={isSubmitting}
                     />
                   </label>
+
                   <button
                     type="submit"
                     className={`mt-4 w-full rounded-lg px-4 py-2 transition ${
@@ -244,22 +194,22 @@ export default function Layout() {
                   </button>
                 </form>
               </Modal>
-            )}
+            ) : null}
           </div>
-        ) : (
-          <></>
-        )}
+        ) : null}
 
         <button
-        id="floatingAuthBtn"
-        onClick={handleAuthAction}
-        className={`group fixed right-5 bottom-5 z-50 flex cursor-pointer items-center justify-center rounded-full border border-cyan-300/40 bg-cyan-300 px-4 py-2 text-sm font-semibold text-[#01011b] shadow-lg shadow-cyan-950/40 transition-all duration-200 hover:-translate-y-0.5 hover:bg-cyan-200 md:right-8 md:bottom-8 ${loggedIn ? "hidden" : ""}`}
-        aria-label={loggedIn ? "Sign Out" : "Login"}
-      >
-        {loggedIn ? <LogOut /> : <LogIn />}
-        <div className="pl-2">Login</div>
-      </button>
-    </div>
+          id="floatingAuthBtn"
+          onClick={handleAuthAction}
+          className={`group fixed right-5 bottom-5 z-50 flex cursor-pointer items-center justify-center rounded-full border border-cyan-300/40 bg-cyan-300 px-4 py-2 text-sm font-semibold text-[#01011b] shadow-lg shadow-cyan-950/40 transition-all duration-200 hover:-translate-y-0.5 hover:bg-cyan-200 md:right-8 md:bottom-8 ${
+            loggedIn ? "hidden" : ""
+          }`}
+          aria-label={loggedIn ? "Sign Out" : "Login"}
+        >
+          {loggedIn ? <LogOut /> : <LogIn />}
+          <div className="pl-2">Login</div>
+        </button>
+      </div>
     </>
   );
 }

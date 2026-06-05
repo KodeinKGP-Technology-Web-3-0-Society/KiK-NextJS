@@ -1,7 +1,7 @@
 "use client";
 import { useAuth } from "@/contexts/authContext";
 import { Trophy } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
 
 function UserStatsCard({
@@ -154,9 +154,9 @@ function LeaderboardSkeleton() {
       </div>
 
       <div className="mx-auto mb-4 flex max-w-lg items-end justify-center gap-2 px-2">
-        <div className="h-[128px] w-[112px] animate-pulse rounded-tl-2xl border border-white/10 bg-white/10" />
-        <div className="h-[160px] w-[132px] animate-pulse rounded-t-2xl border border-white/10 bg-white/15" />
-        <div className="h-[116px] w-[112px] animate-pulse rounded-tr-2xl border border-white/10 bg-white/10" />
+        <div className="h-[160px] w-[112px] animate-pulse rounded-tl-2xl border border-white/10 bg-white/10" />
+        <div className="h-[196px] w-[132px] animate-pulse rounded-t-2xl border border-white/10 bg-white/15" />
+        <div className="h-[148px] w-[112px] animate-pulse rounded-tr-2xl border border-white/10 bg-white/10" />
       </div>
 
       <div className="space-y-2.5">
@@ -236,7 +236,9 @@ export default function Leaderboard() {
   const [currentUserLeaderboardInfo, setCurrentUserLeaderboardInfo] =
     useState(null);
   const [topData, setTopData] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isInitialLoading, setIsInitialLoading] = useState(true);
+  const [isPageLoading, setIsPageLoading] = useState(false);
+  const hasLoadedOnceRef = useRef(false);
 
   const itemsPerPage = 10;
   const solvedQuestions =
@@ -246,7 +248,11 @@ export default function Leaderboard() {
 
   useEffect(() => {
     async function getLeaderboardData() {
-      setIsLoading(true);
+      if (!hasLoadedOnceRef.current) {
+        setIsInitialLoading(true);
+      } else {
+        setIsPageLoading(true);
+      }
       try {
         const qs = new URLSearchParams();
         if (user?.email) qs.set("email", user.email);
@@ -281,7 +287,11 @@ export default function Leaderboard() {
         toast.error(`Error fetching leaderboard data: ${error.message}`);
         console.error("Error fetching leaderboard data:", error);
       } finally {
-        setIsLoading(false);
+        if (!hasLoadedOnceRef.current) {
+          setIsInitialLoading(false);
+          hasLoadedOnceRef.current = true;
+        }
+        setIsPageLoading(false);
       }
     }
     getLeaderboardData();
@@ -301,7 +311,7 @@ export default function Leaderboard() {
   return (
     <>
       <div className="relative flex h-full w-full flex-col overflow-hidden rounded-3xl border border-cyan-300/20 bg-white/[0.055] shadow-2xl shadow-black/25 backdrop-blur-xl">
-        {isLoading ? (
+        {isInitialLoading ? (
           <LeaderboardSkeleton />
         ) : fetchedLeaderboardData && totalUsers >= 10 ? (
           <div className="flex h-full flex-col">
@@ -317,7 +327,7 @@ export default function Leaderboard() {
                 <div className="flex items-end justify-center">
                   {/* Second Place */}
                   {topData[1] && (
-                    <div className="flex h-[128px] w-[112px] flex-col items-center justify-end rounded-tl-2xl border border-cyan-300/20 bg-cyan-300/15 py-3 shadow-md">
+                    <div className="flex h-[160px] w-[112px] flex-col items-center justify-end rounded-tl-2xl border border-cyan-300/20 bg-cyan-300/15 py-3 shadow-md">
                       <div className="relative mb-2 h-12 w-12">
                         <img
                           src={`https://robohash.org/${encodeURIComponent(topData[1].name)}?set=set1`}
@@ -339,7 +349,7 @@ export default function Leaderboard() {
 
                   {/* First Place */}
                   {topData[0] && (
-                    <div className="flex h-[160px] w-[132px] flex-col items-center justify-end rounded-t-2xl border border-cyan-300/30 bg-cyan-300/20 py-3 shadow-lg">
+                    <div className="flex h-[196px] w-[132px] flex-col items-center justify-end rounded-t-2xl border border-cyan-300/30 bg-cyan-300/20 py-3 shadow-lg">
                       <div className="relative mb-2 h-16 w-16">
                         <img
                           src={`https://robohash.org/${encodeURIComponent(topData[0].name)}?set=set1`}
@@ -366,7 +376,7 @@ export default function Leaderboard() {
 
                   {/* Third Place */}
                   {topData[2] && (
-                    <div className="flex h-[116px] w-[112px] flex-col items-center justify-end rounded-tr-2xl border border-cyan-300/20 bg-cyan-300/15 py-3 shadow-md">
+                    <div className="flex h-[148px] w-[112px] flex-col items-center justify-end rounded-tr-2xl border border-cyan-300/20 bg-cyan-300/15 py-3 shadow-md">
                       <div className="relative mb-2 h-12 w-12">
                         <img
                           src={`https://robohash.org/${encodeURIComponent(topData[2].name)}?set=set1`}
@@ -389,133 +399,147 @@ export default function Leaderboard() {
               </div>
             </div>
 
-            <ul className="space-y-2.5 px-4 pb-2">
-              {fetchedLeaderboardData.map((user, idx) => (
-                <li
-                  key={user.rank}
-                  className="group flex items-center gap-3 rounded-xl border border-white/10 bg-white/[0.045] px-3 py-2.5 transition-colors duration-200 hover:border-cyan-300/30 hover:bg-white/[0.08]"
+            <div className="flex flex-col">
+              <ul className="space-y-2.5 px-4 pb-2">
+                {isPageLoading
+                  ? Array.from({ length: 10 }, (_, index) => (
+                      <li
+                        key={`loading-row-${index}`}
+                        className="flex items-center gap-3 rounded-xl border border-white/10 bg-white/[0.04] px-3 py-2.5"
+                      >
+                        <div className="h-5 w-7 animate-pulse rounded bg-white/20" />
+                        <div className="h-7 w-7 animate-pulse rounded-full bg-white/20" />
+                        <div className="h-5 flex-1 animate-pulse rounded bg-white/20" />
+                        <div className="h-5 w-14 animate-pulse rounded bg-white/20" />
+                      </li>
+                    ))
+                  : fetchedLeaderboardData.map((user) => (
+                      <li
+                        key={user.rank}
+                        className="group flex items-center gap-3 rounded-xl border border-white/10 bg-white/[0.045] px-3 py-2.5 transition-colors duration-200 hover:border-cyan-300/30 hover:bg-white/[0.08]"
+                      >
+                        <span className="w-7 text-right text-sm font-semibold text-cyan-200">
+                          {user.rank}.
+                        </span>
+                        <img
+                          src={`https://robohash.org/${encodeURIComponent(user.name)}?set=set1 `}
+                          alt={user.name}
+                          className="h-7 w-7 rounded-full border border-white/30 object-cover"
+                        />
+                        <span className="min-w-0 flex-1 truncate text-sm font-medium text-white">
+                          {user.name}
+                        </span>
+                        <span className="text-sm font-semibold text-cyan-200">
+                          {user.score}
+                        </span>
+                      </li>
+                    ))}
+              </ul>
+
+              <div className="mt-2 mb-3 flex items-center justify-center gap-1 px-4">
+                <div
+                  onClick={() => !isPageLoading && goToPage(currentPage - 1)}
+                  className={`relative cursor-pointer rounded-lg border border-white/10 bg-white/[0.04] px-3 py-1 text-sm text-white transition hover:bg-white/10 ${currentPage === 1 || isPageLoading ? "pointer-events-none opacity-40" : ""}`}
                 >
-                  <span className="w-7 text-right text-sm font-semibold text-cyan-200">
-                    {user.rank}.
-                  </span>
-                  <img
-                    src={`https://robohash.org/${encodeURIComponent(user.name)}?set=set1 `}
-                    alt={user.name}
-                    className="h-7 w-7 rounded-full border border-white/30 object-cover"
-                  />
-                  <span className="min-w-0 flex-1 truncate text-sm font-medium text-white">
-                    {user.name}
-                  </span>
-                  <span className="text-sm font-semibold text-cyan-200">
-                    {user.score}
-                  </span>
-                </li>
-              ))}
-            </ul>
+                  &lt;
+                </div>
 
-            <div className="mt-3 mb-4 flex items-center justify-center gap-1 px-4">
-              <div
-                onClick={() => goToPage(currentPage - 1)}
-                className={`relative cursor-pointer rounded-lg border border-white/10 bg-white/[0.04] px-3 py-1 text-sm text-white transition hover:bg-white/10 ${currentPage === 1 ? "pointer-events-none opacity-40" : ""}`}
-              >
-                &lt;
-              </div>
+                {[...Array(totalPages)].map((_, index) => {
+                  const pageNumber = index + 1;
 
-              {[...Array(totalPages)].map((_, index) => {
-                const pageNumber = index + 1;
+                  // Always show first page
+                  if (pageNumber === 1) {
+                    return (
+                      <div
+                        key={pageNumber}
+                        onClick={() => !isPageLoading && goToPage(pageNumber)}
+                        className={`relative cursor-pointer rounded-lg border border-white/10 px-3 py-1 text-sm transition hover:bg-white/10 ${currentPage === pageNumber ? "bg-cyan-300 text-[#01011b]" : "bg-white/[0.04] text-white"} ${isPageLoading ? "pointer-events-none opacity-40" : ""}`}
+                      >
+                        {pageNumber}
+                      </div>
+                    );
+                  }
 
-                // Always show first page
-                if (pageNumber === 1) {
-                  return (
-                    <div
-                      key={pageNumber}
-                      onClick={() => goToPage(pageNumber)}
-                      className={`relative cursor-pointer rounded-lg border border-white/10 px-3 py-1 text-sm transition hover:bg-white/10 ${currentPage === pageNumber ? "bg-cyan-300 text-[#01011b]" : "bg-white/[0.04] text-white"}`}
-                    >
-                      {pageNumber}
-                    </div>
-                  );
-                }
+                  // Ellipsis after first page if needed
+                  if (pageNumber === 2 && currentPage > 3) {
+                    return (
+                      <span key="start-ellipsis" className="px-2 select-none">
+                        ...
+                      </span>
+                    );
+                  }
 
-                // Ellipsis after first page if needed
-                if (pageNumber === 2 && currentPage > 3) {
-                  return (
-                    <span key="start-ellipsis" className="px-2 select-none">
-                      ...
-                    </span>
-                  );
-                }
+                  // Current page (not first or last)
+                  if (
+                    pageNumber === currentPage &&
+                    pageNumber !== 1 &&
+                    pageNumber !== totalPages
+                  ) {
+                    return (
+                      <div
+                        key={pageNumber}
+                        onClick={() => !isPageLoading && goToPage(pageNumber)}
+                        className={`relative cursor-pointer rounded-lg border border-cyan-300 bg-cyan-300 px-3 py-1 text-sm text-[#01011b] transition hover:bg-cyan-200 ${isPageLoading ? "pointer-events-none opacity-40" : ""}`}
+                      >
+                        {pageNumber}
+                      </div>
+                    );
+                  }
 
-                // Current page (not first or last)
-                if (
-                  pageNumber === currentPage &&
-                  pageNumber !== 1 &&
-                  pageNumber !== totalPages
-                ) {
-                  return (
-                    <div
-                      key={pageNumber}
-                      onClick={() => goToPage(pageNumber)}
-                      className="relative cursor-pointer rounded-lg border border-cyan-300 bg-cyan-300 px-3 py-1 text-sm text-[#01011b] transition hover:bg-cyan-200"
-                    >
-                      {pageNumber}
-                    </div>
-                  );
-                }
+                  // Next page (not last)
+                  if (
+                    pageNumber === currentPage + 1 &&
+                    pageNumber !== totalPages
+                  ) {
+                    return (
+                      <div
+                        key={pageNumber}
+                        onClick={() => !isPageLoading && goToPage(pageNumber)}
+                        className={`relative cursor-pointer rounded-lg border border-white/10 bg-white/[0.04] px-3 py-1 text-sm text-white transition hover:bg-white/10 ${isPageLoading ? "pointer-events-none opacity-40" : ""}`}
+                      >
+                        {pageNumber}
+                      </div>
+                    );
+                  }
 
-                // Next page (not last)
-                if (
-                  pageNumber === currentPage + 1 &&
-                  pageNumber !== totalPages
-                ) {
-                  return (
-                    <div
-                      key={pageNumber}
-                      onClick={() => goToPage(pageNumber)}
-                      className="relative cursor-pointer rounded-lg border border-white/10 bg-white/[0.04] px-3 py-1 text-sm text-white transition hover:bg-white/10"
-                    >
-                      {pageNumber}
-                    </div>
-                  );
-                }
+                  // Ellipsis before last page if needed
+                  if (
+                    pageNumber === totalPages - 1 &&
+                    currentPage < totalPages - 2
+                  ) {
+                    return (
+                      <span key="end-ellipsis" className="px-2 select-none">
+                        ...
+                      </span>
+                    );
+                  }
 
-                // Ellipsis before last page if needed
-                if (
-                  pageNumber === totalPages - 1 &&
-                  currentPage < totalPages - 2
-                ) {
-                  return (
-                    <span key="end-ellipsis" className="px-2 select-none">
-                      ...
-                    </span>
-                  );
-                }
+                  // Always show last page
+                  if (pageNumber === totalPages) {
+                    return (
+                      <div
+                        key={pageNumber}
+                        onClick={() => !isPageLoading && goToPage(pageNumber)}
+                        className={`relative cursor-pointer rounded-lg border border-white/10 px-3 py-1 text-sm transition hover:bg-white/10 ${currentPage === pageNumber ? "bg-cyan-300 text-[#01011b]" : "bg-white/[0.04] text-white"} ${isPageLoading ? "pointer-events-none opacity-40" : ""}`}
+                      >
+                        {pageNumber}
+                      </div>
+                    );
+                  }
 
-                // Always show last page
-                if (pageNumber === totalPages) {
-                  return (
-                    <div
-                      key={pageNumber}
-                      onClick={() => goToPage(pageNumber)}
-                      className={`relative cursor-pointer rounded-lg border border-white/10 px-3 py-1 text-sm transition hover:bg-white/10 ${currentPage === pageNumber ? "bg-cyan-300 text-[#01011b]" : "bg-white/[0.04] text-white"}`}
-                    >
-                      {pageNumber}
-                    </div>
-                  );
-                }
+                  return null;
+                })}
 
-                return null;
-              })}
-
-              <div
-                onClick={() => goToPage(currentPage + 1)}
-                className={`relative cursor-pointer rounded-lg border border-white/10 bg-white/[0.04] px-3 py-1 text-sm text-white transition hover:bg-white/10 ${currentPage === totalPages ? "pointer-events-none opacity-40" : ""}`}
-              >
-                &gt;
+                <div
+                  onClick={() => !isPageLoading && goToPage(currentPage + 1)}
+                  className={`relative cursor-pointer rounded-lg border border-white/10 bg-white/[0.04] px-3 py-1 text-sm text-white transition hover:bg-white/10 ${currentPage === totalPages || isPageLoading ? "pointer-events-none opacity-40" : ""}`}
+                >
+                  &gt;
+                </div>
               </div>
             </div>
 
-            <div className="px-4 pt-2 pb-4">
+            <div className="mt-2 px-4 pt-1 pb-5">
               <UserStatsCard
                 loggedIn={loggedIn}
                 solvedQuestions={solvedQuestions}

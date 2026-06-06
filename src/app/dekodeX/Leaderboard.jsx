@@ -11,11 +11,12 @@ function UserStatsCard({
   rank,
   totalUsers,
 }) {
+  const canRevealRank = loggedIn && solvedQuestions > 0;
   const solvedPercent = loggedIn
     ? Math.max((solvedQuestions / 10) * 100, 1)
     : 1;
   const rankPosition =
-    loggedIn && rank && totalUsers > 0
+    canRevealRank && rank && totalUsers > 0
       ? Math.min(Math.max((rank / totalUsers) * 100, 1), 100)
       : 1;
 
@@ -63,24 +64,24 @@ function UserStatsCard({
               <span className="font-medium text-slate-400">Rank</span>
               <span
                 className={`font-semibold text-cyan-100 ${
-                  loggedIn ? "" : "blur-sm select-none"
+                  canRevealRank ? "" : "blur-sm select-none"
                 }`}
               >
-                {loggedIn && rank ? `#${rank}` : "000"}
+                {canRevealRank && rank ? `#${rank}` : "000"}
               </span>
             </div>
             <div className="relative h-8">
               <div className="absolute top-1/2 right-0 left-0 h-2 -translate-y-1/2 rounded-full bg-white/10">
                 <div
                   className={`h-full rounded-full bg-cyan-300/45 ${
-                    loggedIn ? "" : "blur-sm"
+                    canRevealRank ? "" : "blur-sm"
                   }`}
                   style={{ width: `${rankPosition}%` }}
                 />
               </div>
               <div
                 className={`absolute top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border border-cyan-300/40 bg-[#071126] p-1.5 text-cyan-200 shadow-lg shadow-cyan-950/30 ${
-                  loggedIn ? "" : "blur-sm"
+                  canRevealRank ? "" : "blur-sm"
                 }`}
                 style={{ left: `${rankPosition}%` }}
               >
@@ -91,6 +92,11 @@ function UserStatsCard({
               <span>#1</span>
               <span>{totalUsers || 0} users</span>
             </div>
+            {loggedIn && solvedQuestions === 0 ? (
+              <p className="mt-1 text-[10px] text-slate-400">
+                Submit once to unlock rank.
+              </p>
+            ) : null}
           </div>
 
           <div className="rounded-2xl border border-white/10 bg-[#01011b]/35 p-3">
@@ -324,24 +330,26 @@ export default function Leaderboard() {
 
               {/* Fixed podium container with proper constraints */}
               <div className="mx-auto w-full max-w-lg px-2">
-                <div className="flex items-end justify-center">
+                <div className="relative flex items-end justify-center gap-1.5 pb-1">
+                  <div className="pointer-events-none absolute right-1 bottom-0 left-1 h-2 rounded-full bg-cyan-200/10 blur-[2px]" />
                   {/* Second Place */}
                   {topData[1] && (
-                    <div className="flex h-[160px] w-[112px] flex-col items-center justify-end rounded-tl-2xl border border-cyan-300/20 bg-cyan-300/15 py-3 shadow-md">
-                      <div className="relative mb-2 h-12 w-12">
+                    <div className="relative flex h-[160px] w-[112px] flex-col items-center justify-end overflow-hidden rounded-tl-2xl border border-slate-200/35 bg-gradient-to-b from-slate-200/35 via-slate-300/20 to-cyan-500/15 py-3 shadow-[0_8px_20px_rgba(0,0,0,0.25)]">
+                      <div className="pointer-events-none absolute top-0 right-0 left-0 h-7 bg-white/10" />
+                      <div className="relative mb-2 h-12 w-12 rounded-full ring-2 ring-slate-100/70 ring-offset-2 ring-offset-[#0b1025]">
                         <img
                           src={`https://robohash.org/${encodeURIComponent(topData[1].name)}?set=set1`}
                           alt={topData[1].name}
                           className="h-full w-full rounded-full border-4 border-gray-200"
                         />
-                        <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 transform rounded-full border bg-white px-2 py-[2px] text-xs font-bold text-black">
-                          2.
+                        <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 transform rounded-full border border-slate-200/90 bg-slate-100 px-2 py-[2px] text-[10px] font-extrabold tracking-wide text-black">
+                          2ND
                         </div>
                       </div>
-                      <p className="w-full truncate px-2 text-center text-xs font-semibold text-white">
+                      <p className="w-full truncate px-2 text-center text-xs font-semibold text-white/95">
                         {topData[1].name.split(" ")[0]}
                       </p>
-                      <p className="text-xs font-bold text-white">
+                      <p className="mt-1 rounded-full border border-slate-100/35 bg-slate-100/15 px-2 py-0.5 text-[11px] font-bold text-slate-100">
                         {topData[1].score}
                       </p>
                     </div>
@@ -349,8 +357,9 @@ export default function Leaderboard() {
 
                   {/* First Place */}
                   {topData[0] && (
-                    <div className="flex h-[196px] w-[132px] flex-col items-center justify-end rounded-t-2xl border border-cyan-300/30 bg-cyan-300/20 py-3 shadow-lg">
-                      <div className="relative mb-2 h-16 w-16">
+                    <div className="relative flex h-[196px] w-[132px] flex-col items-center justify-end overflow-hidden rounded-t-2xl border border-yellow-300/70 bg-gradient-to-b from-yellow-300/45 via-amber-300/25 to-cyan-500/20 py-3 shadow-[0_12px_28px_rgba(250,204,21,0.22)]">
+                      <div className="pointer-events-none absolute top-0 right-0 left-0 h-8 bg-white/20" />
+                      <div className="relative mb-2 h-16 w-16 rounded-full ring-2 ring-yellow-300/80 ring-offset-2 ring-offset-[#0b1025]">
                         <img
                           src={`https://robohash.org/${encodeURIComponent(topData[0].name)}?set=set1`}
                           alt={topData[0].name}
@@ -359,16 +368,16 @@ export default function Leaderboard() {
                         <img
                           src="/dekodeX/crown.png"
                           alt="Crown"
-                          className="absolute -top-7 left-1/2 w-8 -translate-x-1/2 transform"
+                          className="absolute -top-7 left-1/2 w-9 -translate-x-1/2 transform drop-shadow-[0_0_8px_rgba(250,204,21,0.8)]"
                         />
-                        <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 transform rounded-full border border-black bg-yellow-400 px-2 py-[2px] text-xs font-bold text-black">
-                          1.
+                        <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 transform rounded-full border border-yellow-200 bg-yellow-300 px-2 py-[2px] text-[10px] font-extrabold tracking-wide text-black">
+                          1ST
                         </div>
                       </div>
-                      <p className="w-full truncate px-2 text-center text-sm font-bold text-yellow-400">
+                      <p className="w-full truncate px-2 text-center text-sm font-bold text-yellow-100">
                         {topData[0].name.split(" ")[0]}
                       </p>
-                      <p className="text-sm font-extrabold text-yellow-400">
+                      <p className="mt-1 rounded-full border border-yellow-300/55 bg-yellow-300/20 px-2.5 py-0.5 text-xs font-extrabold text-yellow-100">
                         {topData[0].score}
                       </p>
                     </div>
@@ -376,21 +385,22 @@ export default function Leaderboard() {
 
                   {/* Third Place */}
                   {topData[2] && (
-                    <div className="flex h-[148px] w-[112px] flex-col items-center justify-end rounded-tr-2xl border border-cyan-300/20 bg-cyan-300/15 py-3 shadow-md">
-                      <div className="relative mb-2 h-12 w-12">
+                    <div className="relative flex h-[148px] w-[112px] flex-col items-center justify-end overflow-hidden rounded-tr-2xl border border-amber-700/45 bg-gradient-to-b from-amber-700/40 via-orange-500/20 to-cyan-500/15 py-3 shadow-[0_8px_20px_rgba(0,0,0,0.25)]">
+                      <div className="pointer-events-none absolute top-0 right-0 left-0 h-7 bg-white/10" />
+                      <div className="relative mb-2 h-12 w-12 rounded-full ring-2 ring-amber-500/80 ring-offset-2 ring-offset-[#0b1025]">
                         <img
                           src={`https://robohash.org/${encodeURIComponent(topData[2].name)}?set=set1`}
                           alt={topData[2].name}
                           className="h-full w-full rounded-full border-4 border-[#B87333]"
                         />
-                        <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 transform rounded-full border bg-orange-400 px-2 py-[2px] text-xs font-bold text-black">
-                          3.
+                        <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 transform rounded-full border border-orange-200/80 bg-orange-300 px-2 py-[2px] text-[10px] font-extrabold tracking-wide text-black">
+                          3RD
                         </div>
                       </div>
-                      <p className="w-full truncate px-2 text-center text-xs font-semibold text-orange-400">
+                      <p className="w-full truncate px-2 text-center text-xs font-semibold text-orange-200">
                         {topData[2].name.split(" ")[0]}
                       </p>
-                      <p className="text-xs font-bold text-orange-400">
+                      <p className="mt-1 rounded-full border border-orange-300/45 bg-orange-300/15 px-2 py-0.5 text-[11px] font-bold text-orange-200">
                         {topData[2].score}
                       </p>
                     </div>

@@ -198,10 +198,9 @@ const ProblemArena = () => {
       onClick={() => setIsOpen(false)}
     >
       <div
-        className="no-scrollbar relative max-h-[90vh] w-full max-w-md overflow-y-auto rounded-2xl border border-cyan-300/20 bg-[#071126] p-5 text-white shadow-2xl shadow-cyan-950/40 sm:p-6"
+        className="no-scrollbar relative max-h-[90vh] w-full max-w-lg overflow-y-auto rounded-2xl border border-cyan-300/20 bg-[#071126] p-5 text-white shadow-2xl shadow-cyan-950/40 sm:p-6"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Close Button */}
         <button
           onClick={() => setIsOpen(false)}
           className="absolute top-3 right-3 cursor-pointer rounded-full p-1 text-slate-400 transition hover:bg-white/10 hover:text-white"
@@ -209,77 +208,57 @@ const ProblemArena = () => {
           ✕
         </button>
 
-        {/* Modal Content */}
-        <h2 className="mb-2 text-lg font-semibold text-cyan-100 sm:text-xl">
+        <div className="mb-3 inline-flex items-center rounded-full border border-cyan-300/30 bg-cyan-300/10 px-2.5 py-1 text-[11px] font-semibold tracking-wide text-cyan-100 uppercase">
+          Rules
+        </div>
+        <h2 className="text-lg font-semibold text-cyan-100 sm:text-xl">
           Competition Rules
         </h2>
-        <div className="mb-4 h-px bg-cyan-300/25"></div>
+        <p className="mt-1 text-xs text-slate-300 sm:text-sm">
+          Follow these to stay eligible and maximize score.
+        </p>
+        <div className="my-4 h-px bg-cyan-300/25"></div>
 
-        <div className="mb-4 space-y-3 sm:mb-5">
-          <div className="rounded-xl border border-white/10 bg-white/[0.04] p-3">
-            <h3 className="mb-2 text-sm font-semibold text-cyan-200">
-              Problem Release
-            </h3>
-            <p className="text-xs text-slate-300 sm:text-sm">
-              One new problem drops daily at midnight IST. Solve it anytime
-              during the competition period.
-            </p>
-          </div>
-
-          <div className="rounded-xl border border-white/10 bg-white/[0.04] p-3">
-            <h3 className="mb-2 text-sm font-semibold text-cyan-200">
-              Submission Process
-            </h3>
-            <p className="text-xs text-slate-300 sm:text-sm">
-              Submit your answers directly on the problem page. View sample
-              input/output and get your problem input.
+        <div className="space-y-2.5">
+          <div className="rounded-xl border border-white/10 bg-white/[0.04] p-3 sm:p-3.5">
+            <p className="text-sm font-semibold text-cyan-200">Problem Release</p>
+            <p className="mt-1 text-xs leading-5 text-slate-300 sm:text-sm">
+              One new problem unlocks daily at midnight IST.
             </p>
           </div>
 
-          <div className="rounded-xl border border-white/10 bg-white/[0.04] p-3">
-            <h3 className="mb-2 text-sm font-semibold text-cyan-200">
-              Leaderboard
-            </h3>
-            <p className="text-xs text-slate-300 sm:text-sm">
-              Real-time ranking updates. Your position depends on total score
-              across all solved problems.
+          <div className="rounded-xl border border-white/10 bg-white/[0.04] p-3 sm:p-3.5">
+            <p className="text-sm font-semibold text-cyan-200">Submission</p>
+            <p className="mt-1 text-xs leading-5 text-slate-300 sm:text-sm">
+              Submit from each problem page after checking samples and your input.
             </p>
           </div>
-        </div>
-        <div className="rounded-xl border border-white/10 bg-white/[0.04] p-3">
-          <h3 className="mb-2 text-sm font-semibold text-cyan-200">
-            Scoring System
-          </h3>
-          <div className="space-y-1 text-xs text-slate-300 sm:text-sm">
-            <p>
-              • <strong>Correctness:</strong> Full points for passing all test
-              cases
-            </p>
-            <p>
-              • <strong>Speed Bonus:</strong> Earlier submissions earn higher
-              scores
-            </p>
-            <p>
-              • <strong>Wrong Answer Penalty:</strong> Incorrect submissions
-              result in -10 points
+
+          <div className="rounded-xl border border-white/10 bg-white/[0.04] p-3 sm:p-3.5">
+            <p className="text-sm font-semibold text-cyan-200">Leaderboard</p>
+            <p className="mt-1 text-xs leading-5 text-slate-300 sm:text-sm">
+              Rankings update live based on your total score.
             </p>
           </div>
-        </div>
-        <div className="mt-3 mb-3 rounded-xl border border-red-400/20 bg-red-500/10 p-3">
-          <div className="flex items-start">
-            <div>
-              <p className="text-sm font-semibold text-red-200">
-                Solo Competition
-              </p>
-              <p className="text-xs text-red-100/80">
-                No collaboration, code sharing, or external assistance allowed.
-                Fair play is strictly enforced.
-              </p>
-            </div>
+
+          <div className="rounded-xl border border-white/10 bg-white/[0.04] p-3 sm:p-3.5">
+            <p className="text-sm font-semibold text-cyan-200">Scoring</p>
+            <ul className="mt-1 space-y-1.5 text-xs leading-5 text-slate-300 sm:text-sm">
+              <li>Full points for correct solutions.</li>
+              <li>Earlier correct submissions earn higher score.</li>
+              <li>Wrong answer incurs a -10 penalty.</li>
+            </ul>
           </div>
         </div>
 
-        <div className="rounded-xl border border-cyan-300/20 bg-cyan-300/10 p-3 text-center">
+        <div className="mt-3 rounded-xl border border-red-400/20 bg-red-500/10 p-3 sm:p-3.5">
+          <p className="text-sm font-semibold text-red-200">Solo Competition</p>
+          <p className="mt-1 text-xs leading-5 text-red-100/80 sm:text-sm">
+            Collaboration, code sharing, and external assistance are not allowed.
+          </p>
+        </div>
+
+        <div className="mt-3 rounded-xl border border-cyan-300/20 bg-cyan-300/10 p-3 text-center">
           <p className="text-sm font-semibold text-cyan-100">
             Dive deep, code fast, dominate the abyss.
           </p>

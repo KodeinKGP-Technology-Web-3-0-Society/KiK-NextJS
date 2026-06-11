@@ -194,93 +194,73 @@ const ProblemArena = () => {
   // Modal JSX
   const modalContent = (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 px-4 backdrop-blur-sm"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 px-4 backdrop-blur-sm"
       onClick={() => setIsOpen(false)}
     >
       <div
-        className="no-scrollbar relative max-h-[90vh] w-full max-w-md overflow-y-auto rounded-2xl bg-white p-4 text-black shadow-2xl sm:p-6 dark:bg-[#111827] dark:text-white"
+        className="no-scrollbar relative max-h-[90vh] w-full max-w-lg overflow-y-auto rounded-2xl border border-cyan-300/20 bg-[#071126] p-5 text-white shadow-2xl shadow-cyan-950/40 sm:p-6"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Close Button */}
         <button
           onClick={() => setIsOpen(false)}
-          className="absolute top-2 right-2 cursor-pointer rounded-full p-1 text-gray-400 transition hover:text-white sm:top-3 sm:right-3"
+          className="absolute top-3 right-3 cursor-pointer rounded-full p-1 text-slate-400 transition hover:bg-white/10 hover:text-white"
         >
           ✕
         </button>
 
-        {/* Modal Content */}
-        <h2 className="mb-2 text-lg font-bold sm:text-xl">Competition Rules</h2>
-        <div className="mb-4 h-0.5 bg-[linear-gradient(90deg,rgba(33,138,203,0.8)_0%,rgba(17,227,251,0.8)_50%,rgba(33,138,203,0.8)_75%,rgba(17,227,251,0.8)_100%)]"></div>
-
-        <div className="mb-4 space-y-3 sm:mb-5">
-          <div className="rounded-lg bg-blue-50 p-3 dark:bg-blue-900/20">
-            <h3 className="mb-2 text-sm font-semibold text-blue-800 dark:text-blue-300">
-              📅 Problem Release
-            </h3>
-            <p className="text-xs text-blue-700 sm:text-sm dark:text-blue-200">
-              One new problem drops daily at midnight IST. Solve it anytime
-              during the competition period.
-            </p>
-          </div>
-
-          <div className="rounded-lg bg-green-50 p-3 dark:bg-green-900/20">
-            <h3 className="mb-2 text-sm font-semibold text-green-800 dark:text-green-300">
-              💻 Submission Process
-            </h3>
-            <p className="text-xs text-green-700 sm:text-sm dark:text-green-200">
-              Submit your answers directly on the problem page. View sample
-              input/output and get your problem input.
-            </p>
-          </div>
-
-          <div className="rounded-lg bg-orange-50 p-3 dark:bg-orange-900/20">
-            <h3 className="mb-2 text-sm font-semibold text-orange-800 dark:text-orange-300">
-              📊 Leaderboard
-            </h3>
-            <p className="text-xs text-orange-700 sm:text-sm dark:text-orange-200">
-              Real-time ranking updates. Your position depends on total score
-              across all solved problems.
-            </p>
-          </div>
+        <div className="mb-3 inline-flex items-center rounded-full border border-cyan-300/30 bg-cyan-300/10 px-2.5 py-1 text-[11px] font-semibold tracking-wide text-cyan-100 uppercase">
+          Rules
         </div>
-        <div className="rounded-lg bg-purple-50 p-3 dark:bg-purple-900/20">
-          <h3 className="mb-2 text-sm font-semibold text-purple-800 dark:text-purple-300">
-            🏆 Scoring System
-          </h3>
-          <div className="space-y-1 text-xs text-purple-700 sm:text-sm dark:text-purple-200">
-            <p>
-              • <strong>Correctness:</strong> Full points for passing all test
-              cases
-            </p>
-            <p>
-              • <strong>Speed Bonus:</strong> Earlier submissions earn higher
-              scores
-            </p>
-            <p>
-              • <strong>Wrong Answer Penalty:</strong> Incorrect submissions
-              result in -10 points
+        <h2 className="text-lg font-semibold text-cyan-100 sm:text-xl">
+          Competition Rules
+        </h2>
+        <p className="mt-1 text-xs text-slate-300 sm:text-sm">
+          Follow these to stay eligible and maximize score.
+        </p>
+        <div className="my-4 h-px bg-cyan-300/25"></div>
+
+        <div className="space-y-2.5">
+          <div className="rounded-xl border border-white/10 bg-white/[0.04] p-3 sm:p-3.5">
+            <p className="text-sm font-semibold text-cyan-200">Problem Release</p>
+            <p className="mt-1 text-xs leading-5 text-slate-300 sm:text-sm">
+              One new problem unlocks daily at midnight IST.
             </p>
           </div>
-        </div>
-        <div className="mb-3 rounded-lg border-l-4 border-red-500 bg-red-50 p-3 dark:bg-red-900/20">
-          <div className="flex items-start">
-            <span className="mr-2 text-red-600 dark:text-red-400">⚠️</span>
-            <div>
-              <p className="text-sm font-semibold text-red-800 dark:text-red-300">
-                Solo Competition
-              </p>
-              <p className="text-xs text-red-700 dark:text-red-200">
-                No collaboration, code sharing, or external assistance allowed.
-                Fair play is strictly enforced.
-              </p>
-            </div>
+
+          <div className="rounded-xl border border-white/10 bg-white/[0.04] p-3 sm:p-3.5">
+            <p className="text-sm font-semibold text-cyan-200">Submission</p>
+            <p className="mt-1 text-xs leading-5 text-slate-300 sm:text-sm">
+              Submit from each problem page after checking samples and your input.
+            </p>
+          </div>
+
+          <div className="rounded-xl border border-white/10 bg-white/[0.04] p-3 sm:p-3.5">
+            <p className="text-sm font-semibold text-cyan-200">Leaderboard</p>
+            <p className="mt-1 text-xs leading-5 text-slate-300 sm:text-sm">
+              Rankings update live based on your total score.
+            </p>
+          </div>
+
+          <div className="rounded-xl border border-white/10 bg-white/[0.04] p-3 sm:p-3.5">
+            <p className="text-sm font-semibold text-cyan-200">Scoring</p>
+            <ul className="mt-1 space-y-1.5 text-xs leading-5 text-slate-300 sm:text-sm">
+              <li>Full points for correct solutions.</li>
+              <li>Earlier correct submissions earn higher score.</li>
+              <li>Wrong answer incurs a -10 penalty.</li>
+            </ul>
           </div>
         </div>
 
-        <div className="rounded-lg bg-gradient-to-r from-cyan-50 to-blue-50 p-3 text-center dark:from-cyan-900/20 dark:to-blue-900/20">
-          <p className="text-sm font-bold text-cyan-800 dark:text-cyan-300">
-            🚀 Dive deep, code fast, dominate the abyss!
+        <div className="mt-3 rounded-xl border border-red-400/20 bg-red-500/10 p-3 sm:p-3.5">
+          <p className="text-sm font-semibold text-red-200">Solo Competition</p>
+          <p className="mt-1 text-xs leading-5 text-red-100/80 sm:text-sm">
+            Collaboration, code sharing, and external assistance are not allowed.
+          </p>
+        </div>
+
+        <div className="mt-3 rounded-xl border border-cyan-300/20 bg-cyan-300/10 p-3 text-center">
+          <p className="text-sm font-semibold text-cyan-100">
+            Dive deep, code fast, dominate the abyss.
           </p>
         </div>
       </div>
@@ -288,30 +268,27 @@ const ProblemArena = () => {
   );
 
   return (
-    <div className="relative mx-2 max-w-none overflow-hidden rounded-[4px] bg-[linear-gradient(108.74deg,rgba(255,255,255,0.24)_0%,rgba(255,255,255,0.06)_100%)] shadow-[0_0_50px_-25px_rgba(0,0,0,0.5)] backdrop-blur-[100px] before:pointer-events-none before:absolute before:inset-0 before:rounded-[4px] before:border-[3px] before:border-transparent before:content-[''] before:[border-image-slice:1] before:[border-image-source:linear-gradient(108.74deg,rgba(33,138,203,0.6)_0%,rgba(255,255,255,0.54)_36.46%,rgba(255,255,255,0.3)_73.96%,rgba(17,227,251,0.6)_100%)] sm:mx-auto sm:max-w-4xl">
-      <div className="relative z-10 rounded p-4 sm:p-6">
+    <div className="relative overflow-hidden rounded-3xl border border-cyan-300/20 bg-white/[0.055] bg-[radial-gradient(circle_at_top_left,rgba(17,227,251,0.14),transparent_28rem)] shadow-2xl shadow-black/25 backdrop-blur-xl">
+      <div className="relative z-10 p-4 sm:p-6 lg:p-7">
         {/* Header */}
         <div className="mb-4 sm:mb-6">
-          <div className="mb-3 flex items-center justify-between">
+          <div className="mb-4 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
             <h1
-              className="text-xl font-bold sm:text-2xl lg:text-3xl"
+              className="text-2xl font-semibold tracking-tight text-white sm:text-3xl"
               style={{
-                background:
-                  "linear-gradient(92.46deg, #218ACB 0%, #11E3FB 33.33%, #218ACB 66.67%, #11E3FB 100%)",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
                 width: "auto",
               }}
             >
-              <span className="text-base font-semibold sm:text-lg lg:text-xl">
-                {loggedIn ? `${getGreeting()}, ${user?.username}` : ""}
+              <span className="mb-2 block text-sm font-medium text-cyan-200/80 sm:text-base">
+                {loggedIn
+                  ? `${getGreeting()}, ${user?.username}`
+                  : "DekodeX Challenge"}
               </span>
-              <br />
               Welcome to Problem Arena
             </h1>
             <div className="flex items-center gap-1 sm:gap-2">
               <button
-                className="focus:ring-opacity-50 flex cursor-pointer items-center gap-1 rounded-lg border border-gray-700 bg-gray-900 px-2 py-1.5 text-xs font-medium text-white shadow-lg transition-all duration-300 hover:bg-gray-800 hover:shadow-xl focus:ring-1 focus:ring-blue-400 focus:outline-none sm:px-4 sm:py-1.5 sm:text-base"
+                className="flex cursor-pointer items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-2 text-sm font-medium text-white transition hover:border-cyan-300/40 hover:bg-white/10 focus:ring-2 focus:ring-cyan-300/30 focus:outline-none"
                 onClick={() => setIsOpen(!isOpen)}
               >
                 <NotepadText
@@ -319,10 +296,10 @@ const ProblemArena = () => {
                   className="h-4 w-4 sm:h-5 sm:w-5"
                   color="rgb(17,227,251)"
                 />
-                <span className="hidden sm:inline xl:inline">Rules</span>
+                <span>Rules</span>
               </button>
               <Link href="/leaderboard" className="xl:hidden">
-                <button className="focus:ring-opacity-50 flex cursor-pointer items-center gap-1 rounded-lg border border-[rgb(17,227,251)] bg-[rgb(17,227,251)] px-2 py-1 text-xs font-medium text-[#01011b] shadow-lg transition-all duration-300 hover:bg-[rgb(15,204,226)] hover:shadow-xl focus:ring-1 focus:ring-blue-400 focus:outline-none sm:px-4 sm:py-1.5 sm:text-base">
+                <button className="flex cursor-pointer items-center gap-1 rounded-full border border-cyan-300 bg-cyan-300 px-3 py-2 text-sm font-semibold text-[#01011b] transition hover:bg-cyan-200 focus:ring-2 focus:ring-cyan-300/30 focus:outline-none">
                   <i
                     className="fa-duotone fa-solid fa-trophy text-base sm:text-xl"
                     style={{
@@ -338,19 +315,19 @@ const ProblemArena = () => {
             {mounted && isOpen && createPortal(modalContent, document.body)}
           </div>
 
-          <div className="mb-4 h-0.5 bg-[linear-gradient(90deg,rgba(33,138,203,0.8)_0%,rgba(17,227,251,0.8)_50%,rgba(33,138,203,0.8)_75%,rgba(17,227,251,0.8)_100%)] sm:mb-6"></div>
+          <div className="mb-5 h-px bg-cyan-300/20 sm:mb-6"></div>
 
-          <div className="mx-auto font-sans text-white">
-            <h1 className="text-xl font-semibold">
+          <div className="rounded-2xl border border-white/10 bg-[#01011b]/35 p-4 font-sans text-white sm:p-5">
+            <h1 className="text-xl font-semibold text-cyan-100">
               "Abyss Protocol: The Last Stand"
             </h1>
-            <p className="mt-1 text-gray-300 italic">
+            <p className="mt-1 text-sm text-slate-300 italic">
               10 Days. One Ocean. One Chance.
             </p>
 
-            <hr className="my-3 border-gray-600" />
+            <hr className="my-4 border-white/10" />
 
-            <div className="space-y-3 text-base leading-7 text-gray-200">
+            <div className="space-y-3 text-sm leading-7 text-slate-200 sm:text-base">
               <p>
                 The year is 2142. Earth is submerged under oceans, and
                 humanity's last survivors live within massive underwater
@@ -371,7 +348,7 @@ const ProblemArena = () => {
               </p>
 
               <p>
-                You are a <strong className="text-cyan-400">Cyber-Diver</strong>{" "}
+                You are a <strong className="text-cyan-300">Cyber-Diver</strong>{" "}
                 — part human, part machine, with neural implants that connect
                 your consciousness directly to the network. Your mission:
                 navigate through layers of encrypted alien code, solve their
@@ -380,7 +357,7 @@ const ProblemArena = () => {
                 darkness.
               </p>
 
-              <p className="font-medium text-cyan-300">
+              <p className="font-medium text-cyan-200">
                 Each algorithm you crack brings us one step closer to freedom.
                 The pressure is mounting, and the Varions are watching your
                 every move...
@@ -388,22 +365,13 @@ const ProblemArena = () => {
             </div>
           </div>
 
-          <div className="my-4 h-0.5 bg-[linear-gradient(90deg,rgba(33,138,203,0.8)_0%,rgba(17,227,251,0.8)_50%,rgba(33,138,203,0.8)_75%,rgba(17,227,251,0.8)_100%)] sm:my-6"></div>
+          <div className="my-5 h-px bg-cyan-300/20 sm:my-6"></div>
         </div>
 
         {/* Open Problems Section */}
         <div className="mb-6 sm:mb-8">
           {lockedProblems.length < 10 && (
-            <h2
-              className="mb-3 bg-[linear-gradient(to_right,_#218ACB_0%,_#11E3FB_33%,_#218ACB_66%,_#11E3FB_100%)] bg-clip-text text-xl font-bold text-transparent sm:mb-4 sm:text-2xl"
-              style={{
-                background:
-                  "linear-gradient(92.46deg, #218ACB 0%, #11E3FB 33.33%, #218ACB 66.67%, #11E3FB 100%)",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-                width: "auto",
-              }}
-            >
+            <h2 className="mb-3 text-xl font-semibold text-cyan-100 sm:mb-4 sm:text-2xl">
               Open
             </h2>
           )}
@@ -415,12 +383,12 @@ const ProblemArena = () => {
               unlockedProblems.map((problem) => (
                 <div
                   key={problem.questionId}
-                  className={`group flex cursor-pointer items-center justify-between rounded p-3 transition-colors duration-200 hover:bg-gray-700 sm:p-4 ${
+                  className={`group flex cursor-pointer items-center justify-between rounded-2xl border p-3 transition duration-200 hover:-translate-y-0.5 hover:border-cyan-300/30 hover:bg-white/[0.08] sm:p-4 ${
                     user?.submissions?.[
                       getSubmissionIndex(problem.questionId)
                     ] > 0
-                      ? "border border-green-500/30 bg-green-500/20"
-                      : "bg-[linear-gradient(90.27deg,rgba(255,255,255,0.24)_0%,rgba(115,115,115,0.12)_100%)]"
+                      ? "border-green-400/30 bg-green-400/10"
+                      : "border-white/10 bg-white/[0.045]"
                   }`}
                 >
                   <div
@@ -439,15 +407,13 @@ const ProblemArena = () => {
                       href={`/dekodeX/${problem.questionId}`}
                       className="min-w-0 flex-1"
                     >
-                      <span className="block truncate bg-[linear-gradient(187.84deg,#218ACB_9.42%,#0CC5DA_69.83%,#11E3FB_130.23%)] bg-clip-text text-base font-medium text-transparent transition-colors group-hover:text-cyan-400 sm:text-lg">
+                      <span className="block truncate text-base font-medium text-white transition-colors group-hover:text-cyan-200 sm:text-lg">
                         {problem.title}
                       </span>
                     </Link>
                   </div>
-                  <span className="ml-2 flex-shrink-0 text-base font-bold text-[#218ACB] sm:text-lg">
-                    {"<"}
-                    {problem.score}
-                    {"/>"}
+                  <span className="ml-2 flex-shrink-0 rounded-full border border-cyan-300/20 bg-cyan-300/10 px-3 py-1 text-sm font-semibold text-cyan-200">
+                    {problem.score} pts
                   </span>
                 </div>
               ))
@@ -458,7 +424,7 @@ const ProblemArena = () => {
         {/* Yet to Reveal Section */}
         <div>
           {lockedProblems.length > 0 && (
-            <h2 className="mb-3 bg-[linear-gradient(to_right,_#218ACB_0%,_#11E3FB_33%,_#218ACB_66%,_#11E3FB_100%)] bg-clip-text text-xl font-bold text-transparent sm:mb-4 sm:text-2xl">
+            <h2 className="mb-3 text-xl font-semibold text-cyan-100 sm:mb-4 sm:text-2xl">
               Yet to Reveal
             </h2>
           )}
@@ -477,7 +443,7 @@ const ProblemArena = () => {
                 return (
                   <div
                     key={problem.id}
-                    className="group flex cursor-not-allowed items-center justify-between rounded bg-[linear-gradient(90.27deg,rgba(255,255,255,0.24)_0%,rgba(115,115,115,0.12)_100%)] p-3 transition-colors duration-200 sm:p-4"
+                    className="group flex cursor-not-allowed items-center justify-between rounded-2xl border border-white/10 bg-white/[0.035] p-3 opacity-80 transition-colors duration-200 sm:p-4"
                   >
                     <div className="flex min-w-0 flex-1 items-center space-x-2 sm:space-x-4">
                       <Lock className="h-4 w-4 flex-shrink-0 text-cyan-400 sm:h-5 sm:w-5" />
@@ -487,7 +453,7 @@ const ProblemArena = () => {
                       </span>
                       <div className="min-w-0 flex-1">
                         {/* Timer display - not blurred */}
-                        <span className="block font-['Montserrat'] text-base font-medium text-[#11E3FB]">
+                        <span className="block text-sm font-medium text-cyan-200 sm:text-base">
                           {countdownText}
                         </span>
                         {/* Original title - blurred and hidden behind timer */}
@@ -496,10 +462,8 @@ const ProblemArena = () => {
                         </span>
                       </div>
                     </div>
-                    <span className="ml-2 flex-shrink-0 text-base font-bold text-[#218ACB] blur-sm sm:text-lg">
-                      {"<"}
-                      {problem.points}
-                      {"/>"}
+                    <span className="ml-2 flex-shrink-0 rounded-full border border-white/10 bg-white/[0.04] px-3 py-1 text-sm font-semibold text-slate-400 blur-sm">
+                      {problem.points} pts
                     </span>
                   </div>
                 );

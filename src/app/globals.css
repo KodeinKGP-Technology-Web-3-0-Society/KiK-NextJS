@@ -224,6 +224,101 @@ body {
     0 0 20px rgba(33, 138, 203, 0.2),
     0 0 40px rgba(33, 138, 203, 0.1);
 }
+
+.dekodex-question-page .markdown-content {
+  color: #e5edf6;
+}
+
+.dekodex-question-page .markdown-content h1,
+.dekodex-question-page .markdown-content h2,
+.dekodex-question-page .markdown-content h3,
+.dekodex-question-page .markdown-content h4,
+.dekodex-question-page .markdown-content h5,
+.dekodex-question-page .markdown-content h6 {
+  color: #00ff00;
+  font-weight: 600;
+  margin-top: 1.25rem;
+  margin-bottom: 0.65rem;
+}
+
+.dekodex-question-page .markdown-content h1:first-child,
+.dekodex-question-page .markdown-content h2:first-child,
+.dekodex-question-page .markdown-content h3:first-child {
+  margin-top: 0;
+}
+
+.dekodex-question-page .markdown-content h2 {
+  border-bottom: 1px solid rgba(17, 227, 251, 0.18);
+  font-size: 1.2rem;
+  padding-bottom: 0.45rem;
+}
+
+.dekodex-question-page .markdown-content h3 {
+  font-size: 1.05rem;
+}
+
+.dekodex-question-page .markdown-content p {
+  color: #d8e1ec;
+  line-height: 1.75;
+  margin-bottom: 0.65rem;
+}
+
+.dekodex-question-page .markdown-content ul,
+.dekodex-question-page .markdown-content ol {
+  padding-left: 1.35rem;
+}
+
+.dekodex-question-page .markdown-content li {
+  color: #d8e1ec;
+  margin-bottom: 0.4rem;
+}
+
+.dekodex-question-page .markdown-content strong {
+  color: #9befff;
+  font-weight: 600;
+}
+
+.dekodex-question-page .markdown-content code {
+  background: rgba(255, 255, 255, 0.08);
+  color: #d7fbff;
+}
+
+.dekodex-question-page .markdown-content blockquote,
+.dekodex-question-page .markdown-content.story-section blockquote {
+  border-left: 3px solid rgba(17, 227, 251, 0.65);
+  background: rgba(17, 227, 251, 0.06);
+  color: #dceff5;
+}
+
+.dekodex-question-page .markdown-content pre,
+.dekodex-question-page .markdown-content.sample-input pre,
+.dekodex-question-page .markdown-content.sample-output pre {
+  margin: 0;
+  border: 0;
+  border-radius: 6px;
+  background: #050712;
+  box-shadow: none;
+  color: #d7fbff;
+}
+
+.dekodex-question-page .markdown-content.sample-input,
+.dekodex-question-page .markdown-content.sample-output {
+  scrollbar-color: rgba(17, 227, 251, 0.35) transparent;
+  scrollbar-width: thin;
+}
+
+.dekodex-question-page .markdown-content.sample-input::-webkit-scrollbar,
+.dekodex-question-page .markdown-content.sample-output::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.dekodex-question-page .markdown-content.sample-input::-webkit-scrollbar-thumb,
+.dekodex-question-page
+  .markdown-content.sample-output::-webkit-scrollbar-thumb {
+  background: rgba(17, 227, 251, 0.35);
+  border-radius: 999px;
+}
 .no-scrollbar {
   scrollbar-width: none;
   -ms-overflow-style: none;

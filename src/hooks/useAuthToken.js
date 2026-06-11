@@ -3,6 +3,10 @@ import { useState, useEffect } from "react";
 export function useAuthToken() {
   const [token, setToken] = useState(null);
   const [loading, setLoading] = useState(true);
+  const apiBase = process.env.NEXT_PUBLIC_API_BASE_URL?.trim();
+  const authEndpoint = apiBase
+    ? `${apiBase}/dekodeX/api/auth`
+    : "/dekodeX/api/auth";
 
   useEffect(() => {
     const getSessionToken = async () => {
@@ -22,16 +26,18 @@ export function useAuthToken() {
         }
 
         // Fetch new session token
-        const response = await fetch(
-          `${process.env.NEXT_PUBLIC_API_BASE_URL}/dekodeX/api/auth`,
-          {
-            method: "POST",
-          }
-        );
+        const response = await fetch(authEndpoint, {
+          method: "POST",
+        });
 
         if (response.ok) {
           const data = await response.json();
           const sessionToken = data.sessionToken;
+
+          if (!sessionToken) {
+            console.error("Auth endpoint returned no sessionToken");
+            return;
+          }
 
           // Cache token with expiry (55 minutes to be safe)
           localStorage.setItem("dekodex_session_token", sessionToken);
@@ -42,7 +48,11 @@ export function useAuthToken() {
 
           setToken(sessionToken);
         } else {
-          console.error("Failed to get session token");
+          const errorText = await response.text();
+          console.error(
+            `Failed to get session token (${response.status}):`,
+            errorText
+          );
         }
       } catch (error) {
         console.error("Error getting session token:", error);
@@ -60,16 +70,18 @@ export function useAuthToken() {
     localStorage.removeItem("dekodex_session_expiry");
 
     try {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}/dekodeX/api/auth`,
-        {
-          method: "POST",
-        }
-      );
+      const response = await fetch(authEndpoint, {
+        method: "POST",
+      });
 
       if (response.ok) {
         const data = await response.json();
         const sessionToken = data.sessionToken;
+
+        if (!sessionToken) {
+          console.error("Auth endpoint returned no sessionToken");
+          return;
+        }
 
         localStorage.setItem("dekodex_session_token", sessionToken);
         localStorage.setItem(
@@ -78,6 +90,12 @@ export function useAuthToken() {
         );
 
         setToken(sessionToken);
+      } else {
+        const errorText = await response.text();
+        console.error(
+          `Failed to refresh session token (${response.status}):`,
+          errorText
+        );
       }
     } catch (error) {
       console.error("Error refreshing token:", error);

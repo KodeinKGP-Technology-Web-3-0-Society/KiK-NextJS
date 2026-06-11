@@ -50,13 +50,15 @@ export default function Layout() {
   const [showModal, setShowModal] = useState(false);
   const [name, setName] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [showIntro, setShowIntro] = useState(true);
+  const [showIntro, setShowIntro] = useState(null);
 
   useEffect(() => {
     const hideIntro = localStorage.getItem(INTRO_LOADER_HIDE_KEY) === "true";
     if (hideIntro || window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
       setShowIntro(false);
+      return;
     }
+    setShowIntro(true);
   }, []);
 
   useEffect(() => {
@@ -83,6 +85,10 @@ export default function Layout() {
     checkStatusAndModal();
   }, [authToken, loggedIn, user?.email]);
 
+  if (showIntro === null) {
+    return <div className="min-h-screen bg-[#01011b]" />;
+  }
+
   const handleAuthAction = async () => {
     if (loggedIn) {
       try {
@@ -99,7 +105,7 @@ export default function Layout() {
 
   return (
     <>
-      {showIntro ? <DekodeXIntroLoader onComplete={() => setShowIntro(false)} /> : null}
+      {showIntro === true ? <DekodeXIntroLoader onComplete={() => setShowIntro(false)} /> : null}
 
       <div className="min-h-screen bg-[#01011b] px-4 py-5 text-white sm:px-6 lg:px-8">
         <div className="mx-auto flex w-full max-w-[1500px] flex-col gap-5 xl:grid xl:grid-cols-[minmax(0,1fr)_440px] xl:items-stretch">

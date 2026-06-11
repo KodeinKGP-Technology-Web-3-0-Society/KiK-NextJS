@@ -9,25 +9,35 @@ const INTRO_LOADER_HIDE_KEY = "dekodex_intro_hide";
 const BRAND_CHARS = BRAND.split("");
 const SCRAMBLE_CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*<>?/".split("");
 const SYNTAX_SYMBOLS = ["{ }", "</>", "=>", "||", "&&", "[ ]", "( )", "/*", "*/", ";", "==", "!="];
+const PARTICLE_SEED = 20260608;
+
+function createSeededRandom(seed) {
+  let state = seed >>> 0;
+  return () => {
+    state = (state * 1664525 + 1013904223) >>> 0;
+    return state / 4294967296;
+  };
+}
+
+function buildParticles() {
+  const rand = createSeededRandom(PARTICLE_SEED);
+  return Array.from({ length: PARTICLE_COUNT }, (_, id) => ({
+    id,
+    char: SYNTAX_SYMBOLS[Math.floor(rand() * SYNTAX_SYMBOLS.length)],
+    x: rand() * 100,
+    y: rand() * 100,
+    scale: +(rand() * 0.5 + 0.5).toFixed(2),
+    opacity: +(rand() * 0.2 + 0.05).toFixed(2),
+    duration: +(rand() * 2 + 3).toFixed(2),
+    delay: +(rand() * 1.5).toFixed(2),
+  }));
+}
 
 export default function DekodeXIntroLoader({ onComplete }) {
   const [closing, setClosing] = useState(false);
   const [cipherText, setCipherText] = useState(BRAND_CHARS.map(() => "X"));
   const onCompleteRef = useRef(onComplete);
-  const particles = useMemo(
-    () =>
-      Array.from({ length: PARTICLE_COUNT }, (_, id) => ({
-        id,
-        char: SYNTAX_SYMBOLS[Math.floor(Math.random() * SYNTAX_SYMBOLS.length)],
-        x: Math.random() * 100,
-        y: Math.random() * 100,
-        scale: +(Math.random() * 0.5 + 0.5).toFixed(2),
-        opacity: +(Math.random() * 0.2 + 0.05).toFixed(2),
-        duration: +(Math.random() * 2 + 3).toFixed(2),
-        delay: +(Math.random() * 1.5).toFixed(2),
-      })),
-    []
-  );
+  const particles = useMemo(() => buildParticles(), []);
 
   useEffect(() => {
     onCompleteRef.current = onComplete;
@@ -106,7 +116,6 @@ export default function DekodeXIntroLoader({ onComplete }) {
       {/* Main Glassmorphic Panel */}
       <div className="relative z-10 w-[min(90vw,480px)]">
         <div className="relative rounded-2xl border border-white/[0.08] bg-[#0A0A12]/80 p-8 shadow-[0_8px_32px_rgba(0,0,0,0.5)] backdrop-blur-xl">
-          
           {/* Minimalist Top Bar */}
           <div className="mb-8 flex items-center justify-between border-b border-white/[0.05] pb-4">
             <div className="flex gap-2">
@@ -140,7 +149,7 @@ export default function DekodeXIntroLoader({ onComplete }) {
                 );
               })}
             </h1>
-            
+
             {/* Status indicator */}
             <div className="mt-6 flex items-center gap-3 font-mono text-xs text-white/50">
               <div className="relative flex h-2 w-2 items-center justify-center">

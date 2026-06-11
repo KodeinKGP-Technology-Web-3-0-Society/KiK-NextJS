@@ -9,6 +9,14 @@
   },
   {
     "id": 2,
+    "heading": "Tech Triad Hackathon",
+    "description": "This hackathon brings together developers, designers, and problem-solvers to tackle real-world challenges using three powerful technology domains. Participants will collaborate intensively, push technical boundaries, and build future-ready solutions with real impact.",
+    "sponsor": "",
+    "image": "/EventsImages/techtriad2026_hackathon.png",
+    "sponsor_img": ""
+  },
+  {
+    "id": 3,
     "heading": "National Science Week Hackathon",
     "description": "An offline hackathon at IIT Kharagpur focused on building a course recommendation website using ML. The platform filtered courses based on CGPA goals, profiles, and interests. It featured intuitive UI design, collaborative development, and expert mentorship.",
     "sponsor": "",
@@ -16,7 +24,7 @@
     "sponsor_img": ""
   },
   {
-    "id": 3,
+    "id": 4,
     "heading": "INNOVATE4SWADESHI",
     "description": "An online AI-focused hackathon in partnership with Swadeshi Bytes tackling SME operations, campus interaction, and content creation. It featured three problem statements, mentorship from industry experts, and a prize pool of 50k INR.",
     "sponsor": ["saneobserver"],
@@ -24,7 +32,7 @@
     "sponsor_img": ["/EventsImages/Sane.png"]
   },
   {
-    "id": 4,
+    "id": 5,
     "heading": "Hack-an-Intern",
     "description": "A major tech event sponsored by Density with 300+ participants exploring AI, blockchain, and emerging tech. Included workshops by industry veterans, hands-on coding, and networking. Prize pool worth 2 lakhs INR for top performers.",
     "sponsor": ["Density"],
@@ -32,7 +40,7 @@
     "sponsor_img": ["/EventsImages/density.jpg"]
   },
   {
-    "id": 5,
+    "id": 6,
     "heading": "Blockchain Hackathon",
     "description": "An online hackathon by Nuvepro with 400+ participants and 50 teams developing blockchain-based solutions. The event featured expert-led workshops, coding sessions, and industry interactions. Total prize pool was 40k INR.",
     "sponsor": ["Nuvepro"],
@@ -40,7 +48,7 @@
     "sponsor_img": ["/EventsImages/nuvepro logo.jpg"]
   },
   {
-    "id": 6,
+    "id": 7,
     "heading": "Concordia",
     "description": "A global online hackathon sponsored by Graviton and Concordium with 60 teams and a prize pool over $100k. Participants tackled complex challenges through collaboration, workshops, and networking. Emphasized innovation and professional growth.",
     "image": "/EventsImages/concordia.jpg",
@@ -49,8 +57,17 @@
       "/EventsImages/graviton logo.jpg"
     ]
   },
+  
   {
-    "id": 7,
+    "id": 8,
+    "heading": "GMUN Web 3.0 Workshop",
+    "description": "This workshop is intended for students who are curious about Web3 as well as those looking to actively build and explore opportunities in the decentralized ecosystem.",
+    "sponsor": "",
+    "image": "/EventsImages/gmun2026_workshop.png",
+    "sponsor_img": ""
+  },
+  {
+    "id": 9,
     "heading": "Web3.0 Summer Training Program",
     "description": "A 4-week online training with Lumos teaching full-stack Web3.0 development. Covered JavaScript, React, blockchain, and smart contracts. Participants engaged in hands-on projects, interactive sessions, and collaborative learning.",
     "sponsor": ["Lumos"],
@@ -58,7 +75,7 @@
     "sponsor_img": ["/EventsImages/lumoslabs_logo.jpg"]
   },
   {
-    "id": 8,
+    "id": 10,
     "heading": "Web3 & Aptos Session",
     "description": "An online session by Move Developers for 300+ participants exploring Web3 and Aptos. Included deep-dive presentations, practical workshops, and networking with tech professionals. Aimed at bridging gaps in emerging tech.",
     "sponsor": ["Move Developers"],

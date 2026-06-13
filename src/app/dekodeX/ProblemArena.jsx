@@ -258,11 +258,7 @@ const ProblemArena = () => {
           </p>
         </div>
 
-        <div className="mt-3 rounded-xl border border-cyan-300/20 bg-cyan-300/10 p-3 text-center">
-          <p className="text-sm font-semibold text-cyan-100">
-            Dive deep, code fast, dominate the abyss.
-          </p>
-        </div>
+
       </div>
     </div>
   );
@@ -319,48 +315,31 @@ const ProblemArena = () => {
 
           <div className="rounded-2xl border border-white/10 bg-[#01011b]/35 p-4 font-sans text-white sm:p-5">
             <h1 className="text-xl font-semibold text-cyan-100">
-              "Abyss Protocol: The Last Stand"
+              "ECHO BEFORE DAWN"
             </h1>
             <p className="mt-1 text-sm text-slate-300 italic">
-              10 Days. One Ocean. One Chance.
+              52,000 years of silence. 10 days to break it.
             </p>
 
             <hr className="my-4 border-white/10" />
 
             <div className="space-y-3 text-sm leading-7 text-slate-200 sm:text-base">
               <p>
-                The year is 2142. Earth is submerged under oceans, and
-                humanity's last survivors live within massive underwater
-                biodomes — colossal structures of steel and glass that serve as
-                the final bastions of civilization, powered by geothermal vents
-                and protected by quantum shields that flicker against the
-                crushing depths.
+                The year is 2187. Humanity has colonized Mars and proudly believes we are the first intelligent life in the universe. We are completely wrong.
+                Deep under the Sahara Desert, an excavation found something impossible: ancient ruins 52,000 years old. Strangely, these stone structures are fused with advanced computer chips and digital code
               </p>
 
               <p>
-                An alien race known as{" "}
-                <strong className="text-red-400">"The Varions"</strong> has
-                infiltrated Earth's technology from the deepest ocean trenches.
-                These silicon-based entities corrupt quantum processors, steal
-                energy cores, and release weaponized digital viruses that turn
-                our own systems against us, threatening the very survival of the
-                remaining biodomes.
+                A faceless, powerful corporation named <strong className="text-red-400">"VANTA"</strong>  has known about this for over a century. They have buried the truth and are now initiating a strict erasure protocol to destroy the evidence.
+
               </p>
 
               <p>
-                You are a <strong className="text-cyan-300">Cyber-Diver</strong>{" "}
-                — part human, part machine, with neural implants that connect
-                your consciousness directly to the network. Your mission:
-                navigate through layers of encrypted alien code, solve their
-                twisted algorithmic puzzles, and reclaim control of humanity's
-                digital infrastructure before the last biodome falls to eternal
-                darkness.
+                But the ruins are turning back on. A secret warning message just escaped the dig site, sent directly to you: <strong className="text-cyan-300">KAI</strong>{" "}. As a lone hacker and the daughter of the lead archaeologist, you are the only one equipped to uncover the truth. The ancient builders left this message to wake up when humanity was finally ready to understand it.
               </p>
 
               <p className="font-medium text-cyan-200">
-                Each algorithm you crack brings us one step closer to freedom.
-                The pressure is mounting, and the Varions are watching your
-                every move...
+                That time is now. VANTA is tightening the net, throwing up firewalls and security vaults to stop you. You have exactly 10 days to crack their obstacles and decode the ancient signal before their countdown deletes it forever.
               </p>
             </div>
           </div>
@@ -383,13 +362,12 @@ const ProblemArena = () => {
               unlockedProblems.map((problem) => (
                 <div
                   key={problem.questionId}
-                  className={`group flex cursor-pointer items-center justify-between rounded-2xl border p-3 transition duration-200 hover:-translate-y-0.5 hover:border-cyan-300/30 hover:bg-white/[0.08] sm:p-4 ${
-                    user?.submissions?.[
+                  className={`group flex cursor-pointer items-center justify-between rounded-2xl border p-3 transition duration-200 hover:-translate-y-0.5 hover:border-cyan-300/30 hover:bg-white/[0.08] sm:p-4 ${user?.submissions?.[
                       getSubmissionIndex(problem.questionId)
                     ] > 0
                       ? "border-green-400/30 bg-green-400/10"
                       : "border-white/10 bg-white/[0.045]"
-                  }`}
+                    }`}
                 >
                   <div
                     className="flex min-w-0 flex-1 items-center space-x-2 sm:space-x-4"

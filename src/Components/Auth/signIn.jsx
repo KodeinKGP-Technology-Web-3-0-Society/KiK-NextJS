@@ -1,9 +1,10 @@
 "use client";
-import { useState, useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { auth, db } from "@/backend/firebase";
-import { collection, getDoc, doc, runTransaction } from "firebase/firestore";
+import { collection, doc, getDoc, runTransaction } from "firebase/firestore";
 import {
   GoogleAuthProvider,
+  signInWithCredential,
   signInWithEmailAndPassword,
   signInWithPopup,
 } from "firebase/auth";
@@ -11,7 +12,6 @@ import { Eye, EyeOff } from "lucide-react";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import Script from "next/script";
-import AuthLoader from "../utils/AuthLoader";
 
 const getSuggestedUsername = (name, email) => {
   const source = name || email?.split("@")[0] || "";
@@ -27,11 +27,14 @@ const SignIn = () => {
   const [googleUsername, setGoogleUsername] = useState("");
   const [pendingGoogleUser, setPendingGoogleUser] = useState(null);
   const [showPassword, setShowPassword] = useState(false);
-  const [loader, setLoader] = useState(false);
+  const [loadingAction, setLoadingAction] = useState(null);
   const router = useRouter();
 
   const captchaRenderedRef = useRef(false);
   const captchaContainerRef = useRef(null);
+  const oneTapInitializedRef = useRef(false);
+
+  const isLoading = Boolean(loadingAction);
 
   const resolveIdentifierToEmail = async (rawIdentifier) => {
     const trimmedIdentifier = rawIdentifier.trim();
@@ -80,17 +83,28 @@ const SignIn = () => {
     };
   }, []);
 
+  const completeGoogleAuth = async (googleUser) => {
+    const userDoc = await getDoc(doc(db, "users", googleUser.uid));
+
+    if (userDoc.exists()) {
+      toast.success("Login successful!");
+      router.push("/dekodeX");
+      return;
+    }
+
+    setPendingGoogleUser(googleUser);
+    setGoogleUsername(getSuggestedUsername(googleUser.displayName, googleUser.email));
+  };
+
   const handleLogin = async (e) => {
     e.preventDefault();
-    setLoader(true);
+    setLoadingAction("login");
 
-    // Trim whitespace from identifier
     const trimmedIdentifier = identifier.trim();
 
-    // Validate trimmed input is not empty
     if (!trimmedIdentifier) {
       toast.error("Username/Email cannot be empty or contain only spaces.");
-      setLoader(false);
+      setLoadingAction(null);
       return;
     }
 
@@ -100,7 +114,7 @@ const SignIn = () => {
 
     if (!token) {
       toast.error("Please complete the CAPTCHA.");
-      setLoader(false);
+      setLoadingAction(null);
       return;
     }
 
@@ -117,14 +131,14 @@ const SignIn = () => {
 
     if (!data.success) {
       toast.error("CAPTCHA verification failed.");
-      setLoader(false);
+      setLoadingAction(null);
       return;
     }
 
     const identifierEmail = await resolveIdentifierToEmail(trimmedIdentifier);
     if (!identifierEmail) {
       toast.error("Invalid email/username or password.");
-      setLoader(false);
+      setLoadingAction(null);
       return;
     }
 
@@ -138,7 +152,7 @@ const SignIn = () => {
 
       if (!user.emailVerified) {
         toast.error("Please verify your email before logging in.");
-        setLoader(false);
+        setLoadingAction(null);
         return;
       }
 
@@ -159,28 +173,16 @@ const SignIn = () => {
       toast.error(`Login error: ${errorMessage}`);
     }
 
-    setLoader(false);
+    setLoadingAction(null);
   };
 
   const handleGoogleLogin = async () => {
-    setLoader(true);
+    setLoadingAction("google");
 
     try {
       const provider = new GoogleAuthProvider();
       const result = await signInWithPopup(auth, provider);
-      const googleUser = result.user;
-      const userDoc = await getDoc(doc(db, "users", googleUser.uid));
-
-      if (userDoc.exists()) {
-        toast.success("Login successful!");
-        router.push("/dekodeX");
-        return;
-      }
-
-      setPendingGoogleUser(googleUser);
-      setGoogleUsername(
-        getSuggestedUsername(googleUser.displayName, googleUser.email)
-      );
+      await completeGoogleAuth(result.user);
     } catch (err) {
       console.error("Google login error:", err);
       let errorMessage = "Google login failed. Please try again.";
@@ -194,9 +196,77 @@ const SignIn = () => {
 
       toast.error(errorMessage);
     } finally {
-      setLoader(false);
+      setLoadingAction(null);
     }
   };
+
+  const handleGoogleCredentialResponse = async (response) => {
+    if (!response?.credential || pendingGoogleUser) return;
+
+    setLoadingAction("google");
+
+    try {
+      const credential = GoogleAuthProvider.credential(response.credential);
+      const result = await signInWithCredential(auth, credential);
+      await completeGoogleAuth(result.user);
+    } catch (err) {
+      console.error("Google one-tap error:", err);
+      toast.error("Google sign-in failed. Please try again.");
+    } finally {
+      setLoadingAction(null);
+    }
+  };
+
+  useEffect(() => {
+    if (typeof window === "undefined" || pendingGoogleUser) return;
+
+    const clientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID;
+    if (!clientId) return;
+
+    let intervalId;
+    let timeoutId;
+
+    const initOneTap = () => {
+      if (!window.google?.accounts?.id || oneTapInitializedRef.current) return;
+
+      window.google.accounts.id.initialize({
+        client_id: clientId,
+        callback: handleGoogleCredentialResponse,
+        auto_select: true,
+        cancel_on_tap_outside: false,
+        use_fedcm_for_prompt: true,
+        context: "signin",
+      });
+
+      window.google.accounts.id.prompt();
+      oneTapInitializedRef.current = true;
+    };
+
+    initOneTap();
+
+    if (!oneTapInitializedRef.current) {
+      intervalId = window.setInterval(() => {
+        initOneTap();
+
+        if (oneTapInitializedRef.current) {
+          window.clearInterval(intervalId);
+        }
+      }, 300);
+
+      timeoutId = window.setTimeout(() => {
+        window.clearInterval(intervalId);
+      }, 5000);
+    }
+
+    return () => {
+      if (intervalId) window.clearInterval(intervalId);
+      if (timeoutId) window.clearTimeout(timeoutId);
+      if (window.google?.accounts?.id) {
+        window.google.accounts.id.cancel();
+      }
+      oneTapInitializedRef.current = false;
+    };
+  }, [pendingGoogleUser]);
 
   const handleGoogleUsernameSubmit = async (e) => {
     e.preventDefault();
@@ -206,7 +276,9 @@ const SignIn = () => {
     const trimmedUsername = googleUsername.trim().toLowerCase();
 
     if (!/^[a-z0-9_]+$/.test(trimmedUsername)) {
-      toast.error("Username can only contain lowercase letters, numbers, and underscores.");
+      toast.error(
+        "Username can only contain lowercase letters, numbers, and underscores."
+      );
       return;
     }
 
@@ -215,7 +287,7 @@ const SignIn = () => {
       return;
     }
 
-    setLoader(true);
+    setLoadingAction("googleUsername");
 
     try {
       const initSubmissions = Array(10).fill(0);
@@ -291,34 +363,32 @@ const SignIn = () => {
         toast.error("Could not save username. Please try again.");
       }
     } finally {
-      setLoader(false);
+      setLoadingAction(null);
     }
   };
 
   if (pendingGoogleUser) {
     return (
-      <>
-        {loader && <AuthLoader />}
-        <form
-          onSubmit={handleGoogleUsernameSubmit}
-          className="flex flex-col items-center justify-center space-y-5"
-        >
-          <input
-            value={googleUsername}
-            onChange={(e) => setGoogleUsername(e.target.value)}
-            type="text"
-            placeholder="Choose username"
-            className="w-full rounded-lg bg-[#10162f] p-3 text-white placeholder-gray-400 outline-none focus:ring-2 focus:ring-cyan-400"
-          />
+      <form
+        onSubmit={handleGoogleUsernameSubmit}
+        className="flex flex-col items-center justify-center space-y-5"
+      >
+        <input
+          value={googleUsername}
+          onChange={(e) => setGoogleUsername(e.target.value)}
+          type="text"
+          placeholder="Choose username"
+          className="w-full rounded-lg bg-[#10162f] p-3 text-white placeholder-gray-400 outline-none focus:ring-2 focus:ring-cyan-400"
+        />
 
-          <button
-            type="submit"
-            className="w-full cursor-pointer rounded-lg bg-cyan-400 py-2 font-semibold text-black transition duration-200 hover:bg-cyan-300"
-          >
-            Continue
-          </button>
-        </form>
-      </>
+        <button
+          type="submit"
+          disabled={loadingAction === "googleUsername"}
+          className="w-full cursor-pointer rounded-lg bg-cyan-400 py-2 font-semibold text-black transition duration-200 hover:bg-cyan-300 disabled:cursor-not-allowed disabled:opacity-70"
+        >
+          {loadingAction === "googleUsername" ? "Saving..." : "Continue"}
+        </button>
+      </form>
     );
   }
 
@@ -328,8 +398,10 @@ const SignIn = () => {
         src="https://challenges.cloudflare.com/turnstile/v0/api.js?onload=onloadTurnstileCallback"
         strategy="afterInteractive"
       />
-
-      {loader && <AuthLoader />}
+      <Script
+        src="https://accounts.google.com/gsi/client"
+        strategy="afterInteractive"
+      />
 
       <form
         onSubmit={handleLogin}
@@ -364,17 +436,19 @@ const SignIn = () => {
 
         <button
           type="submit"
-          className="w-full cursor-pointer rounded-lg bg-cyan-400 py-2 font-semibold text-black transition duration-200 hover:bg-cyan-300"
+          disabled={isLoading}
+          className="w-full cursor-pointer rounded-lg bg-cyan-400 py-2 font-semibold text-black transition duration-200 hover:bg-cyan-300 disabled:cursor-not-allowed disabled:opacity-70"
         >
-          Login
+          {loadingAction === "login" ? "Logging in..." : "Login"}
         </button>
 
         <button
           type="button"
           onClick={handleGoogleLogin}
-          className="w-full cursor-pointer rounded-lg border border-white/15 bg-white/5 py-2 font-semibold text-white transition duration-200 hover:bg-white/10"
+          disabled={isLoading}
+          className="w-full cursor-pointer rounded-lg border border-white/15 bg-white/5 py-2 font-semibold text-white transition duration-200 hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-70"
         >
-          Continue with Google
+          {loadingAction === "google" ? "Continuing..." : "Continue with Google"}
         </button>
       </form>
     </>

@@ -1,0 +1,4 @@
+[build.environment]
+  # NEXT_PUBLIC_* values are intentionally exposed in client bundles.
+  # Exclude this public OAuth client ID key from blocking secret scans.
+  SECRETS_SCAN_OMIT_KEYS = "NEXT_PUBLIC_GOOGLE_CLIENT_ID"

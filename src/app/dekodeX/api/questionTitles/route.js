@@ -1,11 +1,24 @@
 import { NextResponse } from "next/server";
 import { db } from "@/backend/firebaseAdmin.js";
+import { requireAuth } from "@/backend/requireAuth.js";
+import { getCacheEntry, setCacheEntry } from "@/backend/runtimeCache.js";
 
-export async function GET() {
+const QUESTION_TITLES_CACHE_TTL_MS = 30 * 1000;
+
+export async function GET(request) {
   try {
+    const { error } = await requireAuth(request);
+    if (error) return error;
+
     // Use IST timezone for consistency
     const now = new Date();
     const today = now.toLocaleDateString("en-CA", { timeZone: "Asia/Kolkata" }); // en-CA gives YYYY-MM-DD format
+
+    const cacheKey = `questionTitles:${today}`;
+    const cachedQuestions = getCacheEntry(cacheKey);
+    if (cachedQuestions) {
+      return NextResponse.json({ questions: cachedQuestions }, { status: 200 });
+    }
 
     const snapshot = await db
       .collection("questions")
@@ -30,6 +43,7 @@ export async function GET() {
       };
     });
 
+    setCacheEntry(cacheKey, questions, QUESTION_TITLES_CACHE_TTL_MS);
     return NextResponse.json({ questions }, { status: 200 });
   } catch (error) {
     console.error("Error fetching questions:", error);

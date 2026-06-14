@@ -1,8 +1,15 @@
 import { NextResponse } from "next/server";
 import { db } from "@/backend/firebaseAdmin.js";
+import { requireAuth } from "@/backend/requireAuth.js";
+import { getCacheEntry, setCacheEntry } from "@/backend/runtimeCache.js";
+
+const QUESTION_CACHE_TTL_MS = 30 * 1000;
 
 export async function GET(request, { params }) {
   try {
+    const { error } = await requireAuth(request);
+    if (error) return error;
+
     const { questionId } = await params;
 
     if (!questionId) {
@@ -34,6 +41,15 @@ export async function GET(request, { params }) {
       );
     }
 
+    const cacheKey = `question:${questionId}`;
+    const cachedQuestionPayload = getCacheEntry(cacheKey);
+    if (cachedQuestionPayload) {
+      return NextResponse.json(cachedQuestionPayload, {
+        status: 200,
+        headers: { "Content-Type": "application/json" },
+      });
+    }
+
     const testcasesSnapshot = await db
       .collection("testcases")
       .where("questionId", "==", questionId)
@@ -48,16 +64,16 @@ export async function GET(request, { params }) {
 
     const testcaseData = testcasesSnapshot.docs[0].data().input;
 
-    return NextResponse.json(
-      {
-        ...questionData,
-        testcases: testcaseData,
-      },
-      {
-        status: 200,
-        headers: { "Content-Type": "application/json" },
-      }
-    );
+    const payload = {
+      ...questionData,
+      testcases: testcaseData,
+    };
+    setCacheEntry(cacheKey, payload, QUESTION_CACHE_TTL_MS);
+
+    return NextResponse.json(payload, {
+      status: 200,
+      headers: { "Content-Type": "application/json" },
+    });
   } catch (error) {
     console.error("Error fetching question with testcases:", error);
     return NextResponse.json(

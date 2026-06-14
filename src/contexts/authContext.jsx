@@ -1,7 +1,7 @@
 "use client";
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { onAuthStateChanged } from "firebase/auth";
-import { doc, getDoc } from "firebase/firestore";
+import { doc, onSnapshot } from "firebase/firestore";
 import { auth, db } from "@/backend/firebase";
 import { toast } from "react-toastify";
 
@@ -15,39 +15,74 @@ export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  async function getUserData(currentUser) {
-    if (currentUser) {
-      try {
-        const userDocRef = doc(db, "users", currentUser.uid);
-        const userDocSnap = await getDoc(userDocRef);
-
-        if (userDocSnap.exists()) {
-          const userData = userDocSnap.data();
-          // Always use the current Firebase Auth emailVerified status
-          const updatedUserData = {
-            ...userData,
-            uid: currentUser.uid,
-            emailVerified: currentUser.emailVerified,
-          };
-          setUser(updatedUserData);
-          return;
-        } else {
-          console.error("Server error: No such user document!");
-        }
-      } catch (error) {
-        toast.error("Error fetching user data: " + error.message);
-      }
-    }
-    setUser(null);
-  }
-
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
-      await getUserData(currentUser);
-      setLoading(false);
+    let unsubscribeUserDoc = null;
+
+    const unsubscribeAuth = onAuthStateChanged(auth, (currentUser) => {
+      if (unsubscribeUserDoc) {
+        unsubscribeUserDoc();
+        unsubscribeUserDoc = null;
+      }
+
+      if (!currentUser) {
+        setUser(null);
+        setLoading(false);
+        return;
+      }
+
+      const userDocRef = doc(db, "users", currentUser.uid);
+      unsubscribeUserDoc = onSnapshot(
+        userDocRef,
+        (userDocSnap) => {
+          if (userDocSnap.exists()) {
+            const userData = userDocSnap.data();
+            setUser({
+              ...userData,
+              uid: currentUser.uid,
+              email: currentUser.email || userData.email || "",
+              emailVerified: currentUser.emailVerified,
+            });
+          } else {
+            // During signup, auth can resolve before Firestore user doc is written.
+            // Keep user authenticated and let onSnapshot populate full profile once created.
+            setUser((prevUser) =>
+              prevUser?.uid === currentUser.uid
+                ? {
+                    ...prevUser,
+                    email: currentUser.email || prevUser.email || "",
+                    emailVerified: currentUser.emailVerified,
+                  }
+                : {
+                    uid: currentUser.uid,
+                    email: currentUser.email || "",
+                    emailVerified: currentUser.emailVerified,
+                    username: currentUser.displayName || "Anonymous",
+                    submissions: [],
+                  }
+            );
+          }
+          setLoading(false);
+        },
+        (error) => {
+          toast.error("Error fetching user data: " + error.message);
+          setUser({
+            uid: currentUser.uid,
+            email: currentUser.email || "",
+            emailVerified: currentUser.emailVerified,
+            username: currentUser.displayName || "Anonymous",
+            submissions: [],
+          });
+          setLoading(false);
+        }
+      );
     });
 
-    return () => unsubscribe();
+    return () => {
+      if (unsubscribeUserDoc) {
+        unsubscribeUserDoc();
+      }
+      unsubscribeAuth();
+    };
   }, []);
 
   const value = {

@@ -45,7 +45,7 @@ function SubmitButton({ email, answer, id }) {
             Authorization: `Bearer ${authToken}`,
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ email, answer }),
+          body: JSON.stringify({ answer }),
         }
       );
 

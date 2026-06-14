@@ -192,6 +192,7 @@ export default function LeaderboardPage() {
       try {
         const qs = new URLSearchParams();
         if (user?.email) qs.set("email", user.email);
+        if (user?.uid) qs.set("uid", user.uid);
         qs.set("pageSize", String(itemsPerPage));
 
         const res = await fetch(

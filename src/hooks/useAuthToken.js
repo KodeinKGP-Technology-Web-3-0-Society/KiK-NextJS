@@ -1,104 +1,47 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
+import { onIdTokenChanged } from "firebase/auth";
+import { auth } from "@/backend/firebase";
 
 export function useAuthToken() {
   const [token, setToken] = useState(null);
   const [loading, setLoading] = useState(true);
-  const apiBase = process.env.NEXT_PUBLIC_API_BASE_URL?.trim();
-  const authEndpoint = apiBase
-    ? `${apiBase}/dekodeX/api/auth`
-    : "/dekodeX/api/auth";
 
   useEffect(() => {
-    const getSessionToken = async () => {
+    const unsubscribe = onIdTokenChanged(auth, async (currentUser) => {
+      if (!currentUser) {
+        setToken(null);
+        setLoading(false);
+        return;
+      }
+
       try {
-        // Check if we have a valid cached token
-        const cachedToken = localStorage.getItem("dekodex_session_token");
-        const cachedExpiry = localStorage.getItem("dekodex_session_expiry");
-
-        if (
-          cachedToken &&
-          cachedExpiry &&
-          Date.now() < parseInt(cachedExpiry)
-        ) {
-          setToken(cachedToken);
-          setLoading(false);
-          return;
-        }
-
-        // Fetch new session token
-        const response = await fetch(authEndpoint, {
-          method: "POST",
-        });
-
-        if (response.ok) {
-          const data = await response.json();
-          const sessionToken = data.sessionToken;
-
-          if (!sessionToken) {
-            console.error("Auth endpoint returned no sessionToken");
-            return;
-          }
-
-          // Cache token with expiry (55 minutes to be safe)
-          localStorage.setItem("dekodex_session_token", sessionToken);
-          localStorage.setItem(
-            "dekodex_session_expiry",
-            (Date.now() + 55 * 60 * 1000).toString()
-          );
-
-          setToken(sessionToken);
-        } else {
-          const errorText = await response.text();
-          console.error(
-            `Failed to get session token (${response.status}):`,
-            errorText
-          );
-        }
+        const idToken = await currentUser.getIdToken();
+        setToken(idToken || null);
       } catch (error) {
-        console.error("Error getting session token:", error);
+        console.error("Error getting Firebase ID token:", error);
+        setToken(null);
       } finally {
         setLoading(false);
       }
-    };
+    });
 
-    getSessionToken();
+    return () => unsubscribe();
   }, []);
 
   const refreshToken = async () => {
     setLoading(true);
-    localStorage.removeItem("dekodex_session_token");
-    localStorage.removeItem("dekodex_session_expiry");
-
     try {
-      const response = await fetch(authEndpoint, {
-        method: "POST",
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        const sessionToken = data.sessionToken;
-
-        if (!sessionToken) {
-          console.error("Auth endpoint returned no sessionToken");
-          return;
-        }
-
-        localStorage.setItem("dekodex_session_token", sessionToken);
-        localStorage.setItem(
-          "dekodex_session_expiry",
-          (Date.now() + 55 * 60 * 1000).toString()
-        );
-
-        setToken(sessionToken);
-      } else {
-        const errorText = await response.text();
-        console.error(
-          `Failed to refresh session token (${response.status}):`,
-          errorText
-        );
+      const currentUser = auth.currentUser;
+      if (!currentUser) {
+        setToken(null);
+        return;
       }
+
+      const idToken = await currentUser.getIdToken(true);
+      setToken(idToken || null);
     } catch (error) {
-      console.error("Error refreshing token:", error);
+      console.error("Error refreshing Firebase ID token:", error);
+      setToken(null);
     } finally {
       setLoading(false);
     }

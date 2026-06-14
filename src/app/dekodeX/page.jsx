@@ -18,10 +18,10 @@ import ProblemArena from "./ProblemArena";
 const INTRO_LOADER_HIDE_KEY = "dekodex_intro_hide";
 const CERTIFICATE_APPLICATIONS_ENABLED = false;
 
-async function checkCertificate(email, token) {
+async function checkCertificate(token) {
   try {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/dekodeX/api/certificate/check?email=${encodeURIComponent(email)}`,
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/dekodeX/api/certificate/check`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -72,7 +72,7 @@ export default function Layout() {
         return;
       }
 
-      const exists = await checkCertificate(user.email, authToken);
+      const exists = await checkCertificate(authToken);
       setHasCert(exists);
 
       const modalShowed = localStorage.getItem("modalShowed");
@@ -154,7 +154,6 @@ export default function Layout() {
                             "Content-Type": "application/json",
                           },
                           body: JSON.stringify({
-                            email: user.email,
                             name: name || null,
                           }),
                         }

@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { db } from "@/backend/firebaseAdmin.js";
+import { requireAuth } from "@/backend/requireAuth.js";
 
 const CERTIFICATE_APPLICATIONS_ENABLED = false;
 
@@ -12,10 +13,11 @@ export async function POST(request) {
   }
 
   try {
-    const { email, name } = await request.json();
-    if (!email) {
-      return NextResponse.json({ error: "Email is required" }, { status: 400 });
-    }
+    const authResult = await requireAuth(request);
+    if (authResult.error) return authResult.error;
+    const { email } = authResult.auth;
+
+    const { name } = await request.json();
 
     const certRef = db.collection("certificates").doc("allCertificates");
     // Read existing entries

@@ -1,11 +1,16 @@
 import { db } from "@/backend/firebaseAdmin.js";
 import { NextResponse } from "next/server";
+import { getCacheEntry, setCacheEntry } from "@/backend/runtimeCache.js";
+
+const LEADERBOARD_USERS_CACHE_TTL_MS = 15 * 1000;
+const USER_DOC_CACHE_TTL_MS = 30 * 1000;
 
 export async function GET(request, { params }) {
   try {
     const { pageNum } = await params;
     const { searchParams } = new URL(request.url);
     const email = searchParams.get("email");
+    const uid = searchParams.get("uid");
 
     const page = Number.parseInt(pageNum, 10);
     if (!Number.isFinite(page) || page < 1) {
@@ -16,16 +21,132 @@ export async function GET(request, { params }) {
     }
 
     const leaderboardRef = db.collection("leaderboard").doc("users");
-    const leaderboardSnap = await leaderboardRef.get();
-
-    if (!leaderboardSnap.exists) {
-      return NextResponse.json(
-        { error: "Leaderboard not found" },
-        { status: 404 }
+    const leaderboardUsersCacheKey = "leaderboard:users";
+    let users = getCacheEntry(leaderboardUsersCacheKey);
+    if (!users) {
+      const leaderboardSnap = await leaderboardRef.get();
+      if (!leaderboardSnap.exists) {
+        return NextResponse.json(
+          { error: "Leaderboard not found" },
+          { status: 404 }
+        );
+      }
+      users = leaderboardSnap.data().users || [];
+      setCacheEntry(
+        leaderboardUsersCacheKey,
+        users,
+        LEADERBOARD_USERS_CACHE_TTL_MS
       );
     }
+    const normalizedRequestedEmail =
+      typeof email === "string" ? email.trim().toLowerCase() : "";
 
-    const users = leaderboardSnap.data().users || [];
+    // Self-heal current user's leaderboard entry if email/uid is provided.
+    if (uid || normalizedRequestedEmail) {
+      let userDocData = null;
+
+      if (uid && typeof uid === "string" && uid.trim()) {
+        const userCacheByUidKey = `userByUid:${uid.trim()}`;
+        const cachedUserByUid = getCacheEntry(userCacheByUidKey);
+        if (cachedUserByUid) {
+          userDocData = cachedUserByUid;
+        } else {
+          const directUserDoc = await db
+            .collection("users")
+            .doc(uid.trim())
+            .get();
+          if (directUserDoc.exists) {
+            userDocData = directUserDoc.data();
+            setCacheEntry(
+              userCacheByUidKey,
+              userDocData,
+              USER_DOC_CACHE_TTL_MS
+            );
+          }
+        }
+      }
+
+      if (!userDocData && normalizedRequestedEmail) {
+        const userCacheByEmailKey = `userByEmail:${normalizedRequestedEmail}`;
+        const cachedUserByEmail = getCacheEntry(userCacheByEmailKey);
+        if (cachedUserByEmail) {
+          userDocData = cachedUserByEmail;
+        } else {
+          const userQuerySnapshot = await db
+            .collection("users")
+            .where("email", "==", normalizedRequestedEmail)
+            .limit(1)
+            .get();
+
+          if (!userQuerySnapshot.empty) {
+            userDocData = userQuerySnapshot.docs[0].data();
+            setCacheEntry(
+              userCacheByEmailKey,
+              userDocData,
+              USER_DOC_CACHE_TTL_MS
+            );
+          }
+        }
+      }
+
+      if (userDocData) {
+        const computedTotalPts = (userDocData.submissions || []).reduce(
+          (sum, val) => sum + Math.max(0, Number(val) || 0),
+          0
+        );
+        const entryEmail = String(
+          userDocData.email || normalizedRequestedEmail || ""
+        )
+          .trim()
+          .toLowerCase();
+        const entryName = userDocData.username || "Anonymous";
+
+        if (entryEmail) {
+          const existingIndex = users.findIndex(
+            (entry) =>
+              String(entry?.email ?? "")
+                .trim()
+                .toLowerCase() === entryEmail
+          );
+
+          let shouldPersist = false;
+          if (existingIndex >= 0) {
+            const existing = users[existingIndex] || {};
+            if (
+              Number(existing.totalPts ?? 0) !== computedTotalPts ||
+              (existing.name || "Anonymous") !== entryName
+            ) {
+              users[existingIndex] = {
+                ...existing,
+                email: entryEmail,
+                name: entryName,
+                totalPts: computedTotalPts,
+              };
+              shouldPersist = true;
+            }
+          } else {
+            users = [
+              ...users,
+              {
+                email: entryEmail,
+                name: entryName,
+                totalPts: computedTotalPts,
+              },
+            ];
+            shouldPersist = true;
+          }
+
+          if (shouldPersist) {
+            await leaderboardRef.update({ users });
+            setCacheEntry(
+              leaderboardUsersCacheKey,
+              users,
+              LEADERBOARD_USERS_CACHE_TTL_MS
+            );
+          }
+        }
+      }
+    }
 
     // Sort by totalPts desc; tie-break by email for deterministic ordering.
     const sortedLeaderboard = [...users].sort((a, b) => {
@@ -47,10 +168,14 @@ export async function GET(request, { params }) {
     const startIndex = (page - 1) * pageSize;
     const endIndex = startIndex + pageSize;
 
-    const userRanking =
-      email && typeof email === "string"
-        ? sortedLeaderboard.findIndex((user) => user?.email === email)
-        : -1;
+    const userRanking = normalizedRequestedEmail
+      ? sortedLeaderboard.findIndex(
+          (user) =>
+            String(user?.email ?? "")
+              .trim()
+              .toLowerCase() === normalizedRequestedEmail
+        )
+      : -1;
     const currUser = userRanking >= 0 ? sortedLeaderboard[userRanking] : null;
 
     const paginatedLeaderboard = sortedLeaderboard

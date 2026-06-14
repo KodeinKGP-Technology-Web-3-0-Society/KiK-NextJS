@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 
 export function middleware(request) {
-  const staticAuthToken = process.env.STATIC_AUTH_TOKEN;
   const origin = request.headers.get("origin");
 
   // Define allowed origins
@@ -13,16 +12,6 @@ export function middleware(request) {
   ];
 
   const isAllowedOrigin = !origin || allowedOrigins.includes(origin);
-
-  if (!staticAuthToken) {
-    console.error(
-      "SERVER ERROR: STATIC_AUTH_TOKEN is not set in environment variables. Please check your .env.local file."
-    );
-    return NextResponse.json(
-      { message: "Server configuration error. Please try again later." },
-      { status: 500 }
-    );
-  }
 
   // Handle preflight OPTIONS requests - only allow from permitted origins
   if (request.method === "OPTIONS") {
@@ -66,7 +55,6 @@ export function middleware(request) {
   ];
 
   const publicPaths = [
-    "/dekodeX/api/auth",
     "/dekodeX/api/leaderboard",
     "/dekodeX/api/verifyTurnstile",
   ];
@@ -121,35 +109,7 @@ export function middleware(request) {
       )
     );
   }
-
-  const token = authHeader.split(" ")[1];
-  // Check if it's the direct static token (for server-to-server communication)
-  if (token === staticAuthToken) {
-    return addCorsHeaders(NextResponse.next());
-  }
-
-  // Check if it's a session token (for client-side requests)
-  try {
-    const sessionData = JSON.parse(Buffer.from(token, "base64").toString());
-    if (
-      sessionData.token === staticAuthToken &&
-      sessionData.expires > Date.now()
-    ) {
-      return addCorsHeaders(NextResponse.next());
-    }
-  } catch (error) {
-    // Invalid session token format
-  }
-
-  console.warn(
-    `Forbidden access attempt to ${request.nextUrl.pathname}: Invalid or expired token.`
-  );
-  return addCorsHeaders(
-    NextResponse.json(
-      { message: "Forbidden. Invalid or expired token provided." },
-      { status: 403 }
-    )
-  );
+  return addCorsHeaders(NextResponse.next());
 }
 
 export const config = {
@@ -157,7 +117,6 @@ export const config = {
     "/dekodeX/api/question/:path*",
     "/dekodeX/api/questionTitles/:path*",
     "/dekodeX/api/submit/:path*",
-    "/dekodeX/api/auth/:path*",
     "/dekodeX/api/leaderboard/:path*",
     "/dekodeX/api/verifyTurnstile/:path*",
     "/dekodeX/api/certificate/apply/:path*",

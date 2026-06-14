@@ -1,15 +1,11 @@
 import { NextResponse } from "next/server";
 import { db } from "@/backend/firebaseAdmin.js";
-import { requireAuth } from "@/backend/requireAuth.js";
 import { getCacheEntry, setCacheEntry } from "@/backend/runtimeCache.js";
 
 const QUESTION_TITLES_CACHE_TTL_MS = 30 * 1000;
 
 export async function GET(request) {
   try {
-    const { error } = await requireAuth(request);
-    if (error) return error;
-
     // Use IST timezone for consistency
     const now = new Date();
     const today = now.toLocaleDateString("en-CA", { timeZone: "Asia/Kolkata" }); // en-CA gives YYYY-MM-DD format

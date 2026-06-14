@@ -11,7 +11,6 @@ import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import GetInput from "@/Components/utils/GetInput";
 import DekodeXLoading from "@/Components/dekodeX_Loader/Loader";
-import { useAuthToken } from "../../../hooks/useAuthToken";
 import { Source_Code_Pro } from "next/font/google";
 import {
   ClipboardList,
@@ -66,6 +65,7 @@ function cleanCodeBlock(text) {
 function Qp() {
   const [testcases, setTestcases] = useState([]);
   const [questionData, setQuestionData] = useState(null);
+  const [questionError, setQuestionError] = useState("");
   const [answer, setAnswer] = useState("");
   const [testcaseUrl, setTestcaseUrl] = useState("");
   const [isOpen, setIsOpen] = useState(false);
@@ -74,7 +74,6 @@ function Qp() {
   const params = useParams();
   const { QuestionID } = params;
   const { user } = useAuth();
-  const { token: authToken } = useAuthToken();
 
   useEffect(() => {
     fetch("/testcases.json")
@@ -89,29 +88,68 @@ function Qp() {
   }, [testcases, QuestionID]);
 
   useEffect(() => {
-    if (!authToken || !QuestionID) return;
+    if (!QuestionID) return;
 
-    fetch(
-      process.env.NEXT_PUBLIC_API_BASE_URL +
-        "/dekodeX/api/question/" +
-        QuestionID,
-      {
-        method: "GET",
-        headers: {
-          Authorization: "Bearer " + authToken,
-          "Content-Type": "application/json",
-        },
+    let cancelled = false;
+
+    const fetchQuestion = async () => {
+      const res = await fetch(
+        process.env.NEXT_PUBLIC_API_BASE_URL +
+          "/dekodeX/api/question/" +
+          QuestionID,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      let payload = null;
+      try {
+        payload = await res.json();
+      } catch {
+        payload = null;
       }
-    )
-      .then((res) => {
-        if (!res.ok) throw new Error("HTTP error! status: " + res.status);
-        return res.json();
-      })
-      .then((data) => setQuestionData(data))
-      .catch((err) => console.error("Error fetching question:", err));
-  }, [QuestionID, authToken]);
+
+      if (!res.ok) {
+        const message =
+          payload?.error ||
+          payload?.message ||
+          "HTTP error! status: " + res.status;
+
+        throw new Error(message);
+      }
+
+      if (!cancelled) {
+        setQuestionData(payload);
+        setQuestionError("");
+      }
+    };
+
+    fetchQuestion().catch((err) => {
+      if (!cancelled) {
+        setQuestionData(null);
+        setQuestionError(err.message || "Failed to fetch question.");
+      }
+      console.error("Error fetching question:", err);
+    });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [QuestionID]);
 
   if (!questionData) {
+    if (questionError) {
+      return (
+        <div className="mx-auto mt-8 flex max-w-3xl flex-col items-center gap-4 rounded-lg border border-red-400/25 bg-red-500/5 p-6 text-center text-red-100">
+          <p className="text-sm sm:text-base">{questionError}</p>
+          <ReturnButton />
+        </div>
+      );
+    }
+
     return (
       <div>
         <DekodeXLoading />
@@ -243,62 +281,53 @@ function Qp() {
 
         {questionData.testcases ? (
           <section className={`${sectionClass} p-4`}>
-            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-              <div className="min-w-0">
-                <h3 className="text-base font-semibold text-[#00FF00]">
-                  Resources
-                </h3>
-                <p className="mt-1 text-xs leading-5 text-slate-400">
-                  Download your input, check instructions, or contact support.
-                </p>
+            <div className="flex flex-row flex-wrap items-center justify-start gap-2">
+              <GetInput testcaseUrl={testcaseUrl} />
+
+              <div className="relative">
+                <button
+                  className="flex h-[42px] cursor-pointer items-center justify-center gap-2 rounded-lg border border-cyan-300/20 bg-cyan-300/90 px-3 text-sm font-semibold text-[#01011b] transition-colors hover:bg-cyan-200 focus:ring-2 focus:ring-cyan-300/30 focus:outline-none max-sm:w-[42px] max-sm:px-0"
+                  aria-label="Instructions"
+                  onClick={() => window.open("/instructions.pdf", "_blank")}
+                  onMouseEnter={() => setShowTooltip(true)}
+                  onMouseLeave={() => setShowTooltip(false)}
+                >
+                  <HelpCircle className="h-5 w-5" />
+                  <span className="max-sm:hidden">Instructions</span>
+                </button>
+
+                {showTooltip ? (
+                  <div className="absolute left-1/2 z-10 mt-2 -translate-x-1/2 rounded-md border border-white/10 bg-neutral-900 px-3 py-2 text-gray-100 shadow-lg">
+                    <p className="text-sm">Instructions</p>
+                  </div>
+                ) : null}
               </div>
-              <div className="flex flex-row flex-wrap items-center justify-start gap-2 sm:justify-end">
-                <GetInput testcaseUrl={testcaseUrl} />
 
-                <div className="relative">
-                  <button
-                    className="flex h-[42px] cursor-pointer items-center justify-center gap-2 rounded-lg border border-cyan-300/20 bg-cyan-300/90 px-3 text-sm font-semibold text-[#01011b] transition-colors hover:bg-cyan-200 focus:ring-2 focus:ring-cyan-300/30 focus:outline-none max-sm:w-[42px] max-sm:px-0"
-                    aria-label="Instructions"
-                    onClick={() => window.open("/instructions.pdf", "_blank")}
-                    onMouseEnter={() => setShowTooltip(true)}
-                    onMouseLeave={() => setShowTooltip(false)}
-                  >
-                    <HelpCircle className="h-5 w-5" />
-                    <span className="max-sm:hidden">Instructions</span>
-                  </button>
+              <div className="group relative">
+                <button
+                  onClick={() => setIsOpen(!isOpen)}
+                  className="flex h-[42px] cursor-pointer items-center justify-center gap-2 rounded-lg border border-cyan-300/20 bg-cyan-300/90 px-3 text-sm font-semibold text-[#01011b] transition-colors hover:bg-cyan-200 focus:ring-2 focus:ring-cyan-300/30 focus:outline-none max-sm:w-[42px] max-sm:px-0"
+                  aria-label="Contact support"
+                  title="Contact support"
+                >
+                  <MessageCircle className="h-5 w-5" />
+                  <span className="max-sm:hidden">Contact us</span>
+                </button>
 
-                  {showTooltip ? (
-                    <div className="absolute left-1/2 z-10 mt-2 -translate-x-1/2 rounded-md border border-white/10 bg-neutral-900 px-3 py-2 text-gray-100 shadow-lg">
-                      <p className="text-sm">Instructions</p>
+                {isOpen ? (
+                  <div className="absolute left-0 z-10 mt-2 min-w-[220px] rounded-md border border-white/10 bg-neutral-900 py-1 shadow-lg">
+                    <div className="border-b border-white/10 px-4 py-2 text-sm text-white">
+                      Contact us
                     </div>
-                  ) : null}
-                </div>
-
-                <div className="group relative">
-                  <button
-                    onClick={() => setIsOpen(!isOpen)}
-                    className="flex h-[42px] w-[42px] cursor-pointer items-center justify-center rounded-lg border border-cyan-300/20 bg-cyan-300/90 text-[#01011b] transition-colors hover:bg-cyan-200 focus:ring-2 focus:ring-cyan-300/30 focus:outline-none"
-                    aria-label="Contact support"
-                    title="Contact support"
-                  >
-                    <MessageCircle className="h-5 w-5" />
-                  </button>
-
-                  {isOpen ? (
-                    <div className="absolute right-0 z-10 mt-2 min-w-[220px] rounded-md border border-white/10 bg-neutral-900 py-1 shadow-lg">
-                      <div className="border-b border-white/10 px-4 py-2 text-sm text-white">
-                        Contact us
-                      </div>
-                      <a
-                        href="https://mail.google.com/mail/u/0/?fs=1&to=kodeinkgp@gmail.com&su=dekodeX+Queries&body=Hello,+I+have+a+question+regarding&tf=cm"
-                        target="_blank"
-                        className="block px-4 py-2 text-sm text-slate-200 hover:bg-white/10"
-                      >
-                        kodeinkgp@gmail.com
-                      </a>
-                    </div>
-                  ) : null}
-                </div>
+                    <a
+                      href="https://mail.google.com/mail/u/0/?fs=1&to=kodeinkgp@gmail.com&su=dekodeX+Queries&body=Hello,+I+have+a+question+regarding&tf=cm"
+                      target="_blank"
+                      className="block px-4 py-2 text-sm text-slate-200 hover:bg-white/10"
+                    >
+                      kodeinkgp@gmail.com
+                    </a>
+                  </div>
+                ) : null}
               </div>
             </div>
           </section>

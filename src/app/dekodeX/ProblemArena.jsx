@@ -6,7 +6,6 @@ import { NotepadText } from "lucide-react";
 import { createPortal } from "react-dom";
 import Link from "next/link";
 import { useAuth } from "@/contexts/authContext";
-import { useAuthToken } from "../../hooks/useAuthToken";
 
 const LoadingSkeleton = ({ count = 5 }) => {
   return (
@@ -44,8 +43,7 @@ const ProblemArena = () => {
   const [lockedProblems, setLockedProblems] = useState([]);
   const [currentTime, setCurrentTime] = useState(new Date());
   const { user, loggedIn } = useAuth();
-  const { token: authToken, loading: tokenLoading } = useAuthToken();
-  const showQuestionLoader = loading || tokenLoading;
+  const showQuestionLoader = loading;
   const formatTime = (ms) => {
     if (ms <= 0) return "Loading...";
     const seconds = Math.floor(ms / 1000);
@@ -118,23 +116,11 @@ const ProblemArena = () => {
     async function fetchQuestions() {
       setLoading(true);
       try {
-        if (tokenLoading) {
-          return;
-        }
-
-        if (!authToken) {
-          setUnlockedProblems([]);
-          setLockedProblems(problemsData.slice(0, 10));
-          setLoading(false);
-          return;
-        }
-
         const realRes = await fetch(
           `${process.env.NEXT_PUBLIC_API_BASE_URL}/dekodeX/api/questionTitles`,
           {
             method: "GET",
             headers: {
-              Authorization: `Bearer ${authToken}`,
               "Content-Type": "application/json",
             },
           }
@@ -189,7 +175,7 @@ const ProblemArena = () => {
     }, 1000);
 
     return () => clearInterval(intervalId);
-  }, [authToken, tokenLoading]);
+  }, []);
 
   // Modal JSX
   const modalContent = (

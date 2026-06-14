@@ -1,15 +1,11 @@
 import { NextResponse } from "next/server";
 import { db } from "@/backend/firebaseAdmin.js";
-import { requireAuth } from "@/backend/requireAuth.js";
 import { getCacheEntry, setCacheEntry } from "@/backend/runtimeCache.js";
 
 const QUESTION_CACHE_TTL_MS = 30 * 1000;
 
 export async function GET(request, { params }) {
   try {
-    const { error } = await requireAuth(request);
-    if (error) return error;
-
     const { questionId } = await params;
 
     if (!questionId) {

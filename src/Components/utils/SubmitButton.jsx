@@ -7,7 +7,7 @@ import { useAuthToken } from "../../hooks/useAuthToken";
 function SubmitButton({ email, answer, id }) {
   const [loading, setLoading] = useState(false);
   const [disabled, setDisabled] = useState(false);
-  const { token: authToken, loading: tokenLoading } = useAuthToken();
+  const { token: authToken } = useAuthToken();
 
   useEffect(() => {
     if (disabled) {
@@ -20,7 +20,7 @@ function SubmitButton({ email, answer, id }) {
 
   const handleSubmit = async () => {
     if (!email) {
-      toast.error("Kindly login to submit your answer");
+      toast.error("Please log in to submit your answer.");
       return;
     }
     if (!answer) {
@@ -29,9 +29,7 @@ function SubmitButton({ email, answer, id }) {
     }
 
     if (!authToken) {
-      toast.error(
-        "Authentication token not available. Please refresh the page."
-      );
+      toast.error("Please log in to submit your answer.");
       return;
     }
 

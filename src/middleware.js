@@ -47,14 +47,14 @@ export function middleware(request) {
   }
 
   const protectedPaths = [
-    "/dekodeX/api/question",
-    "/dekodeX/api/questionTitles",
     "/dekodeX/api/submit",
     "/dekodeX/api/certificate/apply",
     "/dekodeX/api/certificate/check",
   ];
 
   const publicPaths = [
+    "/dekodeX/api/question",
+    "/dekodeX/api/questionTitles",
     "/dekodeX/api/leaderboard",
     "/dekodeX/api/verifyTurnstile",
   ];

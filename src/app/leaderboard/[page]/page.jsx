@@ -236,7 +236,7 @@ export default function LeaderboardPage() {
         
         {isLoading ? (
           <LeaderboardSkeleton />
-        ) : fetchedLeaderboardData && totalUsers >= 10 ? (
+        ) : fetchedLeaderboardData && totalUsers > 0 ? (
           <div className="flex h-full flex-col">
             <div className="flex w-full flex-col items-center justify-center pt-2 pb-3">
               <h2 className="mb-5 text-[1.5rem] sm:text-[2rem] font-bold text-cyan-100 text-center tracking-wide">

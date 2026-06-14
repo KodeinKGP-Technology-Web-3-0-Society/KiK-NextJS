@@ -320,7 +320,7 @@ export default function Leaderboard() {
       <div className="relative flex h-full w-full flex-col overflow-hidden rounded-3xl border border-cyan-300/20 bg-white/[0.055] shadow-2xl shadow-black/25 backdrop-blur-xl">
         {isInitialLoading ? (
           <LeaderboardSkeleton />
-        ) : fetchedLeaderboardData && totalUsers >= 10 ? (
+        ) : fetchedLeaderboardData && totalUsers > 0 ? (
           <div className="flex h-full flex-col">
             <div className="flex w-full flex-col items-center justify-center px-4 pt-4 pb-3">
               <div className="flex items-center justify-center">

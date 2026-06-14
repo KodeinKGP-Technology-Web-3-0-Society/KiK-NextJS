@@ -41,6 +41,7 @@ export function AuthProvider({ children }) {
               uid: currentUser.uid,
               email: currentUser.email || userData.email || "",
               emailVerified: currentUser.emailVerified,
+              hasProfile: true,
             });
           } else {
             // During signup, auth can resolve before Firestore user doc is written.
@@ -51,13 +52,14 @@ export function AuthProvider({ children }) {
                     ...prevUser,
                     email: currentUser.email || prevUser.email || "",
                     emailVerified: currentUser.emailVerified,
+                    hasProfile: false,
                   }
                 : {
                     uid: currentUser.uid,
                     email: currentUser.email || "",
                     emailVerified: currentUser.emailVerified,
-                    username: currentUser.displayName || "Anonymous",
                     submissions: [],
+                    hasProfile: false,
                   }
             );
           }
@@ -69,8 +71,8 @@ export function AuthProvider({ children }) {
             uid: currentUser.uid,
             email: currentUser.email || "",
             emailVerified: currentUser.emailVerified,
-            username: currentUser.displayName || "Anonymous",
             submissions: [],
+            hasProfile: false,
           });
           setLoading(false);
         }

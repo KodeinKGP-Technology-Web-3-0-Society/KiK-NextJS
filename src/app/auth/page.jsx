@@ -34,7 +34,7 @@ const Auth = () => {
       }
     }
 
-    if (user && user.emailVerified) {
+    if (user && user.emailVerified && user.hasProfile) {
       toast.success("Email verified. Redirecting...");
       updateUserStatus();
       router.push("/dekodeX");

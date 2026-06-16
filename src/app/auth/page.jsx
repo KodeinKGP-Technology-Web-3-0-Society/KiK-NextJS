@@ -41,6 +41,7 @@ const Auth = () => {
     } else if (user && !user.emailVerified) {
       toast.warn(
         "Please verify your email to continue. A verification link has been sent to your inbox. You may need to refresh after verifying. Also check the spam folder as well"
+      ,{toastId: "verification"}
       );
     }
   }, [loggedIn, user, router]);

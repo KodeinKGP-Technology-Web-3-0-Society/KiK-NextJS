@@ -222,9 +222,9 @@ const SignUp = () => {
           }
         });
 
-        toast.success(
-          "Registration successful! Please check your email to verify your account. If you don't see it, check your spam folder."
-        );
+        // toast.success(
+        //   "Registration successful! Please check your email to verify your account. If you don't see it, check your spam folder."
+        // );
         setUsername("");
         setEmail("");
         setPassword("");

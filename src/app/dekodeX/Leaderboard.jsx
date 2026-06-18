@@ -245,6 +245,7 @@ export default function Leaderboard() {
   const [isInitialLoading, setIsInitialLoading] = useState(true);
   const [isPageLoading, setIsPageLoading] = useState(false);
   const hasLoadedOnceRef = useRef(false);
+  const hasLoadedUserRankRef = useRef(false);
 
   const itemsPerPage = 10;
   const solvedQuestions =
@@ -261,8 +262,10 @@ export default function Leaderboard() {
       }
       try {
         const qs = new URLSearchParams();
-        if (user?.email) qs.set("email", user.email);
-        if (user?.uid) qs.set("uid", user.uid);
+        if (!hasLoadedUserRankRef.current) {
+          if (user?.email) qs.set("email", user.email);
+          if (user?.uid) qs.set("uid", user.uid);
+        }
         qs.set("pageSize", String(itemsPerPage));
 
         const res = await fetch(
@@ -282,6 +285,9 @@ export default function Leaderboard() {
           if (data.meta) {
             setTotalUsers(data.meta.leaderboardSize ?? 0);
             setTotalPages(data.meta.totalPages ?? 0);
+          }
+          if (data.currentUser) {
+            hasLoadedUserRankRef.current = true;
           }
           if (data.currentUser && data.currentUser.username !== "Anonymous") {
             toast.success(
@@ -303,6 +309,10 @@ export default function Leaderboard() {
     }
     getLeaderboardData();
   }, [currentPage, user?.email]);
+
+  useEffect(() => {
+    hasLoadedUserRankRef.current = false;
+  }, [user?.email, user?.uid]);
 
   const goToPage = (pageNumber) => {
     if (

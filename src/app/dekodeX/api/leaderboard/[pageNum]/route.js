@@ -4,6 +4,9 @@ import { getCacheEntry, setCacheEntry } from "@/backend/runtimeCache.js";
 
 const LEADERBOARD_USERS_CACHE_TTL_MS = 15 * 1000;
 const USER_DOC_CACHE_TTL_MS = 30 * 1000;
+const LEADERBOARD_PUBLIC_HEADERS = {
+  "Cache-Control": "public, s-maxage=15, stale-while-revalidate=30",
+};
 
 export async function GET(request, { params }) {
   try {
@@ -194,6 +197,7 @@ export async function GET(request, { params }) {
       email: "secret",
     }));
 
+    const hasUserContext = Boolean(uid || normalizedRequestedEmail);
     return NextResponse.json(
       {
         meta: {
@@ -212,7 +216,9 @@ export async function GET(request, { params }) {
             }
           : null,
       },
-      { status: 200 }
+      hasUserContext
+        ? { status: 200 }
+        : { status: 200, headers: LEADERBOARD_PUBLIC_HEADERS }
     );
   } catch (error) {
     console.error("Error fetching leaderboard:", error);

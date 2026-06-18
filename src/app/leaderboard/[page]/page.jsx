@@ -3,7 +3,7 @@ import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import { useAuth } from "@/contexts/authContext";
 import { Trophy } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
 
 // ==========================================
@@ -181,6 +181,7 @@ export default function LeaderboardPage() {
   const [currentUserLeaderboardInfo, setCurrentUserLeaderboardInfo] = useState(null);
   const [topData, setTopData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const hasLoadedUserRankRef = useRef(false);
 
   const itemsPerPage = 10;
   const solvedQuestions =
@@ -191,8 +192,10 @@ export default function LeaderboardPage() {
       setIsLoading(true);
       try {
         const qs = new URLSearchParams();
-        if (user?.email) qs.set("email", user.email);
-        if (user?.uid) qs.set("uid", user.uid);
+        if (!hasLoadedUserRankRef.current) {
+          if (user?.email) qs.set("email", user.email);
+          if (user?.uid) qs.set("uid", user.uid);
+        }
         qs.set("pageSize", String(itemsPerPage));
 
         const res = await fetch(
@@ -207,6 +210,9 @@ export default function LeaderboardPage() {
           setFetchedLeaderboardData(data.paginatedLeaderboard || []);
           setTopData(data.podium || []);
           setCurrentUserLeaderboardInfo(data.currentUser || null);
+          if (data.currentUser) {
+            hasLoadedUserRankRef.current = true;
+          }
           if (data.meta) {
             setTotalUsers(data.meta.leaderboardSize ?? 0);
             setTotalPages(data.meta.totalPages ?? 0);
@@ -222,6 +228,10 @@ export default function LeaderboardPage() {
     }
     getLeaderboardData();
   }, [currentPage, user?.email]);
+
+  useEffect(() => {
+    hasLoadedUserRankRef.current = false;
+  }, [user?.email, user?.uid]);
 
   const handlePageNavigation = (pageNumber) => {
     if (pageNumber < 1 || pageNumber > totalPages || pageNumber === currentPage) return;

@@ -3,6 +3,9 @@ import { db } from "@/backend/firebaseAdmin.js";
 import { getCacheEntry, setCacheEntry } from "@/backend/runtimeCache.js";
 
 const QUESTION_TITLES_CACHE_TTL_MS = 30 * 1000;
+const QUESTION_TITLES_RESPONSE_HEADERS = {
+  "Cache-Control": "public, s-maxage=30, stale-while-revalidate=60",
+};
 
 export async function GET(request) {
   try {
@@ -13,7 +16,10 @@ export async function GET(request) {
     const cacheKey = `questionTitles:${today}`;
     const cachedQuestions = getCacheEntry(cacheKey);
     if (cachedQuestions) {
-      return NextResponse.json({ questions: cachedQuestions }, { status: 200 });
+      return NextResponse.json(
+        { questions: cachedQuestions },
+        { status: 200, headers: QUESTION_TITLES_RESPONSE_HEADERS }
+      );
     }
 
     const snapshot = await db
@@ -40,7 +46,10 @@ export async function GET(request) {
     });
 
     setCacheEntry(cacheKey, questions, QUESTION_TITLES_CACHE_TTL_MS);
-    return NextResponse.json({ questions }, { status: 200 });
+    return NextResponse.json(
+      { questions },
+      { status: 200, headers: QUESTION_TITLES_RESPONSE_HEADERS }
+    );
   } catch (error) {
     console.error("Error fetching questions:", error);
     return NextResponse.json(

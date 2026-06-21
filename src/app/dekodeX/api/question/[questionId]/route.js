@@ -36,7 +36,6 @@ export async function GET(request, { params }) {
         { status: 403 }
       );
     }
-
     const cacheKey = `question:${questionId}`;
     const cachedQuestionPayload = getCacheEntry(cacheKey);
     if (cachedQuestionPayload) {

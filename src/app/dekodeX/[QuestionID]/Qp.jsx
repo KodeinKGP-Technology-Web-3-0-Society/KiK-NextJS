@@ -62,6 +62,14 @@ function cleanCodeBlock(text) {
     .trim();
 }
 
+function normalizeMarkdownField(value) {
+  if (typeof value !== "string" || !value.includes("\\n")) {
+    return value;
+  }
+
+  return value.replace(/\\r\\n/g, "\r\n").replace(/\\n/g, "\n");
+}
+
 function Qp() {
   const [testcases, setTestcases] = useState([]);
   const [questionData, setQuestionData] = useState(null);
@@ -122,7 +130,14 @@ function Qp() {
       }
 
       if (!cancelled) {
-        setQuestionData(payload);
+        setQuestionData({
+          ...payload,
+          title: normalizeMarkdownField(payload?.title),
+          question: normalizeMarkdownField(payload?.question),
+          sampleInput: normalizeMarkdownField(payload?.sampleInput),
+          explanation: normalizeMarkdownField(payload?.explanation),
+          sampleOutput: normalizeMarkdownField(payload?.sampleOutput),
+        });
         setQuestionError("");
       }
     };

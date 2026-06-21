@@ -27,12 +27,12 @@ export async function GET(request, { params }) {
     const today = now.toLocaleDateString("en-CA", { timeZone: "Asia/Kolkata" }); // en-CA gives YYYY-MM-DD format
 
     const questionDate = questionData.date;
-    // if (questionDate > today) {
-    //   return NextResponse.json(
-    //     { error: "Question is not yet available" },
-    //     { status: 403 }
-    //   );
-    // }
+    if (questionDate > today) {
+      return NextResponse.json(
+        { error: "Question is not yet available" },
+        { status: 403 }
+      );
+    }
 
     const testcasesSnapshot = await db
       .collection("testcases")

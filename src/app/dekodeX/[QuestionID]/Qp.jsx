@@ -27,6 +27,14 @@ const sourceCodePro = Source_Code_Pro({
   display: "swap",
 });
 
+function normalizeMarkdownField(value) {
+  if (typeof value !== "string" || !value.includes("\\n")) {
+    return value;
+  }
+
+  return value.replace(/\\r\\n/g, "\r\n").replace(/\\n/g, "\n");
+}
+
 function Qp() {
   const [testcases, setTestcases] = useState([]);
 
@@ -72,7 +80,14 @@ function Qp() {
         return res.json();
       })
       .then((data) => {
-        setQuestionData(data);
+        setQuestionData({
+          ...data,
+          title: normalizeMarkdownField(data.title),
+          question: normalizeMarkdownField(data.question),
+          sampleInput: normalizeMarkdownField(data.sampleInput),
+          explanation: normalizeMarkdownField(data.explanation),
+          sampleOutput: normalizeMarkdownField(data.sampleOutput),
+        });
       })
       .catch((err) => {
         console.error("Error fetching question:", err);

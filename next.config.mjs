@@ -7,6 +7,9 @@ const nextConfig = {
       new URL(
         "https://github.com/KodeinKGP-Technology-Web-3-0-Society/Photos/blob/main/2025_SETS/**?raw=true"
       ),
+      new URL(
+        "https://github.com/KodeinKGP-Technology-Web-3-0-Society/Photos/blob/main/Heads%2726/**?raw=true"
+      ),
     ],
   },
 };

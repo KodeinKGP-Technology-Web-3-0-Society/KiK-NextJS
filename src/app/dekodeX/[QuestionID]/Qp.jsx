@@ -8,7 +8,7 @@ import ReturnButton from "@/Components/utils/ReturnButton";
 import CopyButton from "@/Components/utils/CopyButton";
 import SubmitButton from "@/Components/utils/SubmitButton";
 import { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import GetInput from "@/Components/utils/GetInput";
 import DekodeXLoading from "@/Components/dekodeX_Loader/Loader";
 import { Source_Code_Pro } from "next/font/google";
@@ -18,6 +18,7 @@ import {
   HelpCircle,
   Info,
   Lightbulb,
+  LogIn,
   MessageCircle,
   Terminal,
 } from "lucide-react";
@@ -81,7 +82,12 @@ function Qp() {
 
   const params = useParams();
   const { QuestionID } = params;
-  const { user } = useAuth();
+  const { user, loggedIn } = useAuth();
+  const router = useRouter();
+
+  const handleLogin = () => {
+    router.push("/auth");
+  };
 
   useEffect(() => {
     fetch("/testcases.json")
@@ -175,19 +181,20 @@ function Qp() {
   const questionNumber = QuestionID?.replace("q", "") || "1";
 
   return (
-    <div
-      className={
-        "dekodex-question-page relative mx-auto mt-6 mr-[39px] ml-[39px] flex flex-col overflow-hidden rounded-lg bg-[#01011B] shadow-2xl shadow-black/35 max-md:mt-5 max-md:mr-[28px] max-md:ml-[28px] max-sm:mx-4 max-sm:mt-4 " +
-        sourceCodePro.className
-      }
-      style={{
-        border: "1px solid transparent",
-        backgroundImage:
-          "linear-gradient(#01011B, #01011B), linear-gradient(108.74deg, rgba(33,138,203,0.45) 0%, rgba(255,255,255,0.18) 48%, rgba(17,227,251,0.42) 100%)",
-        backgroundOrigin: "border-box",
-        backgroundClip: "padding-box, border-box",
-      }}
-    >
+    <>
+      <div
+        className={
+          "dekodex-question-page relative mx-auto mt-6 mr-[39px] ml-[39px] flex flex-col overflow-hidden rounded-lg bg-[#01011B] shadow-2xl shadow-black/35 max-md:mt-5 max-md:mr-[28px] max-md:ml-[28px] max-sm:mx-4 max-sm:mt-4 " +
+          sourceCodePro.className
+        }
+        style={{
+          border: "1px solid transparent",
+          backgroundImage:
+            "linear-gradient(#01011B, #01011B), linear-gradient(108.74deg, rgba(33,138,203,0.45) 0%, rgba(255,255,255,0.18) 48%, rgba(17,227,251,0.42) 100%)",
+          backgroundOrigin: "border-box",
+          backgroundClip: "padding-box, border-box",
+        }}
+      >
       <div
         className="relative border-b border-cyan-300/20 bg-white/[0.035]"
         style={{
@@ -235,7 +242,6 @@ function Qp() {
             <SectionHeader
               icon={ClipboardList}
               title="Sample Input"
-              meta="Copy ready"
             />
             {questionData.sampleInput ? (
               <div className="markdown-content sample-input max-h-[320px] overflow-auto rounded-lg border border-cyan-300/15 bg-[#05071f] p-1">
@@ -258,7 +264,6 @@ function Qp() {
             <SectionHeader
               icon={ClipboardList}
               title="Sample Output"
-              meta="Expected"
             />
             {questionData.sampleOutput ? (
               <div className="markdown-content sample-output max-h-[320px] overflow-auto rounded-lg border border-cyan-300/15 bg-[#05071f] p-1">
@@ -350,31 +355,59 @@ function Qp() {
 
         <section className="rounded-lg border border-cyan-300/20 bg-cyan-300/[0.055] p-4 shadow-[0_14px_40px_rgba(0,0,0,0.2)] sm:p-5">
           <SectionHeader icon={Info} title="Answer" meta="Final output only" />
-          <div className="flex flex-row items-center gap-3 max-sm:flex-col max-sm:items-stretch max-sm:gap-3">
-            <input
-              placeholder="Enter your answer here"
-              className="h-[42px] min-w-0 flex-1 rounded-lg bg-[#01011b] px-3 py-2 text-white placeholder:text-slate-500 focus:bg-[#030523] focus:outline-none max-sm:w-full"
-              style={{
-                border: "1px solid transparent",
-                backgroundImage:
-                  "linear-gradient(#01011B, #01011B), linear-gradient(89.17deg, rgba(33,138,203,0.8) 0%, rgba(17,227,251,0.8) 100%)",
-                backgroundOrigin: "border-box",
-                backgroundClip: "padding-box, border-box",
-              }}
-              value={answer}
-              onChange={(e) => setAnswer(e.target.value)}
-            />
-            <div className="shrink-0 max-sm:w-full">
-              <SubmitButton
-                email={user?.email}
-                answer={answer}
-                id={QuestionID}
+          {loggedIn ? (
+            <div className="flex flex-row items-center gap-3 max-sm:flex-col max-sm:items-stretch max-sm:gap-3">
+              <input
+                placeholder="Enter your answer here"
+                className="h-[42px] min-w-0 flex-1 rounded-lg bg-[#01011b] px-3 py-2 text-white placeholder:text-slate-500 focus:bg-[#030523] focus:outline-none max-sm:w-full"
+                style={{
+                  border: "1px solid transparent",
+                  backgroundImage:
+                    "linear-gradient(#01011B, #01011B), linear-gradient(89.17deg, rgba(33,138,203,0.8) 0%, rgba(17,227,251,0.8) 100%)",
+                  backgroundOrigin: "border-box",
+                  backgroundClip: "padding-box, border-box",
+                }}
+                value={answer}
+                onChange={(e) => setAnswer(e.target.value)}
               />
+              <div className="shrink-0 max-sm:w-full">
+                <SubmitButton
+                  email={user?.email}
+                  answer={answer}
+                  id={QuestionID}
+                />
+              </div>
             </div>
-          </div>
+          ) : (
+            <div className="flex flex-row items-center justify-between gap-3 rounded-lg border border-white/10 bg-[#01011b]/60 p-3 max-sm:flex-col max-sm:items-stretch">
+              <p className="text-sm text-slate-300">
+                Login to submit your answer and save your score.
+              </p>
+              <button
+                onClick={handleLogin}
+                className="flex h-[42px] shrink-0 cursor-pointer items-center justify-center gap-2 rounded-lg border border-cyan-300/30 bg-cyan-300 px-4 text-sm font-semibold text-[#01011b] transition hover:bg-cyan-200 focus:ring-2 focus:ring-cyan-300/30 focus:outline-none"
+              >
+                <LogIn className="h-4 w-4" />
+                Login
+              </button>
+            </div>
+          )}
         </section>
       </div>
-    </div>
+      </div>
+
+      {!loggedIn ? (
+        <button
+          id="floatingQuestionAuthBtn"
+          onClick={handleLogin}
+          className="group fixed right-5 bottom-5 z-50 flex cursor-pointer items-center justify-center rounded-full border border-cyan-300/40 bg-cyan-300 px-4 py-2 text-sm font-semibold text-[#01011b] shadow-lg shadow-cyan-950/40 transition-all duration-200 hover:-translate-y-0.5 hover:bg-cyan-200 md:right-8 md:bottom-8"
+          aria-label="Login"
+        >
+          <LogIn className="h-5 w-5" />
+          <span className="pl-2">Login</span>
+        </button>
+      ) : null}
+    </>
   );
 }
 

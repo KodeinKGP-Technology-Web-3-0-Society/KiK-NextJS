@@ -1,6 +1,7 @@
 import { db } from "@/backend/firebaseAdmin.js";
 import { NextResponse } from "next/server";
 import { getCacheEntry, setCacheEntry } from "@/backend/runtimeCache.js";
+import { requireAuth } from "@/backend/requireAuth.js";
 
 const LEADERBOARD_USERS_CACHE_TTL_MS = 15 * 1000;
 const USER_DOC_CACHE_TTL_MS = 30 * 1000;
@@ -14,6 +15,15 @@ export async function GET(request, { params }) {
     const { searchParams } = new URL(request.url);
     const email = searchParams.get("email");
     const uid = searchParams.get("uid");
+    const wantsUserContext =
+      searchParams.get("userContext") === "1" || Boolean(email || uid);
+    let authenticatedUserContext = null;
+
+    if (wantsUserContext) {
+      const authResult = await requireAuth(request);
+      if (authResult.error) return authResult.error;
+      authenticatedUserContext = authResult.auth;
+    }
 
     const page = Number.parseInt(pageNum, 10);
     if (!Number.isFinite(page) || page < 1) {
@@ -41,22 +51,25 @@ export async function GET(request, { params }) {
         LEADERBOARD_USERS_CACHE_TTL_MS
       );
     }
-    const normalizedRequestedEmail =
-      typeof email === "string" ? email.trim().toLowerCase() : "";
+    const contextUid = authenticatedUserContext?.uid || "";
+    const normalizedRequestedEmail = authenticatedUserContext?.email
+      ? authenticatedUserContext.email.trim().toLowerCase()
+      : "";
 
-    // Self-heal current user's leaderboard entry if email/uid is provided.
-    if (uid || normalizedRequestedEmail) {
+    // Self-heal only for the authenticated user. Never trust query-provided
+    // uid/email here because this route writes via Admin SDK.
+    if (authenticatedUserContext) {
       let userDocData = null;
 
-      if (uid && typeof uid === "string" && uid.trim()) {
-        const userCacheByUidKey = `userByUid:${uid.trim()}`;
+      if (contextUid) {
+        const userCacheByUidKey = `userByUid:${contextUid}`;
         const cachedUserByUid = getCacheEntry(userCacheByUidKey);
         if (cachedUserByUid) {
           userDocData = cachedUserByUid;
         } else {
           const directUserDoc = await db
             .collection("users")
-            .doc(uid.trim())
+            .doc(contextUid)
             .get();
           if (directUserDoc.exists) {
             userDocData = directUserDoc.data();
@@ -197,7 +210,7 @@ export async function GET(request, { params }) {
       email: "secret",
     }));
 
-    const hasUserContext = Boolean(uid || normalizedRequestedEmail);
+    const hasUserContext = Boolean(authenticatedUserContext);
     return NextResponse.json(
       {
         meta: {

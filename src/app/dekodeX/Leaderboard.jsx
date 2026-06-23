@@ -1,5 +1,6 @@
 "use client";
 import { useAuth } from "@/contexts/authContext";
+import { useAuthToken } from "@/hooks/useAuthToken";
 import { Trophy } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
@@ -233,6 +234,7 @@ function LeaderboardSkeleton() {
 
 export default function Leaderboard() {
   const { loggedIn, user } = useAuth();
+  const { token: authToken, loading: authTokenLoading } = useAuthToken();
 
   const [totalPages, setTotalPages] = useState(0);
   const [totalUsers, setTotalUsers] = useState(0);
@@ -255,6 +257,8 @@ export default function Leaderboard() {
 
   useEffect(() => {
     async function getLeaderboardData() {
+      if (loggedIn && authTokenLoading) return;
+
       if (!hasLoadedOnceRef.current) {
         setIsInitialLoading(true);
       } else {
@@ -262,14 +266,21 @@ export default function Leaderboard() {
       }
       try {
         const qs = new URLSearchParams();
-        if (!hasLoadedUserRankRef.current) {
-          if (user?.email) qs.set("email", user.email);
-          if (user?.uid) qs.set("uid", user.uid);
+        const shouldFetchUserContext =
+          loggedIn && authToken && !hasLoadedUserRankRef.current;
+
+        if (shouldFetchUserContext) {
+          qs.set("userContext", "1");
         }
         qs.set("pageSize", String(itemsPerPage));
 
+        const headers = shouldFetchUserContext
+          ? { Authorization: `Bearer ${authToken}` }
+          : undefined;
+
         const res = await fetch(
-          `${process.env.NEXT_PUBLIC_API_BASE_URL}/dekodeX/api/leaderboard/${currentPage}?${qs.toString()}`
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/dekodeX/api/leaderboard/${currentPage}?${qs.toString()}`,
+          headers ? { headers } : undefined
         );
         const data = await res.json();
 
@@ -308,7 +319,7 @@ export default function Leaderboard() {
       }
     }
     getLeaderboardData();
-  }, [currentPage, user?.email]);
+  }, [authToken, authTokenLoading, currentPage, loggedIn, user?.email, user?.uid]);
 
   useEffect(() => {
     hasLoadedUserRankRef.current = false;

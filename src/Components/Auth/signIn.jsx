@@ -36,16 +36,44 @@ const SignIn = () => {
 
   const isLoading = Boolean(loadingAction);
 
-  const resolveIdentifierToEmail = async (rawIdentifier) => {
+  const verifyCaptcha = async (token) => {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/dekodeX/api/verifyTurnstile`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ token }),
+      }
+    );
+
+    const data = await res.json();
+    return data.success === true;
+  };
+
+  const resolveIdentifierToEmail = async (rawIdentifier, token) => {
     const trimmedIdentifier = rawIdentifier.trim();
 
     if (!trimmedIdentifier) return null;
-    if (trimmedIdentifier.includes("@")) return trimmedIdentifier;
+    if (trimmedIdentifier.includes("@")) {
+      const captchaOk = await verifyCaptcha(token);
+      return captchaOk ? trimmedIdentifier : null;
+    }
 
     try {
-      const usernameDoc = await getDoc(doc(db, "usernames", trimmedIdentifier));
-      if (!usernameDoc.exists()) return null;
-      return usernameDoc.data().email || null;
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/dekodeX/api/resolveUsername`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ username: trimmedIdentifier, token }),
+          cache: "no-store",
+        }
+      );
+
+      if (!res.ok) return null;
+
+      const data = await res.json();
+      return data.email || null;
     } catch (error) {
       console.error("Error resolving username to email:", error);
       return null;
@@ -93,7 +121,9 @@ const SignIn = () => {
     }
 
     setPendingGoogleUser(googleUser);
-    setGoogleUsername(getSuggestedUsername(googleUser.displayName, googleUser.email));
+    setGoogleUsername(
+      getSuggestedUsername(googleUser.displayName, googleUser.email)
+    );
   };
 
   const handleLogin = async (e) => {
@@ -118,24 +148,10 @@ const SignIn = () => {
       return;
     }
 
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/dekodeX/api/verifyTurnstile`,
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ token }),
-      }
+    const identifierEmail = await resolveIdentifierToEmail(
+      trimmedIdentifier,
+      token
     );
-
-    const data = await res.json();
-
-    if (!data.success) {
-      toast.error("CAPTCHA verification failed.");
-      setLoadingAction(null);
-      return;
-    }
-
-    const identifierEmail = await resolveIdentifierToEmail(trimmedIdentifier);
     if (!identifierEmail) {
       toast.error("Invalid email/username or password.");
       setLoadingAction(null);
@@ -418,7 +434,9 @@ const SignIn = () => {
           disabled={isLoading}
           className="w-full cursor-pointer rounded-lg border border-white/15 bg-white/5 py-2 font-semibold text-white transition duration-200 hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-70"
         >
-          {loadingAction === "google" ? "Continuing..." : "Continue with Google"}
+          {loadingAction === "google"
+            ? "Continuing..."
+            : "Continue with Google"}
         </button>
       </form>
     </>

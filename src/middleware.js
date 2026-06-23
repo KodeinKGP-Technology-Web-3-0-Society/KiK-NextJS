@@ -56,6 +56,7 @@ export function middleware(request) {
     "/dekodeX/api/question",
     "/dekodeX/api/questionTitles",
     "/dekodeX/api/leaderboard",
+    "/dekodeX/api/resolveUsername",
     "/dekodeX/api/verifyTurnstile",
   ];
 
@@ -118,6 +119,7 @@ export const config = {
     "/dekodeX/api/questionTitles/:path*",
     "/dekodeX/api/submit/:path*",
     "/dekodeX/api/leaderboard/:path*",
+    "/dekodeX/api/resolveUsername/:path*",
     "/dekodeX/api/verifyTurnstile/:path*",
     "/dekodeX/api/certificate/apply/:path*",
     "/dekodeX/api/certificate/check/:path*",

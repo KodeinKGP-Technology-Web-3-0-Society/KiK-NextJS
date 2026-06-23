@@ -210,7 +210,10 @@ export default function LeaderboardPage() {
 
         const res = await fetch(
           `${process.env.NEXT_PUBLIC_API_BASE_URL}/dekodeX/api/leaderboard/${currentPage}?${qs.toString()}`,
-          headers ? { headers } : undefined
+          {
+            cache: "no-store",
+            ...(headers ? { headers } : {}),
+          }
         );
         const data = await res.json();
 

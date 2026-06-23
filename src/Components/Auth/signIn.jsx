@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import { auth, db } from "@/backend/firebase";
-import { collection, doc, getDoc, runTransaction } from "firebase/firestore";
+import { doc, getDoc, runTransaction } from "firebase/firestore";
 import {
   GoogleAuthProvider,
   signInWithCredential,
@@ -291,14 +291,12 @@ const SignIn = () => {
 
     try {
       const initSubmissions = Array(10).fill(0);
-      const leaderboardRef = doc(collection(db, "leaderboard"), "users");
 
       await runTransaction(db, async (transaction) => {
         const usernameRef = doc(db, "usernames", trimmedUsername);
         const userRef = doc(db, "users", pendingGoogleUser.uid);
         const usernameDoc = await transaction.get(usernameRef);
         const userDoc = await transaction.get(userRef);
-        const leaderboardSnap = await transaction.get(leaderboardRef);
 
         if (usernameDoc.exists()) {
           throw new Error("USERNAME_TAKEN");
@@ -323,34 +321,6 @@ const SignIn = () => {
           photoURL: pendingGoogleUser.photoURL || "",
           displayName: pendingGoogleUser.displayName || "",
         });
-
-        if (!leaderboardSnap.exists()) {
-          transaction.set(leaderboardRef, {
-            users: [
-              {
-                email: pendingGoogleUser.email,
-                name: trimmedUsername,
-                totalPts: 0,
-              },
-            ],
-          });
-          return;
-        }
-
-        const leaderboardData = leaderboardSnap.data();
-        const usersArray = leaderboardData.users || [];
-        const alreadyExists = usersArray.some(
-          (user) => user.email === pendingGoogleUser.email
-        );
-
-        if (!alreadyExists) {
-          usersArray.push({
-            email: pendingGoogleUser.email,
-            name: trimmedUsername,
-            totalPts: 0,
-          });
-          transaction.update(leaderboardRef, { users: usersArray });
-        }
       });
 
       toast.success("Username saved!");

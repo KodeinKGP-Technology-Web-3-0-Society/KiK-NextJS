@@ -2,11 +2,14 @@ import { db } from "@/backend/firebaseAdmin.js";
 import { NextResponse } from "next/server";
 import { getCacheEntry, setCacheEntry } from "@/backend/runtimeCache.js";
 import { requireAuth } from "@/backend/requireAuth.js";
+import { getLeaderboardUsersIncludingRegistered } from "@/backend/leaderboard.js";
+
+export const dynamic = "force-dynamic";
 
 const LEADERBOARD_USERS_CACHE_TTL_MS = 15 * 1000;
 const USER_DOC_CACHE_TTL_MS = 30 * 1000;
 const LEADERBOARD_PUBLIC_HEADERS = {
-  "Cache-Control": "public, s-maxage=15, stale-while-revalidate=30",
+  "Cache-Control": "no-store",
 };
 
 export async function GET(request, { params }) {
@@ -20,7 +23,9 @@ export async function GET(request, { params }) {
     let authenticatedUserContext = null;
 
     if (wantsUserContext) {
-      const authResult = await requireAuth(request);
+      const authResult = await requireAuth(request, {
+        requireVerifiedEmail: false,
+      });
       if (authResult.error) return authResult.error;
       authenticatedUserContext = authResult.auth;
     }
@@ -37,14 +42,14 @@ export async function GET(request, { params }) {
     const leaderboardUsersCacheKey = "leaderboard:users";
     let users = getCacheEntry(leaderboardUsersCacheKey);
     if (!users) {
-      const leaderboardSnap = await leaderboardRef.get();
-      if (!leaderboardSnap.exists) {
+      const leaderboardData = await getLeaderboardUsersIncludingRegistered();
+      if (!leaderboardData.leaderboardExists) {
         return NextResponse.json(
           { error: "Leaderboard not found" },
           { status: 404 }
         );
       }
-      users = leaderboardSnap.data().users || [];
+      users = leaderboardData.users;
       setCacheEntry(
         leaderboardUsersCacheKey,
         users,

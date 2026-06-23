@@ -1,23 +1,20 @@
-import { db } from "@/backend/firebaseAdmin.js";
 import { NextResponse } from "next/server";
+import { getLeaderboardUsersIncludingRegistered } from "@/backend/leaderboard.js";
 
 export async function GET() {
   try {
-    const leaderboardRef = db.collection("leaderboard").doc("users");
-    const leaderboardSnap = await leaderboardRef.get();
+    const leaderboardData = await getLeaderboardUsersIncludingRegistered();
 
-    if (!leaderboardSnap.exists) {
+    if (!leaderboardData.leaderboardExists) {
       return NextResponse.json(
         { error: "Leaderboard not found" },
         { status: 404 }
       );
     }
 
-    const users = leaderboardSnap.data().users || [];
-
     return NextResponse.json(
       {
-        leaderboardSize: users.length,
+        leaderboardSize: leaderboardData.users.length,
       },
       { status: 200 }
     );

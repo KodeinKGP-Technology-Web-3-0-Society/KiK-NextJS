@@ -7,7 +7,7 @@ import {
   sendEmailVerification,
   signInWithPopup,
 } from "firebase/auth";
-import { doc, getDoc, runTransaction } from "firebase/firestore";
+import { doc, getDoc, writeBatch } from "firebase/firestore";
 import { Eye, EyeOff } from "lucide-react";
 import { toast } from "react-toastify";
 import Script from "next/script";
@@ -153,27 +153,21 @@ const SignUp = () => {
       const initSubmissions = Array(10).fill(0);
 
       try {
-        await runTransaction(db, async (transaction) => {
-          const usernameDoc = await transaction.get(
-            doc(db, "usernames", trimmedUsername)
-          );
+        const batch = writeBatch(db);
 
-          if (usernameDoc.exists()) {
-            throw new Error("USERNAME_TAKEN");
-          }
-
-          transaction.set(doc(db, "usernames", trimmedUsername), {
-            uid,
-            email: trimmedEmail,
-          });
-          transaction.set(doc(db, "users", uid), {
-            uid,
-            username: trimmedUsername,
-            email: trimmedEmail,
-            submissions: initSubmissions,
-            emailVerified: user.emailVerified,
-          });
+        batch.set(doc(db, "usernames", trimmedUsername), {
+          uid,
+          email: trimmedEmail,
         });
+        batch.set(doc(db, "users", uid), {
+          uid,
+          username: trimmedUsername,
+          email: trimmedEmail,
+          submissions: initSubmissions,
+          emailVerified: user.emailVerified,
+        });
+
+        await batch.commit();
 
         try {
           await sendEmailVerification(user, getVerificationSettings());
@@ -196,17 +190,10 @@ const SignUp = () => {
         setPassword("");
         setCnfPassword("");
       } catch (transactionError) {
-        if (transactionError.message === "USERNAME_TAKEN") {
-          await user.delete();
-          toast.error(
-            "Username already taken. Please choose a different username."
-          );
-        } else {
-          await user.delete();
-          toast.error(
-            "Registration failed due to a database error. Please try again."
-          );
-        }
+        await user.delete();
+        toast.error(
+          "Username already taken or unavailable. Please choose a different username."
+        );
         setLoadingAction(null);
         return;
       }
@@ -292,47 +279,39 @@ const SignUp = () => {
 
     try {
       const initSubmissions = Array(10).fill(0);
+      const userRef = doc(db, "users", pendingGoogleUser.uid);
+      const userDoc = await getDoc(userRef);
 
-      await runTransaction(db, async (transaction) => {
-        const usernameRef = doc(db, "usernames", trimmedUsername);
-        const userRef = doc(db, "users", pendingGoogleUser.uid);
-        const usernameDoc = await transaction.get(usernameRef);
-        const userDoc = await transaction.get(userRef);
+      if (userDoc.exists()) {
+        router.push("/dekodeX");
+        return;
+      }
 
-        if (usernameDoc.exists()) {
-          throw new Error("USERNAME_TAKEN");
-        }
-
-        if (userDoc.exists()) {
-          return;
-        }
-
-        transaction.set(usernameRef, {
-          uid: pendingGoogleUser.uid,
-          email: pendingGoogleUser.email,
-        });
-
-        transaction.set(userRef, {
-          uid: pendingGoogleUser.uid,
-          username: trimmedUsername,
-          email: pendingGoogleUser.email,
-          submissions: initSubmissions,
-          emailVerified: pendingGoogleUser.emailVerified,
-          provider: "google",
-          photoURL: pendingGoogleUser.photoURL || "",
-          displayName: pendingGoogleUser.displayName || "",
-        });
+      const batch = writeBatch(db);
+      batch.set(doc(db, "usernames", trimmedUsername), {
+        uid: pendingGoogleUser.uid,
+        email: pendingGoogleUser.email,
       });
+      batch.set(userRef, {
+        uid: pendingGoogleUser.uid,
+        username: trimmedUsername,
+        email: pendingGoogleUser.email,
+        submissions: initSubmissions,
+        emailVerified: pendingGoogleUser.emailVerified,
+        provider: "google",
+        photoURL: pendingGoogleUser.photoURL || "",
+        displayName: pendingGoogleUser.displayName || "",
+      });
+
+      await batch.commit();
 
       toast.success("Account created with Google!");
       router.push("/dekodeX");
     } catch (err) {
       console.error("Google username error:", err);
-      if (err.message === "USERNAME_TAKEN") {
-        toast.error("Username already taken. Please choose another one.");
-      } else {
-        toast.error("Could not save username. Please try again.");
-      }
+      toast.error(
+        "Username already taken or unavailable. Please choose another one."
+      );
     } finally {
       setLoadingAction(null);
     }

@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import { auth, db } from "@/backend/firebase";
-import { doc, getDoc, runTransaction } from "firebase/firestore";
+import { doc, getDoc, writeBatch } from "firebase/firestore";
 import {
   GoogleAuthProvider,
   signInWithCredential,
@@ -307,47 +307,39 @@ const SignIn = () => {
 
     try {
       const initSubmissions = Array(10).fill(0);
+      const userRef = doc(db, "users", pendingGoogleUser.uid);
+      const userDoc = await getDoc(userRef);
 
-      await runTransaction(db, async (transaction) => {
-        const usernameRef = doc(db, "usernames", trimmedUsername);
-        const userRef = doc(db, "users", pendingGoogleUser.uid);
-        const usernameDoc = await transaction.get(usernameRef);
-        const userDoc = await transaction.get(userRef);
+      if (userDoc.exists()) {
+        router.push("/dekodeX");
+        return;
+      }
 
-        if (usernameDoc.exists()) {
-          throw new Error("USERNAME_TAKEN");
-        }
-
-        if (userDoc.exists()) {
-          return;
-        }
-
-        transaction.set(usernameRef, {
-          uid: pendingGoogleUser.uid,
-          email: pendingGoogleUser.email,
-        });
-
-        transaction.set(userRef, {
-          uid: pendingGoogleUser.uid,
-          username: trimmedUsername,
-          email: pendingGoogleUser.email,
-          submissions: initSubmissions,
-          emailVerified: pendingGoogleUser.emailVerified,
-          provider: "google",
-          photoURL: pendingGoogleUser.photoURL || "",
-          displayName: pendingGoogleUser.displayName || "",
-        });
+      const batch = writeBatch(db);
+      batch.set(doc(db, "usernames", trimmedUsername), {
+        uid: pendingGoogleUser.uid,
+        email: pendingGoogleUser.email,
       });
+      batch.set(userRef, {
+        uid: pendingGoogleUser.uid,
+        username: trimmedUsername,
+        email: pendingGoogleUser.email,
+        submissions: initSubmissions,
+        emailVerified: pendingGoogleUser.emailVerified,
+        provider: "google",
+        photoURL: pendingGoogleUser.photoURL || "",
+        displayName: pendingGoogleUser.displayName || "",
+      });
+
+      await batch.commit();
 
       toast.success("Username saved!");
       router.push("/dekodeX");
     } catch (err) {
       console.error("Google username error:", err);
-      if (err.message === "USERNAME_TAKEN") {
-        toast.error("Username already taken. Please choose another one.");
-      } else {
-        toast.error("Could not save username. Please try again.");
-      }
+      toast.error(
+        "Username already taken or unavailable. Please choose another one."
+      );
     } finally {
       setLoadingAction(null);
     }

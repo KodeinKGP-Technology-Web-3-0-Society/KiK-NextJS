@@ -14,27 +14,27 @@ export default function Theory() {
           {
             id: "initialBasics",
             name: "Initial Basics",
-            link: "https://drive.google.com/file/d/1mcCy5NUCcITwl-UzIew_MTzGMILz3ux2/view?usp=sharing",
+            link: "/BASICS.pdf",
           },
           {
             id: "loops",
             name: "Loops",
-            link: "https://drive.google.com/file/d/1Me41FYbSzZlJkm5KrJYbci5TRnMrxPGw/view?usp=sharing",
+            link: "/LOOPS.pdf",
           },
           {
             id: "oneDArrays",
             name: "1D Arrays and Strings",
-            link: "https://drive.google.com/file/d/16MjuU4kc4NhuYv75RwGxw26x8GIXWsZy/view?usp=sharing",
+            link: "/ARRAY.pdf",
           },
           {
             id: "functions",
             name: "Functions and Recursions",
-            link: "https://drive.google.com/file/d/1ASeMcDy76F4dbjsibkxp40hM-dSTPJa2/view?usp=sharing",
+            link: "/FUNCTION.pdf",
           },
           {
             id: "pointers",
             name: "Structures and Pointers",
-            link: "https://drive.google.com/file/d/15C3mjMMzMH-LIc3kULCD288yzgx4ht26/view?usp=sharing",
+            link: "/STRUCTURES.pdf",
           },
         ].map(({ id, name, link }) => (
           <a

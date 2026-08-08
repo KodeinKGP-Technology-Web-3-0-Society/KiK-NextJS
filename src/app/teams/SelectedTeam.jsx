@@ -39,7 +39,7 @@ const SelectedTeam = (props) => {
                 alt={head.name}
                 width={200}
                 height={250}
-                priority={true}
+                sizes="200px"
                 className="h-[250px] w-[200px] object-cover"
               />
             </div>

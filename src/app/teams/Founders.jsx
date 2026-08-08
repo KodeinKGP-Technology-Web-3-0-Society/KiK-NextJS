@@ -12,7 +12,7 @@ const Founders = () => {
               alt="Suraj Gupta"
               height={250}
               width={200}
-              priority={true}
+              sizes="200px"
               className="h-[250px] w-[200px] object-cover"
             />
           </div>
@@ -79,7 +79,7 @@ const Founders = () => {
               alt="Bhushan Nakade"
               width={200}
               height={250}
-              priority={true}
+              sizes="200px"
               className="h-[250px] w-[200px] object-cover"
             />
           </div>

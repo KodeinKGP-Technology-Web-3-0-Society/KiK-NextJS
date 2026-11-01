@@ -352,3 +352,141 @@ body {
 .no-scrollbar {
   scrollbar-color: transparent transparent; /* Firefox fallback */
 }
+
+/* ===== Homepage (kik-*) ===== */
+@keyframes kik-marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+@keyframes kik-gradient {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+@keyframes kik-blink {
+  50% {
+    opacity: 0;
+  }
+}
+@keyframes kik-pulse-ring {
+  0% {
+    transform: scale(0.8);
+    opacity: 0.7;
+  }
+  100% {
+    transform: scale(2.2);
+    opacity: 0;
+  }
+}
+.kik-marquee-track {
+  animation: kik-marquee 40s linear infinite;
+}
+.kik-marquee:hover .kik-marquee-track {
+  animation-play-state: paused;
+}
+.kik-gradient-text {
+  background-image: linear-gradient(
+    100deg,
+    #def9fa,
+    #5ce1e6,
+    #33bbcf,
+    #def9fa
+  );
+  background-size: 300% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: kik-gradient 8s ease infinite;
+}
+.kik-caret {
+  animation: kik-blink 1s steps(1) infinite;
+}
+.kik-reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition:
+    opacity 0.7s ease,
+    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: var(--kik-delay, 0ms);
+}
+.kik-reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+.kik-spotlight {
+  position: relative;
+  overflow: hidden;
+}
+.kik-spotlight::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    420px circle at var(--mx, 50%) var(--my, 50%),
+    rgba(17, 227, 251, 0.16),
+    transparent 60%
+  );
+  opacity: 0;
+  transition: opacity 0.3s;
+  pointer-events: none;
+}
+.kik-spotlight:hover::before {
+  opacity: 1;
+}
+.kik-hide-scrollbar {
+  scrollbar-width: none;
+}
+.kik-hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .kik-marquee-track,
+  .kik-gradient-text,
+  .kik-caret {
+    animation: none;
+  }
+  .kik-reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+@keyframes kik-orbit {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes kik-orbit-chip {
+  from {
+    transform: translate(-50%, -50%) rotate(calc(var(--a) * -1));
+  }
+  to {
+    transform: translate(-50%, -50%) rotate(calc(var(--a) * -1 - 360deg));
+  }
+}
+@keyframes kik-orbit-chip-rev {
+  from {
+    transform: translate(-50%, -50%) rotate(calc(var(--a) * -1));
+  }
+  to {
+    transform: translate(-50%, -50%) rotate(calc(var(--a) * -1 + 360deg));
+  }
+}
+@keyframes kik-dash {
+  to {
+    stroke-dashoffset: -40;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .kik-orbit,
+  .kik-orbit-chip,
+  .kik-dash {
+    animation: none !important;
+  }
+}

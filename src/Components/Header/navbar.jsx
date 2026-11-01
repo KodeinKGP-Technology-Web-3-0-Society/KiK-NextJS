@@ -17,7 +17,7 @@ function Navbar() {
 
   return (
     <div
-      className={`sticky top-0 z-20 flex min-h-[5rem] max-w-[99%] flex-wrap items-center justify-between bg-[rgba(1,1,27,0.6)] px-2 ${isOpen ? "h-screen w-full flex-col bg-black" : ""}`}
+      className={`sticky top-0 z-20 flex min-h-[5rem] max-w-[99%] flex-wrap items-center justify-between bg-[rgba(1,1,27,0.6)] px-2 backdrop-blur-md ${isOpen ? "h-screen w-full flex-col bg-black" : ""}`}
     >
       <div
         className={`ml-[1.5vw] flex min-w-[20vw] flex-row items-center ${isOpen ? "hidden" : "block"} md:flex`}

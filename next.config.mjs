@@ -1,15 +1,50 @@
 /** @type {import('next').NextConfig} */
+const securityHeaders = [
+  { key: "X-Content-Type-Options", value: "nosniff" },
+  { key: "X-Frame-Options", value: "SAMEORIGIN" },
+  { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
+  {
+    key: "Strict-Transport-Security",
+    value: "max-age=63072000; includeSubDomains; preload",
+  },
+  {
+    key: "Permissions-Policy",
+    value: "camera=(), microphone=(), geolocation=(), payment=()",
+  },
+];
+
 const nextConfig = {
+  poweredByHeader: false,
+  async headers() {
+    return [{ source: "/:path*", headers: securityHeaders }];
+  },
   images: {
     remotePatterns: [
-      new URL("https://github.com/kodeinkgp/Photos/blob/main/**?raw=true"),
-      new URL("https://**.githubusercontent.com/**"),
-      new URL(
-        "https://github.com/KodeinKGP-Technology-Web-3-0-Society/Photos/blob/main/2025_SETS/**?raw=true"
-      ),
-      new URL(
-        "https://github.com/KodeinKGP-Technology-Web-3-0-Society/Photos/blob/main/Heads%2726/**?raw=true"
-      ),
+      {
+        protocol: "https",
+        hostname: "github.com",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "**.githubusercontent.com",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "raw.githubusercontent.com",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "i0.wp.com",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "i.pinimg.com",
+        pathname: "/**",
+      },
     ],
   },
 };

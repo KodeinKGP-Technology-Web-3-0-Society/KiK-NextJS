@@ -15,13 +15,52 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "KodeinKGP",
-  description: "KodeinKGP,Technology Web3.0 Society,IIT Kharagpur",
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://kodeinkgp.in"),
+  title: {
+    default: "KodeinKGP | Technology Web 3.0 Society, IIT Kharagpur",
+    template: "%s | KodeinKGP",
+  },
+  description:
+    "KodeinKGP is the premier open-source and Web3 society at IIT Kharagpur. Home to the PDS Bank, zero-latency WebAssembly C/C++ compiler, DekodeX, and engineering articles.",
+  keywords: [
+    "KodeinKGP",
+    "IIT Kharagpur",
+    "PDS Bank",
+    "Online C Compiler",
+    "CS10001",
+    "CS11001",
+    "Programming and Data Structures",
+    "Web3 Society IIT KGP",
+    "Open Source IIT Kharagpur",
+  ],
+  authors: [{ name: "KodeinKGP" }],
+  creator: "KodeinKGP",
+  publisher: "KodeinKGP",
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    siteName: "KodeinKGP",
+  },
+  twitter: {
+    card: "summary_large_image",
+    creator: "@kodeinkgp",
+  },
 };
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
+    <html lang="en" className={`dark ${geistSans.variable} ${geistMono.variable}`} style={{ colorScheme: "dark" }}>
       <head>
         <link
           href="https://fonts.googleapis.com/css2?family=Victor+Mono:wght@400;700&display=swap"

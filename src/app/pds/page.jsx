@@ -7,63 +7,64 @@ import {
   FileText,
   Sparkles,
   Terminal,
-  Cpu,
-  Layers,
-  Laptop,
 } from "lucide-react";
 import PdsVisual from "./PdsVisual";
 
-const STATS = [
-  { label: "Lab Problems", value: "208+", detail: "Tested with solutions" },
-  { label: "Core Modules", value: "7", detail: "From Basics to Linked Lists" },
-  { label: "Theory Units", value: "5", detail: "Lecture notes & PDFs" },
-  { label: "Zero Friction", value: "100%", detail: "Saved in browser, no login" },
-];
+export const metadata = {
+  title: "PDS Bank – IIT Kharagpur Programming & Data Structures",
+  description:
+    "The official PDS Bank for CS10001 / CS11001 at IIT Kharagpur. Practice 208+ curated C programming lab problems with verified solutions, embedded WebAssembly compiler, and unit lecture notes.",
+  keywords: [
+    "PDS IIT Kharagpur",
+    "CS10001",
+    "CS11001",
+    "IIT KGP PDS",
+    "Programming and Data Structures",
+    "C programming practice",
+    "PDS lab problems",
+    "PDS lecture notes",
+    "Online C compiler IIT Kharagpur",
+    "KodeinKGP",
+  ],
+  alternates: {
+    canonical: "/pds",
+  },
+  openGraph: {
+    title: "PDS Bank – IIT Kharagpur Programming & Data Structures | KodeinKGP",
+    description:
+      "Practice 208+ lab problems, verified C implementations, interactive browser compiler, and lecture notes tailored for IIT Kharagpur.",
+    url: "/pds",
+    type: "website",
+    siteName: "KodeinKGP",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "PDS Bank – IIT Kharagpur Programming & Data Structures",
+    description:
+      "208+ curated lab problems with verified C solutions and an embedded zero-latency compiler.",
+  },
+};
 
-const MODULES = [
-  {
-    num: "01",
-    title: "Initial Basics & Types",
-    count: "59 problems",
-    topics: "Variables, primitive types, arithmetic operators, formatted I/O",
+const COURSE_JSON_LD = {
+  "@context": "https://schema.org",
+  "@type": "Course",
+  name: "Programming and Data Structures (PDS)",
+  courseCode: "CS10001 / CS11001",
+  description:
+    "Comprehensive resource bank for the first-year Programming & Data Structures curriculum at IIT Kharagpur. Includes 208+ tested lab assignments, in-browser C compiler, and lecture notes.",
+  provider: {
+    "@type": "CollegeOrUniversity",
+    name: "IIT Kharagpur",
   },
-  {
-    num: "02",
-    title: "Control Flow & Loops",
-    count: "35 problems",
-    topics: "If-else branching, switch-case, for/while iterations, patterns",
+  hasCourseInstance: {
+    "@type": "CourseInstance",
+    courseMode: "online",
+    instructor: {
+      "@type": "Organization",
+      name: "KodeinKGP",
+    },
   },
-  {
-    num: "03",
-    title: "Arrays & Strings",
-    count: "42 problems",
-    topics: "Array indexing, multi-element buffers, string manipulation, null terminator",
-  },
-  {
-    num: "04",
-    title: "Functions & Recursion",
-    count: "39 problems",
-    topics: "Parameter passing, scope, call stack, base conditions, recursive trees",
-  },
-  {
-    num: "05",
-    title: "Structures & Pointers",
-    count: "15 problems",
-    topics: "Address-of operator, pointer arithmetic, struct memory layout, arrow syntax",
-  },
-  {
-    num: "06",
-    title: "Sorting & 2D Matrices",
-    count: "9 problems",
-    topics: "Bubble/selection sort, 2D matrix multiplication, transpose, grid search",
-  },
-  {
-    num: "07",
-    title: "Linked Lists & Memory",
-    count: "9 problems",
-    topics: "Dynamic heap allocation (malloc/free), singly linked list traversal, node ops",
-  },
-];
+};
 
 const FEATURES = [
   {
@@ -73,8 +74,8 @@ const FEATURES = [
   },
   {
     icon: Terminal,
-    title: "One-Click Online Compiler",
-    description: "Test solutions instantly in your browser with pre-linked online compilers without requiring a local gcc setup.",
+    title: "Embedded In-House Compiler",
+    description: "Compile and execute your code directly inside each lab problem with our zero-latency WebAssembly compiler.",
   },
   {
     icon: CheckCircle2,
@@ -90,7 +91,12 @@ const FEATURES = [
 
 export default function PdsHome() {
   return (
-    <main className="bg-[#08090d] font-sans text-[#f8fafc] antialiased">
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(COURSE_JSON_LD) }}
+      />
+      <main className="bg-[#08090d] font-sans text-[#f8fafc] antialiased">
       {/* Hero Section */}
       <section className="relative overflow-hidden border-b border-[#1e2333]">
         <div className="mx-auto grid max-w-6xl items-center gap-10 px-5 pt-12 pb-14 md:grid-cols-[1.2fr_1fr] md:gap-14 md:px-8 md:pt-16 md:pb-16">
@@ -131,20 +137,6 @@ export default function PdsHome() {
           <PdsVisual />
         </div>
 
-        {/* Stats Strip */}
-        <div className="border-t border-[#1e2333] bg-[#11141d]/50">
-          <div className="mx-auto grid max-w-6xl grid-cols-2 gap-4 px-5 py-6 sm:grid-cols-4 md:px-8">
-            {STATS.map((s) => (
-              <div key={s.label} className="border-l border-[#1e2333] pl-4 sm:first:border-none">
-                <p className="font-mono text-2xl font-bold text-[#f8fafc] sm:text-3xl">
-                  {s.value}
-                </p>
-                <p className="mt-0.5 text-xs font-semibold text-[var(--accent)]">{s.label}</p>
-                <p className="text-[11px] text-[#94a3b8]">{s.detail}</p>
-              </div>
-            ))}
-          </div>
-        </div>
       </section>
 
       {/* The Two Main Tracks */}
@@ -249,89 +241,9 @@ export default function PdsHome() {
         </div>
       </section>
 
-      {/* Curriculum Roadmap (7 Core Chapters) */}
-      <section className="border-t border-[#1e2333] bg-[#11141d]/30 py-14 md:py-16">
-        <div className="mx-auto max-w-6xl px-5 md:px-8">
-          <div className="mb-10 flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
-            <div>
-              <p className="font-mono text-xs font-semibold uppercase tracking-wider text-[var(--accent)]">
-                Structured Roadmap
-              </p>
-              <h2 className="mt-1 text-2xl font-bold tracking-tight text-[#f8fafc] sm:text-3xl">
-                The 7 Core Lab Modules
-              </h2>
-            </div>
-            <Link
-              href="/pds/lab"
-              className="inline-flex items-center gap-1.5 font-mono text-xs text-[var(--accent)] hover:underline"
-            >
-              <span>View full syllabus in Lab</span>
-              <ArrowRight size={13} />
-            </Link>
-          </div>
 
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {MODULES.map((m) => (
-              <Link
-                key={m.num}
-                href="/pds/lab"
-                className="group rounded-xl border border-[#1e2333] bg-[#11141d] p-5 transition-all hover:border-[var(--accent)]/50 hover:bg-[#161a26]"
-              >
-                <div className="flex items-center justify-between">
-                  <span className="font-mono text-xs font-bold text-[var(--accent)]">
-                    Chapter {m.num}
-                  </span>
-                  <span className="rounded bg-[#161a26] px-2 py-0.5 font-mono text-[11px] text-[#94a3b8] group-hover:text-[#f8fafc]">
-                    {m.count}
-                  </span>
-                </div>
-
-                <h3 className="mt-3 text-base font-semibold text-[#f8fafc] group-hover:text-[var(--accent)] transition-colors">
-                  {m.title}
-                </h3>
-
-                <p className="mt-1.5 text-xs leading-5 text-[#94a3b8]">
-                  {m.topics}
-                </p>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Why Practice Here / Feature Highlights */}
-      <section className="mx-auto max-w-6xl px-5 py-14 md:px-8 md:py-16">
-        <div className="mb-10 text-center">
-          <p className="font-mono text-xs font-semibold uppercase tracking-wider text-[var(--accent)]">
-            Built for Kharagpur Freshers
-          </p>
-          <h2 className="mt-2 text-2xl font-bold tracking-tight text-[#f8fafc] sm:text-3xl">
-            Everything You Need to Ace PDS
-          </h2>
-          <p className="mx-auto mt-2 max-w-lg text-sm text-[#94a3b8]">
-            Curated by senior students at KodeinKGP who have navigated the curriculum and know what
-            the evaluation criteria require.
-          </p>
-        </div>
-
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {FEATURES.map((feat) => {
-            const Icon = feat.icon;
-            return (
-              <div
-                key={feat.title}
-                className="rounded-xl border border-[#1e2333] bg-[#11141d] p-5"
-              >
-                <div className="flex h-10 w-10 items-center justify-center rounded-lg border border-[#1e2333] bg-[#161a26] text-[var(--accent)]">
-                  <Icon size={18} />
-                </div>
-                <h3 className="mt-4 text-base font-semibold text-[#f8fafc]">{feat.title}</h3>
-                <p className="mt-2 text-xs leading-5 text-[#94a3b8]">{feat.description}</p>
-              </div>
-            );
-          })}
-        </div>
-      </section>
+      
     </main>
+    </>
   );
 }

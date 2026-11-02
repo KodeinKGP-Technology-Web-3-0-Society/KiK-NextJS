@@ -9,6 +9,7 @@ const LINKS = [
   { href: "/", label: "Home" },
   { href: "/dekodeX", label: "dekodeX" },
   { href: "/pds", label: "PDS Bank" },
+  { href: "/compiler", label: "Compiler" },
   { href: "/articles", label: "Articles" },
   { href: "/teams", label: "Teams" },
   { href: "/events", label: "Events" },

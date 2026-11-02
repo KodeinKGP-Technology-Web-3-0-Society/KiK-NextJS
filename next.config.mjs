@@ -16,7 +16,14 @@ const securityHeaders = [
 const nextConfig = {
   poweredByHeader: false,
   async headers() {
-    return [{ source: "/:path*", headers: securityHeaders }];
+    return [
+      { source: "/:path*", headers: securityHeaders },
+      // the in-browser compiler (~105 MB): let browsers keep it for a week
+      {
+        source: "/clang/:path*",
+        headers: [{ key: "Cache-Control", value: "public, max-age=604800" }],
+      },
+    ];
   },
   images: {
     remotePatterns: [

@@ -76,11 +76,24 @@
     }
   }
 }
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #08090d;
-    --foreground: #f8fafc;
-  }
+
+:root {
+  --accent: #38bdf8;
+  --accent-hover: #7dd3fc;
+  --background: #08090d;
+  --foreground: #f8fafc;
+  color-scheme: dark;
+}
+
+html {
+  color-scheme: dark;
+  scrollbar-color: #23283a #08090d;
+  scrollbar-width: thin;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #23283a #08090d;
 }
 
 body {
@@ -89,22 +102,53 @@ body {
   font-family: Poppins, sans-serif, "Victor Mono", monospace;
 }
 
-/* Custom scrollbar styles */
-.custom-scrollbar::-webkit-scrollbar {
-  width: 0;
-  height: 0;
-  background-color: transparent;
-  transition: all 0.3s;
+/* Global Custom Scrollbar for Chrome, Edge, Safari (Webkit) */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
 }
 
-.custom-scrollbar:hover::-webkit-scrollbar {
-  width: 3px;
-  height: 3px;
+::-webkit-scrollbar-track {
+  background: #08090d;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #23283a;
+  border-radius: 9999px;
+  border: 2px solid #08090d;
+  transition: background-color 0.2s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #38425e;
+}
+
+::-webkit-scrollbar-thumb:active {
+  background: var(--accent);
+}
+
+::-webkit-scrollbar-corner {
+  background: #08090d;
+}
+
+/* Compact custom scrollbar styles for inner panels */
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #23283a transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb {
-  background-color: rgba(255, 255, 255, 0.2);
-  border-radius: 4px;
+  background-color: #23283a;
+  border-radius: 9999px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: #38425e;
 }
 
 .custom-scrollbar::-webkit-scrollbar-track {
@@ -408,4 +452,33 @@ body {
     transform: translateY(110%);
     opacity: 0;
   }
+}
+
+/* Compiler page: syntax colours for the highlight layer */
+.cmp-code .hljs-keyword,
+.cmp-code .hljs-literal {
+  color: #7dd3fc;
+}
+.cmp-code .hljs-type,
+.cmp-code .hljs-built_in {
+  color: #a5b4fc;
+}
+.cmp-code .hljs-string,
+.cmp-code .hljs-char\.escape_ {
+  color: #86efac;
+}
+.cmp-code .hljs-number {
+  color: #fdba74;
+}
+.cmp-code .hljs-comment {
+  color: #64748b;
+  font-style: italic;
+}
+.cmp-code .hljs-meta,
+.cmp-code .hljs-meta .hljs-keyword {
+  color: #f0abfc;
+}
+.cmp-code .hljs-title.function_,
+.cmp-code .hljs-title {
+  color: #fde68a;
 }

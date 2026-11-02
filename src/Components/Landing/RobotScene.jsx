@@ -5,10 +5,12 @@ import { useEffect, useRef, useState } from "react";
 // via the three.js examples. File: /public/models/RobotExpressive.glb
 const ACTIONS = [
   { clip: "Wave", label: "Wave" },
-  { clip: "Dance", label: "Dance", loop: true },
-  { clip: "Yes", label: "Nod" },
   { clip: "ThumbsUp", label: "Thumbs up" },
   { clip: "Jump", label: "Jump" },
+  { clip: "Yes", label: "Nod" },
+  { clip: "Dance", label: "Dance" },
+  { clip: "Punch", label: "Punch" },
+  { clip: "WalkJump", label: "Walk jump" },
 ];
 
 export default function RobotScene() {
@@ -123,17 +125,16 @@ export default function RobotScene() {
       let current = clips.Idle;
       current.play();
 
-      const play = (name, loop = false) => {
+      const play = (name) => {
         const next = clips[name];
-        if (!next || next === current) return;
+        if (!next) return;
         next.reset();
-        next.setLoop(
-          loop ? THREE.LoopRepeat : THREE.LoopOnce,
-          loop ? Infinity : 1
-        );
-        next.clampWhenFinished = !loop;
+        next.setLoop(THREE.LoopOnce, 1);
+        next.clampWhenFinished = true;
         next.fadeIn(FADE).play();
-        current.fadeOut(FADE);
+        if (current && current !== next) {
+          current.fadeOut(FADE);
+        }
         current = next;
         setActive(name);
       };
@@ -233,14 +234,21 @@ export default function RobotScene() {
       };
       tick();
 
+      let actionIndex = 0;
+      const playNext = () => {
+        if (disposed) return;
+        const nextAction = ACTIONS[actionIndex];
+        actionIndex = (actionIndex + 1) % ACTIONS.length;
+        play(nextAction.clip);
+      };
+
       api.current = {
         play,
+        playNext,
         idle,
-        isLooping: () =>
-          current !== clips.Idle && current.loop === THREE.LoopRepeat,
       };
       setReady(true);
-      setTimeout(() => !disposed && play("Wave"), 400);
+      setTimeout(() => !disposed && playNext(), 400);
 
       const reduce = window.matchMedia(
         "(prefers-reduced-motion: reduce)"
@@ -251,13 +259,11 @@ export default function RobotScene() {
           () => {
             if (disposed) return;
             if (visible && !reduce && current === clips.Idle) {
-              const a = ACTIONS[Math.floor(Math.random() * ACTIONS.length)];
-              play(a.clip, a.loop);
-              if (a.loop) setTimeout(() => !disposed && idle(), 4500);
+              playNext();
             }
             schedule();
           },
-          5000 + Math.random() * 3000
+          5000 + Math.random() * 2000
         );
       };
       schedule();
@@ -297,8 +303,6 @@ export default function RobotScene() {
     };
   }, []);
 
-  const trigger = (a) => api.current?.play(a.clip, a.loop);
-
   return (
     <div className="hidden flex-col items-center md:flex">
       <div
@@ -306,9 +310,7 @@ export default function RobotScene() {
         title="Click me"
         ref={mount}
         className="relative h-[340px] w-full max-w-[460px] cursor-pointer md:h-[440px]"
-        onClick={() =>
-          trigger(ACTIONS[Math.floor(Math.random() * ACTIONS.length)])
-        }
+        onClick={() => api.current?.playNext()}
         role="img"
         aria-label="An animated 3D robot that waves, dances and reacts when clicked"
       >

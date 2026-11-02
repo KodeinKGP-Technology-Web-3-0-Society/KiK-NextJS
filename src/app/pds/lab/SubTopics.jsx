@@ -54,7 +54,7 @@ export default function SubTopics({ topic, viewMode }) {
             </div>
 
             {isOpen && (
-              <div className="border-t border-[#1e2333] bg-[#08090d] p-2 md:p-3">
+              <div className="border-t border-[#1e2333] bg-[#0c0e15]">
                 <Questions
                   topic={topic}
                   subTopic={subTopic}

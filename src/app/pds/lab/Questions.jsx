@@ -34,11 +34,19 @@ export default function Questions({ topic, subTopic, viewMode }) {
 
   const questionsData = getQuestionsData();
 
+  if (questionsData.length === 0) {
+    return (
+      <div className="py-8 text-center font-mono text-xs text-[#64748b]">
+        No questions found under this filter.
+      </div>
+    );
+  }
+
   return (
     <div className="w-full overflow-x-auto">
-      <table className="w-full">
+      <table className="w-full border-collapse text-left">
         <tbody>
-          {questionsData.map((qa, i) => {
+          {questionsData.map((qa) => {
             // Always find the original index to keep LabCard consistent
             const originalIndex =
               dataJ[topic][0]["Subtopics"][subTopic].indexOf(qa);

@@ -7,8 +7,23 @@ const PARTICLE_COUNT = 18;
 const BRAND = "deKodeX";
 const INTRO_LOADER_HIDE_KEY = "dekodex_intro_hide";
 const BRAND_CHARS = BRAND.split("");
-const SCRAMBLE_CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*<>?/".split("");
-const SYNTAX_SYMBOLS = ["{ }", "</>", "=>", "||", "&&", "[ ]", "( )", "/*", "*/", ";", "==", "!="];
+const SCRAMBLE_CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*<>?/".split(
+  ""
+);
+const SYNTAX_SYMBOLS = [
+  "{ }",
+  "</>",
+  "=>",
+  "||",
+  "&&",
+  "[ ]",
+  "( )",
+  "/*",
+  "*/",
+  ";",
+  "==",
+  "!=",
+];
 const PARTICLE_SEED = 20260608;
 
 function createSeededRandom(seed) {
@@ -54,7 +69,9 @@ export default function DekodeXIntroLoader({ onComplete }) {
           if (index < iterations / (maxIterations / BRAND_CHARS.length)) {
             return letter;
           }
-          return SCRAMBLE_CHARS[Math.floor(Math.random() * SCRAMBLE_CHARS.length)];
+          return SCRAMBLE_CHARS[
+            Math.floor(Math.random() * SCRAMBLE_CHARS.length)
+          ];
         })
       );
       iterations++;
@@ -62,7 +79,10 @@ export default function DekodeXIntroLoader({ onComplete }) {
     }, 75);
 
     const closeTimer = setTimeout(() => setClosing(true), INTRO_DURATION_MS);
-    const doneTimer = setTimeout(() => onCompleteRef.current?.(), INTRO_DURATION_MS + 400);
+    const doneTimer = setTimeout(
+      () => onCompleteRef.current?.(),
+      INTRO_DURATION_MS + 400
+    );
 
     return () => {
       clearTimeout(closeTimer);
@@ -79,20 +99,22 @@ export default function DekodeXIntroLoader({ onComplete }) {
 
   return (
     <div
-      className={`fixed inset-0 z-[120] flex items-center justify-center overflow-hidden bg-[#05050A] transition-all duration-500 ease-in-out ${
-        closing ? "pointer-events-none scale-105 opacity-0" : "opacity-100 scale-100"
+      className={`fixed inset-0 z-[120] flex items-center justify-center overflow-hidden bg-[#0b1430] transition-all duration-500 ease-in-out ${
+        closing
+          ? "pointer-events-none scale-105 opacity-0"
+          : "scale-100 opacity-100"
       }`}
     >
       <button
         type="button"
         onClick={handleDontShowAgain}
-        className="absolute top-4 right-4 z-20 rounded-md border border-white/20 bg-black/30 px-3 py-1.5 text-[11px] font-semibold tracking-wide text-white/80 transition hover:border-white/40 hover:text-white"
+        className="absolute top-4 right-4 z-20 rounded-md border border-[#243158] bg-[#0f1a3a] px-3 py-1.5 text-[11px] font-semibold tracking-wide text-[#ece9e1]/80 transition hover:border-cyan-300/40 hover:text-white"
       >
         Don&apos;t show again
       </button>
 
       {/* Subtle animated background gradient */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[#110022] via-[#05050A] to-[#05050A] opacity-80" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[#0f1a3a] via-[#0b1430] to-[#0b1430] opacity-90" />
 
       {/* Floating Syntax Particles */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
@@ -115,14 +137,14 @@ export default function DekodeXIntroLoader({ onComplete }) {
 
       {/* Main Glassmorphic Panel */}
       <div className="relative z-10 w-[min(90vw,480px)]">
-        <div className="relative rounded-2xl border border-white/[0.08] bg-[#0A0A12]/80 p-8 shadow-[0_8px_32px_rgba(0,0,0,0.5)] backdrop-blur-xl">
+        <div className="relative rounded-2xl border border-[#243158] bg-[#0f1a3a] p-8 shadow-[0_8px_32px_rgba(0,0,0,0.5)]">
           {/* Minimalist Top Bar */}
           <div className="mb-8 flex items-center justify-between border-b border-white/[0.05] pb-4">
             <div className="flex gap-2">
               <span className="h-2 w-2 rounded-full bg-white/20" />
               <span className="h-2 w-2 rounded-full bg-white/20" />
             </div>
-            <span className="font-mono text-[10px] uppercase tracking-widest text-white/40">
+            <span className="font-mono text-[10px] tracking-widest text-white/40 uppercase">
               System.Boot()
             </span>
           </div>
@@ -167,8 +189,8 @@ export default function DekodeXIntroLoader({ onComplete }) {
         </div>
 
         {/* Corner Accents */}
-        <div className="absolute -left-3 -top-3 h-6 w-6 border-l-2 border-t-2 border-white/20 rounded-tl-lg" />
-        <div className="absolute -bottom-3 -right-3 h-6 w-6 border-b-2 border-r-2 border-[#B026FF]/50 rounded-br-lg" />
+        <div className="absolute -top-3 -left-3 h-6 w-6 rounded-tl-lg border-t-2 border-l-2 border-white/20" />
+        <div className="absolute -right-3 -bottom-3 h-6 w-6 rounded-br-lg border-r-2 border-b-2 border-[#B026FF]/50" />
       </div>
 
       <style jsx>{`
@@ -182,7 +204,8 @@ export default function DekodeXIntroLoader({ onComplete }) {
         }
 
         .progress-bar {
-          animation: load-progress ${INTRO_DURATION_MS}ms cubic-bezier(0.8, 0, 0.2, 1) forwards;
+          animation: load-progress ${INTRO_DURATION_MS}ms
+            cubic-bezier(0.8, 0, 0.2, 1) forwards;
           transform: scaleX(0);
         }
 

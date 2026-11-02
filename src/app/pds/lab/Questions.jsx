@@ -3,27 +3,27 @@
 import React from "react";
 import dataJ from "../../../data/qna/lab-questions.json";
 import LabCard from "./LabCard";
+import { readList } from "./storage";
 
 export default function Questions({ topic, subTopic, viewMode }) {
   const getQuestionsData = () => {
     const allQuestions = dataJ[topic][0]["Subtopics"][subTopic];
 
     if (viewMode === "Favourite Questions") {
-      const savedFavourites =
-        JSON.parse(localStorage.getItem("favourites")) || [];
-      return savedFavourites
+      return readList("favourites")
         .filter((key) => {
-          const [t, s] = key.split("-");
+          const [t, s] = String(key).split("-");
           return t === topic && s === subTopic;
         })
         .map((key) => {
-          const [t, s, i] = key.split("-");
-          return dataJ[t][0]["Subtopics"][s][i];
-        });
+          const [t, s, i] = String(key).split("-");
+          return dataJ[t]?.[0]?.["Subtopics"]?.[s]?.[i];
+        })
+        .filter(Boolean);
     }
 
     if (viewMode === "Incomplete Questions") {
-      const completed = JSON.parse(localStorage.getItem("completed")) || [];
+      const completed = readList("completed");
       return allQuestions.filter(
         (_, index) => !completed.includes(`${topic}-${subTopic}-${index}`)
       );

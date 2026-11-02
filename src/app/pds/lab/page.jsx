@@ -4,6 +4,9 @@ import React, { useEffect, useState } from "react";
 import dataJ from "../../../data/qna/lab-questions.json";
 import SubTopics from "./SubTopics";
 import LoginModal from "./LoginModal";
+import { readList, writeList } from "./storage";
+import Link from "next/link";
+import { ChevronDown, ChevronUp, Filter, User, LogOut, ArrowLeft, FolderGit2 } from "lucide-react";
 
 export default function Lab() {
   const BACKEND_URL = "https://kik-backend.onrender.com/";
@@ -35,12 +38,8 @@ export default function Lab() {
         if (resp.ok) {
           resp
             .json()
-            .then((data) =>
-              localStorage.setItem(
-                "favourites",
-                JSON.stringify(data.favourites)
-              )
-            );
+            .then((data) => writeList("favourites", data.favourites))
+            .catch(() => {});
         }
       });
     }
@@ -62,9 +61,8 @@ export default function Lab() {
         if (resp.ok) {
           resp
             .json()
-            .then((data) =>
-              localStorage.setItem("completed", JSON.stringify(data.completed))
-            );
+            .then((data) => writeList("completed", data.completed))
+            .catch(() => {});
         }
       });
     }
@@ -83,17 +81,18 @@ export default function Lab() {
     setIsDropdownOpen(false);
   };
 
-  const openLoginBox = () => {
-    if (localStorage.getItem("user")) {
+  const handleAuthButtonClick = () => {
+    if (user) {
       localStorage.removeItem("user");
+      setUser(null);
     } else {
       setIsLoginOpen(true);
     }
   };
 
   const loginUser = (email, pswd) => {
-    const favourites = JSON.parse(localStorage.getItem("favourites") || "[]");
-    const complete = JSON.parse(localStorage.getItem("completed") || "[]");
+    const favourites = readList("favourites");
+    const complete = readList("completed");
 
     fetch(BACKEND_URL + "makeUser", {
       method: "POST",
@@ -106,72 +105,161 @@ export default function Lab() {
         setIsLoginOpen(false);
         data.json().then((txt) => {
           localStorage.setItem("user", txt.user);
-          localStorage.setItem("completed", JSON.stringify(txt.completed));
-          localStorage.setItem("favourites", JSON.stringify(txt.favourites));
+          writeList("completed", txt.completed);
+          writeList("favourites", txt.favourites);
+          setUser(txt.user);
         });
       }
     });
   };
 
+  const topicCount = Object.keys(dataJ).length;
+
   return (
-    <div className="flex w-full flex-col items-center bg-[#01011b] px-4 pb-4">
-      <div className="!mt-5 !mb-5 text-center text-3xl font-bold text-cyan-300">
-        LAB PROBLEMS
-      </div>
-
-      <div className="justify-left !mb-4 flex w-full max-w-6xl flex-col px-7 sm:flex-row sm:items-center sm:px-0">
-        <div className="relative mt-2 w-full sm:mt-0 sm:w-[200px]">
-          <div
-            className="flex cursor-pointer justify-between rounded-t border-b border-cyan-300 bg-gray-900 px-4 py-2 font-semibold text-white"
-            onClick={toggleDropdown}
+    <div className="min-h-screen bg-[#0b1430] font-sans text-[#ece9e1] antialiased">
+      <div className="mx-auto max-w-6xl px-5 pt-10 pb-20 md:px-8">
+        {/* Breadcrumb / Back Link */}
+        <div className="mb-6">
+          <Link
+            href="/pds"
+            className="group inline-flex items-center gap-2 font-mono text-xs text-[#9aa3b8] transition-colors hover:text-[var(--accent)]"
           >
-            {viewMode}
-            <span>{isDropdownOpen ? "▲" : "▼"}</span>
-          </div>
-          {isDropdownOpen && (
-            <div className="absolute top-full left-0 z-10 w-full rounded-b bg-[#193963]">
-              {[
-                "All Questions",
-                "Favourite Questions",
-                "Incomplete Questions",
-              ].map((mode) => (
-                <div
-                  key={mode}
-                  onClick={() => handleViewModeChange(mode)}
-                  className="cursor-pointer bg-[#252531] px-4 py-2 text-white hover:bg-[#19396380] hover:font-bold"
-                >
-                  {mode}
-                </div>
-              ))}
-            </div>
-          )}
+            <ArrowLeft size={14} className="transition-transform group-hover:-translate-x-1" />
+            <span>Back to PDS Overview</span>
+          </Link>
         </div>
-      </div>
 
-      <div className="flex w-full max-w-6xl flex-col items-center">
-        {Object.keys(dataJ).map((topic, index) => (
-          <div
-            key={index}
-            className="mb-3 w-full overflow-hidden rounded-lg bg-[#01011b]"
-          >
-            <div
-              className="flex cursor-pointer items-center justify-between border-b border-cyan-300 bg-[#43434390] px-5 py-4 text-xl font-semibold text-white"
-              onClick={() => toggleTopic(topic)}
+        {/* Header Section */}
+        <div className="mb-10 flex flex-col justify-between gap-6 md:flex-row md:items-end">
+          <div>
+            <p className="font-mono text-xs font-semibold uppercase tracking-wider text-[var(--accent)]">
+              PDS Bank · Lab Problem Archive
+            </p>
+            <h1 className="mt-2 text-3xl font-bold tracking-tight text-[#ece9e1] md:text-5xl">
+              Lab Problems
+            </h1>
+            <p className="mt-3 max-w-xl text-base text-[#9aa3b8]">
+              Browse 260+ curated questions organized by weekly syllabus topics. Open any question to
+              view the full problem statement, solution source code, and online compiler links.
+            </p>
+          </div>
+
+          {/* User Auth Sync Status */}
+          <div>
+            <button
+              onClick={handleAuthButtonClick}
+              className="inline-flex items-center gap-2 rounded-lg border border-[#243158] bg-[#0f1a3a] px-4 py-2.5 text-xs font-mono font-medium text-[#ece9e1] transition-colors hover:border-[var(--accent)]"
             >
-              {topic
-                .replace(/([a-z])([A-Z0-9])|([A-Z])([0-9])/g, "$1$3 $2$4")
-                .replace(/\bAnd\b/g, "and")}
-              <span className="text-xl">
-                {openTopics.includes(topic) ? "-" : "+"}
-              </span>
-            </div>
-            {openTopics.includes(topic) && (
-              <div className="rounded-b-lg bg-[#1c1a22] px-3 py-4">
-                <SubTopics topic={topic} viewMode={viewMode} />
+              {user ? (
+                <>
+                  <LogOut size={14} className="text-[#e5484d]" />
+                  <span>Logout Sync</span>
+                </>
+              ) : (
+                <>
+                  <User size={14} className="text-[var(--accent)]" />
+                  <span>Sync Progress</span>
+                </>
+              )}
+            </button>
+          </div>
+        </div>
+
+        {/* Toolbar & Filter Bar */}
+        <div className="mb-8 flex flex-wrap items-center justify-between gap-4 rounded-xl border border-[#243158] bg-[#0f1a3a] p-4">
+          <div className="flex items-center gap-2 font-mono text-xs text-[#9aa3b8]">
+            <FolderGit2 size={15} className="text-[var(--accent)]" />
+            <span>{topicCount} Chapters Available</span>
+          </div>
+
+          <div className="relative">
+            <button
+              onClick={toggleDropdown}
+              className="inline-flex items-center justify-between gap-3 rounded-lg border border-[#3a4a7a] bg-[#0b1430] px-4 py-2 text-xs font-medium text-[#ece9e1] transition-colors hover:border-[var(--accent)]"
+            >
+              <div className="flex items-center gap-2">
+                <Filter size={13} className="text-[var(--accent)]" />
+                <span>{viewMode}</span>
+              </div>
+              {isDropdownOpen ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
+            </button>
+
+            {isDropdownOpen && (
+              <div className="absolute right-0 top-full z-20 mt-2 w-52 overflow-hidden rounded-lg border border-[#243158] bg-[#0f1a3a] shadow-xl">
+                {[
+                  "All Questions",
+                  "Favourite Questions",
+                  "Incomplete Questions",
+                ].map((mode) => (
+                  <button
+                    key={mode}
+                    onClick={() => handleViewModeChange(mode)}
+                    className={`block w-full px-4 py-2.5 text-left text-xs transition-colors hover:bg-[#142145] hover:text-[var(--accent)] ${
+                      viewMode === mode ? "bg-[#142145] font-semibold text-[var(--accent)]" : "text-[#9aa3b8]"
+                    }`}
+                  >
+                    {mode}
+                  </button>
+                ))}
               </div>
             )}
           </div>
-        ))}
+        </div>
+
+        {/* Topic Accordions */}
+        <div className="space-y-4">
+          {Object.keys(dataJ).map((topic, index) => {
+            const isOpen = openTopics.includes(topic);
+            const formattedTopic = topic
+              .replace(/([a-z])([A-Z0-9])|([A-Z])([0-9])/g, "$1$3 $2$4")
+              .replace(/\bAnd\b/g, "and");
+
+            const subtopicCount = dataJ[topic]?.[0]?.Subtopics
+              ? Object.keys(dataJ[topic][0].Subtopics).length
+              : 0;
+
+            return (
+              <div
+                key={index}
+                className="overflow-hidden rounded-xl border border-[#243158] bg-[#0f1a3a] transition-all"
+              >
+                <button
+                  type="button"
+                  onClick={() => toggleTopic(topic)}
+                  className="flex w-full items-center justify-between px-6 py-5 text-left transition-colors hover:bg-[#142145]/70"
+                >
+                  <div className="flex items-center gap-3">
+                    <span className="font-mono text-xs text-[var(--accent)]">
+                      {(index + 1).toString().padStart(2, "0")}
+                    </span>
+                    <span className="text-base font-semibold text-[#ece9e1] md:text-lg">
+                      {formattedTopic}
+                    </span>
+                  </div>
+
+                  <div className="flex items-center gap-3">
+                    <span className="hidden font-mono text-xs text-[#9aa3b8] sm:inline">
+                      {subtopicCount} subtopics
+                    </span>
+                    <span
+                      className={`flex h-7 w-7 items-center justify-center rounded-md border border-[#243158] bg-[#0b1430] text-xs transition-transform ${
+                        isOpen ? "rotate-180 text-[var(--accent)]" : "text-[#9aa3b8]"
+                      }`}
+                    >
+                      <ChevronDown size={14} />
+                    </span>
+                  </div>
+                </button>
+
+                {isOpen && (
+                  <div className="border-t border-[#243158] bg-[#0b1430]/60 p-4 md:p-6">
+                    <SubTopics topic={topic} viewMode={viewMode} />
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
       </div>
 
       <LoginModal

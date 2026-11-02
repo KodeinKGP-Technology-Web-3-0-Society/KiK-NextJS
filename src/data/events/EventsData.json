@@ -5,6 +5,7 @@
     "description": "A 10-day online competition designed to evaluate participants' problem-solving abilities. Each day featured a unique challenge, specifically crafted to assess their proficiency in fundamental and commonly-employed data structures and algorithms.",
     "sponsor": "",
     "image": "/EventsImages/dekodex.png",
+    "imageFocus": "square",
     "sponsor_img": ""
   },
   {

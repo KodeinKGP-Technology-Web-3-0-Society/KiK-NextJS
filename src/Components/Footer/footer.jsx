@@ -1,236 +1,150 @@
 "use client";
 import React from "react";
 import Image from "next/image";
+import Link from "next/link";
 import Logo from "../../../public/KIK_logo-removebg.png";
-import { Poppins } from "next/font/google";
 import IonIcon from "../utils/ionicon";
 
-const poppins = Poppins({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  variable: "--font-poppins",
-  display: "swap",
-});
+const SOCIAL_LINKS = [
+  {
+    name: "logo-facebook",
+    href: "https://www.facebook.com/kodeinkgp?mibextid=ZbWKwL",
+    label: "Facebook",
+  },
+  {
+    name: "logo-instagram",
+    href: "https://www.instagram.com/kodeinkgp_iitkgp?igsh=cmhyMXM3YTA5YzZm",
+    label: "Instagram",
+  },
+  {
+    name: "logo-linkedin",
+    href: "https://www.linkedin.com/company/kodeinkgp/",
+    label: "LinkedIn",
+  },
+  {
+    name: "logo-medium",
+    href: "https://medium.com/@kodeinkgp",
+    label: "Medium",
+  },
+  {
+    name: "logo-whatsapp",
+    href: "https://chat.whatsapp.com/IFt69sSqZsu7FlRWl3EIbk",
+    label: "WhatsApp",
+  },
+];
+
+const RESOURCE_COLUMNS = [
+  {
+    title: "Blockchain",
+    links: [
+      { name: "freeCodeCamp", href: "https://www.youtube.com/watch?v=gyMwXuJrbJQ" },
+      { name: "Code Eater", href: "https://www.youtube.com/@CodeEater21/videos" },
+      { name: "Whiteboard Crypto", href: "https://www.youtube.com/@WhiteboardCrypto" },
+      { name: "Finematics", href: "https://www.youtube.com/@Finematics" },
+    ],
+  },
+  {
+    title: "Machine Learning",
+    links: [
+      { name: "DeepLearningAI", href: "https://www.youtube.com/@Deeplearningai" },
+      { name: "Siraj Raval", href: "https://www.youtube.com/@SirajRaval/about" },
+      { name: "sentdex", href: "https://www.youtube.com/@sentdex/playlists" },
+      { name: "Corey Schafer", href: "https://www.youtube.com/@coreyms/about" },
+    ],
+  },
+  {
+    title: "Web Development",
+    links: [
+      { name: "CodeWithHarry", href: "https://www.youtube.com/playlist?list=PLu0W_9lII9agiCUZYRsvtGTXdxkzPyItg" },
+      { name: "Apna College", href: "https://www.youtube.com/playlist?list=PLfqMhTWNBTe3H6c9OGXb5_6wcc1Mca52n" },
+      { name: "net ninja", href: "https://www.youtube.com/playlist?list=PL4cUxeGkcC9ivBf_eKCPIAYXWzLlPAm6G" },
+      { name: "Traversy Media", href: "https://www.youtube.com/playlist?list=PLillGF-RfqbZTASqIqdvm1R5mLrQq79CU" },
+    ],
+  },
+];
 
 export default function Footer() {
   return (
-    <div
-      id="footer"
-      className={`mt-8 flex flex-wrap items-center justify-between bg-transparent text-left text-white ${poppins.variable} border border-[#01011b] border-t-[#3f3e45]`}
-    >
-      <div className="mx-10 my-4 px-8 py-3 sm:mx-4" id="footerItem1">
-        <div className="mb-2 flex flex-col justify-center">
-          <Image src={Logo} alt="KiK Logo" id="KiKLogo" className="w-[50px]" />
-          <h2 className="mt-2 text-2xl font-extrabold">KodeinKGP</h2>
+    <footer id="footer" className="border-t border-[#243158] bg-[#0b1430] text-[#ece9e1]">
+      <div className="mx-auto max-w-6xl px-5 pt-14 pb-10 md:px-8">
+        <div className="grid gap-10 lg:grid-cols-[1.4fr_2fr]">
+          {/* Brand info */}
+          <div className="space-y-4">
+            <Link href="/" className="inline-flex items-center gap-3">
+              <Image src={Logo} alt="KiK Logo" className="h-10 w-10 object-contain" />
+              <div>
+                <span className="block text-xl font-bold tracking-tight text-[#ece9e1]">KodeinKGP</span>
+                <span className="font-mono text-xs text-[var(--accent)]">Technology Web 3.0 Society</span>
+              </div>
+            </Link>
+            <p className="max-w-sm text-sm leading-6 text-[#9aa3b8]">
+              Indian Institute of Technology Kharagpur,
+              <br />
+              West Bengal - 721302
+            </p>
+            <div className="flex items-center gap-3 pt-2">
+              {SOCIAL_LINKS.map((s) => (
+                <a
+                  key={s.label}
+                  href={s.href}
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label={s.label}
+                  className="flex h-9 w-9 items-center justify-center rounded-lg border border-[#243158] bg-[#0f1a3a] text-[#9aa3b8] transition-all hover:border-[var(--accent)] hover:text-[var(--accent)] hover:-translate-y-0.5"
+                >
+                  <IonIcon size="default" name={s.name} className="text-current" />
+                </a>
+              ))}
+            </div>
+          </div>
+
+          {/* Resources */}
+          <div className="grid grid-cols-2 gap-8 sm:grid-cols-3">
+            {RESOURCE_COLUMNS.map((col) => (
+              <div key={col.title}>
+                <p className="font-mono text-xs font-semibold tracking-wider uppercase text-[var(--accent)]">
+                  {col.title}
+                </p>
+                <ul className="mt-4 space-y-2.5">
+                  {col.links.map((link) => (
+                    <li key={link.name}>
+                      <a
+                        href={link.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-sm text-[#9aa3b8] transition-colors hover:text-[#ece9e1]"
+                      >
+                        {link.name}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
         </div>
-        <div className="mt-4">
-          <p className="text-md">
-            Indian Institute of Technology Kharagpur,
-            <br />
-            West Bengal - 721302
+
+        {/* Bottom bar */}
+        <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-[#243158] pt-6 sm:flex-row">
+          <p className="font-mono text-xs text-[#9aa3b8]">
+            &copy; {new Date().getFullYear()} KodeinKGP. Open source & student-led.
           </p>
-        </div>
-        <div className="my-8 flex flex-wrap">
-          <a
-            className="my-2 mr-4"
-            target="_blank"
-            href="https://www.facebook.com/kodeinkgp?mibextid=ZbWKwL"
-            rel="noreferrer"
-          >
-            <IonIcon
-              size="large"
-              name="logo-facebook"
-              className="text-white"
-            ></IonIcon>
-          </a>
-          <a
-            className="my-2 mr-4"
-            target="_blank"
-            href="https://www.instagram.com/kodeinkgp_iitkgp?igsh=cmhyMXM3YTA5YzZm"
-            rel="noreferrer"
-          >
-            <IonIcon
-              size="large"
-              name="logo-instagram"
-              className="text-white"
-            ></IonIcon>
-          </a>
-          <a
-            className="my-2 mr-4"
-            target="_blank"
-            href="https://www.linkedin.com/company/kodeinkgp/"
-            rel="noreferrer"
-          >
-            <IonIcon
-              size="large"
-              name="logo-linkedin"
-              className="text-white"
-            ></IonIcon>
-          </a>
-          <a
-            className="my-2 mr-4"
-            target="_blank"
-            href="https://medium.com/@kodeinkgp"
-            rel="noreferrer"
-          >
-            <IonIcon
-              size="large"
-              name="logo-medium"
-              className="text-white"
-            ></IonIcon>
-          </a>
-          <a
-            className="my-2 mr-4"
-            target="_blank"
-            href="https://chat.whatsapp.com/IFt69sSqZsu7FlRWl3EIbk"
-            rel="noreferrer"
-          >
-            <IonIcon
-              size="large"
-              name="logo-whatsapp"
-              className="text-white"
-            ></IonIcon>
-          </a>
+          <div className="flex items-center gap-6 font-mono text-xs text-[#9aa3b8]">
+            <Link href="/pds" className="hover:text-[#ece9e1] transition-colors">
+              PDS Bank
+            </Link>
+            <Link href="/articles" className="hover:text-[#ece9e1] transition-colors">
+              Articles
+            </Link>
+            <Link href="/teams" className="hover:text-[#ece9e1] transition-colors">
+              Teams
+            </Link>
+            <Link href="/events" className="hover:text-[#ece9e1] transition-colors">
+              Events
+            </Link>
+          </div>
         </div>
       </div>
-
-      <div className="mx-10 my-4 p-4 sm:mx-4" id="footerItem2">
-        <div className="pb-4 text-lg font-bold" id="footerItemElement1">
-          Blockchain
-        </div>
-        <div className="my-2">
-          <a
-            className="text-[wheat] no-underline"
-            href="https://www.youtube.com/watch?v=gyMwXuJrbJQ"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            freeCodeCamp
-          </a>
-        </div>
-        <div className="my-2">
-          <a
-            className="text-[wheat] no-underline"
-            href="https://www.youtube.com/@CodeEater21/videos"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Code Eater
-          </a>
-        </div>
-        <div className="my-2">
-          <a
-            className="text-[wheat] no-underline"
-            href="https://www.youtube.com/@WhiteboardCrypto"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Whiteboard Crypto
-          </a>
-        </div>
-        <div className="my-2">
-          <a
-            className="text-[wheat] no-underline"
-            href="https://www.youtube.com/@Finematics"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Finematics
-          </a>
-        </div>
-      </div>
-
-      <div className="mx-10 my-4 p-4 sm:mx-4" id="footerItem3">
-        <div className="pb-4 text-lg font-bold" id="footerItemElement1">
-          Machine Learning
-        </div>
-        <div className="my-2">
-          <a
-            className="text-[wheat] no-underline"
-            href="https://www.youtube.com/@Deeplearningai"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            DeepLearningAI
-          </a>
-        </div>
-        <div className="my-2">
-          <a
-            className="text-[wheat] no-underline"
-            href="https://www.youtube.com/@SirajRaval/about"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Siraj Raval
-          </a>
-        </div>
-        <div className="my-2">
-          <a
-            className="text-[wheat] no-underline"
-            href="https://www.youtube.com/@sentdex/playlists"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            sentdex
-          </a>
-        </div>
-        <div className="my-2">
-          <a
-            className="text-[wheat] no-underline"
-            href="https://www.youtube.com/@coreyms/about"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Corey Schafer
-          </a>
-        </div>
-      </div>
-
-      <div className="mx-10 my-4 p-4 sm:mx-4" id="footerItem4">
-        <div className="pb-4 text-lg font-bold" id="footerItemElement1">
-          Web Development
-        </div>
-        <div className="my-2">
-          <a
-            className="text-[wheat] no-underline"
-            href="https://www.youtube.com/playlist?list=PLu0W_9lII9agiCUZYRsvtGTXdxkzPyItg"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            CodeWithHarry
-          </a>
-        </div>
-        <div className="my-2">
-          <a
-            className="text-[wheat] no-underline"
-            href="https://www.youtube.com/playlist?list=PLfqMhTWNBTe3H6c9OGXb5_6wcc1Mca52n"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Apna College
-          </a>
-        </div>
-        <div className="my-2">
-          <a
-            className="text-[wheat] no-underline"
-            href="https://www.youtube.com/playlist?list=PL4cUxeGkcC9ivBf_eKCPIAYXWzLlPAm6G"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            net ninja
-          </a>
-        </div>
-        <div className="my-2">
-          <a
-            className="text-[wheat] no-underline"
-            href="https://www.youtube.com/playlist?list=PLillGF-RfqbZTASqIqdvm1R5mLrQq79CU"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Traversy Media
-          </a>
-        </div>
-      </div>
-    </div>
+    </footer>
   );
 }

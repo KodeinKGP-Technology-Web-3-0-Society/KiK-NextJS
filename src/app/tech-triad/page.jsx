@@ -4,7 +4,7 @@ import React from "react";
 import Link from "next/link";
 const TechTriadPage = () => {
   return (
-    <div className="relative min-h-screen overflow-hidden bg-[#01011b]">
+    <div className="relative min-h-screen overflow-hidden bg-[#0b1430]">
       {/* Background Effects */}
       <div className="absolute inset-0 opacity-30">
         <div className="absolute top-20 left-10 h-72 w-72 animate-pulse rounded-full bg-[#33bbcf]/20 blur-3xl"></div>
@@ -37,7 +37,7 @@ const TechTriadPage = () => {
           <div className="mx-auto mb-8 h-1 w-32 rounded-full bg-gradient-to-r from-transparent via-[#33bbcf] to-transparent"></div>
 
           {/* Description Card */}
-          <div className="relative mx-auto max-w-3xl overflow-hidden rounded-2xl border-2 border-[#87CEEB]/40 bg-gradient-to-br from-[#0a0a2e]/80 to-[#01011b]/90 p-8 backdrop-blur-sm transition-all duration-500 hover:border-[#33bbcf]/60 hover:shadow-2xl hover:shadow-[#87CEEB]/20 md:p-12">
+          <div className="relative mx-auto max-w-3xl overflow-hidden rounded-2xl border-2 border-[#87CEEB]/40 bg-gradient-to-br from-[#0a0a2e]/80 to-[#0b1430]/90 p-8 backdrop-blur-sm transition-all duration-500 hover:border-[#33bbcf]/60 hover:shadow-2xl hover:shadow-[#87CEEB]/20 md:p-12">
             {/* Card glow effect */}
             <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-[#87CEEB]/5 via-[#33bbcf]/10 to-[#87CEEB]/5 opacity-50"></div>
 
@@ -54,7 +54,7 @@ const TechTriadPage = () => {
               </p>
             </div>
           </div>
-          <div className="mt-3 relative mx-auto max-w-3xl overflow-hidden rounded-2xl border-2 border-[#87CEEB]/40 bg-gradient-to-br from-[#0a0a2e]/80 to-[#01011b]/90 p-6 backdrop-blur-sm transition-all duration-500 hover:border-[#33bbcf]/60 hover:shadow-2xl hover:shadow-[#87CEEB]/20 md:p-8">
+          <div className="relative mx-auto mt-3 max-w-3xl overflow-hidden rounded-2xl border-2 border-[#87CEEB]/40 bg-gradient-to-br from-[#0a0a2e]/80 to-[#0b1430]/90 p-6 backdrop-blur-sm transition-all duration-500 hover:border-[#33bbcf]/60 hover:shadow-2xl hover:shadow-[#87CEEB]/20 md:p-8">
             {/* Card glow effect */}
             <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-[#87CEEB]/5 via-[#33bbcf]/10 to-[#87CEEB]/5 opacity-50"></div>
 
@@ -62,9 +62,19 @@ const TechTriadPage = () => {
             <div className="relative z-10">
               {/* Schedule Header with Icon */}
               <div className="mb-4 flex items-center gap-3">
-                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-br from-[#5ce1e6]/20 to-[#33bbcf]/20 border border-[#5ce1e6]/30">
-                  <svg className="h-5 w-5 text-[#5ce1e6]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                <div className="flex h-10 w-10 items-center justify-center rounded-lg border border-[#5ce1e6]/30 bg-gradient-to-br from-[#5ce1e6]/20 to-[#33bbcf]/20">
+                  <svg
+                    className="h-5 w-5 text-[#5ce1e6]"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                    />
                   </svg>
                 </div>
                 <h3
@@ -82,51 +92,74 @@ const TechTriadPage = () => {
 
               {/* Main Description */}
               <p className="mb-5 font-[Poppins] text-base leading-relaxed text-gray-300 md:text-lg">
-                The TechTriad Hackathon is a <span className="font-semibold text-[#5ce1e6]">36-hour challenge</span> bringing together innovators to create impactful solutions.
+                The TechTriad Hackathon is a{" "}
+                <span className="font-semibold text-[#5ce1e6]">
+                  36-hour challenge
+                </span>{" "}
+                bringing together innovators to create impactful solutions.
               </p>
 
               {/* Timeline Grid */}
               <div className="grid gap-4 md:grid-cols-2">
                 {/* Registration */}
-                <div className="group rounded-xl border border-[#87CEEB]/30 bg-gradient-to-br from-[#0a0a2e]/60 to-[#01011b]/80 p-4 transition-all duration-300 hover:border-[#5ce1e6]/50 hover:shadow-lg hover:shadow-[#5ce1e6]/10">
+                <div className="group rounded-xl border border-[#87CEEB]/30 bg-gradient-to-br from-[#0a0a2e]/60 to-[#0b1430]/80 p-4 transition-all duration-300 hover:border-[#5ce1e6]/50 hover:shadow-lg hover:shadow-[#5ce1e6]/10">
                   <div className="mb-2 flex items-center gap-2">
-                    <div className="h-2 w-2 rounded-full bg-[#87CEEB] animate-pulse"></div>
-                    <span className="font-[Kanit] text-sm font-semibold uppercase tracking-wider text-[#87CEEB]">Reporting Time</span>
+                    <div className="h-2 w-2 animate-pulse rounded-full bg-[#87CEEB]"></div>
+                    <span className="font-[Kanit] text-sm font-semibold tracking-wider text-[#87CEEB] uppercase">
+                      Reporting Time
+                    </span>
                   </div>
                   <p className="font-[Poppins] text-gray-300">
-                    <span className="block text-xl font-bold text-white md:text-2xl">11:00 PM</span>
-                    <span className="text-sm text-gray-400">January 16th, 2026</span>
+                    <span className="block text-xl font-bold text-white md:text-2xl">
+                      11:00 PM
+                    </span>
+                    <span className="text-sm text-gray-400">
+                      January 16th, 2026
+                    </span>
                   </p>
-                  <p className="mt-2 text-xs text-gray-400 italic">Mandatory arrival for verification</p>
+                  <p className="mt-2 text-xs text-gray-400 italic">
+                    Mandatory arrival for verification
+                  </p>
                 </div>
 
                 {/* Start Time */}
-                <div className="group rounded-xl border border-[#5ce1e6]/30 bg-gradient-to-br from-[#0a0a2e]/60 to-[#01011b]/80 p-4 transition-all duration-300 hover:border-[#5ce1e6]/50 hover:shadow-lg hover:shadow-[#5ce1e6]/10">
+                <div className="group rounded-xl border border-[#5ce1e6]/30 bg-gradient-to-br from-[#0a0a2e]/60 to-[#0b1430]/80 p-4 transition-all duration-300 hover:border-[#5ce1e6]/50 hover:shadow-lg hover:shadow-[#5ce1e6]/10">
                   <div className="mb-2 flex items-center gap-2">
-                    <div className="h-2 w-2 rounded-full bg-[#5ce1e6] animate-pulse"></div>
-                    <span className="font-[Kanit] text-sm font-semibold uppercase tracking-wider text-[#5ce1e6]">Hackathon Start</span>
+                    <div className="h-2 w-2 animate-pulse rounded-full bg-[#5ce1e6]"></div>
+                    <span className="font-[Kanit] text-sm font-semibold tracking-wider text-[#5ce1e6] uppercase">
+                      Hackathon Start
+                    </span>
                   </div>
                   <p className="font-[Poppins] text-gray-300">
-                    <span className="block text-xl font-bold text-white md:text-2xl">12:00 AM</span>
-                    <span className="text-sm text-gray-400">January 17th, 2026</span>
+                    <span className="block text-xl font-bold text-white md:text-2xl">
+                      12:00 AM
+                    </span>
+                    <span className="text-sm text-gray-400">
+                      January 17th, 2026
+                    </span>
                   </p>
                 </div>
 
                 {/* End Time */}
-                <div className="group rounded-xl border border-[#33bbcf]/30 bg-gradient-to-br from-[#0a0a2e]/60 to-[#01011b]/80 p-4 transition-all duration-300 hover:border-[#33bbcf]/50 hover:shadow-lg hover:shadow-[#33bbcf]/10 md:col-span-2">
+                <div className="group rounded-xl border border-[#33bbcf]/30 bg-gradient-to-br from-[#0a0a2e]/60 to-[#0b1430]/80 p-4 transition-all duration-300 hover:border-[#33bbcf]/50 hover:shadow-lg hover:shadow-[#33bbcf]/10 md:col-span-2">
                   <div className="mb-2 flex items-center gap-2">
-                    <div className="h-2 w-2 rounded-full bg-[#33bbcf] animate-pulse"></div>
-                    <span className="font-[Kanit] text-sm font-semibold uppercase tracking-wider text-[#33bbcf]">Hackathon End</span>
+                    <div className="h-2 w-2 animate-pulse rounded-full bg-[#33bbcf]"></div>
+                    <span className="font-[Kanit] text-sm font-semibold tracking-wider text-[#33bbcf] uppercase">
+                      Hackathon End
+                    </span>
                   </div>
                   <p className="font-[Poppins] text-gray-300">
-                    <span className="block text-xl font-bold text-white md:text-2xl">12:00 PM</span>
-                    <span className="text-sm text-gray-400">January 18th, 2026</span>
+                    <span className="block text-xl font-bold text-white md:text-2xl">
+                      12:00 PM
+                    </span>
+                    <span className="text-sm text-gray-400">
+                      January 18th, 2026
+                    </span>
                   </p>
                 </div>
               </div>
             </div>
           </div>
-
 
           {/* Action Buttons */}
           <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row sm:gap-6">
@@ -164,13 +197,15 @@ const TechTriadPage = () => {
                   backgroundClip: "text",
                 }}
               >
-                <Link href="https://drive.google.com/file/d/11KFMtEQy1_ITLdMYAMu2N-SjhrMFgHjT/view?usp=sharing" target="_blank">
+                <Link
+                  href="https://drive.google.com/file/d/11KFMtEQy1_ITLdMYAMu2N-SjhrMFgHjT/view?usp=sharing"
+                  target="_blank"
+                >
                   Checkout the PS
                 </Link>
               </p>
             </div>
           </div>
-
 
           {/* Registration Notice */}
           {/* <div className="mt-8">

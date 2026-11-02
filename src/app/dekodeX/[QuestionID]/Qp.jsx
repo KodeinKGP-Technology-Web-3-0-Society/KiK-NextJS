@@ -33,7 +33,7 @@ const sourceCodePro = Source_Code_Pro({
 });
 
 const sectionClass =
-  "rounded-lg border border-white/10 bg-white/[0.04] shadow-[0_12px_34px_rgba(0,0,0,0.2)]";
+  "rounded-xl border border-[#243158] bg-[#0b1430] shadow-[0_12px_34px_rgba(0,0,0,0.2)]";
 
 function SectionHeader({ icon: Icon, title, meta }) {
   return (
@@ -181,219 +181,203 @@ function Qp() {
   const questionNumber = QuestionID?.replace("q", "") || "1";
 
   return (
-    <>
+    <main className="min-h-screen bg-[#0b1430] py-6 text-[#ece9e1]">
       <div
         className={
-          "dekodex-question-page relative mx-auto mt-6 mr-[39px] ml-[39px] flex flex-col overflow-hidden rounded-lg bg-[#01011B] shadow-2xl shadow-black/35 max-md:mt-5 max-md:mr-[28px] max-md:ml-[28px] max-sm:mx-4 max-sm:mt-4 " +
+          "dekodex-question-page relative mx-auto mr-[39px] ml-[39px] flex flex-col overflow-hidden rounded-2xl border border-[#243158] bg-[#0f1a3a] shadow-2xl shadow-black/35 max-md:mr-[28px] max-md:ml-[28px] max-sm:mx-4 " +
           sourceCodePro.className
         }
-        style={{
-          border: "1px solid transparent",
-          backgroundImage:
-            "linear-gradient(#01011B, #01011B), linear-gradient(108.74deg, rgba(33,138,203,0.45) 0%, rgba(255,255,255,0.18) 48%, rgba(17,227,251,0.42) 100%)",
-          backgroundOrigin: "border-box",
-          backgroundClip: "padding-box, border-box",
-        }}
       >
-      <div
-        className="relative border-b border-cyan-300/20 bg-white/[0.035]"
-        style={{
-          background:
-            "linear-gradient(108.74deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.025) 100%)",
-          minHeight: 88,
-        }}
-      >
-        <div className="absolute right-6 bottom-4 left-6 flex items-end justify-between gap-4 max-sm:right-4 max-sm:bottom-3 max-sm:left-4">
-          <div className="min-w-0">
-            <div className="mb-2 flex items-center gap-2 text-xs font-medium tracking-wide text-cyan-200/80 uppercase sm:text-sm">
-              <Terminal className="h-4 w-4 text-cyan-200" />
-              <span>
-                Problem {questionNumber.length < 2 ? "0" : ""}
-                {questionNumber}
-              </span>
+        <div
+          className="relative border-b border-[#243158] bg-[#0b1430]"
+          style={{
+            minHeight: 88,
+          }}
+        >
+          <div className="absolute right-6 bottom-4 left-6 flex items-end justify-between gap-4 max-sm:right-4 max-sm:bottom-3 max-sm:left-4">
+            <div className="min-w-0">
+              <div className="mb-2 flex items-center gap-2 text-xs font-medium tracking-wide text-cyan-200/80 uppercase sm:text-sm">
+                <Terminal className="h-4 w-4 text-cyan-200" />
+                <span>
+                  Problem {questionNumber.length < 2 ? "0" : ""}
+                  {questionNumber}
+                </span>
+              </div>
+              <h1 className="max-w-[min(800px,calc(100vw-180px))] text-[24px] leading-tight font-semibold break-words text-slate-50 max-md:max-w-[calc(100vw-140px)] max-md:text-[20px] max-sm:max-w-[calc(100vw-110px)] max-sm:text-[18px]">
+                {questionData.title}
+              </h1>
             </div>
-            <h1 className="max-w-[min(800px,calc(100vw-180px))] text-[24px] leading-tight font-semibold break-words text-slate-50 max-md:max-w-[calc(100vw-140px)] max-md:text-[20px] max-sm:max-w-[calc(100vw-110px)] max-sm:text-[18px]">
-              {questionData.title}
-            </h1>
-          </div>
-          <div className="flex flex-shrink-0 items-center justify-end">
-            <ReturnButton />
+            <div className="flex flex-shrink-0 items-center justify-end">
+              <ReturnButton />
+            </div>
           </div>
         </div>
-      </div>
 
-      <div className="relative mb-[72px] flex flex-col gap-4 p-5 max-sm:mb-[48px] sm:gap-5 sm:p-6">
-        {questionData.question ? (
-          <section className={`${sectionClass} p-4 sm:p-5`}>
-            <SectionHeader icon={FileText} title="Problem Statement" />
-            <div className="markdown-content story-section text-[16px] leading-7 text-slate-100 max-sm:text-[15px]">
-              <ReactMarkdown
-                remarkPlugins={[remarkGfm]}
-                rehypePlugins={[rehypeHighlight]}
-              >
-                {questionData.question}
-              </ReactMarkdown>
-            </div>
-          </section>
-        ) : null}
-
-        <section className="grid grid-cols-1 gap-4 lg:grid-cols-2">
-          <div className={`${sectionClass} p-4`}>
-            <SectionHeader
-              icon={ClipboardList}
-              title="Sample Input"
-            />
-            {questionData.sampleInput ? (
-              <div className="markdown-content sample-input max-h-[320px] overflow-auto rounded-lg border border-cyan-300/15 bg-[#05071f] p-1">
-                <div className="relative">
-                  <CopyButton text={cleanCodeBlock(questionData.sampleInput)} />
-                  <ReactMarkdown
-                    remarkPlugins={[remarkGfm]}
-                    rehypePlugins={[rehypeHighlight]}
-                  >
-                    {questionData.sampleInput}
-                  </ReactMarkdown>
-                </div>
-              </div>
-            ) : (
-              <pre className="text-white">No sample input available</pre>
-            )}
-          </div>
-
-          <div className={`${sectionClass} p-4`}>
-            <SectionHeader
-              icon={ClipboardList}
-              title="Sample Output"
-            />
-            {questionData.sampleOutput ? (
-              <div className="markdown-content sample-output max-h-[320px] overflow-auto rounded-lg border border-cyan-300/15 bg-[#05071f] p-1">
-                <div className="relative">
-                  <CopyButton
-                    text={cleanCodeBlock(questionData.sampleOutput)}
-                  />
-                  <ReactMarkdown
-                    remarkPlugins={[remarkGfm]}
-                    rehypePlugins={[rehypeHighlight]}
-                  >
-                    {questionData.sampleOutput}
-                  </ReactMarkdown>
-                </div>
-              </div>
-            ) : (
-              <pre className="text-white">No sample output available</pre>
-            )}
-          </div>
-        </section>
-
-        {questionData.explanation ? (
-          <section className={`${sectionClass} p-4 sm:p-5`}>
-            <SectionHeader icon={Lightbulb} title="Explanation" />
-            <div className="markdown-content explanation-section text-[16px] leading-7 text-slate-100 max-sm:text-[15px]">
-              <ReactMarkdown
-                remarkPlugins={[remarkGfm]}
-                rehypePlugins={[rehypeHighlight]}
-              >
-                {questionData.explanation}
-              </ReactMarkdown>
-            </div>
-          </section>
-        ) : null}
-
-        {questionData.testcases ? (
-          <section className={`${sectionClass} p-4`}>
-            <div className="flex flex-row flex-wrap items-center justify-start gap-2">
-              <GetInput testcaseUrl={testcaseUrl} />
-
-              <div className="relative">
-                <button
-                  className="flex h-[42px] cursor-pointer items-center justify-center gap-2 rounded-lg border border-cyan-300/20 bg-cyan-300/90 px-3 text-sm font-semibold text-[#01011b] transition-colors hover:bg-cyan-200 focus:ring-2 focus:ring-cyan-300/30 focus:outline-none max-sm:w-[42px] max-sm:px-0"
-                  aria-label="Instructions"
-                  onClick={() => window.open("/instructions.pdf", "_blank")}
-                  onMouseEnter={() => setShowTooltip(true)}
-                  onMouseLeave={() => setShowTooltip(false)}
+        <div className="relative mb-[72px] flex flex-col gap-4 p-5 max-sm:mb-[48px] sm:gap-5 sm:p-6">
+          {questionData.question ? (
+            <section className={`${sectionClass} p-4 sm:p-5`}>
+              <SectionHeader icon={FileText} title="Problem Statement" />
+              <div className="markdown-content story-section text-[16px] leading-7 text-slate-100 max-sm:text-[15px]">
+                <ReactMarkdown
+                  remarkPlugins={[remarkGfm]}
+                  rehypePlugins={[rehypeHighlight]}
                 >
-                  <HelpCircle className="h-5 w-5" />
-                  <span className="max-sm:hidden">Instructions</span>
-                </button>
-
-                {showTooltip ? (
-                  <div className="absolute left-1/2 z-10 mt-2 -translate-x-1/2 rounded-md border border-white/10 bg-neutral-900 px-3 py-2 text-gray-100 shadow-lg">
-                    <p className="text-sm">Instructions</p>
-                  </div>
-                ) : null}
+                  {questionData.question}
+                </ReactMarkdown>
               </div>
+            </section>
+          ) : null}
 
-              <div className="group relative">
-                <button
-                  onClick={() => setIsOpen(!isOpen)}
-                  className="flex h-[42px] cursor-pointer items-center justify-center gap-2 rounded-lg border border-cyan-300/20 bg-cyan-300/90 px-3 text-sm font-semibold text-[#01011b] transition-colors hover:bg-cyan-200 focus:ring-2 focus:ring-cyan-300/30 focus:outline-none max-sm:w-[42px] max-sm:px-0"
-                  aria-label="Contact support"
-                  title="Contact support"
-                >
-                  <MessageCircle className="h-5 w-5" />
-                  <span className="max-sm:hidden">Contact us</span>
-                </button>
-
-                {isOpen ? (
-                  <div className="absolute left-0 z-10 mt-2 min-w-[220px] rounded-md border border-white/10 bg-neutral-900 py-1 shadow-lg">
-                    <div className="border-b border-white/10 px-4 py-2 text-sm text-white">
-                      Contact us
-                    </div>
-                    <a
-                      href="https://mail.google.com/mail/u/0/?fs=1&to=kodeinkgp@gmail.com&su=dekodeX+Queries&body=Hello,+I+have+a+question+regarding&tf=cm"
-                      target="_blank"
-                      className="block px-4 py-2 text-sm text-slate-200 hover:bg-white/10"
+          <section className="grid grid-cols-1 gap-4 lg:grid-cols-2">
+            <div className={`${sectionClass} p-4`}>
+              <SectionHeader icon={ClipboardList} title="Sample Input" />
+              {questionData.sampleInput ? (
+                <div className="markdown-content sample-input max-h-[320px] overflow-auto rounded-lg border border-cyan-300/15 bg-[#05071f] p-1">
+                  <div className="relative">
+                    <CopyButton
+                      text={cleanCodeBlock(questionData.sampleInput)}
+                    />
+                    <ReactMarkdown
+                      remarkPlugins={[remarkGfm]}
+                      rehypePlugins={[rehypeHighlight]}
                     >
-                      kodeinkgp@gmail.com
-                    </a>
+                      {questionData.sampleInput}
+                    </ReactMarkdown>
                   </div>
-                ) : null}
-              </div>
+                </div>
+              ) : (
+                <pre className="text-white">No sample input available</pre>
+              )}
+            </div>
+
+            <div className={`${sectionClass} p-4`}>
+              <SectionHeader icon={ClipboardList} title="Sample Output" />
+              {questionData.sampleOutput ? (
+                <div className="markdown-content sample-output max-h-[320px] overflow-auto rounded-lg border border-cyan-300/15 bg-[#05071f] p-1">
+                  <div className="relative">
+                    <CopyButton
+                      text={cleanCodeBlock(questionData.sampleOutput)}
+                    />
+                    <ReactMarkdown
+                      remarkPlugins={[remarkGfm]}
+                      rehypePlugins={[rehypeHighlight]}
+                    >
+                      {questionData.sampleOutput}
+                    </ReactMarkdown>
+                  </div>
+                </div>
+              ) : (
+                <pre className="text-white">No sample output available</pre>
+              )}
             </div>
           </section>
-        ) : null}
 
-        <section className="rounded-lg border border-cyan-300/20 bg-cyan-300/[0.055] p-4 shadow-[0_14px_40px_rgba(0,0,0,0.2)] sm:p-5">
-          <SectionHeader icon={Info} title="Answer" meta="Final output only" />
-          {loggedIn ? (
-            <div className="flex flex-row items-center gap-3 max-sm:flex-col max-sm:items-stretch max-sm:gap-3">
-              <input
-                placeholder="Enter your answer here"
-                className="h-[42px] min-w-0 flex-1 rounded-lg bg-[#01011b] px-3 py-2 text-white placeholder:text-slate-500 focus:bg-[#030523] focus:outline-none max-sm:w-full"
-                style={{
-                  border: "1px solid transparent",
-                  backgroundImage:
-                    "linear-gradient(#01011B, #01011B), linear-gradient(89.17deg, rgba(33,138,203,0.8) 0%, rgba(17,227,251,0.8) 100%)",
-                  backgroundOrigin: "border-box",
-                  backgroundClip: "padding-box, border-box",
-                }}
-                value={answer}
-                onChange={(e) => setAnswer(e.target.value)}
-              />
-              <div className="shrink-0 max-sm:w-full">
-                <SubmitButton
-                  email={user?.email}
-                  answer={answer}
-                  id={QuestionID}
-                />
+          {questionData.explanation ? (
+            <section className={`${sectionClass} p-4 sm:p-5`}>
+              <SectionHeader icon={Lightbulb} title="Explanation" />
+              <div className="markdown-content explanation-section text-[16px] leading-7 text-slate-100 max-sm:text-[15px]">
+                <ReactMarkdown
+                  remarkPlugins={[remarkGfm]}
+                  rehypePlugins={[rehypeHighlight]}
+                >
+                  {questionData.explanation}
+                </ReactMarkdown>
               </div>
-            </div>
-          ) : (
-            <div className="flex flex-row items-center justify-between gap-3 rounded-lg border border-white/10 bg-[#01011b]/60 p-3 max-sm:flex-col max-sm:items-stretch">
-              <p className="text-sm text-slate-300">
-                Login to submit your answer and save your score.
-              </p>
-              <button
-                onClick={handleLogin}
-                className="flex h-[42px] shrink-0 cursor-pointer items-center justify-center gap-2 rounded-lg border border-cyan-300/30 bg-cyan-300 px-4 text-sm font-semibold text-[#01011b] transition hover:bg-cyan-200 focus:ring-2 focus:ring-cyan-300/30 focus:outline-none"
-              >
-                <LogIn className="h-4 w-4" />
-                Login
-              </button>
-            </div>
-          )}
-        </section>
-      </div>
+            </section>
+          ) : null}
+
+          {questionData.testcases ? (
+            <section className={`${sectionClass} p-4`}>
+              <div className="flex flex-row flex-wrap items-center justify-start gap-2">
+                <GetInput testcaseUrl={testcaseUrl} />
+
+                <div className="relative">
+                  <button
+                    className="flex h-[42px] cursor-pointer items-center justify-center gap-2 rounded-lg border border-cyan-300/20 bg-cyan-300/90 px-3 text-sm font-semibold text-[#01011b] transition-colors hover:bg-cyan-200 focus:ring-2 focus:ring-cyan-300/30 focus:outline-none max-sm:w-[42px] max-sm:px-0"
+                    aria-label="Instructions"
+                    onClick={() => window.open("/instructions.pdf", "_blank")}
+                    onMouseEnter={() => setShowTooltip(true)}
+                    onMouseLeave={() => setShowTooltip(false)}
+                  >
+                    <HelpCircle className="h-5 w-5" />
+                    <span className="max-sm:hidden">Instructions</span>
+                  </button>
+
+                  {showTooltip ? (
+                    <div className="absolute left-1/2 z-10 mt-2 -translate-x-1/2 rounded-md border border-white/10 bg-neutral-900 px-3 py-2 text-gray-100 shadow-lg">
+                      <p className="text-sm">Instructions</p>
+                    </div>
+                  ) : null}
+                </div>
+
+                <div className="group relative">
+                  <button
+                    onClick={() => setIsOpen(!isOpen)}
+                    className="flex h-[42px] cursor-pointer items-center justify-center gap-2 rounded-lg border border-cyan-300/20 bg-cyan-300/90 px-3 text-sm font-semibold text-[#01011b] transition-colors hover:bg-cyan-200 focus:ring-2 focus:ring-cyan-300/30 focus:outline-none max-sm:w-[42px] max-sm:px-0"
+                    aria-label="Contact support"
+                    title="Contact support"
+                  >
+                    <MessageCircle className="h-5 w-5" />
+                    <span className="max-sm:hidden">Contact us</span>
+                  </button>
+
+                  {isOpen ? (
+                    <div className="absolute left-0 z-10 mt-2 min-w-[220px] rounded-md border border-white/10 bg-neutral-900 py-1 shadow-lg">
+                      <div className="border-b border-white/10 px-4 py-2 text-sm text-white">
+                        Contact us
+                      </div>
+                      <a
+                        href="https://mail.google.com/mail/u/0/?fs=1&to=kodeinkgp@gmail.com&su=dekodeX+Queries&body=Hello,+I+have+a+question+regarding&tf=cm"
+                        target="_blank"
+                        className="block px-4 py-2 text-sm text-slate-200 hover:bg-white/10"
+                      >
+                        kodeinkgp@gmail.com
+                      </a>
+                    </div>
+                  ) : null}
+                </div>
+              </div>
+            </section>
+          ) : null}
+
+          <section className="rounded-xl border border-[#243158] bg-[#0b1430] p-4 shadow-[0_14px_40px_rgba(0,0,0,0.2)] sm:p-5">
+            <SectionHeader
+              icon={Info}
+              title="Answer"
+              meta="Final output only"
+            />
+            {loggedIn ? (
+              <div className="flex flex-row items-center gap-3 max-sm:flex-col max-sm:items-stretch max-sm:gap-3">
+                <input
+                  placeholder="Enter your answer here"
+                  className="h-[42px] min-w-0 flex-1 rounded-lg border border-[#243158] bg-[#0f1a3a] px-3.5 py-2 text-white transition placeholder:text-slate-500 focus:border-cyan-300 focus:outline-none max-sm:w-full"
+                  value={answer}
+                  onChange={(e) => setAnswer(e.target.value)}
+                />
+                <div className="shrink-0 max-sm:w-full">
+                  <SubmitButton
+                    email={user?.email}
+                    answer={answer}
+                    id={QuestionID}
+                  />
+                </div>
+              </div>
+            ) : (
+              <div className="flex flex-row items-center justify-between gap-3 rounded-lg border border-[#243158] bg-[#0f1a3a] p-3 max-sm:flex-col max-sm:items-stretch">
+                <p className="text-sm text-slate-300">
+                  Login to submit your answer and save your score.
+                </p>
+                <button
+                  onClick={handleLogin}
+                  className="flex h-[42px] shrink-0 cursor-pointer items-center justify-center gap-2 rounded-lg border border-cyan-300/30 bg-cyan-300 px-4 text-sm font-semibold text-[#01011b] transition hover:bg-cyan-200 focus:ring-2 focus:ring-cyan-300/30 focus:outline-none"
+                >
+                  <LogIn className="h-4 w-4" />
+                  Login
+                </button>
+              </div>
+            )}
+          </section>
+        </div>
       </div>
 
       {!loggedIn ? (
@@ -407,7 +391,7 @@ function Qp() {
           <span className="pl-2">Login</span>
         </button>
       ) : null}
-    </>
+    </main>
   );
 }
 

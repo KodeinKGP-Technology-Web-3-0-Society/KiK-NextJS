@@ -1,47 +1,31 @@
 import Founders from "./Founders";
-import Heads from "./Heads.jsx";
-import OldHeads from "./OldHeads.jsx";
-import Teams from "./teams.jsx";
+import Heads from "./Heads";
+import OldHeads from "./OldHeads";
 
-const Page = () => {
+function Block({ title, children }) {
   return (
-    <div className="font-montserrat min-h-screen bg-[#01011b] py-8 text-center text-white">
-      <div className="grid grid-cols-1 items-center justify-items-center gap-20">
-        <div className="grid w-full grid-cols-1 items-center justify-items-center">
-          <h3 className="text-[2.5rem] text-[#3dc4d4]">
-            <strong>Heads</strong>
-          </h3>
-          <div className="mt-6 flex w-full justify-center">
-            <Heads />
-          </div>
-        </div>
-        <div className="grid w-full grid-cols-1 items-center justify-items-center">
-          <h3 className="text-[2.5rem] text-[#3dc4d4]">
-            <strong>Founders</strong>
-          </h3>
-          <div className="mt-6 flex w-full justify-center">
-            <Founders />
-          </div>
-        </div>
-        <div className="grid w-full grid-cols-1 items-center justify-items-center">
-          <h3 className="text-[2.5rem] text-[#3dc4d4]">
-            <strong>Advisors</strong>
-          </h3>
-          <div className="mt-6 flex w-full justify-center">
-            <OldHeads />
-          </div>
-        </div>
-        {/* <div className="grid w-full grid-cols-1 items-center justify-items-center">
-          <h3 className="text-[2.5rem] text-[#3dc4d4]">
-            <strong>Our Teams</strong>
-          </h3>
-          <div className="mt-6 flex w-full justify-center">
-            <Teams />
-          </div>
-        </div> */}
+    <section className="mx-auto max-w-6xl px-5 py-12 md:px-8 md:py-16">
+      <div className="mb-10 flex items-center gap-5">
+        <h2 className="font-[kanit] text-3xl font-bold text-white md:text-4xl">{title}</h2>
+        <div className="h-px flex-1 bg-gradient-to-r from-[#2ea8ff]/60 to-transparent" />
       </div>
-    </div>
+      {children}
+    </section>
   );
-};
+}
 
-export default Page;
+export default function TeamsPage() {
+  return (
+    <main className="bg-[#0b1430] font-sans text-white antialiased">
+      <Block title="Heads">
+        <Heads />
+      </Block>
+      <Block title="Founders">
+        <Founders />
+      </Block>
+      <Block title="Advisors">
+        <OldHeads />
+      </Block>
+    </main>
+  );
+}

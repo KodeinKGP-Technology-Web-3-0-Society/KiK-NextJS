@@ -184,7 +184,7 @@ const ProblemArena = () => {
       onClick={() => setIsOpen(false)}
     >
       <div
-        className="no-scrollbar relative max-h-[90vh] w-full max-w-lg overflow-y-auto rounded-2xl border border-cyan-300/20 bg-[#071126] p-5 text-white shadow-2xl shadow-cyan-950/40 sm:p-6"
+        className="no-scrollbar relative max-h-[90vh] w-full max-w-lg overflow-y-auto rounded-2xl border border-[#243158] bg-[#0f1a3a] p-5 text-white shadow-2xl shadow-cyan-950/40 sm:p-6"
         onClick={(e) => e.stopPropagation()}
       >
         <button
@@ -206,28 +206,31 @@ const ProblemArena = () => {
         <div className="my-4 h-px bg-cyan-300/25"></div>
 
         <div className="space-y-2.5">
-          <div className="rounded-xl border border-white/10 bg-white/[0.04] p-3 sm:p-3.5">
-            <p className="text-sm font-semibold text-cyan-200">Problem Release</p>
+          <div className="rounded-xl border border-[#243158] bg-[#0b1430] p-3 sm:p-3.5">
+            <p className="text-sm font-semibold text-cyan-200">
+              Problem Release
+            </p>
             <p className="mt-1 text-xs leading-5 text-slate-300 sm:text-sm">
               One new problem unlocks daily at midnight IST.
             </p>
           </div>
 
-          <div className="rounded-xl border border-white/10 bg-white/[0.04] p-3 sm:p-3.5">
+          <div className="rounded-xl border border-[#243158] bg-[#0b1430] p-3 sm:p-3.5">
             <p className="text-sm font-semibold text-cyan-200">Submission</p>
             <p className="mt-1 text-xs leading-5 text-slate-300 sm:text-sm">
-              Submit from each problem page after checking samples and your input.
+              Submit from each problem page after checking samples and your
+              input.
             </p>
           </div>
 
-          <div className="rounded-xl border border-white/10 bg-white/[0.04] p-3 sm:p-3.5">
+          <div className="rounded-xl border border-[#243158] bg-[#0b1430] p-3 sm:p-3.5">
             <p className="text-sm font-semibold text-cyan-200">Leaderboard</p>
             <p className="mt-1 text-xs leading-5 text-slate-300 sm:text-sm">
               Rankings update live based on your total score.
             </p>
           </div>
 
-          <div className="rounded-xl border border-white/10 bg-white/[0.04] p-3 sm:p-3.5">
+          <div className="rounded-xl border border-[#243158] bg-[#0b1430] p-3 sm:p-3.5">
             <p className="text-sm font-semibold text-cyan-200">Scoring</p>
             <ul className="mt-1 space-y-1.5 text-xs leading-5 text-slate-300 sm:text-sm">
               <li>Full points for correct solutions.</li>
@@ -240,17 +243,16 @@ const ProblemArena = () => {
         <div className="mt-3 rounded-xl border border-red-400/20 bg-red-500/10 p-3 sm:p-3.5">
           <p className="text-sm font-semibold text-red-200">Solo Competition</p>
           <p className="mt-1 text-xs leading-5 text-red-100/80 sm:text-sm">
-            Collaboration, code sharing, and external assistance are not allowed.
+            Collaboration, code sharing, and external assistance are not
+            allowed.
           </p>
         </div>
-
-
       </div>
     </div>
   );
 
   return (
-    <div className="relative overflow-hidden rounded-3xl border border-cyan-300/20 bg-white/[0.055] bg-[radial-gradient(circle_at_top_left,rgba(17,227,251,0.14),transparent_28rem)] shadow-2xl shadow-black/25 backdrop-blur-xl">
+    <div className="relative overflow-hidden rounded-3xl border border-[#243158] bg-[#0f1a3a] shadow-2xl shadow-black/30">
       <div className="relative z-10 p-4 sm:p-6 lg:p-7">
         {/* Header */}
         <div className="mb-4 sm:mb-6">
@@ -299,7 +301,7 @@ const ProblemArena = () => {
 
           <div className="mb-5 h-px bg-cyan-300/20 sm:mb-6"></div>
 
-          <div className="rounded-2xl border border-white/10 bg-[#01011b]/35 p-4 font-sans text-white sm:p-5">
+          <div className="rounded-2xl border border-[#243158] bg-[#0b1430] p-4 font-sans text-white sm:p-5">
             <h1 className="text-xl font-semibold text-cyan-100">
               "ECHO BEFORE DAWN"
             </h1>
@@ -311,21 +313,37 @@ const ProblemArena = () => {
 
             <div className="space-y-3 text-sm leading-7 text-slate-200 sm:text-base">
               <p>
-                The year is 2187. Humanity has colonized Mars and proudly believes we are the first intelligent life in the universe. We are completely wrong.
-                Deep under the Sahara Desert, an excavation found something impossible: ancient ruins 52,000 years old. Strangely, these stone structures are fused with advanced computer chips and digital code
+                The year is 2187. Humanity has colonized Mars and proudly
+                believes we are the first intelligent life in the universe. We
+                are completely wrong. Deep under the Sahara Desert, an
+                excavation found something impossible: ancient ruins 52,000
+                years old. Strangely, these stone structures are fused with
+                advanced computer chips and digital code
               </p>
 
               <p>
-                A faceless, powerful corporation named <strong className="text-red-400">"VANTA"</strong>  has known about this for over a century. They have buried the truth and are now initiating a strict erasure protocol to destroy the evidence.
-
+                A faceless, powerful corporation named{" "}
+                <strong className="text-red-400">"VANTA"</strong> has known
+                about this for over a century. They have buried the truth and
+                are now initiating a strict erasure protocol to destroy the
+                evidence.
               </p>
 
               <p>
-                But the ruins are turning back on. A secret warning message just escaped the dig site, sent directly to you: <strong className="text-cyan-300">KAI</strong>{" "}. As a lone hacker and the daughter of the lead archaeologist, you are the only one equipped to uncover the truth. The ancient builders left this message to wake up when humanity was finally ready to understand it.
+                But the ruins are turning back on. A secret warning message just
+                escaped the dig site, sent directly to you:{" "}
+                <strong className="text-cyan-300">KAI</strong> . As a lone
+                hacker and the daughter of the lead archaeologist, you are the
+                only one equipped to uncover the truth. The ancient builders
+                left this message to wake up when humanity was finally ready to
+                understand it.
               </p>
 
               <p className="font-medium text-cyan-200">
-                That time is now. VANTA is tightening the net, throwing up firewalls and security vaults to stop you. You have exactly 10 days to crack their obstacles and decode the ancient signal before their countdown deletes it forever.
+                That time is now. VANTA is tightening the net, throwing up
+                firewalls and security vaults to stop you. You have exactly 10
+                days to crack their obstacles and decode the ancient signal
+                before their countdown deletes it forever.
               </p>
             </div>
           </div>
@@ -348,12 +366,13 @@ const ProblemArena = () => {
               unlockedProblems.map((problem) => (
                 <div
                   key={problem.questionId}
-                  className={`group flex cursor-pointer items-center justify-between rounded-2xl border p-3 transition duration-200 hover:-translate-y-0.5 hover:border-cyan-300/30 hover:bg-white/[0.08] sm:p-4 ${user?.submissions?.[
+                  className={`group flex cursor-pointer items-center justify-between rounded-2xl border p-3 transition duration-200 hover:-translate-y-0.5 hover:border-cyan-300/40 hover:bg-[#111f48] sm:p-4 ${
+                    user?.submissions?.[
                       getSubmissionIndex(problem.questionId)
                     ] > 0
-                      ? "border-green-400/30 bg-green-400/10"
-                      : "border-white/10 bg-white/[0.045]"
-                    }`}
+                      ? "border-green-400/30 bg-green-950/30"
+                      : "border-[#243158] bg-[#0b1430]"
+                  }`}
                 >
                   <div
                     className="flex min-w-0 flex-1 items-center space-x-2 sm:space-x-4"
@@ -407,7 +426,7 @@ const ProblemArena = () => {
                 return (
                   <div
                     key={problem.id}
-                    className="group flex cursor-not-allowed items-center justify-between rounded-2xl border border-white/10 bg-white/[0.035] p-3 opacity-80 transition-colors duration-200 sm:p-4"
+                    className="group flex cursor-not-allowed items-center justify-between rounded-2xl border border-[#243158]/70 bg-[#0b1430]/60 p-3 opacity-80 transition-colors duration-200 sm:p-4"
                   >
                     <div className="flex min-w-0 flex-1 items-center space-x-2 sm:space-x-4">
                       <Lock className="h-4 w-4 flex-shrink-0 text-cyan-400 sm:h-5 sm:w-5" />

@@ -1,8 +1,12 @@
+"use client";
+
 import React, { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
+import Link from "next/link";
 import SyntaxHighlighter from "react-syntax-highlighter";
 import { dracula } from "react-syntax-highlighter/dist/esm/styles/hljs";
 import dataJ from "../../../data/qna/lab-questions.json";
+import { ArrowLeft, Copy, Check, ExternalLink, Code2, Eye, EyeOff } from "lucide-react";
 
 export default function LabQuestion() {
   const [flag, setFlag] = useState(false);
@@ -19,7 +23,6 @@ export default function LabQuestion() {
     let arr = [];
 
     if (topic === "labTest") {
-      // flatten _all_ lab questions across every chapter & subtopic
       Object.values(dataJ).forEach((chapterArray) => {
         chapterArray.forEach((chapter) => {
           if (chapter.type === "lab" && chapter.Subtopics) {
@@ -30,7 +33,6 @@ export default function LabQuestion() {
         });
       });
     } else {
-      // look up exactly the one chapter you asked for
       const chapterArray = dataJ[topic];
       if (Array.isArray(chapterArray)) {
         const chapter = chapterArray[0];
@@ -48,57 +50,135 @@ export default function LabQuestion() {
   }, [topic, subTopic, ind]);
 
   const handleCopy = () => {
+    if (!solution) return;
     navigator.clipboard.writeText(solution);
     setCopy(true);
     setTimeout(() => setCopy(false), 2000);
   };
 
+  const formattedTopic = (topic || "")
+    .replace(/([a-z])([A-Z0-9])|([A-Z])([0-9])/g, "$1$3 $2$4")
+    .replace(/\bAnd\b/g, "and");
+
+  const formattedSubTopic = (subTopic || "")
+    .replace(/([a-z])([A-Z0-9])|([A-Z])([0-9])/g, "$1$3 $2$4")
+    .replace(/\bAnd\b/g, "and");
+
   return (
-    <div className="bg-[#01011b] p-5">
-      <div className="mx-4 my-5 rounded-xl bg-[#222] p-5 text-base font-black text-white shadow-md">
-        <pre className="overflow-x-auto whitespace-pre-wrap">{question}</pre>
-      </div>
-
-      <button
-        onClick={() => setFlag(!flag)}
-        className="mx-2.5 my-2.5 cursor-pointer rounded-md bg-[#00a1d9] px-5 py-2.5 text-white hover:bg-[#007dab]"
-      >
-        {flag ? "Hide Solution" : "Show Solution"}
-      </button>
-
-      {flag && (
-        <div className="relative mx-5 my-5 flex flex-col">
-          <div className="bg-[#282a36] px-0 py-0">
-            <button
-              className="cursor-pointer rounded-br-xl bg-[#3f3d3d] px-4 py-1 text-base text-white"
-              onClick={handleCopy}
-            >
-              {copy ? "✅" : "📄"}
-            </button>
-          </div>
-          <SyntaxHighlighter
-            language="cpp"
-            style={dracula}
-            customStyle={{
-              padding: "1.5rem",
-              margin: "0rem",
-              backgroundColor: "#282a36",
-            }}
-            wrapLongLines={true}
+    <div className="min-h-screen bg-[#0b1430] font-sans text-[#ece9e1] antialiased">
+      <div className="mx-auto max-w-4xl px-5 pt-10 pb-20 md:px-8">
+        {/* Back navigation */}
+        <div className="mb-6">
+          <Link
+            href="/pds/lab"
+            className="group inline-flex items-center gap-2 font-mono text-xs text-[#9aa3b8] transition-colors hover:text-[var(--accent)]"
           >
-            {solution}
-          </SyntaxHighlighter>
+            <ArrowLeft size={14} className="transition-transform group-hover:-translate-x-1" />
+            <span>Back to Lab Problems</span>
+          </Link>
         </div>
-      )}
 
-      <a
-        href="https://www.programiz.com/c-programming/online-compiler/"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="mx-2.5 my-2.5 inline-block rounded-md bg-[#00a1d9] px-5 py-2.5 text-white no-underline hover:bg-[#007dab]"
-      >
-        Open Online Editor
-      </a>
+        {/* Question Header & Meta */}
+        <div className="mb-6 flex flex-wrap items-center justify-between gap-4 border-b border-[#243158] pb-6">
+          <div>
+            <div className="flex flex-wrap items-center gap-2 font-mono text-xs text-[#9aa3b8]">
+              <span className="text-[var(--accent)]">{formattedTopic}</span>
+              <span>/</span>
+              <span>{formattedSubTopic}</span>
+              <span>/</span>
+              <span>Problem #{ind + 1}</span>
+            </div>
+            <h1 className="mt-2 text-2xl font-bold tracking-tight text-[#ece9e1] md:text-3xl">
+              Lab Problem Statement
+            </h1>
+          </div>
+        </div>
+
+        {/* Problem Statement Card */}
+        <div className="rounded-xl border border-[#243158] bg-[#0f1a3a] p-6 shadow-xl md:p-8">
+          <p className="font-mono text-xs font-semibold uppercase tracking-wider text-[var(--accent)]">
+            Description & Specifications
+          </p>
+          <div className="mt-4 overflow-x-auto text-[15px] leading-7 text-[#ece9e1]">
+            <pre className="whitespace-pre-wrap font-sans font-normal">{question || "Loading question..."}</pre>
+          </div>
+        </div>
+
+        {/* Action Controls */}
+        <div className="mt-6 flex flex-wrap items-center gap-4">
+          <button
+            onClick={() => setFlag(!flag)}
+            className="inline-flex items-center gap-2 rounded-md bg-[var(--accent)] px-5 py-2.5 text-sm font-semibold text-[#0b1430] transition-transform hover:-translate-y-0.5"
+          >
+            {flag ? (
+              <>
+                <EyeOff size={16} />
+                <span>Hide Solution</span>
+              </>
+            ) : (
+              <>
+                <Eye size={16} />
+                <span>Reveal Solution</span>
+              </>
+            )}
+          </button>
+
+          <a
+            href="https://www.programiz.com/c-programming/online-compiler/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 rounded-md border border-[#3a4a7a] px-5 py-2.5 text-sm font-semibold text-[#ece9e1] transition-colors hover:border-[var(--accent)] hover:text-[var(--accent)]"
+          >
+            <span>Online C Compiler</span>
+            <ExternalLink size={14} />
+          </a>
+        </div>
+
+        {/* Solution Container */}
+        {flag && (
+          <div className="mt-8 overflow-hidden rounded-xl border border-[#243158] bg-[#0f1a3a] shadow-2xl">
+            <div className="flex items-center justify-between border-b border-[#243158] bg-[#142145] px-5 py-3">
+              <div className="flex items-center gap-2 font-mono text-xs text-[#ece9e1]">
+                <Code2 size={15} className="text-[var(--accent)]" />
+                <span>C / C++ Verified Implementation</span>
+              </div>
+              <button
+                onClick={handleCopy}
+                className="inline-flex items-center gap-1.5 rounded border border-[#243158] bg-[#0b1430] px-3 py-1.5 font-mono text-xs text-[#ece9e1] transition-colors hover:border-[var(--accent)] hover:text-[var(--accent)]"
+                title="Copy solution"
+              >
+                {copy ? (
+                  <>
+                    <Check size={13} className="text-emerald-400" />
+                    <span>Copied!</span>
+                  </>
+                ) : (
+                  <>
+                    <Copy size={13} />
+                    <span>Copy</span>
+                  </>
+                )}
+              </button>
+            </div>
+            <div className="p-1">
+              <SyntaxHighlighter
+                language="cpp"
+                style={dracula}
+                customStyle={{
+                  padding: "1.25rem",
+                  margin: "0rem",
+                  backgroundColor: "transparent",
+                  fontSize: "0.875rem",
+                  lineHeight: "1.6",
+                }}
+                wrapLongLines={true}
+              >
+                {solution}
+              </SyntaxHighlighter>
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 }

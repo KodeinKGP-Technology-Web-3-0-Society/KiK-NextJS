@@ -54,7 +54,10 @@ export default function Layout() {
 
   useEffect(() => {
     const hideIntro = localStorage.getItem(INTRO_LOADER_HIDE_KEY) === "true";
-    if (hideIntro || window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    if (
+      hideIntro ||
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    ) {
       setShowIntro(false);
       return;
     }
@@ -86,7 +89,7 @@ export default function Layout() {
   }, [authToken, loggedIn, user?.email]);
 
   if (showIntro === null) {
-    return <div className="min-h-screen bg-[#01011b]" />;
+    return <div className="min-h-screen bg-[#0b1430]" />;
   }
 
   const handleAuthAction = async () => {
@@ -105,9 +108,11 @@ export default function Layout() {
 
   return (
     <>
-      {showIntro === true ? <DekodeXIntroLoader onComplete={() => setShowIntro(false)} /> : null}
+      {showIntro === true ? (
+        <DekodeXIntroLoader onComplete={() => setShowIntro(false)} />
+      ) : null}
 
-      <div className="min-h-screen bg-[#01011b] px-4 py-5 text-white sm:px-6 lg:px-8">
+      <main className="min-h-screen bg-[#0b1430] px-4 py-5 text-[#ece9e1] antialiased sm:px-6 lg:px-8">
         <div className="mx-auto flex w-full max-w-[1500px] flex-col gap-5 xl:grid xl:grid-cols-[minmax(0,1fr)_440px] xl:items-stretch">
           <div className="min-w-0">
             <ProblemArena />
@@ -131,10 +136,14 @@ export default function Layout() {
             ) : null}
 
             {hasCert === true ? (
-              <p className="text-green-700">You have already applied for a certificate.</p>
+              <p className="text-green-700">
+                You have already applied for a certificate.
+              </p>
             ) : null}
 
-            {hasCert === null ? <p>Checking your certificate status...</p> : null}
+            {hasCert === null ? (
+              <p>Checking your certificate status...</p>
+            ) : null}
 
             {showModal ? (
               <Modal onClose={() => setShowModal(false)}>
@@ -160,7 +169,9 @@ export default function Layout() {
                       );
 
                       if (!res.ok) {
-                        throw new Error(`Failed to apply for certificate: ${res.status}`);
+                        throw new Error(
+                          `Failed to apply for certificate: ${res.status}`
+                        );
                       }
 
                       setShowModal(false);
@@ -169,7 +180,8 @@ export default function Layout() {
                     } catch (err) {
                       console.error("Error submitting certificate:", err);
                       toast.error(
-                        err.message || "Something went wrong. Please try again later."
+                        err.message ||
+                          "Something went wrong. Please try again later."
                       );
                       setIsSubmitting(false);
                     }
@@ -214,7 +226,7 @@ export default function Layout() {
           {loggedIn ? <LogOut /> : <LogIn />}
           <div className="pl-2">Login</div>
         </button>
-      </div>
+      </main>
     </>
   );
 }

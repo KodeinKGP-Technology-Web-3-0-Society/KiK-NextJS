@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import dataJ from "../../../data/qna/lab-questions.json";
 import Questions from "./Questions";
+import { ChevronDown } from "lucide-react";
 
 export default function SubTopics({ topic, viewMode }) {
   const [openSubTopics, setOpenSubTopics] = useState([]);
@@ -13,36 +14,57 @@ export default function SubTopics({ topic, viewMode }) {
     );
   };
 
-  return (
-    <div className="w-full">
-      {Object.keys(dataJ[topic][0]["Subtopics"]).map((subTopic, index) => (
-        <div
-          key={index}
-          className="mb-4 w-full overflow-hidden rounded-lg bg-[#01011b]"
-        >
-          <div
-            className="flex cursor-pointer items-center justify-between border-b border-cyan-300 bg-[#43434390] px-5 py-4 text-xl font-semibold text-white sm:text-2xl"
-            onClick={() => toggleSubTopic(subTopic)}
-          >
-            {subTopic
-              .replace(/([a-z])([A-Z0-9])|([A-Z])([0-9])/g, "$1$3 $2$4")
-              .replace(/\bAnd\b/g, "and")}
-            <span className="text-2xl">
-              {openSubTopics.includes(subTopic) ? "-" : "+"}
-            </span>
-          </div>
+  const subtopicsObj = dataJ[topic]?.[0]?.["Subtopics"] || {};
 
-          {openSubTopics.includes(subTopic) && (
-            <div className="bg-[#1c1a22] px-4 py-3">
-              <Questions
-                topic={topic}
-                subTopic={subTopic}
-                viewMode={viewMode}
-              />
+  return (
+    <div className="w-full space-y-3">
+      {Object.keys(subtopicsObj).map((subTopic, index) => {
+        const isOpen = openSubTopics.includes(subTopic);
+        const count = subtopicsObj[subTopic]?.length || 0;
+        const formattedTitle = subTopic
+          .replace(/([a-z])([A-Z0-9])|([A-Z])([0-9])/g, "$1$3 $2$4")
+          .replace(/\bAnd\b/g, "and");
+
+        return (
+          <div
+            key={index}
+            className="overflow-hidden rounded-lg border border-[#243158] bg-[#0f1a3a] transition-colors"
+          >
+            <div
+              className="flex cursor-pointer items-center justify-between px-5 py-3.5 text-sm font-medium text-[#ece9e1] transition-colors hover:bg-[#142145] sm:text-base"
+              onClick={() => toggleSubTopic(subTopic)}
+            >
+              <div className="flex items-center gap-2.5">
+                <span className="font-mono text-xs text-[#9aa3b8]">&bull;</span>
+                <span>{formattedTitle}</span>
+              </div>
+
+              <div className="flex items-center gap-3">
+                <span className="font-mono text-xs text-[#9aa3b8]">
+                  {count} {count === 1 ? "problem" : "problems"}
+                </span>
+                <span
+                  className={`text-[#9aa3b8] transition-transform duration-200 ${
+                    isOpen ? "rotate-180 text-[var(--accent)]" : ""
+                  }`}
+                >
+                  <ChevronDown size={14} />
+                </span>
+              </div>
             </div>
-          )}
-        </div>
-      ))}
+
+            {isOpen && (
+              <div className="border-t border-[#243158] bg-[#0b1430] p-2 md:p-3">
+                <Questions
+                  topic={topic}
+                  subTopic={subTopic}
+                  viewMode={viewMode}
+                />
+              </div>
+            )}
+          </div>
+        );
+      })}
     </div>
   );
 }

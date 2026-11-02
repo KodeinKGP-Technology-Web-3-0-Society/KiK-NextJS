@@ -1,221 +1,91 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 import Logo from "../../../public/KIK_logo-removebg.png";
-import { useAuth } from "@/contexts/authContext";
-import SignOutButton from "../utils/signOut";
 
-function Navbar() {
-  const [isOpen, setIsOpen] = useState(false);
+const LINKS = [
+  { href: "/", label: "Home" },
+  { href: "/dekodeX", label: "dekodeX" },
+  { href: "/pds", label: "PDS Bank" },
+  { href: "/articles", label: "Articles" },
+  { href: "/teams", label: "Teams" },
+  { href: "/events", label: "Events" },
+];
 
-  const toggleMenu = () => {
-    setIsOpen(!isOpen);
-  };
-
-  const { loggedIn, user } = useAuth();
-
-  return (
-    <div
-      className={`sticky top-0 z-20 flex min-h-[5rem] max-w-[99%] flex-wrap items-center justify-between bg-[rgba(1,1,27,0.6)] px-2 backdrop-blur-md ${isOpen ? "h-screen w-full flex-col bg-black" : ""}`}
-    >
-      <div
-        className={`ml-[1.5vw] flex min-w-[20vw] flex-row items-center ${isOpen ? "hidden" : "block"} md:flex`}
-      >
-        <div className="flex items-center gap-[5px] text-[1.2rem]">
-          <Image
-            src={Logo}
-            alt="KodeinKGP Logo"
-            className="h-[60px] w-[60px] p-[5px]"
-          />
-          <h4 className="font-semibold text-white">KodeinKGP</h4>
-        </div>
-      </div>
-
-      <button
-        id="hambutton"
-        className={`flex h-[25px] w-[50px] cursor-pointer flex-col justify-between border-none bg-none md:hidden ${isOpen ? "fixed top-[15px] left-[82vw]" : ""}`}
-        onClick={toggleMenu}
-      >
-        <div
-          className={`ease h-[3px] w-[30px] bg-[#eeeeee] transition-all duration-300 ${isOpen ? "origin-center translate-x-[10px] translate-y-[18.2px] rotate-45" : ""}`}
-        ></div>
-        <div
-          className={`ease h-[3px] w-[30px] bg-[#eeeeee] transition-all duration-300 ${isOpen ? "opacity-0" : ""}`}
-        ></div>
-        <div
-          className={`ease h-[3px] w-[30px] bg-[#eeeeee] transition-all duration-300 ${isOpen ? "origin-center translate-x-[10px] translate-y-[-2.2px] -rotate-45" : ""}`}
-        ></div>
-      </button>
-
-      <div
-        className={`ml-auto min-w-[26vw] ${isOpen ? "flex h-full w-full items-center justify-center" : "hidden"} md:block`}
-      >
-        <div
-          className={`flex font-[Arial] ${isOpen ? "flex-col" : "flex-row"} items-center ${isOpen ? "gap-4" : "gap-[4rem]"}`}
-        >
-          <div
-            className={`flex ${isOpen ? "flex-col items-start gap-4" : "-mr-[20px] flex-row"}`}
-          >
-            <li
-              className="cursor-pointer list-none"
-              onClick={() => {
-                if (isOpen) toggleMenu();
-              }}
-            >
-              <span className="group relative mx-[25px] flex flex-col items-center text-[1.2rem]">
-                <Link
-                  className="bg-gradient-to-br pb-[15px] font-bold tracking-wide text-white no-underline transition-colors duration-300"
-                  href="/"
-                >
-                  Home
-                </Link>
-                <span className="absolute bottom-3 left-0 h-[2px] w-full origin-left scale-x-0 bg-[#11e3fb] transition-transform duration-300 group-hover:scale-x-100"></span>
-              </span>
-            </li>
-            {/* <li
-              className="cursor-pointer list-none"
-              onClick={() => {
-                if (isOpen) toggleMenu();
-              }}
-            >
-              <span className="group relative mx-[25px] flex flex-col items-center text-[1.2rem]">
-                <Link
-                  className="relative bg-gradient-to-br from-cyan-100 via-cyan-200 to-blue-100 bg-clip-text pb-[15px] tracking-wide text-transparent no-underline transition-all duration-500 hover:from-cyan-50 hover:via-cyan-100 hover:to-blue-50"
-                  href="/tech-triad"
-                  style={{
-                    textShadow: "0 0 10px rgba(34, 211, 238, 0.4)",
-                    filter: "drop-shadow(0 0 5px rgba(34, 211, 238, 0.5))",
-                  }}
-                >
-                  TechTriad
-                </Link>
-                <span className="absolute bottom-3 left-0 h-[2px] w-full origin-left scale-x-0 bg-[#11e3fb] transition-transform duration-300 group-hover:scale-x-100"></span>
-              </span>
-            </li> */}
-
-            <li
-              className="cursor-pointer list-none"
-              onClick={() => {
-                if (isOpen) toggleMenu();
-              }}
-            >
-              <span className="group relative mx-[25px] flex flex-col items-center text-[1.2rem]">
-                {/* Main link with enhanced tech styling */}
-                <Link
-                  // className="relative bg-gradient-to-br from-cyan-100 via-cyan-200 to-blue-100 bg-clip-text pb-[15px] tracking-wide text-transparent no-underline transition-all duration-500 hover:from-cyan-50 hover:via-cyan-100 hover:to-blue-50"
-                  className="bg-gradient-to-br pb-[15px] font-bold tracking-wide text-white no-underline transition-colors duration-300"
-                  href="/dekodeX"
-                  // style={{
-                  //   textShadow: "0 0 10px rgba(34, 211, 238, 0.4)",
-                  //   filter: "drop-shadow(0 0 5px rgba(34, 211, 238, 0.5))",
-                  // }}
-                >
-                  dekodeX
-                </Link>
-                {/* Data flow indicators */}
-                {/* <span className="absolute top-0 left-1/4 h-1 w-1 animate-ping rounded-full bg-cyan-400 opacity-100 transition-opacity duration-300"></span>
-                <span className="absolute top-1 right-1/4 h-0.5 w-0.5 animate-ping rounded-full bg-blue-400 opacity-100 transition-opacity duration-500"></span>
-                <span className="absolute bottom-3 left-0 h-[2px] w-full origin-left scale-x-0 bg-[#11e3fb] transition-transform duration-300 group-hover:scale-x-100"></span> */}
-              </span>
-            </li>
-
-            <li
-              className="cursor-pointer list-none"
-              onClick={() => {
-                if (isOpen) toggleMenu();
-              }}
-            >
-              <span className="group relative mx-[25px] flex flex-col items-center text-[1.2rem]">
-                <Link
-                  className="bg-gradient-to-br pb-[15px] font-bold tracking-wide text-white no-underline transition-colors duration-300"
-                  href="/pds"
-                >
-                  PDS_Bank
-                </Link>
-                <span className="absolute bottom-3 left-0 h-[2px] w-full origin-left scale-x-0 bg-[#11e3fb] transition-transform duration-300 group-hover:scale-x-100"></span>
-              </span>
-            </li>
-
-            <li
-              className="cursor-pointer list-none"
-              onClick={() => {
-                if (isOpen) toggleMenu();
-              }}
-            >
-              <span className="group relative mx-[25px] flex flex-col items-center text-[1.2rem]">
-                <Link
-                  className="bg-gradient-to-br pb-[15px] font-bold tracking-wide text-white no-underline transition-colors duration-300"
-                  href="/articles"
-                >
-                  Articles
-                </Link>
-                <span className="absolute bottom-3 left-0 h-[2px] w-full origin-left scale-x-0 bg-[#11e3fb] transition-transform duration-300 group-hover:scale-x-100"></span>
-              </span>
-            </li>
-
-            <li
-              className="cursor-pointer list-none"
-              onClick={() => {
-                if (isOpen) toggleMenu();
-              }}
-            >
-              <span className="group relative mx-[25px] flex flex-col items-center text-[1.2rem]">
-                <Link
-                  className="bg-gradient-to-br pb-[15px] font-bold tracking-wide text-white no-underline transition-colors duration-300"
-                  href="/teams"
-                >
-                  Teams
-                </Link>
-                <span className="absolute bottom-3 left-0 h-[2px] w-full origin-left scale-x-0 bg-[#11e3fb] transition-transform duration-300 group-hover:scale-x-100"></span>
-              </span>
-            </li>
-
-            <li
-              className="cursor-pointer list-none"
-              onClick={() => {
-                if (isOpen) toggleMenu();
-              }}
-            >
-              <span className="group relative mx-[25px] flex flex-col items-center text-[1.2rem]">
-                <Link
-                  className="bg-gradient-to-br pb-[15px] font-bold tracking-wide text-white no-underline transition-colors duration-300"
-                  href="/events"
-                >
-                  Events
-                </Link>
-                <span className="absolute bottom-3 left-0 h-[2px] w-full origin-left scale-x-0 bg-[#11e3fb] transition-transform duration-300 group-hover:scale-x-100"></span>
-              </span>
-            </li>
-            {/*
-            <li
-              className="cursor-pointer list-none"
-              onClick={() => {
-                if (isOpen) toggleMenu();
-              }}
-            >
-              <span className="group relative mx-[25px] flex flex-col items-center text-[1.2rem]">
-                <Link
-                  className="relative bg-gradient-to-br from-cyan-100 via-cyan-200 to-blue-100 bg-clip-text pb-[15px] tracking-wide text-transparent no-underline transition-all duration-500 hover:from-cyan-50 hover:via-cyan-100 hover:to-blue-50"
-                  href="/regform"
-                  style={{
-                    textShadow: "0 0 10px rgba(34, 211, 238, 0.4)",
-                    filter: "drop-shadow(0 0 5px rgba(34, 211, 238, 0.5))",
-                  }}
-                >
-                  Sophomore's Selection
-                </Link>
-                <span className="absolute top-0 left-1/4 h-1 w-1 animate-ping rounded-full bg-cyan-400 opacity-100 transition-opacity duration-300"></span>
-                <span className="absolute top-1 right-1/4 h-0.5 w-0.5 animate-ping rounded-full bg-blue-400 opacity-100 transition-opacity duration-500"></span>
-                <span className="absolute bottom-3 left-0 h-[2px] w-full origin-left scale-x-0 bg-[#11e3fb] transition-transform duration-300 group-hover:scale-x-100"></span>
-              </span>
-            </li>
-            */}
-          </div>
-        </div>
-      </div>
-    </div>
-  );
+function isActive(pathname, href) {
+  return href === "/" ? pathname === "/" : pathname?.startsWith(href);
 }
 
-export default Navbar;
+export default function Navbar() {
+  const pathname = usePathname();
+  const [open, setOpen] = useState(false);
+
+  useEffect(() => setOpen(false), [pathname]);
+
+  return (
+    <header className="sticky top-0 z-40 border-b border-[#243158] bg-[#0b1430]">
+      <nav className="mx-auto flex h-16 max-w-6xl items-center justify-between px-5 md:px-8">
+        <Link href="/" className="flex items-center gap-2.5">
+          <Image src={Logo} alt="" className="h-9 w-9" priority />
+          <span className="text-[17px] font-semibold tracking-tight text-[#ece9e1]">KodeinKGP</span>
+        </Link>
+
+        <ul className="hidden items-center gap-1 md:flex">
+          {LINKS.map((l) => {
+            const active = isActive(pathname, l.href);
+            return (
+              <li key={l.href}>
+                <Link
+                  href={l.href}
+                  aria-current={active ? "page" : undefined}
+                  className={`relative block px-3 py-2 text-[15px] font-medium transition-colors ${
+                    active ? "text-[#ece9e1]" : "text-[#9aa3b8] hover:text-[#ece9e1]"
+                  }`}
+                >
+                  {l.label}
+                  {active && <span className="absolute inset-x-3 -bottom-[13px] h-[2px] bg-[var(--accent)]" />}
+                </Link>
+              </li>
+            );
+          })}
+        </ul>
+
+        <button
+          type="button"
+          onClick={() => setOpen((o) => !o)}
+          aria-expanded={open}
+          aria-label={open ? "Close menu" : "Open menu"}
+          className="flex h-10 w-10 flex-col items-center justify-center gap-[5px] md:hidden"
+        >
+          <span className={`h-[2px] w-6 bg-[#ece9e1] transition-transform ${open ? "translate-y-[7px] rotate-45" : ""}`} />
+          <span className={`h-[2px] w-6 bg-[#ece9e1] transition-opacity ${open ? "opacity-0" : ""}`} />
+          <span className={`h-[2px] w-6 bg-[#ece9e1] transition-transform ${open ? "-translate-y-[7px] -rotate-45" : ""}`} />
+        </button>
+      </nav>
+
+      {open && (
+        <ul className="border-t border-[#243158] bg-[#0b1430] px-5 pb-4 md:hidden">
+          {LINKS.map((l) => {
+            const active = isActive(pathname, l.href);
+            return (
+              <li key={l.href} className="border-b border-[#243158] last:border-0">
+                <Link
+                  href={l.href}
+                  onClick={() => setOpen(false)}
+                  className={`flex items-center justify-between py-3.5 text-base ${
+                    active ? "text-[var(--accent)]" : "text-[#ece9e1]"
+                  }`}
+                >
+                  {l.label}
+                  <span aria-hidden="true" className="text-[#9aa3b8]">&rarr;</span>
+                </Link>
+              </li>
+            );
+          })}
+        </ul>
+      )}
+    </header>
+  );
+}

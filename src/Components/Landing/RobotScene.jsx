@@ -262,7 +262,16 @@ export default function RobotScene() {
       };
       schedule();
 
+      // the cat has come to say hi: react
+      const greet = () => {
+        if (current !== clips.Idle) return;
+        const friendly = ["Wave", "ThumbsUp", "Jump"];
+        play(friendly[Math.floor(Math.random() * friendly.length)], false);
+      };
+      window.addEventListener("robot-cat-nearby", greet);
+
       cleanup = () => {
+        window.removeEventListener("robot-cat-nearby", greet);
         cancelAnimationFrame(raf);
         clearTimeout(auto);
         ro.disconnect();
@@ -293,6 +302,7 @@ export default function RobotScene() {
   return (
     <div className="hidden flex-col items-center md:flex">
       <div
+        id="robot-scene"
         title="Click me"
         ref={mount}
         className="relative h-[340px] w-full max-w-[460px] cursor-pointer md:h-[440px]"

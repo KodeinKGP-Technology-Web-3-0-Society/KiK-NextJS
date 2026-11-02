@@ -4,7 +4,7 @@ import React from "react";
 import Link from "next/link";
 const TechTriadPage = () => {
   return (
-    <div className="relative min-h-screen overflow-hidden bg-[#0b1430]">
+    <div className="relative min-h-screen overflow-hidden bg-[#08090d]">
       {/* Background Effects */}
       <div className="absolute inset-0 opacity-30">
         <div className="absolute top-20 left-10 h-72 w-72 animate-pulse rounded-full bg-[#33bbcf]/20 blur-3xl"></div>

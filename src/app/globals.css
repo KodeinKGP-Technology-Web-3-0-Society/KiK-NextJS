@@ -1,10 +1,10 @@
 @import "tailwindcss";
 
 :root {
-  --accent: #2ea8ff;
-  --accent-hover: #63bfff;
-  --background: #0b1430;
-  --foreground: #ece9e1;
+  --accent: #38bdf8;
+  --accent-hover: #7dd3fc;
+  --background: #08090d;
+  --foreground: #f8fafc;
 }
 
 @theme inline {
@@ -78,8 +78,8 @@
 }
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0b1430;
-    --foreground: #ece9e1;
+    --background: #08090d;
+    --foreground: #f8fafc;
   }
 }
 
@@ -358,15 +358,15 @@ body {
 /* PDS Bank visual */
 @keyframes pds-cell {
   0%, 18%, 100% {
-    background: #0b1430;
-    border-color: #243158;
-    color: #ece9e1;
+    background: #08090d;
+    border-color: #1e2333;
+    color: #f8fafc;
     transform: translateY(0);
   }
   6%, 12% {
     background: var(--accent);
     border-color: var(--accent);
-    color: #0b1430;
+    color: #08090d;
     transform: translateY(-6px);
   }
 }

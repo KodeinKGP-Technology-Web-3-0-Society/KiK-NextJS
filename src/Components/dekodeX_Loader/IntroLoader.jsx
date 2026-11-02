@@ -99,7 +99,7 @@ export default function DekodeXIntroLoader({ onComplete }) {
 
   return (
     <div
-      className={`fixed inset-0 z-[120] flex items-center justify-center overflow-hidden bg-[#0b1430] transition-all duration-500 ease-in-out ${
+      className={`fixed inset-0 z-[120] flex items-center justify-center overflow-hidden bg-[#08090d] transition-all duration-500 ease-in-out ${
         closing
           ? "pointer-events-none scale-105 opacity-0"
           : "scale-100 opacity-100"
@@ -108,13 +108,13 @@ export default function DekodeXIntroLoader({ onComplete }) {
       <button
         type="button"
         onClick={handleDontShowAgain}
-        className="absolute top-4 right-4 z-20 rounded-md border border-[#243158] bg-[#0f1a3a] px-3 py-1.5 text-[11px] font-semibold tracking-wide text-[#ece9e1]/80 transition hover:border-cyan-300/40 hover:text-white"
+        className="absolute top-4 right-4 z-20 rounded-md border border-[#1e2333] bg-[#11141d] px-3 py-1.5 text-[11px] font-semibold tracking-wide text-[#f8fafc]/80 transition hover:border-cyan-300/40 hover:text-white"
       >
         Don&apos;t show again
       </button>
 
       {/* Subtle animated background gradient */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[#0f1a3a] via-[#0b1430] to-[#0b1430] opacity-90" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[#11141d] via-[#08090d] to-[#08090d] opacity-90" />
 
       {/* Floating Syntax Particles */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
@@ -137,14 +137,14 @@ export default function DekodeXIntroLoader({ onComplete }) {
 
       {/* Main Glassmorphic Panel */}
       <div className="relative z-10 w-[min(90vw,480px)]">
-        <div className="relative rounded-2xl border border-[#243158] bg-[#0f1a3a] p-8 shadow-[0_8px_32px_rgba(0,0,0,0.5)]">
+        <div className="relative rounded-2xl border border-[#1e2333] bg-[#11141d] p-8 shadow-2xl">
           {/* Minimalist Top Bar */}
-          <div className="mb-8 flex items-center justify-between border-b border-white/[0.05] pb-4">
+          <div className="mb-8 flex items-center justify-between border-b border-[#1e2333] pb-4">
             <div className="flex gap-2">
               <span className="h-2 w-2 rounded-full bg-white/20" />
               <span className="h-2 w-2 rounded-full bg-white/20" />
             </div>
-            <span className="font-mono text-[10px] tracking-widest text-white/40 uppercase">
+            <span className="font-mono text-[10px] tracking-widest text-[#94a3b8] uppercase">
               System.Boot()
             </span>
           </div>
@@ -161,8 +161,8 @@ export default function DekodeXIntroLoader({ onComplete }) {
                     className={`transition-colors duration-100 ${
                       isLocked
                         ? isX
-                          ? "text-[#B026FF] drop-shadow-[0_0_12px_rgba(176,38,255,0.6)]"
-                          : "text-[#00F0FF] drop-shadow-[0_0_12px_rgba(0,240,255,0.5)]"
+                          ? "text-[#a855f7]"
+                          : "text-[var(--accent)]"
                         : "text-white/30"
                     }`}
                   >
@@ -173,10 +173,10 @@ export default function DekodeXIntroLoader({ onComplete }) {
             </h1>
 
             {/* Status indicator */}
-            <div className="mt-6 flex items-center gap-3 font-mono text-xs text-white/50">
+            <div className="mt-6 flex items-center gap-3 font-mono text-xs text-[#94a3b8]">
               <div className="relative flex h-2 w-2 items-center justify-center">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#00F0FF] opacity-75" />
-                <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-[#00F0FF]" />
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[var(--accent)] opacity-75" />
+                <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-[var(--accent)]" />
               </div>
               decrypting_environment...
             </div>
@@ -184,13 +184,13 @@ export default function DekodeXIntroLoader({ onComplete }) {
 
           {/* Modern Progress Line */}
           <div className="mt-8 h-[2px] w-full overflow-hidden rounded-full bg-white/5">
-            <div className="progress-bar h-full w-full origin-left bg-gradient-to-r from-transparent via-[#00F0FF] to-[#B026FF]" />
+            <div className="progress-bar h-full w-full origin-left bg-[var(--accent)]" />
           </div>
         </div>
 
         {/* Corner Accents */}
-        <div className="absolute -top-3 -left-3 h-6 w-6 rounded-tl-lg border-t-2 border-l-2 border-white/20" />
-        <div className="absolute -right-3 -bottom-3 h-6 w-6 rounded-br-lg border-r-2 border-b-2 border-[#B026FF]/50" />
+        <div className="absolute -top-2 -left-2 h-5 w-5 rounded-tl-lg border-t border-l border-[#1e2333]" />
+        <div className="absolute -right-2 -bottom-2 h-5 w-5 rounded-br-lg border-r border-b border-[#1e2333]" />
       </div>
 
       <style jsx>{`

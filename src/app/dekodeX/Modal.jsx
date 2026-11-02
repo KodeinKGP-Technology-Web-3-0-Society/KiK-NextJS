@@ -16,68 +16,29 @@ export default function TechEventModal({
   }, []);
 
   return (
-    <div className="bg-opacity-90 fixed inset-0 z-50 flex items-center justify-center bg-gradient-to-br from-gray-900 via-black to-gray-900">
-      <div className="relative w-11/12 max-w-xl overflow-hidden bg-transparent p-8 backdrop-blur-sm">
-        {/* Tech Border Frame */}
-        <div className="pointer-events-none absolute inset-0">
-          {/* Main border */}
-          <div className="absolute inset-2 border-2 border-cyan-400 shadow-[0_0_20px_rgba(6,182,212,0.5)]"></div>
-
-          {/* Corner cutouts - Top Left */}
-          <div className="absolute top-0 left-0 h-8 w-8 border-t-2 border-l-2 border-cyan-400 shadow-[0_0_10px_rgba(6,182,212,0.7)]"></div>
-          <div className="absolute top-2 left-2 h-4 w-4 bg-black"></div>
-
-          {/* Corner cutouts - Top Right */}
-          <div className="absolute top-0 right-0 h-8 w-8 border-t-2 border-r-2 border-cyan-400 shadow-[0_0_10px_rgba(6,182,212,0.7)]"></div>
-          <div className="absolute top-2 right-2 h-4 w-4 bg-black"></div>
-
-          {/* Corner cutouts - Bottom Left */}
-          <div className="absolute bottom-0 left-0 h-8 w-8 border-b-2 border-l-2 border-cyan-400 shadow-[0_0_10px_rgba(6,182,212,0.7)]"></div>
-          <div className="absolute bottom-2 left-2 h-4 w-4 bg-black"></div>
-
-          {/* Corner cutouts - Bottom Right */}
-          <div className="absolute right-0 bottom-0 h-8 w-8 border-r-2 border-b-2 border-cyan-400 shadow-[0_0_10px_rgba(6,182,212,0.7)]"></div>
-          <div className="absolute right-2 bottom-2 h-4 w-4 bg-black"></div>
-
-          {/* Circuit-like details */}
-          <div className="absolute top-6 left-0 h-px w-3 bg-cyan-400 shadow-[0_0_5px_rgba(6,182,212,0.8)]"></div>
-          <div className="absolute top-10 left-0 h-px w-2 bg-cyan-400 shadow-[0_0_5px_rgba(6,182,212,0.8)]"></div>
-          <div className="absolute top-6 right-0 h-px w-3 bg-cyan-400 shadow-[0_0_5px_rgba(6,182,212,0.8)]"></div>
-          <div className="absolute top-10 right-0 h-px w-2 bg-cyan-400 shadow-[0_0_5px_rgba(6,182,212,0.8)]"></div>
-
-          <div className="absolute bottom-6 left-0 h-px w-3 bg-cyan-400 shadow-[0_0_5px_rgba(6,182,212,0.8)]"></div>
-          <div className="absolute bottom-10 left-0 h-px w-2 bg-cyan-400 shadow-[0_0_5px_rgba(6,182,212,0.8)]"></div>
-          <div className="absolute right-0 bottom-6 h-px w-3 bg-cyan-400 shadow-[0_0_5px_rgba(6,182,212,0.8)]"></div>
-          <div className="absolute right-0 bottom-10 h-px w-2 bg-cyan-400 shadow-[0_0_5px_rgba(6,182,212,0.8)]"></div>
-
-          {/* Glowing corner dots */}
-          <div className="absolute top-1 left-1 h-1 w-1 rounded-full bg-cyan-300 shadow-[0_0_8px_rgba(103,232,249,0.9)]"></div>
-          <div className="absolute top-1 right-1 h-1 w-1 rounded-full bg-cyan-300 shadow-[0_0_8px_rgba(103,232,249,0.9)]"></div>
-          <div className="absolute bottom-1 left-1 h-1 w-1 rounded-full bg-cyan-300 shadow-[0_0_8px_rgba(103,232,249,0.9)]"></div>
-          <div className="absolute right-1 bottom-1 h-1 w-1 rounded-full bg-cyan-300 shadow-[0_0_8px_rgba(103,232,249,0.9)]"></div>
-        </div>
-
-        {/* Content container with proper z-index */}
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 px-4 backdrop-blur-sm">
+      <div className="relative w-full max-w-lg overflow-hidden rounded-2xl border border-[#1e2333] bg-[#11141d] p-6 shadow-2xl sm:p-7">
+        {/* Content container */}
         <div className="relative z-10">
           {/* Header */}
           <div className="mb-6 flex items-center justify-between">
             <div>
-              <h1 className="font-mono text-4xl tracking-wide text-cyan-400 drop-shadow-lg">
+              <h1 className="font-mono text-2xl font-semibold tracking-wide text-[#f8fafc]">
                 {title}
               </h1>
-              <p className="mt-1 font-mono text-xs text-cyan-200 uppercase">
+              <p className="mt-1 font-mono text-xs text-[var(--accent)] uppercase">
                 {subtitle}
               </p>
             </div>
             <button
               onClick={onClose}
-              className="cursor-pointer p-2 transition-colors hover:text-red-500"
+              className="cursor-pointer p-1 text-[#94a3b8] transition-colors hover:text-white"
             >
-              <X size={24} className="text-cyan-300" />
+              <X size={20} />
             </button>
           </div>
           {/* Body */}
-          <div className="space-y-4 font-mono text-sm text-cyan-200">
+          <div className="space-y-4 font-mono text-sm text-[#f8fafc]">
             {children}
           </div>
           {/* Footer */}

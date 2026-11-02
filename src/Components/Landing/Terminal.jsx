@@ -54,16 +54,16 @@ export default function Terminal() {
   }, [lines, typing]);
 
   return (
-    <div className="overflow-hidden rounded-[6px] bg-[#0b1430]">
-      <div className="flex items-center gap-1.5 border-b border-[#243158] px-3 py-2">
+    <div className="overflow-hidden rounded-[6px] bg-[#08090d]">
+      <div className="flex items-center gap-1.5 border-b border-[#1e2333] px-3 py-2">
         <span className="h-2.5 w-2.5 rounded-full bg-[#ff5f57]" />
         <span className="h-2.5 w-2.5 rounded-full bg-[#febc2e]" />
         <span className="h-2.5 w-2.5 rounded-full bg-[#28c840]" />
-        <span className="ml-2 font-mono text-[11px] text-[#9aa3b8]">~/pds-lab</span>
+        <span className="ml-2 font-mono text-[11px] text-[#94a3b8]">~/pds-lab</span>
       </div>
       <div ref={box} className="h-56 overflow-hidden p-4 font-mono text-[13px] leading-6">
         {lines.map((l, i) => (
-          <p key={i} className={l.p ? "text-[#ece9e1]" : "text-[#9aa3b8]"}>
+          <p key={i} className={l.p ? "text-[#f8fafc]" : "text-[#94a3b8]"}>
             {l.p && <span className="text-[var(--accent)]">$ </span>}
             {l.t}
           </p>

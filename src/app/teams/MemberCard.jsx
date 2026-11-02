@@ -6,7 +6,7 @@ import { Facebook, Github, Instagram, Linkedin, Mail } from "lucide-react";
 const Corner = ({ pos }) => (
   <span
     aria-hidden="true"
-    className={`pointer-events-none absolute z-20 h-4 w-4 border-[#2ea8ff] transition-all duration-300 group-hover:h-7 group-hover:w-7 group-hover:border-[#5ce1e6] ${pos}`}
+    className={`pointer-events-none absolute z-20 h-3.5 w-3.5 border-[#1e2333] transition-all duration-300 group-hover:h-5 group-hover:w-5 group-hover:border-[var(--accent)] ${pos}`}
   />
 );
 
@@ -21,7 +21,7 @@ export default function MemberCard({ name, role, image_url, facebook, instagram,
 
   return (
     <article className="group">
-      <div className="relative aspect-[4/5] overflow-hidden border border-[#243158] bg-[#0f1a3a]">
+      <div className="relative aspect-[4/5] overflow-hidden border border-[#1e2333] bg-[#11141d]">
         {image_url ? (
           <Image
             src={image_url}
@@ -34,33 +34,26 @@ export default function MemberCard({ name, role, image_url, facebook, instagram,
           <div className="flex h-full items-center justify-center font-mono text-xs text-[#9aa3b8]">No photo</div>
         )}
 
-        {/* faint grid */}
-        <div
-          aria-hidden="true"
-          className="absolute inset-0 opacity-40 [background-image:linear-gradient(rgba(92,225,230,0.12)_1px,transparent_1px),linear-gradient(90deg,rgba(92,225,230,0.12)_1px,transparent_1px)] [background-size:24px_24px]"
-        />
-        <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-[#050a1f]/80 to-transparent" />
+        {/* subtle bottom gradient fade to obsidian */}
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-[#08090d]/80 to-transparent" />
 
-        {/* scanner line */}
-        <div className="pointer-events-none absolute inset-0 overflow-hidden opacity-0 group-hover:opacity-100">
-          <span
-            className="absolute inset-x-0 top-0 h-[3px] bg-[#5ce1e6] shadow-[0_0_14px_3px_rgba(92,225,230,0.7)]"
-            style={{ animation: "tm-scan 1.8s ease-in-out infinite" }}
-          />
+        {/* Sleek diagonal light shine sweep on hover */}
+        <div className="pointer-events-none absolute inset-0 -translate-x-full overflow-hidden transition-transform duration-700 ease-out group-hover:translate-x-full">
+          <div className="h-full w-full -skew-x-12 bg-gradient-to-r from-transparent via-white/[0.18] to-transparent" />
         </div>
 
-        {/* corner brackets */}
-        <Corner pos="top-1.5 left-1.5 border-t-2 border-l-2" />
-        <Corner pos="top-1.5 right-1.5 border-t-2 border-r-2" />
-        <Corner pos="bottom-1.5 left-1.5 border-b-2 border-l-2" />
-        <Corner pos="bottom-1.5 right-1.5 border-b-2 border-r-2" />
+        {/* Subtle corner brackets */}
+        <Corner pos="top-1.5 left-1.5 border-t border-l" />
+        <Corner pos="top-1.5 right-1.5 border-t border-r" />
+        <Corner pos="bottom-1.5 left-1.5 border-b border-l" />
+        <Corner pos="bottom-1.5 right-1.5 border-b border-r" />
       </div>
 
       <div className="mt-4">
-        <h3 className="text-lg font-semibold text-white">{name}</h3>
+        <h3 className="text-lg font-semibold text-[#f8fafc] group-hover:text-white transition-colors">{name}</h3>
         {role && (
-          <p className="mt-0.5 font-mono text-xs text-[#5ce1e6]">
-            <span className="text-[#2ea8ff]">// </span>
+          <p className="mt-0.5 font-mono text-xs text-[#94a3b8]">
+            <span className="text-[var(--accent)]">// </span>
             {role}
           </p>
         )}
@@ -75,7 +68,7 @@ export default function MemberCard({ name, role, image_url, facebook, instagram,
               target="_blank"
               rel="noreferrer"
               aria-label={`${name}: ${label}`}
-              className="flex h-8 w-8 items-center justify-center border border-[#243158] text-[#9aa3b8] transition-colors hover:border-[#2ea8ff] hover:bg-[#2ea8ff] hover:text-[#0b1430]"
+              className="flex h-8 w-8 items-center justify-center border border-[#1e2333] text-[#94a3b8] transition-colors hover:border-[var(--accent)] hover:bg-[var(--accent)] hover:text-[#08090d]"
             >
               <Icon size={15} />
             </a>

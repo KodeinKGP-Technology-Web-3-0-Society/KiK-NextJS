@@ -37,35 +37,38 @@ const RESOURCE_COLUMNS = [
   {
     title: "Blockchain",
     links: [
-      { name: "freeCodeCamp", href: "https://www.youtube.com/watch?v=gyMwXuJrbJQ" },
-      { name: "Code Eater", href: "https://www.youtube.com/@CodeEater21/videos" },
-      { name: "Whiteboard Crypto", href: "https://www.youtube.com/@WhiteboardCrypto" },
-      { name: "Finematics", href: "https://www.youtube.com/@Finematics" },
+      { name: "CryptoZombies", href: "https://cryptozombies.io" },
+      { name: "Speedrun Ethereum", href: "https://speedrunethereum.com" },
+      { name: "Ethernaut", href: "https://ethernaut.openzeppelin.com" },
+      { name: "Cyfrin Updraft", href: "https://updraft.cyfrin.io" },
+      { name: "Patrick Collins (YouTube)", href: "https://www.youtube.com/@PatrickAlphaC" },
     ],
   },
   {
-    title: "Machine Learning",
+    title: "AI & Machine Learning",
     links: [
-      { name: "DeepLearningAI", href: "https://www.youtube.com/@Deeplearningai" },
-      { name: "Siraj Raval", href: "https://www.youtube.com/@SirajRaval/about" },
-      { name: "sentdex", href: "https://www.youtube.com/@sentdex/playlists" },
-      { name: "Corey Schafer", href: "https://www.youtube.com/@coreyms/about" },
+      { name: "Hugging Face Learn", href: "https://huggingface.co/learn" },
+      { name: "Karpathy: Zero to Hero", href: "https://karpathy.ai/zero-to-hero.html" },
+      { name: "Kaggle Learn", href: "https://www.kaggle.com/learn" },
+      { name: "TensorFlow Playground", href: "https://playground.tensorflow.org" },
+      { name: "3Blue1Brown (YouTube)", href: "https://www.youtube.com/@3blue1brown" },
     ],
   },
   {
     title: "Web Development",
     links: [
-      { name: "CodeWithHarry", href: "https://www.youtube.com/playlist?list=PLu0W_9lII9agiCUZYRsvtGTXdxkzPyItg" },
-      { name: "Apna College", href: "https://www.youtube.com/playlist?list=PLfqMhTWNBTe3H6c9OGXb5_6wcc1Mca52n" },
-      { name: "net ninja", href: "https://www.youtube.com/playlist?list=PL4cUxeGkcC9ivBf_eKCPIAYXWzLlPAm6G" },
-      { name: "Traversy Media", href: "https://www.youtube.com/playlist?list=PLillGF-RfqbZTASqIqdvm1R5mLrQq79CU" },
+      { name: "The Odin Project", href: "https://www.theodinproject.com" },
+      { name: "Scrimba", href: "https://scrimba.com" },
+      { name: "roadmap.sh", href: "https://roadmap.sh" },
+      { name: "MDN: Learn Web Dev", href: "https://developer.mozilla.org/en-US/docs/Learn_web_development" },
+      { name: "Fireship (YouTube)", href: "https://www.youtube.com/@Fireship" },
     ],
   },
 ];
 
 export default function Footer() {
   return (
-    <footer id="footer" className="border-t border-[#243158] bg-[#0b1430] text-[#ece9e1]">
+    <footer id="footer" className="border-t border-[#1e2333] bg-[#08090d] text-[#f8fafc]">
       <div className="mx-auto max-w-6xl px-5 pt-14 pb-10 md:px-8">
         <div className="grid gap-10 lg:grid-cols-[1.4fr_2fr]">
           {/* Brand info */}
@@ -73,11 +76,11 @@ export default function Footer() {
             <Link href="/" className="inline-flex items-center gap-3">
               <Image src={Logo} alt="KiK Logo" className="h-10 w-10 object-contain" />
               <div>
-                <span className="block text-xl font-bold tracking-tight text-[#ece9e1]">KodeinKGP</span>
+                <span className="block text-xl font-bold tracking-tight text-[#f8fafc]">KodeinKGP</span>
                 <span className="font-mono text-xs text-[var(--accent)]">Technology Web 3.0 Society</span>
               </div>
             </Link>
-            <p className="max-w-sm text-sm leading-6 text-[#9aa3b8]">
+            <p className="max-w-sm text-sm leading-6 text-[#94a3b8]">
               Indian Institute of Technology Kharagpur,
               <br />
               West Bengal - 721302
@@ -90,7 +93,7 @@ export default function Footer() {
                   target="_blank"
                   rel="noreferrer"
                   aria-label={s.label}
-                  className="flex h-9 w-9 items-center justify-center rounded-lg border border-[#243158] bg-[#0f1a3a] text-[#9aa3b8] transition-all hover:border-[var(--accent)] hover:text-[var(--accent)] hover:-translate-y-0.5"
+                  className="flex h-9 w-9 items-center justify-center rounded-lg border border-[#1e2333] bg-[#11141d] text-[#94a3b8] transition-all hover:border-[var(--accent)] hover:text-[var(--accent)] hover:-translate-y-0.5"
                 >
                   <IonIcon size="default" name={s.name} className="text-current" />
                 </a>
@@ -112,7 +115,7 @@ export default function Footer() {
                         href={link.href}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-sm text-[#9aa3b8] transition-colors hover:text-[#ece9e1]"
+                        className="text-sm text-[#94a3b8] transition-colors hover:text-[#f8fafc]"
                       >
                         {link.name}
                       </a>
@@ -125,21 +128,21 @@ export default function Footer() {
         </div>
 
         {/* Bottom bar */}
-        <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-[#243158] pt-6 sm:flex-row">
-          <p className="font-mono text-xs text-[#9aa3b8]">
+        <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-[#1e2333] pt-6 sm:flex-row">
+          <p className="font-mono text-xs text-[#94a3b8]">
             &copy; {new Date().getFullYear()} KodeinKGP. Open source & student-led.
           </p>
-          <div className="flex items-center gap-6 font-mono text-xs text-[#9aa3b8]">
-            <Link href="/pds" className="hover:text-[#ece9e1] transition-colors">
+          <div className="flex items-center gap-6 font-mono text-xs text-[#94a3b8]">
+            <Link href="/pds" className="hover:text-[#f8fafc] transition-colors">
               PDS Bank
             </Link>
-            <Link href="/articles" className="hover:text-[#ece9e1] transition-colors">
+            <Link href="/articles" className="hover:text-[#f8fafc] transition-colors">
               Articles
             </Link>
-            <Link href="/teams" className="hover:text-[#ece9e1] transition-colors">
+            <Link href="/teams" className="hover:text-[#f8fafc] transition-colors">
               Teams
             </Link>
-            <Link href="/events" className="hover:text-[#ece9e1] transition-colors">
+            <Link href="/events" className="hover:text-[#f8fafc] transition-colors">
               Events
             </Link>
           </div>

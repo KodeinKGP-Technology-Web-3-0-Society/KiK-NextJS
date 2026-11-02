@@ -84,6 +84,7 @@ function playMeow() {
 export default function PetCat() {
   const el = useRef(null);
   const [meow, setMeow] = useState(false);
+  const [friend, setFriend] = useState(false);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -107,6 +108,7 @@ export default function PetCat() {
       idleAnim = null,
       idleFrame = 0;
     let lastMouse = 0;
+    let lastGreet = 0;
 
     const sprite = (name, f) => {
       const s = SPRITES[name][f % SPRITES[name].length];
@@ -165,11 +167,42 @@ export default function PetCat() {
 
     const step = () => {
       frame++;
-      const dx = x - tx;
-      const dy = y - ty;
-      const dist = Math.hypot(dx, dy);
-      if (dist < SPEED || dist < 48) return idle();
 
+      // When the cursor is over the robot, the cat trots over to sit by its feet.
+      // Once there, the robot notices and reacts (wave / thumbs up / jump).
+      let gx = tx;
+      let gy = ty;
+      let visiting = false;
+      const robotEl = document.getElementById("robot-scene");
+      if (robotEl) {
+        const r = robotEl.getBoundingClientRect();
+        const onScreen = r.width > 0 && r.bottom > 0 && r.top < H();
+        const cursorOver = tx >= r.left && tx <= r.right && ty >= r.top && ty <= r.bottom;
+        if (onScreen && cursorOver) {
+          visiting = true;
+          gx = r.left + r.width * 0.68;
+          gy = r.top + r.height * 0.84;
+        }
+      }
+
+      const dx = x - gx;
+      const dy = y - gy;
+      const dist = Math.hypot(dx, dy);
+
+      if (visiting && dist < 40) {
+        // arrived: sit and say hi (once every few seconds)
+        const now = performance.now();
+        if (now - lastGreet > 7000) {
+          lastGreet = now;
+          setFriend(true);
+          setTimeout(() => setFriend(false), 1800);
+          window.dispatchEvent(new CustomEvent("robot-cat-nearby"));
+        }
+        sprite("idle", 0);
+        idleAnim = null;
+        return;
+      }
+      if (dist < SPEED || dist < 48) return idle();
       idleAnim = null;
       idleFrame = 0;
       if (idleTime > 1) {
@@ -189,6 +222,7 @@ export default function PetCat() {
       cat.style.transform = `translate(${x - 16}px, ${y - 16}px)`;
     };
 
+    cat.style.transition = "transform 100ms linear";
     cat.style.transform = `translate(${x - 16}px, ${y - 16}px)`;
     sprite("idle", 0);
     const timer = setInterval(step, 100);
@@ -215,8 +249,13 @@ export default function PetCat() {
       }}
     >
       {meow && (
-        <span className="pointer-events-none absolute -top-7 left-1/2 -translate-x-1/2 rounded bg-[#ece9e1] px-1.5 py-0.5 font-mono text-[10px] whitespace-nowrap text-[#0b1430]">
+        <span className="pointer-events-none absolute -top-7 left-1/2 -translate-x-1/2 rounded bg-[#f8fafc] px-1.5 py-0.5 font-mono text-[10px] whitespace-nowrap text-[#08090d]">
           meow
+        </span>
+      )}
+      {friend && !meow && (
+        <span className="pointer-events-none absolute -top-7 left-1/2 -translate-x-1/2 rounded bg-[#f8fafc] px-1.5 py-0.5 font-mono text-[10px] whitespace-nowrap text-[#08090d]">
+          hi robot!
         </span>
       )}
     </div>

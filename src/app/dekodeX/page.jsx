@@ -89,7 +89,7 @@ export default function Layout() {
   }, [authToken, loggedIn, user?.email]);
 
   if (showIntro === null) {
-    return <div className="min-h-screen bg-[#0b1430]" />;
+    return <div className="min-h-screen bg-[#08090d]" />;
   }
 
   const handleAuthAction = async () => {
@@ -112,7 +112,7 @@ export default function Layout() {
         <DekodeXIntroLoader onComplete={() => setShowIntro(false)} />
       ) : null}
 
-      <main className="min-h-screen bg-[#0b1430] px-4 py-5 text-[#ece9e1] antialiased sm:px-6 lg:px-8">
+      <main className="min-h-screen bg-[#08090d] px-4 py-5 text-[#f8fafc] antialiased sm:px-6 lg:px-8">
         <div className="mx-auto flex w-full max-w-[1500px] flex-col gap-5 xl:grid xl:grid-cols-[minmax(0,1fr)_440px] xl:items-stretch">
           <div className="min-w-0">
             <ProblemArena />
@@ -187,12 +187,12 @@ export default function Layout() {
                     }
                   }}
                 >
-                  <label className="mb-2 block">
+                  <label className="mb-2 block text-sm text-[#94a3b8]">
                     Name:
                     <input
                       type="text"
                       required
-                      className="mt-1 block w-full border-0 border-b-1 border-gray-300 bg-transparent px-2 py-1 transition-colors focus:border-blue-500 focus:outline-none"
+                      className="mt-1 block w-full border-0 border-b border-[#1e2333] bg-transparent px-2 py-1 text-[#f8fafc] transition-colors focus:border-[var(--accent)] focus:outline-none"
                       value={name}
                       onChange={(e) => setName(e.target.value)}
                       disabled={isSubmitting}
@@ -203,8 +203,8 @@ export default function Layout() {
                     type="submit"
                     className={`mt-4 w-full rounded-lg px-4 py-2 transition ${
                       isSubmitting
-                        ? "cursor-not-allowed bg-gray-400 text-gray-700"
-                        : "cursor-pointer border border-cyan-400 px-8 py-2 font-mono text-xs font-bold tracking-widest uppercase shadow-[0_0_10px_rgba(6,182,212,0.3)] transition-all hover:border-cyan-200 hover:bg-blue-950 hover:shadow-[0_0_15px_rgba(6,182,212,0.5)]"
+                        ? "cursor-not-allowed bg-[#1e2333] text-[#94a3b8]"
+                        : "cursor-pointer border border-[var(--accent)] bg-[var(--accent)] font-mono text-xs font-bold tracking-widest text-[#08090d] uppercase transition-opacity hover:opacity-90"
                     }`}
                   >
                     Submit Application
@@ -218,7 +218,7 @@ export default function Layout() {
         <button
           id="floatingAuthBtn"
           onClick={handleAuthAction}
-          className={`group fixed right-5 bottom-5 z-50 flex cursor-pointer items-center justify-center rounded-full border border-cyan-300/40 bg-cyan-300 px-4 py-2 text-sm font-semibold text-[#01011b] shadow-lg shadow-cyan-950/40 transition-all duration-200 hover:-translate-y-0.5 hover:bg-cyan-200 md:right-8 md:bottom-8 ${
+          className={`group fixed right-5 bottom-5 z-50 flex cursor-pointer items-center justify-center rounded-full border border-[var(--accent)] bg-[var(--accent)] px-4 py-2 text-sm font-semibold text-[#08090d] shadow-lg transition-all duration-200 hover:-translate-y-0.5 hover:opacity-90 md:right-8 md:bottom-8 ${
             loggedIn ? "hidden" : ""
           }`}
           aria-label={loggedIn ? "Sign Out" : "Login"}

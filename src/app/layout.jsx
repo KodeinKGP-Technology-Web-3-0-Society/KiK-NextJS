@@ -50,7 +50,7 @@ export default function RootLayout({ children }) {
           referrerPolicy="no-referrer"
         />
       </head>
-      <body className="antialiased">
+      <body className="min-h-screen bg-[#08090d] text-[#f8fafc] antialiased">
         <AuthProvider>
           <Navbar />
           {children}

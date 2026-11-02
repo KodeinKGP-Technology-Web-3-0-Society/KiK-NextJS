@@ -56,15 +56,19 @@ function parseFeed(xml) {
   return [...xml.matchAll(/<item>([\s\S]*?)<\/item>/g)].map(([, it]) => {
     const title = decode(tag(it, "title"));
     const link = decode(tag(it, "link")).split("?")[0];
-    const html = decode(tag(it, "content:encoded") || "");
+    const html = decode(tag(it, "content:encoded") || tag(it, "description") || "");
     const tags = [...it.matchAll(/<category>([\s\S]*?)<\/category>/g)].map(
       (m) => decode(m[1])
     );
-    const img = (html.match(/<img[^>]+src="([^"]+)"/) || [])[1] || "";
-    // first real paragraph as the summary
-    const para = (html.match(/<p>([\s\S]*?)<\/p>/g) || [])
-      .map((p) => decode(p.replace(/<[^>]+>/g, " ")).replace(/\s+/g, " "))
-      .find((p) => p.length > 60);
+    const imgMatch = html.match(/<img[^>]+src=["']([^"']+)["']/i);
+    const img = imgMatch ? imgMatch[1] : "";
+
+    // Extract first meaningful text paragraph as summary
+    const paras = (html.match(/<p>([\s\S]*?)<\/p>/gi) || [])
+      .map((p) => decode(p.replace(/<[^>]+>/g, " ")).replace(/\s+/g, " ").trim())
+      .filter((p) => p.length > 30);
+    const para = paras[0] || "";
+
     return {
       title,
       pubDate: formatDate(decode(tag(it, "pubDate"))),
@@ -101,15 +105,15 @@ export async function getArticles() {
 
     const merged = live.map((a) => {
       const s = saved.get(postId(a.link));
-      return s
-        ? {
-            ...a,
-            img: s.img,
-            categories: s.categories,
-            description: s.description,
-            title: s.title,
-          }
-        : a;
+      return {
+        ...a,
+        // Live Medium image is primary; fall back to saved only if Medium has no cover image
+        img: a.img || s?.img || "/article/neuralNetwork.jpg",
+        title: a.title || s?.title,
+        description: a.description || s?.description || "",
+        pubDate: a.pubDate || s?.pubDate,
+        categories: s?.categories?.length ? s.categories : a.categories,
+      };
     });
     // older posts that have dropped out of the 10-item feed
     staticArticles.forEach((a) => {

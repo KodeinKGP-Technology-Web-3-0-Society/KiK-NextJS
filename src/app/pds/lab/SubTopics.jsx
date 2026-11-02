@@ -28,23 +28,23 @@ export default function SubTopics({ topic, viewMode }) {
         return (
           <div
             key={index}
-            className="overflow-hidden rounded-lg border border-[#243158] bg-[#0f1a3a] transition-colors"
+            className="overflow-hidden rounded-lg border border-[#1e2333] bg-[#11141d] transition-colors"
           >
             <div
-              className="flex cursor-pointer items-center justify-between px-5 py-3.5 text-sm font-medium text-[#ece9e1] transition-colors hover:bg-[#142145] sm:text-base"
+              className="flex cursor-pointer items-center justify-between px-5 py-3.5 text-sm font-medium text-[#f8fafc] transition-colors hover:bg-[#161b28] sm:text-base"
               onClick={() => toggleSubTopic(subTopic)}
             >
               <div className="flex items-center gap-2.5">
-                <span className="font-mono text-xs text-[#9aa3b8]">&bull;</span>
+                <span className="font-mono text-xs text-[#94a3b8]">&bull;</span>
                 <span>{formattedTitle}</span>
               </div>
 
               <div className="flex items-center gap-3">
-                <span className="font-mono text-xs text-[#9aa3b8]">
+                <span className="font-mono text-xs text-[#94a3b8]">
                   {count} {count === 1 ? "problem" : "problems"}
                 </span>
                 <span
-                  className={`text-[#9aa3b8] transition-transform duration-200 ${
+                  className={`text-[#94a3b8] transition-transform duration-200 ${
                     isOpen ? "rotate-180 text-[var(--accent)]" : ""
                   }`}
                 >
@@ -54,7 +54,7 @@ export default function SubTopics({ topic, viewMode }) {
             </div>
 
             {isOpen && (
-              <div className="border-t border-[#243158] bg-[#0b1430] p-2 md:p-3">
+              <div className="border-t border-[#1e2333] bg-[#08090d] p-2 md:p-3">
                 <Questions
                   topic={topic}
                   subTopic={subTopic}

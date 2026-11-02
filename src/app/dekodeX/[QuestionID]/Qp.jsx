@@ -33,7 +33,7 @@ const sourceCodePro = Source_Code_Pro({
 });
 
 const sectionClass =
-  "rounded-xl border border-[#243158] bg-[#0b1430] shadow-[0_12px_34px_rgba(0,0,0,0.2)]";
+  "rounded-xl border border-[#1e2333] bg-[#08090d] shadow-[0_12px_34px_rgba(0,0,0,0.2)]";
 
 function SectionHeader({ icon: Icon, title, meta }) {
   return (
@@ -181,15 +181,15 @@ function Qp() {
   const questionNumber = QuestionID?.replace("q", "") || "1";
 
   return (
-    <main className="min-h-screen bg-[#0b1430] py-6 text-[#ece9e1]">
+    <main className="min-h-screen bg-[#08090d] py-6 text-[#f8fafc]">
       <div
         className={
-          "dekodex-question-page relative mx-auto mr-[39px] ml-[39px] flex flex-col overflow-hidden rounded-2xl border border-[#243158] bg-[#0f1a3a] shadow-2xl shadow-black/35 max-md:mr-[28px] max-md:ml-[28px] max-sm:mx-4 " +
+          "dekodex-question-page relative mx-auto mr-[39px] ml-[39px] flex flex-col overflow-hidden rounded-2xl border border-[#1e2333] bg-[#11141d] shadow-2xl shadow-black/35 max-md:mr-[28px] max-md:ml-[28px] max-sm:mx-4 " +
           sourceCodePro.className
         }
       >
         <div
-          className="relative border-b border-[#243158] bg-[#0b1430]"
+          className="relative border-b border-[#1e2333] bg-[#08090d]"
           style={{
             minHeight: 88,
           }}
@@ -232,7 +232,7 @@ function Qp() {
             <div className={`${sectionClass} p-4`}>
               <SectionHeader icon={ClipboardList} title="Sample Input" />
               {questionData.sampleInput ? (
-                <div className="markdown-content sample-input max-h-[320px] overflow-auto rounded-lg border border-cyan-300/15 bg-[#05071f] p-1">
+                <div className="markdown-content sample-input max-h-[320px] overflow-auto rounded-lg border border-[#1e2333] bg-[#0c0e14] p-1">
                   <div className="relative">
                     <CopyButton
                       text={cleanCodeBlock(questionData.sampleInput)}
@@ -253,7 +253,7 @@ function Qp() {
             <div className={`${sectionClass} p-4`}>
               <SectionHeader icon={ClipboardList} title="Sample Output" />
               {questionData.sampleOutput ? (
-                <div className="markdown-content sample-output max-h-[320px] overflow-auto rounded-lg border border-cyan-300/15 bg-[#05071f] p-1">
+                <div className="markdown-content sample-output max-h-[320px] overflow-auto rounded-lg border border-[#1e2333] bg-[#0c0e14] p-1">
                   <div className="relative">
                     <CopyButton
                       text={cleanCodeBlock(questionData.sampleOutput)}
@@ -340,7 +340,7 @@ function Qp() {
             </section>
           ) : null}
 
-          <section className="rounded-xl border border-[#243158] bg-[#0b1430] p-4 shadow-[0_14px_40px_rgba(0,0,0,0.2)] sm:p-5">
+          <section className="rounded-xl border border-[#1e2333] bg-[#11141d] p-4 sm:p-5">
             <SectionHeader
               icon={Info}
               title="Answer"
@@ -350,7 +350,7 @@ function Qp() {
               <div className="flex flex-row items-center gap-3 max-sm:flex-col max-sm:items-stretch max-sm:gap-3">
                 <input
                   placeholder="Enter your answer here"
-                  className="h-[42px] min-w-0 flex-1 rounded-lg border border-[#243158] bg-[#0f1a3a] px-3.5 py-2 text-white transition placeholder:text-slate-500 focus:border-cyan-300 focus:outline-none max-sm:w-full"
+                  className="h-[42px] min-w-0 flex-1 rounded-lg border border-[#1e2333] bg-[#161a26] px-3.5 py-2 text-white transition placeholder:text-slate-500 focus:border-[var(--accent)] focus:outline-none max-sm:w-full"
                   value={answer}
                   onChange={(e) => setAnswer(e.target.value)}
                 />
@@ -363,13 +363,13 @@ function Qp() {
                 </div>
               </div>
             ) : (
-              <div className="flex flex-row items-center justify-between gap-3 rounded-lg border border-[#243158] bg-[#0f1a3a] p-3 max-sm:flex-col max-sm:items-stretch">
+              <div className="flex flex-row items-center justify-between gap-3 rounded-lg border border-[#1e2333] bg-[#161a26] p-3 max-sm:flex-col max-sm:items-stretch">
                 <p className="text-sm text-slate-300">
                   Login to submit your answer and save your score.
                 </p>
                 <button
                   onClick={handleLogin}
-                  className="flex h-[42px] shrink-0 cursor-pointer items-center justify-center gap-2 rounded-lg border border-cyan-300/30 bg-cyan-300 px-4 text-sm font-semibold text-[#01011b] transition hover:bg-cyan-200 focus:ring-2 focus:ring-cyan-300/30 focus:outline-none"
+                  className="flex h-[42px] shrink-0 cursor-pointer items-center justify-center gap-2 rounded-lg border border-[var(--accent)] bg-[var(--accent)] px-4 text-sm font-semibold text-[#08090d] transition hover:opacity-90 focus:outline-none"
                 >
                   <LogIn className="h-4 w-4" />
                   Login
@@ -384,7 +384,7 @@ function Qp() {
         <button
           id="floatingQuestionAuthBtn"
           onClick={handleLogin}
-          className="group fixed right-5 bottom-5 z-50 flex cursor-pointer items-center justify-center rounded-full border border-cyan-300/40 bg-cyan-300 px-4 py-2 text-sm font-semibold text-[#01011b] shadow-lg shadow-cyan-950/40 transition-all duration-200 hover:-translate-y-0.5 hover:bg-cyan-200 md:right-8 md:bottom-8"
+          className="group fixed right-5 bottom-5 z-50 flex cursor-pointer items-center justify-center rounded-full border border-[var(--accent)] bg-[var(--accent)] px-4 py-2 text-sm font-semibold text-[#08090d] shadow-lg transition-all duration-200 hover:-translate-y-0.5 hover:opacity-90 md:right-8 md:bottom-8"
           aria-label="Login"
         >
           <LogIn className="h-5 w-5" />

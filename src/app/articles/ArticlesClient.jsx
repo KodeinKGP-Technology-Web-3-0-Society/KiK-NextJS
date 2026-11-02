@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import {
   Brain,
   Code2,
@@ -19,8 +19,10 @@ import {
   ExternalLink,
   BookOpen,
   ArrowRight,
+  Loader2,
 } from "lucide-react";
 import LottieWrapper from "./LottieWrapper";
+import ArticlesSkeleton from "./ArticlesSkeleton";
 
 const categoryIcons = {
   AI: Brain,
@@ -45,7 +47,7 @@ const getCategoryIcon = (category) => categoryIcons[category] || Settings;
 const CategoryBadge = ({ category }) => {
   const Icon = getCategoryIcon(category);
   return (
-    <span className="inline-flex items-center gap-1.5 rounded border border-[#243158] bg-[#0b1430] px-2.5 py-1 font-mono text-[11px] text-[#9aa3b8]">
+    <span className="inline-flex items-center gap-1.5 rounded border border-[#1e2333] bg-[#08090d] px-2.5 py-1 font-mono text-[11px] text-[#94a3b8]">
       <Icon size={12} className="text-[var(--accent)]" />
       <span>{category}</span>
     </span>
@@ -73,22 +75,57 @@ function Cover({ src, alt }) {
   );
 }
 
-export default function ArticlesClient({ data }) {
+export default function ArticlesClient({ data = [] }) {
+  const [articles, setArticles] = useState(data);
+  const [loading, setLoading] = useState(data.length === 0);
+  const [syncing, setSyncing] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
 
+  useEffect(() => {
+    let cancelled = false;
+    async function fetchMediumArticles() {
+      if (articles.length > 0) {
+        setSyncing(true);
+      } else {
+        setLoading(true);
+      }
+      try {
+        const res = await fetch("/api/articles");
+        if (res.ok) {
+          const json = await res.json();
+          if (!cancelled && json.articles?.length) {
+            setArticles(json.articles);
+          }
+        }
+      } catch (err) {
+        console.error("Error fetching live Medium articles:", err);
+      } finally {
+        if (!cancelled) {
+          setLoading(false);
+          setSyncing(false);
+        }
+      }
+    }
+
+    fetchMediumArticles();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
   const allCategories = useMemo(() => {
     const categories = new Set();
-    data.forEach((article) =>
+    articles.forEach((article) =>
       article.categories?.forEach((cat) => categories.add(cat))
     );
     return ["All", ...Array.from(categories)];
-  }, []);
+  }, [articles]);
 
-  const featuredArticle = data[0];
+  const featuredArticle = articles[0];
 
   const filteredArticles = useMemo(() => {
-    return data.slice(1).filter((article) => {
+    return articles.filter((article) => {
       const matchesSearch = article.title
         ?.toLowerCase()
         .includes(searchQuery.toLowerCase());
@@ -97,19 +134,33 @@ export default function ArticlesClient({ data }) {
         article.categories?.includes(selectedCategory);
       return matchesSearch && matchesCategory;
     });
-  }, [searchQuery, selectedCategory]);
+  }, [articles, searchQuery, selectedCategory]);
+
+  if (loading && articles.length === 0) {
+    return (
+      <main className="min-h-screen bg-[#08090d] font-sans text-[#f8fafc] antialiased">
+        <ArticlesSkeleton />
+      </main>
+    );
+  }
 
   return (
-    <main className="min-h-screen bg-[#0b1430] font-sans text-[#ece9e1] antialiased">
+    <main className="min-h-screen bg-[#08090d] font-sans text-[#f8fafc] antialiased">
+      {syncing && (
+        <div className="sticky top-16 z-30 flex items-center justify-center border-b border-[#1e2333] bg-[#11141d]/90 py-1.5 font-mono text-xs text-[var(--accent)] backdrop-blur-sm">
+          <Loader2 size={13} className="mr-2 animate-spin" />
+          <span>Syncing latest articles from Medium...</span>
+        </div>
+      )}
       {/* Hero Section */}
-      <section className="mx-auto max-w-6xl px-5 pt-12 pb-16 md:px-8 md:pt-16 md:pb-20">
-        <div className="grid items-center gap-10 md:grid-cols-2">
+      <section className="mx-auto max-w-6xl px-5 pt-10 pb-10 md:px-8 md:pt-12 md:pb-12">
+        <div className="grid items-center gap-8 md:grid-cols-[1.2fr_1fr] md:gap-8">
           <div>
-            <h1 className="text-4xl leading-tight font-bold tracking-[-0.03em] text-[#ece9e1] sm:text-5xl md:text-6xl">
+            <h1 className="text-4xl leading-tight font-bold tracking-[-0.03em] text-[#f8fafc] sm:text-5xl md:text-6xl">
               Empowering You to Build the Future.
             </h1>
 
-            <p className="mt-5 max-w-xl text-base leading-7 text-[#9aa3b8] md:text-lg md:leading-8">
+            <p className="mt-5 max-w-xl text-base leading-7 text-[#94a3b8] md:text-lg md:leading-8">
               Articles and engineering guides written by KodeinKGP members. We explore AI
               foundations, decentralized protocol designs, full-stack architectures, and
               hands-on developer tutorials.
@@ -120,14 +171,14 @@ export default function ArticlesClient({ data }) {
                 href="https://medium.com/@kodeinkgp"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 rounded-md bg-[var(--accent)] px-5 py-3 text-sm font-semibold text-[#0b1430] transition-transform hover:-translate-y-0.5"
+                className="inline-flex items-center gap-2 rounded-md bg-[var(--accent)] px-5 py-3 text-sm font-semibold text-[#08090d] transition-transform hover:-translate-y-0.5"
               >
                 <span>Read on Medium</span>
                 <ExternalLink size={14} />
               </a>
               <a
                 href="#all-articles"
-                className="inline-flex items-center gap-2 rounded-md border border-[#3a4a7a] px-5 py-3 text-sm font-semibold text-[#ece9e1] transition-colors hover:border-[var(--accent)] hover:text-[var(--accent)]"
+                className="inline-flex items-center gap-2 rounded-md border border-[#242b3d] px-5 py-3 text-sm font-semibold text-[#f8fafc] transition-colors hover:border-[var(--accent)] hover:text-[var(--accent)]"
               >
                 <span>Browse All ({data.length})</span>
                 <ArrowRight size={14} />
@@ -136,7 +187,7 @@ export default function ArticlesClient({ data }) {
           </div>
 
           <div className="flex items-center justify-center">
-            <div className="relative aspect-square w-full max-w-[300px] sm:max-w-[420px] md:max-w-[540px]">
+            <div className="relative h-[260px] w-full max-w-[380px] sm:h-[320px] sm:max-w-[500px] md:h-[400px] md:max-w-[600px]">
               <LottieWrapper />
             </div>
           </div>
@@ -145,13 +196,13 @@ export default function ArticlesClient({ data }) {
 
       {/* Featured Article */}
       {featuredArticle && (
-        <section className="border-t border-[#243158]">
-          <div className="mx-auto max-w-6xl px-5 py-16 md:px-8">
+        <section className="border-t border-[#1e2333]">
+          <div className="mx-auto max-w-6xl px-5 py-10 md:px-8">
             <div className="mb-6 flex items-center justify-between">
               <span className="font-mono text-xs font-semibold uppercase tracking-wider text-[var(--accent)]">
                 Latest Insight
               </span>
-              <span className="font-mono text-xs text-[#9aa3b8]">
+              <span className="font-mono text-xs text-[#94a3b8]">
                 Featured Article
               </span>
             </div>
@@ -160,12 +211,12 @@ export default function ArticlesClient({ data }) {
               href={featuredArticle.link}
               target="_blank"
               rel="noopener noreferrer"
-              className="group block overflow-hidden rounded-xl border border-[#243158] bg-[#0f1a3a] transition-all duration-300 hover:border-[var(--accent)] hover:shadow-2xl hover:shadow-[rgba(46,168,255,0.06)]"
+              className="group block overflow-hidden rounded-xl border border-[#1e2333] bg-[#11141d] transition-all duration-300 hover:border-[var(--accent)]"
             >
               <div className="grid gap-6 md:grid-cols-[1.1fr_1fr]">
                 <div className="flex flex-col justify-between p-7 md:p-10">
                   <div>
-                    <div className="flex items-center gap-3 font-mono text-xs text-[#9aa3b8]">
+                    <div className="flex items-center gap-3 font-mono text-xs text-[#94a3b8]">
                       <div className="flex items-center gap-1.5">
                         <Calendar size={13} className="text-[var(--accent)]" />
                         <span>{featuredArticle.pubDate}</span>
@@ -176,11 +227,11 @@ export default function ArticlesClient({ data }) {
                       </span>
                     </div>
 
-                    <h2 className="mt-4 text-2xl font-bold text-[#ece9e1] transition-colors group-hover:text-[var(--accent)] md:text-3xl">
+                    <h2 className="mt-4 text-2xl font-bold text-[#f8fafc] transition-colors group-hover:text-[var(--accent)] md:text-3xl">
                       {featuredArticle.title}
                     </h2>
 
-                    <p className="mt-4 text-sm leading-7 text-[#9aa3b8] md:text-base">
+                    <p className="mt-4 text-sm leading-7 text-[#94a3b8] md:text-base">
                       {featuredArticle.description}
                     </p>
 
@@ -197,9 +248,9 @@ export default function ArticlesClient({ data }) {
                   </div>
                 </div>
 
-                <div className="relative min-h-[300px] overflow-hidden bg-[#0b1430] md:min-h-full">
+                <div className="relative min-h-[300px] overflow-hidden bg-[#08090d] md:min-h-full">
                   <Cover src={featuredArticle.img} alt={featuredArticle.title} />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#0f1a3a] via-transparent to-transparent md:hidden" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#11141d] via-transparent to-transparent md:hidden" />
                 </div>
               </div>
             </a>
@@ -208,27 +259,27 @@ export default function ArticlesClient({ data }) {
       )}
 
       {/* All Articles Section */}
-      <section id="all-articles" className="border-t border-[#243158]">
+      <section id="all-articles" className="border-t border-[#1e2333]">
         <div className="mx-auto max-w-6xl px-5 py-16 md:px-8">
           <div className="mb-10 flex flex-col justify-between gap-6 md:flex-row md:items-end">
             <div>
               <p className="font-mono text-xs font-semibold uppercase tracking-wider text-[var(--accent)]">
                 Browse Repository
               </p>
-              <h2 className="mt-2 text-3xl font-bold text-[#ece9e1]">
+              <h2 className="mt-2 text-3xl font-bold text-[#f8fafc]">
                 All Publications
               </h2>
             </div>
 
             {/* Search Input */}
             <div className="relative w-full md:w-80">
-              <Search size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#9aa3b8]" />
+              <Search size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#94a3b8]" />
               <input
                 type="text"
                 placeholder="Search articles..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full rounded-lg border border-[#243158] bg-[#0f1a3a] py-2.5 pl-10 pr-4 text-sm text-[#ece9e1] placeholder-[#9aa3b8] transition-colors focus:border-[var(--accent)] focus:outline-none"
+                className="w-full rounded-lg border border-[#1e2333] bg-[#11141d] py-2.5 pl-10 pr-4 text-sm text-[#f8fafc] placeholder-[#94a3b8] transition-colors focus:border-[var(--accent)] focus:outline-none"
               />
             </div>
           </div>
@@ -244,11 +295,11 @@ export default function ArticlesClient({ data }) {
                   onClick={() => setSelectedCategory(category)}
                   className={`inline-flex items-center gap-1.5 rounded-md px-3.5 py-1.5 text-xs font-medium transition-colors ${
                     active
-                      ? "bg-[var(--accent)] font-semibold text-[#0b1430]"
-                      : "border border-[#243158] bg-[#0f1a3a] text-[#9aa3b8] hover:border-[#3a4a7a] hover:text-[#ece9e1]"
+                      ? "bg-[var(--accent)] font-semibold text-[#08090d]"
+                      : "border border-[#1e2333] bg-[#11141d] text-[#94a3b8] hover:border-[#242b3d] hover:text-[#f8fafc]"
                   }`}
                 >
-                  <Icon size={13} className={active ? "text-[#0b1430]" : "text-[var(--accent)]"} />
+                  <Icon size={13} className={active ? "text-[#08090d]" : "text-[var(--accent)]"} />
                   <span>{category}</span>
                 </button>
               );
@@ -264,26 +315,26 @@ export default function ArticlesClient({ data }) {
                   href={article.link}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group flex flex-col justify-between overflow-hidden rounded-xl border border-[#243158] bg-[#0f1a3a] transition-all duration-300 hover:-translate-y-1 hover:border-[var(--accent)] hover:shadow-xl hover:shadow-[rgba(46,168,255,0.05)]"
+                  className="group flex flex-col justify-between overflow-hidden rounded-xl border border-[#1e2333] bg-[#11141d] transition-all duration-300 hover:-translate-y-1 hover:border-[var(--accent)]"
                 >
                   <div>
                     {/* Thumbnail */}
-                    <div className="relative aspect-[16/10] overflow-hidden border-b border-[#243158] bg-[#0b1430]">
+                    <div className="relative aspect-[16/10] overflow-hidden border-b border-[#1e2333] bg-[#08090d]">
                       <Cover src={article.img} alt={article.title} />
                     </div>
 
                     {/* Card Content */}
                     <div className="p-6">
-                      <div className="flex items-center gap-2 font-mono text-xs text-[#9aa3b8]">
+                      <div className="flex items-center gap-2 font-mono text-xs text-[#94a3b8]">
                         <Calendar size={12} className="text-[var(--accent)]" />
                         <span>{article.pubDate}</span>
                       </div>
 
-                      <h3 className="mt-3 text-lg font-bold leading-snug text-[#ece9e1] transition-colors group-hover:text-[var(--accent)]">
+                      <h3 className="mt-3 text-lg font-bold leading-snug text-[#f8fafc] transition-colors group-hover:text-[var(--accent)]">
                         {article.title}
                       </h3>
 
-                      <p className="mt-2 text-sm leading-6 text-[#9aa3b8] line-clamp-3">
+                      <p className="mt-2 text-sm leading-6 text-[#94a3b8] line-clamp-3">
                         {article.description}
                       </p>
 
@@ -296,7 +347,7 @@ export default function ArticlesClient({ data }) {
                   </div>
 
                   {/* Footer link */}
-                  <div className="border-t border-[#243158] px-6 py-4">
+                  <div className="border-t border-[#1e2333] px-6 py-4">
                     <span className="inline-flex items-center gap-1.5 font-mono text-xs font-semibold text-[var(--accent)]">
                       <span>Read on Medium</span>
                       <ExternalLink size={12} />
@@ -306,8 +357,8 @@ export default function ArticlesClient({ data }) {
               ))}
             </div>
           ) : (
-            <div className="rounded-xl border border-[#243158] bg-[#0f1a3a] p-12 text-center">
-              <p className="text-base text-[#9aa3b8]">
+            <div className="rounded-xl border border-[#1e2333] bg-[#11141d] p-12 text-center">
+              <p className="text-base text-[#94a3b8]">
                 No articles found matching &quot;{searchQuery}&quot; in category &quot;{selectedCategory}&quot;.
               </p>
               <button
@@ -315,7 +366,7 @@ export default function ArticlesClient({ data }) {
                   setSearchQuery("");
                   setSelectedCategory("All");
                 }}
-                className="mt-4 inline-flex items-center gap-2 rounded-md bg-[var(--accent)] px-4 py-2 text-xs font-semibold text-[#0b1430]"
+                className="mt-4 inline-flex items-center gap-2 rounded-md bg-[var(--accent)] px-4 py-2 text-xs font-semibold text-[#08090d]"
               >
                 Reset filters
               </button>

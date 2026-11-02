@@ -6,9 +6,12 @@ import Events from "@/Components/Landing/Events";
 import Blog from "@/Components/Landing/Blog";
 import PetCat from "@/Components/utils/PetCat";
 
+// Blog section reads Medium; refresh the page at most once an hour.
+export const revalidate = 3600;
+
 export default function Home() {
   return (
-    <main className="overflow-x-hidden bg-[#0b1430] font-sans text-[#ece9e1] antialiased">
+    <main className="overflow-x-hidden bg-[#08090d] font-sans text-[#f8fafc] antialiased">
       <Hero />
       <Numbers />
       <Focus />

@@ -81,16 +81,16 @@ export default function Events() {
   );
   return (
     <Section label="Past events" title="Past events and workshops.">
-      <div className="rounded-lg border border-[#243158] bg-[#0f1a3a] px-5 py-12 md:px-10">
+      <div className="rounded-lg border border-[#1e2333] bg-[#11141d] px-5 py-12 md:px-10">
         <div className="grid gap-x-8 gap-y-14 sm:grid-cols-2 lg:grid-cols-3">
           {items.map((e, i) => (
             <Link
               key={e.id}
               href="/events"
-              className={`group relative block bg-[#ece9e1] p-2.5 pb-4 shadow-[0_10px_25px_rgba(0,0,0,0.35)] transition-transform duration-300 hover:z-10 hover:scale-[1.04] hover:rotate-0 sm:${TILT[i]}`}
+              className={`group relative block bg-[#f8fafc] p-2.5 pb-4 shadow-[0_10px_25px_rgba(0,0,0,0.35)] transition-transform duration-300 hover:z-10 hover:scale-[1.04] hover:rotate-0 sm:${TILT[i]}`}
             >
               <Pin color={PIN[i]} />
-              <div className="relative aspect-[4/3] overflow-hidden bg-[#0b1430]">
+              <div className="relative aspect-[4/3] overflow-hidden bg-[#08090d]">
                 {e.imageFocus === "square" && (
                   <Image
                     src={e.image}
@@ -110,10 +110,10 @@ export default function Events() {
                 />
               </div>
               <div className="mt-3 flex items-baseline justify-between gap-3 px-1">
-                <p className="font-mono text-[13px] font-semibold text-[#0b1430]">
+                <p className="font-mono text-[13px] font-semibold text-[#08090d]">
                   {e.heading}
                 </p>
-                <span className="shrink-0 font-mono text-[11px] text-[#5a6380]">
+                <span className="shrink-0 font-mono text-[11px] text-[#64748b]">
                   {kind(e.heading)}
                 </span>
               </div>

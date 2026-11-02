@@ -18,13 +18,13 @@ export default function Focus() {
         {AREAS.map((a) => (
           <div
             key={a.title}
-            className="group rounded-lg border border-[#243158] bg-[#0f1a3a] p-5 transition-[transform,border-color] duration-300 hover:-translate-y-1 hover:border-[var(--accent)]"
+            className="group rounded-lg border border-[#1e2333] bg-[#11141d] p-5 transition-[transform,border-color] duration-300 hover:-translate-y-1 hover:border-[var(--accent)]"
           >
             <div className="mx-auto h-40 w-40 overflow-hidden">
               <Lottie animationData={a.anim} style={{ width: "100%", height: "100%" }} />
             </div>
-            <h3 className="mt-4 text-lg font-semibold text-[#ece9e1]">{a.title}</h3>
-            <p className="mt-2 text-sm leading-6 text-[#9aa3b8]">{a.text}</p>
+            <h3 className="mt-4 text-lg font-semibold text-[#f8fafc]">{a.title}</h3>
+            <p className="mt-2 text-sm leading-6 text-[#94a3b8]">{a.text}</p>
           </div>
         ))}
       </div>

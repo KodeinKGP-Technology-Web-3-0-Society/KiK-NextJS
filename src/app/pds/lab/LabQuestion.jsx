@@ -65,13 +65,13 @@ export default function LabQuestion() {
     .replace(/\bAnd\b/g, "and");
 
   return (
-    <div className="min-h-screen bg-[#0b1430] font-sans text-[#ece9e1] antialiased">
+    <div className="min-h-screen bg-[#08090d] font-sans text-[#f8fafc] antialiased">
       <div className="mx-auto max-w-4xl px-5 pt-10 pb-20 md:px-8">
         {/* Back navigation */}
         <div className="mb-6">
           <Link
             href="/pds/lab"
-            className="group inline-flex items-center gap-2 font-mono text-xs text-[#9aa3b8] transition-colors hover:text-[var(--accent)]"
+            className="group inline-flex items-center gap-2 font-mono text-xs text-[#94a3b8] transition-colors hover:text-[var(--accent)]"
           >
             <ArrowLeft size={14} className="transition-transform group-hover:-translate-x-1" />
             <span>Back to Lab Problems</span>
@@ -79,27 +79,27 @@ export default function LabQuestion() {
         </div>
 
         {/* Question Header & Meta */}
-        <div className="mb-6 flex flex-wrap items-center justify-between gap-4 border-b border-[#243158] pb-6">
+        <div className="mb-6 flex flex-wrap items-center justify-between gap-4 border-b border-[#1e2333] pb-6">
           <div>
-            <div className="flex flex-wrap items-center gap-2 font-mono text-xs text-[#9aa3b8]">
+            <div className="flex flex-wrap items-center gap-2 font-mono text-xs text-[#94a3b8]">
               <span className="text-[var(--accent)]">{formattedTopic}</span>
               <span>/</span>
               <span>{formattedSubTopic}</span>
               <span>/</span>
               <span>Problem #{ind + 1}</span>
             </div>
-            <h1 className="mt-2 text-2xl font-bold tracking-tight text-[#ece9e1] md:text-3xl">
+            <h1 className="mt-2 text-2xl font-bold tracking-tight text-[#f8fafc] md:text-3xl">
               Lab Problem Statement
             </h1>
           </div>
         </div>
 
         {/* Problem Statement Card */}
-        <div className="rounded-xl border border-[#243158] bg-[#0f1a3a] p-6 shadow-xl md:p-8">
+        <div className="rounded-xl border border-[#1e2333] bg-[#11141d] p-6 shadow-xl md:p-8">
           <p className="font-mono text-xs font-semibold uppercase tracking-wider text-[var(--accent)]">
             Description & Specifications
           </p>
-          <div className="mt-4 overflow-x-auto text-[15px] leading-7 text-[#ece9e1]">
+          <div className="mt-4 overflow-x-auto text-[15px] leading-7 text-[#f8fafc]">
             <pre className="whitespace-pre-wrap font-sans font-normal">{question || "Loading question..."}</pre>
           </div>
         </div>
@@ -108,7 +108,7 @@ export default function LabQuestion() {
         <div className="mt-6 flex flex-wrap items-center gap-4">
           <button
             onClick={() => setFlag(!flag)}
-            className="inline-flex items-center gap-2 rounded-md bg-[var(--accent)] px-5 py-2.5 text-sm font-semibold text-[#0b1430] transition-transform hover:-translate-y-0.5"
+            className="inline-flex items-center gap-2 rounded-md bg-[var(--accent)] px-5 py-2.5 text-sm font-semibold text-[#08090d] transition-transform hover:-translate-y-0.5"
           >
             {flag ? (
               <>
@@ -127,7 +127,7 @@ export default function LabQuestion() {
             href="https://www.programiz.com/c-programming/online-compiler/"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 rounded-md border border-[#3a4a7a] px-5 py-2.5 text-sm font-semibold text-[#ece9e1] transition-colors hover:border-[var(--accent)] hover:text-[var(--accent)]"
+            className="inline-flex items-center gap-2 rounded-md border border-[#242b3d] px-5 py-2.5 text-sm font-semibold text-[#f8fafc] transition-colors hover:border-[var(--accent)] hover:text-[var(--accent)]"
           >
             <span>Online C Compiler</span>
             <ExternalLink size={14} />
@@ -136,15 +136,15 @@ export default function LabQuestion() {
 
         {/* Solution Container */}
         {flag && (
-          <div className="mt-8 overflow-hidden rounded-xl border border-[#243158] bg-[#0f1a3a] shadow-2xl">
-            <div className="flex items-center justify-between border-b border-[#243158] bg-[#142145] px-5 py-3">
-              <div className="flex items-center gap-2 font-mono text-xs text-[#ece9e1]">
+          <div className="mt-8 overflow-hidden rounded-xl border border-[#1e2333] bg-[#11141d] shadow-2xl">
+            <div className="flex items-center justify-between border-b border-[#1e2333] bg-[#161b28] px-5 py-3">
+              <div className="flex items-center gap-2 font-mono text-xs text-[#f8fafc]">
                 <Code2 size={15} className="text-[var(--accent)]" />
                 <span>C / C++ Verified Implementation</span>
               </div>
               <button
                 onClick={handleCopy}
-                className="inline-flex items-center gap-1.5 rounded border border-[#243158] bg-[#0b1430] px-3 py-1.5 font-mono text-xs text-[#ece9e1] transition-colors hover:border-[var(--accent)] hover:text-[var(--accent)]"
+                className="inline-flex items-center gap-1.5 rounded border border-[#1e2333] bg-[#08090d] px-3 py-1.5 font-mono text-xs text-[#f8fafc] transition-colors hover:border-[var(--accent)] hover:text-[var(--accent)]"
                 title="Copy solution"
               >
                 {copy ? (

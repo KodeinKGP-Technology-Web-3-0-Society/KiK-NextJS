@@ -27,49 +27,49 @@ function UserStatsCard({
       : 1;
 
   return (
-    <div className="rounded-2xl border border-[#243158] bg-[#0b1430] p-4">
+    <div className="rounded-xl border border-[#1e2333] bg-[#161a26] p-4">
       <div className="mb-4 flex flex-col justify-between gap-3 sm:flex-row sm:items-center">
         <div>
-          <p className="text-xs font-medium tracking-wide text-cyan-200/70 uppercase">
+          <p className="text-xs font-medium tracking-wide text-[var(--accent)] uppercase">
             Your Progress
           </p>
-          <p className="text-sm text-slate-400">
+          <p className="text-sm text-[#94a3b8]">
             {loggedIn ? "Live leaderboard stats" : "Login to reveal stats"}
           </p>
         </div>
-        <div className="w-fit rounded-full border border-cyan-300/20 bg-cyan-300/10 px-3 py-1 text-xs font-semibold text-cyan-200">
+        <div className="w-fit rounded-full border border-[var(--accent)]/30 bg-[var(--accent)]/10 px-3 py-1 text-xs font-semibold text-[var(--accent)]">
           {loggedIn ? "Active" : "Locked"}
         </div>
       </div>
 
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-[120px_minmax(0,1fr)]">
-        <div className="flex flex-col items-center justify-center rounded-2xl border border-[#243158] bg-[#0f1a3a] p-3">
+        <div className="flex flex-col items-center justify-center rounded-xl border border-[#1e2333] bg-[#11141d] p-3">
           <div
             className={`flex h-20 w-20 items-center justify-center rounded-full ${
               loggedIn ? "" : "blur-sm"
             }`}
             style={{
-              background: `conic-gradient(#22d3ee ${solvedPercent}%, rgba(255,255,255,0.08) ${solvedPercent}%)`,
+              background: `conic-gradient(var(--accent) ${solvedPercent}%, rgba(255,255,255,0.08) ${solvedPercent}%)`,
             }}
           >
-            <div className="flex h-14 w-14 flex-col items-center justify-center rounded-full bg-[#0b1430]">
-              <span className="text-lg font-semibold text-cyan-100">
+            <div className="flex h-14 w-14 flex-col items-center justify-center rounded-full bg-[#161a26]">
+              <span className="text-lg font-semibold text-[#f8fafc]">
                 {loggedIn ? solvedQuestions : "0"}
               </span>
-              <span className="text-[10px] font-medium text-slate-400">
+              <span className="text-[10px] font-medium text-[#94a3b8]">
                 /10
               </span>
             </div>
           </div>
-          <p className="mt-2 text-xs font-semibold text-cyan-100">Solved</p>
+          <p className="mt-2 text-xs font-semibold text-[#f8fafc]">Solved</p>
         </div>
 
         <div className="flex flex-col gap-3">
-          <div className="rounded-2xl border border-[#243158] bg-[#0f1a3a] p-3">
+          <div className="rounded-xl border border-[#1e2333] bg-[#11141d] p-3">
             <div className="mb-3 flex items-center justify-between text-xs">
-              <span className="font-medium text-slate-400">Rank</span>
+              <span className="font-medium text-[#94a3b8]">Rank</span>
               <span
-                className={`font-semibold text-cyan-100 ${
+                className={`font-semibold text-[#f8fafc] ${
                   canRevealRank ? "" : "blur-sm select-none"
                 }`}
               >
@@ -79,14 +79,14 @@ function UserStatsCard({
             <div className="relative h-8">
               <div className="absolute top-1/2 right-0 left-0 h-2 -translate-y-1/2 rounded-full bg-white/5">
                 <div
-                  className={`h-full rounded-full bg-cyan-300/45 ${
+                  className={`h-full rounded-full bg-[var(--accent)] ${
                     canRevealRank ? "" : "blur-sm"
                   }`}
                   style={{ width: `${rankPosition}%` }}
                 />
               </div>
               <div
-                className={`absolute top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border border-cyan-300/40 bg-[#0b1430] p-1.5 text-cyan-200 shadow-lg shadow-cyan-950/30 ${
+                className={`absolute top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border border-[var(--accent)]/40 bg-[#161a26] p-1.5 text-[var(--accent)] ${
                   canRevealRank ? "" : "blur-sm"
                 }`}
                 style={{ left: `${rankPosition}%` }}
@@ -94,16 +94,16 @@ function UserStatsCard({
                 <Trophy size={15} />
               </div>
             </div>
-            <div className="mt-1 flex justify-between text-[10px] text-slate-500">
+            <div className="mt-1 flex justify-between text-[10px] text-[#94a3b8]">
               <span>#1</span>
               <span>{totalUsers || 0} users</span>
             </div>
           </div>
 
-          <div className="rounded-2xl border border-[#243158] bg-[#0f1a3a] p-3">
-            <p className="text-xs font-medium text-slate-400">Points</p>
+          <div className="rounded-xl border border-[#1e2333] bg-[#11141d] p-3">
+            <p className="text-xs font-medium text-[#94a3b8]">Points</p>
             <p
-              className={`mt-1 text-2xl font-semibold text-cyan-100 ${
+              className={`mt-1 text-2xl font-semibold text-[#f8fafc] ${
                 loggedIn ? "" : "blur-sm select-none"
               }`}
             >
@@ -118,13 +118,13 @@ function UserStatsCard({
 
 function UserCard({ loggedIn, username }) {
   return (
-    <div className="mt-3 rounded-2xl border border-[#243158] bg-[#0b1430] p-4">
+    <div className="mt-3 rounded-xl border border-[#1e2333] bg-[#161a26] p-4">
       <div className="mb-3 flex items-center justify-between">
         <div>
-          <p className="text-xs font-medium tracking-wide text-cyan-200/70 uppercase">
+          <p className="text-xs font-medium tracking-wide text-[var(--accent)] uppercase">
             Operator
           </p>
-          <p className="text-sm text-slate-400">KAI terminal session</p>
+          <p className="text-sm text-[#94a3b8]">KAI terminal session</p>
         </div>
         <span
           className={`h-2.5 w-2.5 rounded-full ${
@@ -134,15 +134,15 @@ function UserCard({ loggedIn, username }) {
       </div>
 
       <div className="grid grid-cols-2 gap-3">
-        <div className="rounded-xl border border-[#243158] bg-[#0f1a3a] p-3">
-          <p className="text-xs font-medium text-slate-400">Username</p>
-          <p className="mt-1 truncate text-sm font-semibold text-cyan-100">
+        <div className="rounded-lg border border-[#1e2333] bg-[#11141d] p-3">
+          <p className="text-xs font-medium text-[#94a3b8]">Username</p>
+          <p className="mt-1 truncate text-sm font-semibold text-[#f8fafc]">
             {loggedIn ? username || "Anonymous" : "Anonymous"}
           </p>
         </div>
-        <div className="rounded-xl border border-[#243158] bg-[#0f1a3a] p-3">
-          <p className="text-xs font-medium text-slate-400">Last logged in</p>
-          <p className="mt-1 text-sm font-semibold text-cyan-100">
+        <div className="rounded-lg border border-[#1e2333] bg-[#11141d] p-3">
+          <p className="text-xs font-medium text-[#94a3b8]">Last logged in</p>
+          <p className="mt-1 text-sm font-semibold text-[#f8fafc]">
             {loggedIn ? "online" : "never"}
           </p>
         </div>
@@ -265,15 +265,15 @@ export default function LeaderboardPage() {
   };
 
   return (
-    <div className="relative flex min-h-screen w-full flex-col items-center justify-start overflow-x-hidden bg-[#0b1430] p-2 text-[#ece9e1] sm:p-4">
+    <div className="relative flex min-h-screen w-full flex-col items-center justify-start overflow-x-hidden bg-[#08090d] p-2 text-[#f8fafc] sm:p-4">
       {/* Central Card Shield */}
-      <div className="relative mt-4 flex w-full max-w-5xl flex-col overflow-hidden rounded-3xl border border-[#243158] bg-[#0f1a3a] p-3 shadow-2xl shadow-black/50 sm:p-6">
+      <div className="relative mt-4 flex w-full max-w-5xl flex-col overflow-hidden rounded-3xl border border-[#1e2333] bg-[#11141d] p-3 shadow-2xl shadow-black/50 sm:p-6">
         {isLoading ? (
           <LeaderboardSkeleton />
         ) : fetchedLeaderboardData && totalUsers > 0 ? (
           <div className="flex h-full flex-col">
             <div className="flex w-full flex-col items-center justify-center pt-2 pb-3">
-              <h2 className="mb-5 text-center text-[1.5rem] font-bold tracking-wide text-cyan-100 sm:text-[2rem]">
+              <h2 className="mb-5 text-center text-[1.5rem] font-bold tracking-wide text-[#f8fafc] sm:text-[2rem]">
                 Leaderboard
               </h2>
 
@@ -282,22 +282,21 @@ export default function LeaderboardPage() {
                 <div className="relative flex flex-wrap items-end justify-center gap-2 pb-1 sm:flex-nowrap">
                   {/* Second Place */}
                   {topData[1] && (
-                    <div className="relative flex h-[160px] max-w-[120px] min-w-[95px] flex-1 flex-col items-center justify-end overflow-hidden rounded-tl-2xl border border-slate-200/20 bg-gradient-to-b from-slate-200/25 via-slate-300/10 to-cyan-500/10 py-3 shadow-md">
-                      <div className="pointer-events-none absolute top-0 right-0 left-0 h-6 bg-white/5" />
-                      <div className="relative mb-2 h-12 w-12 rounded-full ring-2 ring-slate-100/40 ring-offset-2 ring-offset-[#0f1a3a]">
+                    <div className="relative flex h-[160px] max-w-[120px] min-w-[95px] flex-1 flex-col items-center justify-end overflow-hidden rounded-tl-2xl border border-[#1e2333] bg-[#161a26] py-3 shadow-md">
+                      <div className="relative mb-2 h-12 w-12 rounded-full ring-2 ring-slate-400 ring-offset-2 ring-offset-[#11141d]">
                         <img
                           src={`https://robohash.org/${encodeURIComponent(topData[1].name)}?set=set1`}
                           alt={topData[1].name}
                           className="h-full w-full rounded-full object-cover"
                         />
-                        <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 transform rounded-full border border-slate-200/40 bg-slate-100 px-1.5 py-[1px] text-[9px] font-extrabold text-black">
+                        <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 transform rounded-full border border-slate-300 bg-slate-200 px-1.5 py-[1px] text-[9px] font-extrabold text-black">
                           2ND
                         </div>
                       </div>
-                      <p className="w-full truncate px-1 text-center text-xs font-semibold text-white/90">
+                      <p className="w-full truncate px-1 text-center text-xs font-semibold text-[#f8fafc]">
                         {topData[1].name.split(" ")[0]}
                       </p>
-                      <p className="mt-1 rounded-full border border-slate-100/35 bg-slate-100/15 px-2 py-0.5 text-[10px] font-bold text-slate-100">
+                      <p className="mt-1 rounded-full border border-[#1e2333] bg-[#11141d] px-2 py-0.5 text-[10px] font-bold text-slate-300">
                         {topData[1].score}
                       </p>
                     </div>
@@ -305,9 +304,8 @@ export default function LeaderboardPage() {
 
                   {/* First Place */}
                   {topData[0] && (
-                    <div className="relative flex h-[196px] max-w-[135px] min-w-[110px] flex-1 flex-col items-center justify-end overflow-hidden rounded-t-2xl border border-yellow-300/40 bg-gradient-to-b from-yellow-300/30 via-amber-300/10 to-cyan-500/15 py-3 shadow-lg">
-                      <div className="pointer-events-none absolute top-0 right-0 left-0 h-7 bg-white/10" />
-                      <div className="relative mb-2 h-14 w-14 rounded-full ring-2 ring-yellow-300/60 ring-offset-2 ring-offset-[#0f1a3a]">
+                    <div className="relative flex h-[196px] max-w-[135px] min-w-[110px] flex-1 flex-col items-center justify-end overflow-hidden rounded-t-2xl border border-yellow-500/40 bg-[#1c2233] py-3 shadow-lg">
+                      <div className="relative mb-2 h-14 w-14 rounded-full ring-2 ring-yellow-400 ring-offset-2 ring-offset-[#11141d]">
                         <img
                           src={`https://robohash.org/${encodeURIComponent(topData[0].name)}?set=set1`}
                           alt={topData[0].name}
@@ -316,16 +314,16 @@ export default function LeaderboardPage() {
                         <img
                           src="/dekodeX/crown.png"
                           alt="Crown"
-                          className="absolute -top-6 left-1/2 w-8 -translate-x-1/2 transform drop-shadow-[0_0_6px_rgba(250,204,21,0.5)]"
+                          className="absolute -top-6 left-1/2 w-8 -translate-x-1/2 transform"
                         />
-                        <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 transform rounded-full border border-yellow-200 bg-yellow-300 px-1.5 py-[1px] text-[9px] font-extrabold text-black">
+                        <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 transform rounded-full border border-yellow-300 bg-yellow-400 px-1.5 py-[1px] text-[9px] font-extrabold text-black">
                           1ST
                         </div>
                       </div>
-                      <p className="w-full truncate px-1 text-center text-sm font-bold text-yellow-100">
+                      <p className="w-full truncate px-1 text-center text-sm font-bold text-yellow-300">
                         {topData[0].name.split(" ")[0]}
                       </p>
-                      <p className="mt-1 rounded-full border border-yellow-300/55 bg-yellow-300/20 px-2 py-0.5 text-xs font-extrabold text-yellow-100">
+                      <p className="mt-1 rounded-full border border-yellow-500/30 bg-yellow-400/10 px-2 py-0.5 text-xs font-extrabold text-yellow-300">
                         {topData[0].score}
                       </p>
                     </div>
@@ -333,22 +331,21 @@ export default function LeaderboardPage() {
 
                   {/* Third Place */}
                   {topData[2] && (
-                    <div className="relative flex h-[148px] max-w-[120px] min-w-[95px] flex-1 flex-col items-center justify-end overflow-hidden rounded-tr-2xl border border-amber-700/30 bg-gradient-to-b from-amber-700/30 via-orange-500/10 to-cyan-500/10 py-3 shadow-md">
-                      <div className="pointer-events-none absolute top-0 right-0 left-0 h-6 bg-white/5" />
-                      <div className="relative mb-2 h-12 w-12 rounded-full ring-2 ring-amber-500/50 ring-offset-2 ring-offset-[#0f1a3a]">
+                    <div className="relative flex h-[148px] max-w-[120px] min-w-[95px] flex-1 flex-col items-center justify-end overflow-hidden rounded-tr-2xl border border-[#1e2333] bg-[#161a26] py-3 shadow-md">
+                      <div className="relative mb-2 h-12 w-12 rounded-full ring-2 ring-amber-600 ring-offset-2 ring-offset-[#11141d]">
                         <img
                           src={`https://robohash.org/${encodeURIComponent(topData[2].name)}?set=set1`}
                           alt={topData[2].name}
                           className="h-full w-full rounded-full object-cover"
                         />
-                        <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 transform rounded-full border border-orange-200/40 bg-orange-300 px-1.5 py-[1px] text-[9px] font-extrabold text-black">
+                        <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 transform rounded-full border border-amber-600 bg-amber-500 px-1.5 py-[1px] text-[9px] font-extrabold text-black">
                           3RD
                         </div>
                       </div>
-                      <p className="w-full truncate px-1 text-center text-xs font-semibold text-orange-200">
+                      <p className="w-full truncate px-1 text-center text-xs font-semibold text-amber-200">
                         {topData[2].name.split(" ")[0]}
                       </p>
-                      <p className="mt-1 rounded-full border border-orange-300/45 bg-orange-300/15 px-2 py-0.5 text-[10px] font-bold text-orange-200">
+                      <p className="mt-1 rounded-full border border-[#1e2333] bg-[#11141d] px-2 py-0.5 text-[10px] font-bold text-amber-300">
                         {topData[2].score}
                       </p>
                     </div>
@@ -363,9 +360,9 @@ export default function LeaderboardPage() {
                 {fetchedLeaderboardData.map((userItem) => (
                   <li
                     key={userItem.rank}
-                    className="flex items-center gap-3 rounded-xl border border-[#243158] bg-[#0b1430] px-4 py-3 transition-colors duration-200 hover:border-cyan-300/30 hover:bg-[#111f48]"
+                    className="flex items-center gap-3 rounded-xl border border-[#1e2333] bg-[#161a26] px-4 py-3 transition-colors duration-200 hover:border-[var(--accent)]/30 hover:bg-[#1e2333]"
                   >
-                    <span className="w-6 text-right text-sm font-semibold text-cyan-200">
+                    <span className="w-6 text-right text-sm font-semibold text-[var(--accent)]">
                       {userItem.rank}.
                     </span>
                     <img
@@ -373,10 +370,10 @@ export default function LeaderboardPage() {
                       alt={userItem.name}
                       className="h-7 w-7 rounded-full border border-white/20 object-cover"
                     />
-                    <span className="min-w-0 flex-1 truncate text-sm font-medium text-white/90">
+                    <span className="min-w-0 flex-1 truncate text-sm font-medium text-[#f8fafc]">
                       {userItem.name}
                     </span>
-                    <span className="text-sm font-semibold text-cyan-200">
+                    <span className="text-sm font-semibold text-[var(--accent)]">
                       {userItem.score}
                     </span>
                   </li>
@@ -387,7 +384,7 @@ export default function LeaderboardPage() {
               <div className="mt-5 mb-2 flex flex-wrap items-center justify-center gap-1.5">
                 <div
                   onClick={() => handlePageNavigation(currentPage - 1)}
-                  className={`cursor-pointer rounded-lg border border-[#243158] bg-[#0b1430] px-3 py-1 text-sm text-white hover:bg-[#1a2850] ${currentPage === 1 ? "pointer-events-none opacity-30" : ""}`}
+                  className={`cursor-pointer rounded-lg border border-[#1e2333] bg-[#161a26] px-3 py-1 text-sm text-[#f8fafc] hover:bg-[#1e2333] ${currentPage === 1 ? "pointer-events-none opacity-30" : ""}`}
                 >
                   &lt;
                 </div>
@@ -403,7 +400,7 @@ export default function LeaderboardPage() {
                       <div
                         key={pageNumber}
                         onClick={() => handlePageNavigation(pageNumber)}
-                        className={`cursor-pointer rounded-lg border border-[#243158] px-3 py-1 text-sm transition ${currentPage === pageNumber ? "bg-cyan-300 font-semibold text-[#01011b]" : "bg-[#0b1430] text-white hover:bg-[#1a2850]"}`}
+                        className={`cursor-pointer rounded-lg border px-3 py-1 text-sm transition ${currentPage === pageNumber ? "border-[var(--accent)] bg-[var(--accent)] font-semibold text-[#08090d]" : "border-[#1e2333] bg-[#161a26] text-[#f8fafc] hover:bg-[#1e2333]"}`}
                       >
                         {pageNumber}
                       </div>
@@ -417,7 +414,7 @@ export default function LeaderboardPage() {
                     return (
                       <span
                         key={`ell-${pageNumber}`}
-                        className="px-0.5 text-xs text-slate-500"
+                        className="px-0.5 text-xs text-[#94a3b8]"
                       >
                         ...
                       </span>
@@ -428,7 +425,7 @@ export default function LeaderboardPage() {
 
                 <div
                   onClick={() => handlePageNavigation(currentPage + 1)}
-                  className={`cursor-pointer rounded-lg border border-[#243158] bg-[#0b1430] px-3 py-1 text-sm text-white hover:bg-[#1a2850] ${currentPage === totalPages ? "pointer-events-none opacity-30" : ""}`}
+                  className={`cursor-pointer rounded-lg border border-[#1e2333] bg-[#161a26] px-3 py-1 text-sm text-[#f8fafc] hover:bg-[#1e2333] ${currentPage === totalPages ? "pointer-events-none opacity-30" : ""}`}
                 >
                   &gt;
                 </div>

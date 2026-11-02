@@ -100,7 +100,7 @@ function EventCard({ event, order }) {
 export default function EventsPage() {
   let order = 0;
   return (
-    <main className="relative overflow-hidden bg-[#0b1430] pb-8 font-sans text-[#ece9e1] antialiased">
+    <main className="relative overflow-hidden bg-[#08090d] pb-8 font-sans text-[#f8fafc] antialiased">
       {GROUPS.map((group) => (
         <section
           key={group.title}
